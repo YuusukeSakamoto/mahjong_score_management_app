@@ -1,0 +1,26 @@
+<h1>グループ一覧</h1>
+<%= render 'shared/flash' %>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>グループ名</th>
+      <th colspan="3">操作</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @groups.each do |group| %>
+      <tr>
+        <td><%= group.name %></td>
+        <td><%= link_to '詳細', group_path(group) %></td>
+        <td><%= link_to '編集', edit_group_path(group) %></td>
+        <td><%= link_to '削除', group_path(group), method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'グループを登録', new_group_path %>

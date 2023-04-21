@@ -1,0 +1,42 @@
+<div class="hero vh-100 d-flex align-items-center" id="home">
+  
+  <div class="container my-5">
+    
+    <div class="row">
+      <%= render 'shared/flash' %>
+      
+      <!--ログインしている場合-->
+      <% if user_signed_in? %>
+        <% provide(:title, "記録") %>
+        <% provide(:button_text, '記録') %>
+
+        <div class="col-lg-7 mx-auto text-center text-white px-5">
+          <h2 class="text-white">トレーニングを記録する</h2>  
+        </div>
+        
+        
+        <!--ログインしていない場合-->
+      <% else %>
+        <% provide(:title, "TOP") %>
+        
+        <div class="col-lg-7 mx-auto text-center text-white h-auto">
+          <h1 class="display-4 mt-5">麻雀成績記録サイト</h1>
+          <p class="my-8">いつものメンバーの麻雀成績を記録しよう！</p>
+          <%= link_to 'ユーザー新規登録','/users/sign_up', class: "btn btn-primary mt-5 mb-2" %>
+          <br>
+          <%= link_to 'ログイン','/users/sign_in', class: "btn btn-primary mb-3" %>
+        </div>
+        <div>
+          <h4>使い方</h4>
+          <ol>
+            <li>ユーザー新規登録</li>
+            <li>グループ登録する</li>
+            <li>いつものメンバーを登録する</li>
+            <li>成績をつける</li>
+          </ol>
+        </div>
+      <% end %>
+      
+    </div>
+  </div>
+</div>

@@ -1,0 +1,119 @@
+:root {
+  --primary: #0d6efd;
+  --dark: #21252f;
+  --body: #888;
+  /* --orange: rgb(221, 155, 94); */
+  --box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+}
+
+// /* mixins, variables, etc. */
+
+a {
+  color:inherit;
+  text-decoration:none !important;
+}
+
+
+// エラーメッセージ出力時にレイアウト崩れるの防止
+.field_with_errors {
+  display: contents;
+}
+
+.navbar .nav-link {
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 700;
+  padding-top: 16px;
+}
+
+/* universal */
+
+body {
+  
+}
+
+.hero {
+  background-image: image-url('');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+  z-index: 2;
+}
+
+.hero::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(37, 39, 71, 0.7);
+  z-index: -1;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+
+/* typography */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.2em;
+  letter-spacing: -1px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: gray;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+}
+
+/* header */
+header {
+  font: white;
+}
+
+/* footer */
+
+footer {
+  font: white;
+}
+
+/* forms */
+
+input, textarea, select, .uneditable-input {
+  border: 1px solid #bbb;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+input {
+  height: auto !important;
+}
+
+
+/* btn */
+
+// .btn {
+//   border-radius: 100vh;
+// }
