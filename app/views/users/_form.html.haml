@@ -1,0 +1,30 @@
+.row.d-flex.justify-content-center
+  .col-10.col-md-6
+    = form_with model: @user, url: user_registration_path, class: 'mb-4', local: true do |f|
+      = render 'layouts/validation_error', instance: @user
+      
+      // // グループ人数分フォームを出力する
+      // - Group.find(params[:group_id]).member_count.times do |i|
+      //   .div-title.mb-4
+      //     = f.label :"プレイヤー", class: 'title-p fw-bold text-main'
+      //     %span.p_required 必須
+      //     = f.text_field :name, autofocus: true, autocomplete: "name", 
+      //       class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+      //     = f.hidden_field :member_id, value: User.member_id
+
+      // .col-12.d-flex.justify-content-center
+      //   .p-form__input-submit
+      //     = f.submit "#{action}", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-purple'
+   
+    = form_with model: @form, url: users_path,method: :post, local: true do |form|
+      = form.fields_for :users do |f|
+        .div-title.mb-4
+          = f.label :"プレイヤー名", class: 'title-p fw-bold text-main'
+          // %span.p_required 必須
+          = f.text_field :name, autofocus: true, autocomplete: "name", 
+            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+          = f.hidden_field :member_id, value: User.member_id
+          
+      .col-12.d-flex.justify-content-center
+        .p-form__input-submit
+          = form.submit "#{action}", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-purple'

@@ -1,0 +1,34 @@
+.row.d-flex.justify-content-center
+  .col-10.col-md-6
+    = form_with model: @user, url: user_registration_path, class: 'mb-4', local: true do |f|
+      = render 'layouts/validation_error', instance: @user
+      .div-title.mb-4
+        = f.label :ユーザーネーム, class: 'title-p fw-bold text-main'
+        %span.p_required 必須
+        = f.text_field :name, autofocus: true, autocomplete: "name", 
+          class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+      .div-title.mb-4
+        = f.label :メールアドレス, class: 'title-p fw-bold text-main'
+        %span.p_required 必須
+        = f.email_field :email, autofocus: true, autocomplete: "email", 
+          class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+      .div-title.mb-4
+        = f.label :パスワード, class: 'title-p fw-bold text-main'
+        %span.p_required 必須
+        = f.password_field :password, autofocus: true, autocomplete: "password", 
+          class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+      .div-title.mb-4
+        = f.label :パスワード確認, class: 'title-p fw-bold text-main'
+        %span.p_required 必須
+        = f.password_field :password_confirmation, autofocus: true, autocomplete: "password", 
+          class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+          
+      .img-select.mb-4
+        = f.label :ユーザー画像登録, class: 'fw-bold mb-2 text-main'
+        = f.file_field :avatar, autofocus: true, class: 'mb-3', style: 'border: 0;'
+        
+        = f.hidden_field :member_id, value: User.member_id
+
+      .col-12.d-flex.justify-content-center
+        .p-form__input-submit
+          = f.submit "#{action}", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-purple'

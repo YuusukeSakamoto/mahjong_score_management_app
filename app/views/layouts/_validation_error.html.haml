@@ -1,0 +1,8 @@
+- if instance.errors.full_messages.present?
+  %ul.alert.alert-danger.text-center
+    %h3
+      = instance.errors.count
+      error
+    - instance.errors.full_messages.each do |msg|
+      %li.list-unstyled
+        = msg

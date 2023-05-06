@@ -2,6 +2,13 @@
 <h1>グループ登録</h1>
 <%= render 'shared/flash' %>
 
+<%= form_with model: @group do |f| %>
+  <%= f.fields_for :members do |i| %>
+    <%# 上記new、editいずれも、この中身は5回表示(fileの選択ボタンが5個でる) %>
+    <%= i.text_field :name %>
+  <% end %>
+<% end %>
+
 <%= form_with(model: @group) do |f| %>
   <%= render 'layouts/error_messages', model: f.object %>
   
@@ -14,3 +21,4 @@
 <% end %>
 
 <%= link_to '戻る', :back, class: "btn btn-outline-secondary w-25 mt-3" %>
+

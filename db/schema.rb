@@ -10,14 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_21_012851) do
+ActiveRecord::Schema.define(version: 2023_05_06_040817) do
+
+  create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "form_user_collections", charset: "utf8mb4", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "group_users", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_group_users_on_group_id"
+    t.index ["user_id"], name: "index_group_users_on_user_id"
+  end
 
   create_table "groups", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "member_count", null: false
     t.index ["user_id"], name: "index_groups_on_user_id"
+  end
+
+  create_table "members", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "represent_user_flag", default: 0, null: false
+    t.integer "general_user_flag", default: 0, null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_members_on_group_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
@@ -30,9 +60,14 @@ ActiveRecord::Schema.define(version: 2023_04_21_012851) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "name", null: false
     t.integer "admin_flag"
+    t.string "avatar"
+    t.integer "member_id", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "group_users", "groups"
+  add_foreign_key "group_users", "users"
   add_foreign_key "groups", "users"
+  add_foreign_key "members", "groups"
 end
