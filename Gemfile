@@ -19,6 +19,16 @@ gem 'hirb-unicode'  # マルチバイト文字の表示を補正するgem
 gem 'rails-i18n' # errorメッセージ日本語化
 gem 'chart-js-rails', '~> 0.1.4' #chart.js
 
+# Front
+gem 'font-awesome-sass'
+gem 'haml-rails'
+
+#ユーザー認証
+gem 'devise'
+
+# Image uploader
+gem 'carrierwave', '~> 2.0'
+
 group :development, :test do
   gem 'byebug', '11.1.3'
 end
@@ -39,4 +49,3 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'devise'
