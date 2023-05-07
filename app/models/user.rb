@@ -5,8 +5,9 @@ class User < ApplicationRecord
   
   mount_uploader :avatar, ImageUploader #アップローダークラスと画像を格納するカラムを紐付け
          
-  has_many :group_users
-  has_many :groups, through: :group_users, dependent: :destroy #userに紐づいたtrainingも削除される
+  has_one :player
+  # has_many :group_users
+  # has_many :groups, through: :group_users, dependent: :destroy #userに紐づいたtrainingも削除される
 
   validates :name, presence: true
   

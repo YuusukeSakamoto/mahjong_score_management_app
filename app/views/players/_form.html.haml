@@ -1,0 +1,30 @@
+.row.d-flex.justify-content-center
+  .col-10.col-md-6
+
+    = form_with model: @form, url: players_path,method: :post, local: true do |form|
+      - i = 1
+      = form.fields_for :players do |f|
+        .div-title.mb-2.d-flex.justify-content-between
+          .mx-1
+            = f.label :"player#{i}", class: 'title-p fw-bold text-main'
+            -if i == 1
+              = f.text_field :name, autofocus: true, value: current_user.name,
+                class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+            -else
+              = f.text_field :name, autofocus: true, 
+                class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+          .mx-1  
+            = f.label :"ID", class: 'title-p fw-bold text-main'
+            -if i == 1 && current_user.player.present?
+              = f.text_field :id, autofocus: true, value: current_user.player.id,
+                class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+            -else
+              = f.text_field :id, autofocus: true, 
+                class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+              
+          // = f.hidden_field :user_id, value: current_user.id
+          - i += 1
+          
+      .col-12.d-flex.justify-content-center
+        .p-form__input-submit
+          = form.submit "#{action}", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-purple'
