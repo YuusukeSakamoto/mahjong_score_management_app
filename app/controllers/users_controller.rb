@@ -5,19 +5,11 @@ class UsersController < ApplicationController
   
   def new
     @user = User.new
-    # @form = Form::UserCollection.new
-    # @users = UserCollection.new
-    @form = Form::UserCollection.new
+
   end
   
   def create
-    @form = Form::UserCollection.new(user_collection_params)
-    if @form.save
-      redirect_to users_path, notice: "商品を登録しました"
-    else
-      flash.now[:alert] = "商品登録に失敗しました"
-      render :new
-    end
+
   end
   
   def show

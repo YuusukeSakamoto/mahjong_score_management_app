@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_06_040817) do
+ActiveRecord::Schema.define(version: 2023_05_06_071232) do
 
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "form_user_collections", charset: "utf8mb4", force: :cascade do |t|
+  create_table "form_player_collections", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -48,6 +48,14 @@ ActiveRecord::Schema.define(version: 2023_05_06_040817) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["group_id"], name: "index_members_on_group_id"
+  end
+
+  create_table "players", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_players_on_user_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|

@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   devise_for :users
   
   resources :users
-  resources :groups
-  # get '/users', to: 'users#index'
-  # get '/users/:id', to: 'users#show'
+  resources :players do
+    resources :rules
+  end
   
   get '/', to: 'tops#show'
   
