@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_06_071232) do
+ActiveRecord::Schema.define(version: 2023_05_07_072900) do
 
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
@@ -58,6 +58,24 @@ ActiveRecord::Schema.define(version: 2023_05_06_071232) do
     t.index ["user_id"], name: "index_players_on_user_id"
   end
 
+  create_table "rules", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.string "name", null: false
+    t.integer "mochi", null: false
+    t.integer "kaeshi", null: false
+    t.integer "uma_1", null: false
+    t.integer "uma_2", null: false
+    t.integer "uma_3", null: false
+    t.integer "uma_4", null: false
+    t.integer "score_decimal_point_calc", null: false
+    t.integer "chip_existence_flag", null: false
+    t.integer "chip_rate", null: false
+    t.string "description", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id"], name: "index_rules_on_player_id"
+  end
+
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -78,4 +96,5 @@ ActiveRecord::Schema.define(version: 2023_05_06_071232) do
   add_foreign_key "group_users", "users"
   add_foreign_key "groups", "users"
   add_foreign_key "members", "groups"
+  add_foreign_key "rules", "players"
 end

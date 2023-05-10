@@ -18,5 +18,8 @@ module MahjongScoreManagement
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    # config.autoload_paths += Dir.glob("#{config.root}/app/controllers/players/rules_controller.rb")
+    
+    config.i18n.default_locale = :ja 
   end
 end

@@ -21,8 +21,8 @@
             -else
               = f.text_field :id, autofocus: true, 
                 class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
-              
-          // = f.hidden_field :user_id, value: current_user.id
+          -if i == 1    
+            = f.hidden_field :user_id, value: current_user.id
           - i += 1
           
       .col-12.d-flex.justify-content-center
