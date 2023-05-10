@@ -1,0 +1,81 @@
+.row.d-flex.justify-content-center
+  .col-10.col-md-6
+    = form_with model: [@player, @rule], class: 'mb-4', local: true do |f|
+      = render 'layouts/validation_error', instance: @rule
+      .div-title.mb-4
+        = f.label :ルール名, class: 'title-p fw-bold text-main'
+        %span.p_required 必須
+        = f.text_field :name, autofocus: true, placeholder: "Mリーグルール",
+          class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+
+      .d-flex.justify-content-between
+        .div-title.mb-4
+          = f.label :持ち, class: 'title-p fw-bold text-main'
+          %span.p_required 必須
+          .d-flex.align-items-end
+            = f.text_field :mochi, autofocus: true, placeholder: "25000",
+              class: 'form-control py-2 py-md-3 rounded bg-white box-shadow'
+            %p.fw-bold.text-main.mb-0.mx-2 点 
+        .div-title.mb-4
+          = f.label :返し, class: 'title-p fw-bold text-main'
+          %span.p_required 必須
+          .d-flex.align-items-end
+            = f.text_field :kaeshi, autofocus: true, placeholder: "30000",
+              class: 'form-control py-2 py-md-3 rounded bg-white box-shadow'
+            %p.fw-bold.text-main.mb-0.mx-2 点 
+          
+      .div-title
+        = f.label :'ウマ(pt)', class: 'title-p fw-bold text-main'
+        %span.p_required 必須
+
+      .d-flex.justify-content-between
+        .div-title.mb-4.px-1
+          = f.label :'1位', class: 'title-p fw-bold text-main'
+          = f.text_field :uma_1, autofocus: true, placeholder: "+20",
+            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+        .div-title.mb-4.px-1
+          = f.label :'2位', class: 'title-p fw-bold text-main'
+          = f.text_field :uma_2, autofocus: true, placeholder: "+10",
+            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+        .div-title.mb-4.px-1
+          = f.label :'3位', class: 'title-p fw-bold text-main'
+          = f.text_field :uma_3, autofocus: true, placeholder: "-10",
+            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+        .div-title.mb-4.px-1
+          = f.label :'4位', class: 'title-p fw-bold text-main'
+          = f.text_field :uma_4, autofocus: true, placeholder: "-20",
+            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+
+      .div-title
+        = f.label :'pt小数点計算方法', class: 'title-p fw-bold text-main'
+        %span.p_required 必須
+        = f.select :score_decimal_point_calc, 
+          [ ["計算しない(小数点そのまま)",1], ["五捨六入", 2], ["四捨五入", 3 ] ,["切り捨て", 4], ["切り上げ", 5] ], 
+          {prompt: "-- 計算方法を選択してください --"},
+          {class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'}
+
+      .div-title.mb-4
+        = f.label :チップ有無, class: 'title-p fw-bold text-main'
+        %span.p_required 必須
+        
+        = f.select :chip_existence_flag, 
+          [ ["あり",1], ["なし", 2] ], 
+          {prompt: "-- チップ有無を選択してください --"},
+          {class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'}
+
+      .div-title.mb-4
+        = f.label :'チップpt / 枚', class: 'title-p fw-bold text-main'
+        // %span ※チップ１枚あたりのポイント
+        .d-flex.align-items-end
+          = f.text_field :chip_rate, autofocus: true, 
+            class: 'form-control py-md-3 rounded bg-white box-shadow'
+          %p.fw-bold.text-main.mb-0.mx-2 pt  
+          
+      .div-title.mb-4
+        = f.label :'ルール説明', class: 'title-p fw-bold text-main'
+        = f.text_area :description, autofocus: true, 
+          class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+
+      .col-12.d-flex.justify-content-center
+        .p-form__input-submit
+          = f.submit "#{action}", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-purple'

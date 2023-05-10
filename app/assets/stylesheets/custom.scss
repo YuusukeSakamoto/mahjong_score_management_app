@@ -111,6 +111,10 @@ input {
   height: auto !important;
 }
 
+input::placeholder {
+  color: red;
+}
+
 
 /* btn */
 

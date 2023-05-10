@@ -25,6 +25,7 @@ gem 'haml-rails'
 
 #ユーザー認証
 gem 'devise'
+gem 'devise-i18n'
 
 # Image uploader
 gem 'carrierwave', '~> 2.0'

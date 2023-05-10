@@ -35,9 +35,12 @@ class Form::PlayerCollection < Form::Base
         
       end
     end
-    # byebug
       return true
     rescue => e
       return false
+  end
+  
+  def self.input_players
+    @input_players
   end
 end

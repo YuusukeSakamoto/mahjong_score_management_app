@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
-  devise_for :users
   
-  resources :users
   resources :players do
     resources :rules
   end
+  
+  devise_for :users
+
+  resources :users
+
   
   get '/', to: 'tops#show'
   

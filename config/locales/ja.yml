@@ -1,0 +1,21 @@
+ja:
+  activerecord:
+    attributes:
+      user:
+        name: 名前
+        password: パスワード
+      player:
+        name: トレーニング名
+      rule:
+        name: ルール名
+        mochi: 持ち
+        kaeshi: 返し
+        uma_1: ウマ１位
+        uma_2: ウマ２位
+        uma_3: ウマ３位
+        uma_4: ウマ４位
+        score_decimal_point_calc: Pt小数点計算方法
+        chip_existence_flag: チップ有無
+        chip_rate: チップpt / 枚
+        
+        
