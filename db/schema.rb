@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_07_072900) do
+ActiveRecord::Schema.define(version: 2023_05_11_132037) do
 
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
@@ -69,8 +69,8 @@ ActiveRecord::Schema.define(version: 2023_05_07_072900) do
     t.integer "uma_4", null: false
     t.integer "score_decimal_point_calc", null: false
     t.integer "chip_existence_flag", null: false
-    t.integer "chip_rate", null: false
-    t.string "description", null: false
+    t.integer "chip_rate"
+    t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["player_id"], name: "index_rules_on_player_id"

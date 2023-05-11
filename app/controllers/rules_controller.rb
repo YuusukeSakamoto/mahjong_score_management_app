@@ -3,7 +3,7 @@ class RulesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
   def index
-    @rules = Rule.all
+    @rules = Rule.all.where(player_id: params[:player_id])
   end
 
   def show
@@ -11,40 +11,37 @@ class RulesController < ApplicationController
 
   def new
     set_rule_player
-    # set_session_players unless params[:players].nil?
   end
 
   def create
     @rule = Rule.new(rule_params)
-    # byebug
     if @rule.save
       redirect_to '/'
     else
-      @player = Player.find(params[:player_id])
+      set_player
       render :new
     end
   end
 
   def edit
-    redirect_to root_path, flash: {alert: '投稿者でなければ、編集できません。'} and return unless current_user == @rule.user
+    set_player
   end
 
   def update
-    redirect_to root_path, flash: {alert: '投稿者でなければ、更新できません。'} and return unless current_user == @rule.user
+    # redirect_to root_path, flash: {alert: '投稿者でなければ、更新できません。'} and return unless current_user == @rule.user
 
     if @rule.update(rule_params)
-      redirect_to rule_path(@rule), flash: {notice: "投稿を編集しました。"}
+      redirect_to player_rules_path, flash: {notice: "ルールを編集しました"}
     else
+      set_player
       render :edit
     end
   end
 
   def destroy
-    redirect_to root_path, flash: {alert: '投稿者でなければ、削除できません。'} and return unless current_user == @rule.user
-
+    # redirect_to root_path, flash: {alert: '投稿者でなければ、削除できません。'} and return unless current_user == @rule.user
     @rule.destroy
-
-    redirect_to rules_path, flash: {notice: "投稿を削除しました。"}
+    redirect_to player_rules_path, flash: {notice: "ルールを削除しました"}
   end
 
   private
@@ -53,15 +50,15 @@ class RulesController < ApplicationController
       @rule = Rule.find(params[:id])
     end
     
-    def set_rule_player
-      @rule = Rule.new
+    def set_player
       @player = Player.find(params[:player_id])
-      session[:players] = params[:players] unless params[:players].nil? #params[:players] → PlayersControllerのcreateアクションから受け取る
     end
     
-    # def set_session_players
-    #   session[:players] = params[:players] #params[:players] → PlayersControllerのcreateアクションから受け取る
-    # end
+    def set_rule_player
+      @rule = Rule.new
+      set_player
+      session[:players] = params[:players] unless params[:players].nil? #params[:players] → PlayersControllerのcreateアクションから受け取る
+    end
   
     def rule_params
       params.require(:rule).

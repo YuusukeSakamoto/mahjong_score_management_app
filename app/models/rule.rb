@@ -6,6 +6,36 @@ class Rule < ApplicationRecord
   validates :chip_rate, absence: true, if: :chip_existence_flag_2? #チップ無のときchip_rateが空であるか
   # validate :not_allow_same_rule_name
 
+  # 小数点計算方法のコード値を返す
+  def self.get_value_score_decimal_point_calc(score_decimal_point_calc)
+    case score_decimal_point_calc
+      when 1 then
+        '計算しない'
+      when 2 then
+        '五捨六入'
+      when 3 then
+        '四捨五入'
+      when 4 then
+        '切り捨て'
+      when 5 then
+        '切り上げ'
+    end
+  end  
+  
+  # チップ有無のコード値を返す
+  def self.get_value_chip_existence_flag(chip_existence_flag)
+    case chip_existence_flag
+      when 1 then
+        '有'
+      when 2 then
+        '無'
+    end
+  end
+
+  # チップpt/枚のコード値を返す
+  def self.get_value_chip_rate(chip_rate)
+    chip_rate.nil? ? '-' : "#{chip_rate}pt"
+  end
   
   private
   

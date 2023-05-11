@@ -1,0 +1,29 @@
+.container
+  .row.d-flex.justify-content-center
+    = render 'shared/flash'
+    // = render 'players'
+    
+    .col-12.text-center.pb-2
+      %p.w-lg-50.pt-3.fs-3.text-purple ルール一覧
+      .d-flex.justify-content-center
+        %table.table-bordered.table-hover.col-10.col-md-6
+          %tr
+            %th.px-2 ルール名
+            %th 持ち
+            %th 返し
+            %th ウマ
+            %th pt小数点計算方法
+            %th チップ有無
+            %th チップpt/枚
+            %th 
+          - @rules.each do |rule|
+            %tr
+              %td= rule.name
+              %td= "#{rule.mochi}点"
+              %td= "#{rule.kaeshi}点"
+              %td= "#{rule.uma_1},#{rule.uma_2},#{rule.uma_3},#{rule.uma_4}"
+              %td= Rule.get_value_score_decimal_point_calc(rule.score_decimal_point_calc)
+              %td= Rule.get_value_chip_existence_flag(rule.chip_existence_flag)
+              %td= Rule.get_value_chip_rate(rule.chip_rate)
+              %td= link_to '編集', "/players/#{params[:player_id]}/rules/#{rule.id}/edit"
+              

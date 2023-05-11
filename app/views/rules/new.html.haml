@@ -1,20 +1,11 @@
 .container
   .row.d-flex.justify-content-center
     = render 'shared/flash'
+    = render 'players'
+    
+    // .col-12.text-center.pb-2
+    //   %p.w-lg-50.pt-3.fs-3.text-purple ルール登録
+  = render 'form', action: '登録'
+  .row.d-flex.justify-content-center
     .col-12.text-center.pb-2
-      %p.w-lg-50.pt-3.fs-3.text-purple プレイヤー
-      
-      .d-flex.justify-content-center
-        %table.border.col-10.col-md-6
-          %tr.border
-            %th.border.px-2 ID
-            %th.border プレイヤー
-          - session[:players].each do |i|
-            %tr.border
-              %td.border= Player.find(i).id
-              %td.border= Player.find(i).name
- 
-      %p.w-lg-50.pt-3.fs-3.text-purple ルール登録
-      // %p 新規プレイヤー登録する場合：プレイヤー名を入力してください
-      // %p 登録済みでIDを持っている場合：IDを入力してください
-  = render 'form', action: '登録する'
+      %p.w-lg-50.pt-3.fs-3.text-purple ルール選択

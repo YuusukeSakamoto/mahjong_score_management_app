@@ -17,8 +17,11 @@ class PlayersController < ApplicationController
     @form = Form::PlayerCollection.new(player_collection_params)
     
     if @form.save
-      # 選択したプレイヤーをplayersとしてルール登録へ送る
-      redirect_to new_player_rule_path(current_user.player.id, players: @form.input_players), notice: "プレイヤーを選択しました"
+      if current_user.player.nil? || current_user.player.rules.blank?
+        redirect_to new_player_rule_path(current_user.player.id, players: @form.input_players) # 選択したプレイヤーをplayersとしてルール登録へ送る
+      else
+        redirect_to player_rules_path(current_user.player.id, players: @form.input_players) # 選択したプレイヤーをplayersとしてルール一覧へ送る
+      end
     else
       flash.now[:alert] = "プレイヤー選択に失敗しました"
       render :new
