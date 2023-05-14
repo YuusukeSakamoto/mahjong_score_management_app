@@ -12,8 +12,8 @@
                 %p.pe-2.mt-3.text-purple.d-none.d-md-block{style: "font-size: 14px;"}= "ID : 未登録"
               - else
                 %p.pe-2.mt-3.text-purple.d-none.d-md-block{style: "font-size: 14px;"}= "ID : #{current_user.player.id}" 
-              = link_to "/posts/new" , class: "btn nav-btn text-white btn-purple me-5 px-md-3 py-md-2", style: "font-size: 14px;" do
-                新規投稿する
+              // = link_to "/posts/new" , class: "btn nav-btn text-white btn-purple me-5 px-md-3 py-md-2", style: "font-size: 14px;" do
+              //   新規投稿する
               - if current_user.avatar.present?
                 = image_tag current_user.avatar.url, class: 'rounded-circle flex-shrink-0 me-3 fit-cover', width: '50px', alt: 'icon6'
               - else

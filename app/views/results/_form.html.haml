@@ -1,0 +1,53 @@
+.row.d-flex.justify-content-center
+  .col-12.text-center.pb-2
+    %p.w-lg-50.pt-3.fs-3.text-purple 対局成績#{action}
+  .col-10.col-md-6
+
+    = form_with model: @result, class: 'mb-4', local: true do |f|
+      = render 'layouts/validation_error', instance: @result
+      
+      // = f.hidden_field :result[][rule_id], value: 1
+      // = f.hidden_field :result[][recorded_player_id], value: current_user.player.id
+
+      .div-title.mb-4
+        = f.label :対局日時, class: 'title-p fw-bold text-main'
+        %span.p_required 必須
+        - if controller.action_name == "edit"
+          = f.date_field :match_time, value: @result.match_time, autofocus: true, 
+            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+        - else 
+          = f.date_field :match_time, value: Date.today, autofocus: true, 
+            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+      
+      %span.title-p.fw-bold.text-main スコア
+      %span.p_required 必須
+      // 選択されたプレイヤー分だけフォーム表示      
+      - session[:players].each do |player_id|  
+        .div-title.mb-4
+          = f.label :"#{Player.find(player_id).name}", class: 'title-p fw-bold text-main'
+          .d-flex.align-items-end
+            = f.text_field :score, autofocus: true, placeholder: "25000",
+              class: 'form-control py-2 py-md-3 rounded bg-white box-shadow'
+            %p.fw-bold.text-main.mb-0.mx-2 点
+            = f.text_field :point, autofocus: true,
+              class: 'form-control py-2 py-md-3 rounded bg-white box-shadow'
+            %p.fw-bold.text-main.mb-0.mx-2 pt
+            = f.select :ie, 
+              [ ["東",1], ["南", 2], ["西",3], ["北", 4] ], {},
+              {class: 'form-control py-2 py-md-3 rounded bg-white box-shadow'}
+          
+      .div-title.mb-4
+        = f.label :'対局メモ', class: 'title-p fw-bold text-main'
+        = f.text_area :memo, autofocus: true, 
+          class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+
+      .col-12.d-flex.justify-content-center
+        .p-form__input-submit
+          = f.submit "#{action}する", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-purple'
+    
+    - if controller.action_name == "edit"
+      .col-12.d-flex.justify-content-center.mt-4
+        .p-form__input-submit
+          = link_to '削除する', result_path(@result), method: :delete,
+            data: { confirm: "本当に対局成績を削除しますか？"},
+            class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-purple'

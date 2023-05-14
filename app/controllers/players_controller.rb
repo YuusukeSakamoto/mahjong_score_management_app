@@ -33,7 +33,7 @@ class PlayersController < ApplicationController
   
   def update
     if @player.update(player_params)
-      redirect_to player_path(@player), flash: {notice: "プレイヤー情報を更新しました"}
+      redirect_to player_path(@player), flash: {notice: "プレイヤー < #{@player.name} > の情報を更新しました"}
     else
       render :edit
     end
@@ -41,7 +41,7 @@ class PlayersController < ApplicationController
   
   def destroy
     @player.destroy
-    redirect_to players_url, flash: {notice: 'プレイヤーを削除しました'}
+    redirect_to players_url, flash: {notice: "プレイヤー < #{@player.name} > を削除しました"}
   end
   
   private 

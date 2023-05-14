@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  match_time: 2023-05-13
+  score: 
+  player: one
+  rule: one
+
+two:
+  match_time: 2023-05-13
+  score: 
+  player: two
+  rule: two

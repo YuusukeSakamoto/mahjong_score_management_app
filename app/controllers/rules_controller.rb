@@ -31,7 +31,7 @@ class RulesController < ApplicationController
     # redirect_to root_path, flash: {alert: '投稿者でなければ、更新できません。'} and return unless current_user == @rule.user
 
     if @rule.update(rule_params)
-      redirect_to player_rules_path, flash: {notice: "ルールを編集しました"}
+      redirect_to player_rules_path, flash: {notice: "ルール < #{@rule.name} > を編集しました"}
     else
       set_player
       render :edit
@@ -41,7 +41,7 @@ class RulesController < ApplicationController
   def destroy
     # redirect_to root_path, flash: {alert: '投稿者でなければ、削除できません。'} and return unless current_user == @rule.user
     @rule.destroy
-    redirect_to player_rules_path, flash: {notice: "ルールを削除しました"}
+    redirect_to player_rules_path, flash: {notice: "ルール < #{@rule.name} > を削除しました"}
   end
 
   private
