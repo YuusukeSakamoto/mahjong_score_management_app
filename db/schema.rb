@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_11_132037) do
+ActiveRecord::Schema.define(version: 2023_05_13_015704) do
 
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
@@ -18,6 +18,11 @@ ActiveRecord::Schema.define(version: 2023_05_11_132037) do
   end
 
   create_table "form_player_collections", charset: "utf8mb4", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "form_result_collections", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -58,6 +63,21 @@ ActiveRecord::Schema.define(version: 2023_05_11_132037) do
     t.index ["user_id"], name: "index_players_on_user_id"
   end
 
+  create_table "results", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.bigint "rule_id", null: false
+    t.date "match_time", null: false
+    t.integer "score", null: false
+    t.integer "point", null: false
+    t.integer "ie", null: false
+    t.integer "recorded_player_id", null: false
+    t.string "memo"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id"], name: "index_results_on_player_id"
+    t.index ["rule_id"], name: "index_results_on_rule_id"
+  end
+
   create_table "rules", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "player_id", null: false
     t.string "name", null: false
@@ -96,5 +116,7 @@ ActiveRecord::Schema.define(version: 2023_05_11_132037) do
   add_foreign_key "group_users", "users"
   add_foreign_key "groups", "users"
   add_foreign_key "members", "groups"
+  add_foreign_key "results", "players"
+  add_foreign_key "results", "rules"
   add_foreign_key "rules", "players"
 end

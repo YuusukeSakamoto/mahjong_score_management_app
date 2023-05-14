@@ -1,5 +1,6 @@
 class Rule < ApplicationRecord
   belongs_to :player
+  has_many :results
   
   validates :name, :mochi, :kaeshi, :uma_1, :uma_2, :uma_3, :uma_4, :score_decimal_point_calc, :chip_existence_flag, presence: true
   validates :chip_rate, presence: true, if: :chip_existence_flag_1? #チップ有のときchip_rateが空でないか

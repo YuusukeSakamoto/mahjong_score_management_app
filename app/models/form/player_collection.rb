@@ -16,7 +16,6 @@ class Form::PlayerCollection < Form::Base
     Player.transaction do
       self.players.map do |player|
         searched_player = Player.find_by(id: player.id)
-        # byebug
         # 登録済みplayerの場合はplayer情報を取得して配列に格納する
         if searched_player.present?
           @input_players << searched_player
@@ -30,9 +29,7 @@ class Form::PlayerCollection < Form::Base
             next
           end
         end
-          
         @input_players << player
-        
       end
     end
       return true
