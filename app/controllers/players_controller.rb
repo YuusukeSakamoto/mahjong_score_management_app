@@ -18,9 +18,11 @@ class PlayersController < ApplicationController
     
     if @form.save
       if current_user.player.nil? || current_user.player.rules.blank?
-        redirect_to new_player_rule_path(current_user.player.id, players: @form.input_players) # 選択したプレイヤーをplayersとしてルール登録へ送る
+        set_session_players(@form)
+        redirect_to new_player_rule_path(current_user.player.id) 
       else
-        redirect_to player_rules_path(current_user.player.id, players: @form.input_players) # 選択したプレイヤーをplayersとしてルール一覧へ送る
+        set_session_players(@form)
+        redirect_to new_match_path
       end
     else
       flash.now[:alert] = "プレイヤー選択に失敗しました"
@@ -48,6 +50,10 @@ class PlayersController < ApplicationController
   
     def set_player
       @player = Player.find(params[:id])  
+    end
+    
+    def set_session_players(form)
+      session[:players] = form.input_players
     end
     
     def player_params

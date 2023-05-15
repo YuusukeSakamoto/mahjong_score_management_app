@@ -4,12 +4,12 @@ Rails.application.routes.draw do
     resources :rules
   end
   
-  resources :results
   
-  resources :matchs, only: [:show] do #showのみ
-    resources :results, except: [:index] #index以外
+  resources :matches, only: [:show, :new, :create, :update, :destroy] do 
+    resources :results, only: [:index] 
   end
   
+  resources :results
   
   devise_for :users
   resources :users
