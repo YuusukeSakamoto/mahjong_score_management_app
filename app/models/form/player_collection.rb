@@ -16,9 +16,9 @@ class Form::PlayerCollection < Form::Base
     Player.transaction do
       self.players.map do |player|
         searched_player = Player.find_by(id: player.id)
-        # 登録済みplayerの場合はplayer情報を取得して配列に格納する
+        # byebug
         if searched_player.present?
-          @input_players << searched_player
+          @input_players << searched_player # 登録済みplayerの場合はplayer情報を取得して配列に格納する
           next
         else
           if player.id == nil #player_idが未入力の場合(=新規登録の場合)
@@ -30,14 +30,16 @@ class Form::PlayerCollection < Form::Base
           end
         end
         @input_players << player
+        # byebug
       end
     end
+      # session[:players] = @input_players
       return true
     rescue => e
       return false
   end
   
-  def self.input_players
-    @input_players
-  end
+  # def self.input_players
+  #   @input_players
+  # end
 end

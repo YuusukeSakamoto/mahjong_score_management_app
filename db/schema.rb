@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_13_015704) do
+ActiveRecord::Schema.define(version: 2023_05_14_131851) do
 
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
@@ -45,6 +45,17 @@ ActiveRecord::Schema.define(version: 2023_05_13_015704) do
     t.index ["user_id"], name: "index_groups_on_user_id"
   end
 
+  create_table "matches", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.bigint "rule_id", null: false
+    t.date "match_day"
+    t.string "memo"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id"], name: "index_matches_on_player_id"
+    t.index ["rule_id"], name: "index_matches_on_rule_id"
+  end
+
   create_table "members", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.integer "represent_user_flag", default: 0, null: false
@@ -65,17 +76,15 @@ ActiveRecord::Schema.define(version: 2023_05_13_015704) do
 
   create_table "results", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "player_id", null: false
-    t.bigint "rule_id", null: false
-    t.date "match_time", null: false
     t.integer "score", null: false
     t.integer "point", null: false
     t.integer "ie", null: false
-    t.integer "recorded_player_id", null: false
-    t.string "memo"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "match_id", null: false
+    t.integer "rank", null: false
+    t.index ["match_id"], name: "index_results_on_match_id"
     t.index ["player_id"], name: "index_results_on_player_id"
-    t.index ["rule_id"], name: "index_results_on_rule_id"
   end
 
   create_table "rules", charset: "utf8mb4", force: :cascade do |t|
@@ -115,8 +124,9 @@ ActiveRecord::Schema.define(version: 2023_05_13_015704) do
   add_foreign_key "group_users", "groups"
   add_foreign_key "group_users", "users"
   add_foreign_key "groups", "users"
+  add_foreign_key "matches", "players"
+  add_foreign_key "matches", "rules"
   add_foreign_key "members", "groups"
   add_foreign_key "results", "players"
-  add_foreign_key "results", "rules"
   add_foreign_key "rules", "players"
 end
