@@ -16,7 +16,7 @@ class RulesController < ApplicationController
   def create
     @rule = Rule.new(rule_params)
     if @rule.save
-      redirect_to '/'
+      redirect_to new_match_path
     else
       set_player
       render :new

@@ -30,8 +30,8 @@ gem 'devise-i18n'
 # Image uploader
 gem 'carrierwave', '~> 2.0'
 
-#jquery
-gem "jquery-rails"
+# #jquery
+# gem "jquery-rails"
 
 group :development, :test do
   gem 'byebug', '11.1.3'

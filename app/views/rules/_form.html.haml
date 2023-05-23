@@ -1,6 +1,6 @@
 .row.d-flex.justify-content-center
   .col-12.text-center.pb-2
-    %p.w-lg-50.pt-3.fs-3.text-purple 対局ルール#{action}
+    %p.w-lg-50.pt-3.fs-3.text-green 対局ルール#{action}
   .col-10.col-md-6
     - if controller.action_name == "new"
       %p まずは対局のルールを登録しましょう
@@ -83,11 +83,11 @@
 
       .col-12.d-flex.justify-content-center
         .p-form__input-submit
-          = f.submit "#{action}する", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-purple'
+          = f.submit "#{action}する", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-green'
     
     - if controller.action_name == "edit"
       .col-12.d-flex.justify-content-center.mt-4
         .p-form__input-submit
           = link_to '削除する', player_rule_path(@player, @rule), method: :delete,
             data: { confirm: "本当にを削除しますか？"},
-            class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-purple'
+            class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-green'

@@ -4,6 +4,8 @@ class Match < ApplicationRecord
   has_many :results ,dependent: :destroy #matchに紐づいたresultsも削除される
   accepts_nested_attributes_for :results #resultも同時に保存できるようになる
   
+  IE = [["東",1], ["南", 2], ["西",3], ["北", 4]]
+  
   def self.set_rank(match)
     scores = []
     match.results.each_with_index do |result, i|

@@ -1,6 +1,6 @@
 .row.d-flex.justify-content-center
   .col-12.text-center.pb-2
-    %p.w-lg-50.pt-3.fs-3.text-purple 対局成績#{action}
+    %p.w-lg-50.pt-3.fs-3.text-green 対局成績#{action}
   .col-10.col-md-6
 
     = form_with model: @result, class: 'mb-4', local: true do |f|
@@ -43,11 +43,11 @@
 
       .col-12.d-flex.justify-content-center
         .p-form__input-submit
-          = f.submit "#{action}する", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-purple'
+          = f.submit "#{action}する", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-green'
     
     - if controller.action_name == "edit"
       .col-12.d-flex.justify-content-center.mt-4
         .p-form__input-submit
           = link_to '削除する', result_path(@result), method: :delete,
             data: { confirm: "本当に対局成績を削除しますか？"},
-            class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-purple'
+            class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-green'
