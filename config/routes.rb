@@ -12,8 +12,9 @@ Rails.application.routes.draw do
     resources :rules
   end
   
-  get '/matches/calculates', to: 'matches/calculates#index', defaults: { format: :json } # pt計算json用
-  
+  namespace :matches do 
+    resources :calculates, only: :index, defaults: { format: :json }
+  end
   
   resources :matches, only: [:show, :new, :create, :update, :destroy] do 
     resources :results, only: [:index] 

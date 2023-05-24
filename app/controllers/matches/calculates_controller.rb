@@ -3,8 +3,8 @@ class Matches::CalculatesController < ApplicationController
   def index
     points = []
     scores = []
-    rule_id = params[:datas]["0"][0].to_i
-    params[:datas]["1"].each do |d|
+    rule_id = params[:score_rules]["0"][0].to_i
+    params[:score_rules]["1"].each do |d|
       scores << d.to_i
     end
     

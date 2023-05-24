@@ -9,7 +9,7 @@ $(document).on('turbolinks:load', function () {
       });
       // 全プレイヤーのscoreが入力された場合
       if (is_full) {
-          var datas = [];
+          var score_rules = [];
           var rule_id = [];
           var scores = [];
           
@@ -19,13 +19,13 @@ $(document).on('turbolinks:load', function () {
           });
           rule_id.push(parseInt($('#match_rule_id').val()))
           
-          datas.push(rule_id)
-          datas.push(scores)
+          score_rules.push(rule_id)
+          score_rules.push(scores)
 
           $.ajax({
             type: 'GET', // リクエストのタイプ
             url: '/matches/calculates', // リクエストを送信するURL
-            data:  { datas: datas }, // サーバーに送信するデータ
+            data:  { score_rules: score_rules }, // サーバーに送信するデータ
             dataType: 'json' // サーバーから返却される型
           })
           // 正常にデータを受け取れた際の処理

@@ -11,7 +11,7 @@
           #div
             = f.label :ルール, class: 'title-p fw-bold text-main'
             %span.p_required 必須
-          = link_to 'ルール一覧', player_rules_path(current_user.player.id), class: 'text-orange'
+          = link_to 'ルール一覧', player_rules_path(current_user.player.id), class: 'text-orange fw-bold'
         = f.collection_select(:rule_id, current_user.player.rules.all,
                               :id, :name,
                               {prompt: "選択してください"},
@@ -37,7 +37,7 @@
           %span.title-p.text-main (ID : #{session[:players][i]["id"]})
           .d-flex.align-items-end.justify-content-between
             = result.select :ie, 
-              Match::IE , { selected: i + 1},
+              Result::IE , { selected: i + 1}, 
               {class: 'form-control py-1 py-md-3 rounded bg-white box-shadow w-25 text-center'}    
             %p.text-main.mb-0.mx-1.mx-md-2 家
             
