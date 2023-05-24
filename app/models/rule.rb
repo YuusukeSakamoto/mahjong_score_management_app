@@ -41,7 +41,6 @@ class Rule < ApplicationRecord
   private
   
     def not_allow_same_rule_name
-      # byebug
       if Rule.where(player_id: player_id, name: name).present?
         errors.add('既に同じルール名が登録されています')
       end
