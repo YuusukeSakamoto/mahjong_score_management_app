@@ -62,32 +62,12 @@
   padding-bottom: 10px;
 }
 
+
 /*必須項目*/
 .p_required {
-  color: #3FB488;
+  color: #3FB488; 
   font-weight: bold;
   padding-left: 10px;
-}
-
-.imagePreview1 {
-  background: #FFFFFF;
-  color: #3FB488;
-  font-weight: bold;
-  border: 2px solid #3FB488;
-}
-
-.imagePreview2 {
-  background: #FFFFFF;
-  color: #3FB488;
-  font-weight: bold;
-  border: 2px solid #3FB488;
-}
-
-.imagePreview3 {
-  background: #FFFFFF;
-  color: #3FB488;
-  font-weight: bold;
-  border: 2px solid #3FB488;
 }
 
 .title-p {
@@ -154,12 +134,6 @@ tab {
   border-bottom: var(--bs-nav-tabs-border-width) solid var(--bs-nav-tabs-border-color);
 }
 
-.indicators-style {
-  border-radius: 50px;
-  margin: 1px 3px;
-  height: $carousel-indicator-length;
-  max-width: $carousel-indicator-length;
-}
 
 .p-hover {
   color: #6648b1;
@@ -184,16 +158,25 @@ footer {
   color: #707070;
 }
 
-.text-purple {
+.text-green {
   color: #3FB488!important;
 }
 
-.btn-purple {
+.text-orange {
+  color: #F8B978!important;
+}
+
+.btn-green {
   background: #3FB488!important;
   border-style: solid;
   border-color: #3FB488;
 }
 
-.bg-purple {
+
+.bg-green {
   background-color: #3FB488!important;
+}
+
+.bg-orange {
+  background-color: #F8B978!important;
 }

@@ -1,9 +1,20 @@
 Rails.application.routes.draw do
   
+  namespace :players do 
+    resources :searches, only: :index, defaults: { format: :json }
+  end  
+  
+  namespace :rules do 
+    resources :searches, only: :index, defaults: { format: :json }
+  end
+  
   resources :players do
     resources :rules
   end
   
+  namespace :matches do 
+    resources :calculates, only: :index, defaults: { format: :json }
+  end
   
   resources :matches, only: [:show, :new, :create, :update, :destroy] do 
     resources :results, only: [:index] 

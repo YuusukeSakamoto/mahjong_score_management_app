@@ -1010,10 +1010,10 @@
   resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-6.1.7.tgz#b09dc5b2105dd267e8374c47e4490240451dc7f6"
   integrity sha512-0e7WQ4LE/+LEfW2zfAw9ppsB6A8RmxbdAUPAF++UT80epY+7emuQDkKXmaK0a9lp6An50RvzezI0cIQjp1A58w==
 
-"@rails/webpacker@5.4.4":
-  version "5.4.4"
-  resolved "https://registry.yarnpkg.com/@rails/webpacker/-/webpacker-5.4.4.tgz#971a41b987c096c908ce4088accd57c1a9a7e2f7"
-  integrity sha512-hp9myb2MChYFPfE5Fd/3gF4q2m4wpxC+WWCkxcg6My3HYCptWuqMVXRwrBZ5EJHYiL/WRyMLvVNWwlFV47xhUw==
+"@rails/webpacker@5.4.3":
+  version "5.4.3"
+  resolved "https://registry.yarnpkg.com/@rails/webpacker/-/webpacker-5.4.3.tgz#cfe2d8faffe7db5001bad50a1534408b4f2efb2f"
+  integrity sha512-tEM8tpUtfx6FxKwcuQ9+v6pzgqM5LeAdhT6IJ4Te3BPKFO1xrGrXugqeRuZ+gE8ASDZRTOK6yuQkapOpuX5JdA==
   dependencies:
     "@babel/core" "^7.15.0"
     "@babel/plugin-proposal-class-properties" "^7.14.5"
@@ -4003,6 +4003,11 @@ jest-worker@^26.5.0:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
+jquery@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.0.tgz#fe2c01a05da500709006d8790fe21c8a39d75612"
+  integrity sha512-umpJ0/k8X0MvD1ds0P9SfowREz2LenHsQaxSohMZ5OMNEU2r0tf8pdeEFTHMFxWVxKNyU9rTtK3CWzUCTKJUeQ==
+
 js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -5024,9 +5029,9 @@ postcss-color-mod-function@^3.0.3:
     postcss "^7.0.2"
     postcss-values-parser "^2.0.0"
 
-postcss-color-rebeccapurple@^4.0.1:
+postcss-color-rebeccagreen@^4.0.1:
   version "4.0.1"
-  resolved "https://registry.yarnpkg.com/postcss-color-rebeccapurple/-/postcss-color-rebeccapurple-4.0.1.tgz#c7a89be872bb74e45b1e3022bfe5748823e6de77"
+  resolved "https://registry.yarnpkg.com/postcss-color-rebeccagreen/-/postcss-color-rebeccagreen-4.0.1.tgz#c7a89be872bb74e45b1e3022bfe5748823e6de77"
   integrity sha512-aAe3OhkS6qJXBbqzvZth2Au4V3KieR5sRQ4ptb2b2O8wgvB3SJBsdG+jsn2BZbbwekDG8nTfcCNKcSfe/lEy8g==
   dependencies:
     postcss "^7.0.2"
@@ -5459,7 +5464,7 @@ postcss-preset-env@^6.7.0:
     postcss-color-gray "^5.0.0"
     postcss-color-hex-alpha "^5.0.3"
     postcss-color-mod-function "^3.0.3"
-    postcss-color-rebeccapurple "^4.0.1"
+    postcss-color-rebeccagreen "^4.0.1"
     postcss-custom-media "^7.0.8"
     postcss-custom-properties "^8.0.11"
     postcss-custom-selectors "^5.1.2"

@@ -7,6 +7,10 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
+require("jquery")  // ←jquery使えるようにする1行を追加
+require("player_name_search.js")  // ←jsファイル分だけ追加する
+require("point_calculate.js")  // ←jsファイル分だけ追加する
+require("rule_search.js")  // ←jsファイル分だけ追加する
 
 Rails.start()
 Turbolinks.start()

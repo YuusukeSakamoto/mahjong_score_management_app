@@ -10,8 +10,4 @@ class User < ApplicationRecord
   validates :name, presence: true
   
   
-  def self.member_id
-    User.last.id + 329
-  end
-  
 end
