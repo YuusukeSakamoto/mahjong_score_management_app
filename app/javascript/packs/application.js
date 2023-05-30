@@ -11,6 +11,7 @@ require("jquery")  // ←jquery使えるようにする1行を追加
 require("player_name_search.js")  // ←jsファイル分だけ追加する
 require("point_calculate.js")  // ←jsファイル分だけ追加する
 require("rule_search.js")  // ←jsファイル分だけ追加する
+require("remaining_score_calculate.js")  // ←jsファイル分だけ追加する
 
 Rails.start()
 Turbolinks.start()

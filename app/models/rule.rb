@@ -2,10 +2,11 @@ class Rule < ApplicationRecord
   belongs_to :player
   has_many :results
   
-  validates :name, :mochi, :kaeshi, :uma_1, :uma_2, :uma_3, :uma_4, :score_decimal_point_calc, :chip_existence_flag, presence: true
-  validates :chip_rate, presence: true, if: :chip_existence_flag_1? #チップ有のときchip_rateが空でないか
-  validates :chip_rate, absence: true, if: :chip_existence_flag_2? #チップ無のときchip_rateが空であるか
-  # validate :not_allow_same_rule_name
+  validates :name, presence: true, uniqueness: { scope: :player }
+  validates :mochi, :kaeshi, :uma_1, :uma_2, :uma_3, :uma_4, :score_decimal_point_calc, presence: true
+  validates :is_chip, inclusion: [true, false] # boolean型のpresenceチェック
+  validates :chip_rate, presence: true, if: :is_chip #チップ有のときchip_rateが空でないか
+  validates :chip_rate, absence: true, unless: :is_chip #チップ無のときchip_rateが空であるか
 
   # 小数点計算方法のコード値を返す
   def self.get_value_score_decimal_point_calc(score_decimal_point_calc)
@@ -24,34 +25,13 @@ class Rule < ApplicationRecord
   end  
   
   # チップ有無のコード値を返す
-  def self.get_value_chip_existence_flag(chip_existence_flag)
-    case chip_existence_flag
-      when 1 then
-        '有'
-      when 2 then
-        '無'
-    end
+  def self.get_value_is_chip(is_chip)
+    is_chip ? '有' : '無'
   end
 
   # チップpt/枚のコード値を返す
   def self.get_value_chip_rate(chip_rate)
     chip_rate.nil? ? '-' : "#{chip_rate}pt"
   end
-  
-  private
-  
-    def not_allow_same_rule_name
-      if Rule.where(player_id: player_id, name: name).present?
-        errors.add('既に同じルール名が登録されています')
-      end
-    end
-    
-    def chip_existence_flag_2?
-      chip_existence_flag == 2
-    end
-    
-    def chip_existence_flag_1?
-      chip_existence_flag == 1
-    end
    
 end

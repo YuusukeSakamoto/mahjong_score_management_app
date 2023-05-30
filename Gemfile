@@ -18,6 +18,8 @@ gem 'hirb'         # 出力結果を表として出力するgem
 gem 'hirb-unicode'  # マルチバイト文字の表示を補正するgem
 gem 'rails-i18n' # errorメッセージ日本語化
 gem 'chart-js-rails', '~> 0.1.4' #chart.js
+gem 'pry-rails'
+gem 'pry-byebug'
 
 # Front
 gem 'font-awesome-sass'
@@ -29,9 +31,6 @@ gem 'devise-i18n'
 
 # Image uploader
 gem 'carrierwave', '~> 2.0'
-
-# #jquery
-# gem "jquery-rails"
 
 group :development, :test do
   gem 'byebug', '11.1.3'

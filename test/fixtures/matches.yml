@@ -3,11 +3,11 @@
 one:
   player: one
   rule: one
-  match_day: 2023-05-14
+  match_at: 2023-05-14
   memo: MyString
 
 two:
   player: two
   rule: two
-  match_day: 2023-05-14
+  match_at: 2023-05-14
   memo: MyString

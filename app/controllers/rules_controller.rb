@@ -62,7 +62,7 @@ class RulesController < ApplicationController
   
     def rule_params
       params.require(:rule).
-        permit(:name, :mochi, :kaeshi, :uma_1, :uma_2, :uma_3, :uma_4, :score_decimal_point_calc, :chip_existence_flag, :chip_rate, :description).
+        permit(:name, :mochi, :kaeshi, :uma_1, :uma_2, :uma_3, :uma_4, :score_decimal_point_calc, :is_chip, :chip_rate, :description).
         merge(player_id: current_user.player.id)
     end
 end

@@ -63,8 +63,8 @@
         = f.label :チップ有無, class: 'title-p fw-bold text-main'
         %span.p_required 必須
         
-        = f.select :chip_existence_flag, 
-          [ ["あり",1], ["なし", 2] ], 
+        = f.select :is_chip, 
+          [ ["あり", true], ["なし", false] ], 
           {prompt: "-- チップ有無を選択してください --"},
           {class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'}
 
@@ -83,11 +83,11 @@
 
       .col-12.d-flex.justify-content-center
         .p-form__input-submit
-          = f.submit "#{action}する", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-green'
+          = f.submit "#{action}する", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3  bg-green'
     
     - if controller.action_name == "edit"
       .col-12.d-flex.justify-content-center.mt-4
         .p-form__input-submit
           = link_to '削除する', player_rule_path(@player, @rule), method: :delete,
             data: { confirm: "本当にを削除しますか？"},
-            class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-green'
+            class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3  bg-green'
