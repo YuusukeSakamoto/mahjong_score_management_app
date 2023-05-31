@@ -5,7 +5,9 @@ ja:
         name: 名前
         password: パスワード
       player:
+        player: プレイヤー
         name: プレイヤー名
+        id: ID
       rule:
         name: ルール名
         mochi: 持ち
@@ -23,5 +25,3 @@ ja:
       results:
         score: 得点
         point: pt
-        
-        

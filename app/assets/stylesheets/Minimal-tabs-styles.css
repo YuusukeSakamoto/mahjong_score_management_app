@@ -166,6 +166,35 @@ footer {
   color: #F8B978!important;
 }
 
+.text-pink {
+  color: #FC6C85!important;
+}
+
+.text-gray {
+  color: #808080!important;
+}
+
+/***************************
+/* アニメーション*/
+/***************************
+/* その場で */
+.fadeIn{
+animation-name:fadeInAnime;
+animation-duration:1s;
+animation-fill-mode:forwards;
+opacity:0;
+}
+
+@keyframes fadeInAnime{
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .btn-green {
   background: #3FB488!important;
   border-style: solid;
@@ -179,4 +208,27 @@ footer {
 
 .bg-orange {
   background-color: #F8B978!important;
+}
+
+.bg-pink {
+  background-color: #FC6C85!important;
+}
+
+.bg-gray {
+  background-color: #dcdcdc!important;
+}
+
+.bg-delete-color {
+  background-color: #a9a9a9!important;
+}
+
+
+.border-green {
+  border: 0.8px solid;
+  border-color: #a8dba8!important;
+}
+
+.border-lightgray {
+  border: 0.8px solid;
+  color: #d3d3d3;
 }

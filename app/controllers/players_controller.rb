@@ -11,12 +11,14 @@ class PlayersController < ApplicationController
   
   def new
     @form = Form::PlayerCollection.new
+    @error_player = Player.new
   end
   
   def create
     @form = Form::PlayerCollection.new(player_collection_params)
-    
+
     if @form.save
+      # プレイヤーID未登録またはルール未登録の場合、ルール登録へ遷移
       if current_user.player.nil? || current_user.player.rules.blank?
         set_session_players(@form)
         redirect_to new_player_rule_path(current_user.player.id) 
@@ -25,7 +27,9 @@ class PlayersController < ApplicationController
         redirect_to new_match_path
       end
     else
-      flash.now[:alert] = "プレイヤー選択に失敗しました"
+      @form.players.each do |player|
+        @error_player = player unless player.errors.blank?
+      end
       render :new
     end
   end
@@ -53,7 +57,7 @@ class PlayersController < ApplicationController
     end
     
     def set_session_players(form)
-      session[:players] = form.input_players
+      session[:players] = form.session_players
     end
     
     def player_params
