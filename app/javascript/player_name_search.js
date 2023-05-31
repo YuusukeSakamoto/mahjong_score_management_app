@@ -32,12 +32,12 @@ $(document).on('turbolinks:load', function () {
       })
       // 正常にデータを受け取れた際の処理
       .done(function(data) {
-        $("#form_player_collection_players_attributes_1_name").val(data.name)　//nameをセットする
+        $("#form_player_collection_players_attributes_1_name").val(data.name).css('color', '') 　//nameをセットする
         
       })
       .fail(function(){
         //通信に失敗した際の処理
-        // $("#form_player_collection_players_attributes_1_name").val("") //空白をセットする
+        // $("#form_player_collection_players_attributes_1_name").val("")//空白をセットする
       })
     })
     

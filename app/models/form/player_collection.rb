@@ -21,38 +21,49 @@ class Form::PlayerCollection < Form::Base
       valid_players << player
     end
     
-    # 入力されたプレイヤーが２人以下の場合はエラーとする
-    if valid_players.count <= 2
+    # 入力されたプレイヤーが4人でない場合はエラーとする
+    if valid_players.count != 4
       players[0].errors.add(:player, "が不足しています") 
       return false
     end
     
-    # byebug
     # IDが重複している場合、エラーとする
     unless player_id_uniq?(valid_players)
       players[0].errors.add(:id, "が重複しています")
       return false
     end
     
+    
+    
     Player.transaction do
       self.players.map do |player|
-        
         searched_player = Player.find_by(id: player.id)
-        # byebug
-        if player.name.blank?
-          if player.id.blank?
-            next
-          elsif player.id.present?
-            @session_players << searched_player # 登録済みplayerの場合はplayer情報を取得してsession用配列に格納する
-          end
-        elsif player.name.present?
-          if player.id.blank?
-            player.save! # ひとつでもsaveできなければtransactionを抜ける必要があるためsave!
-            @session_players << searched_player
-          elsif player.id.present?
-            @session_players << searched_player
-          end
+        # player_idが未登録の場合、エラーとする
+        if searched_player.nil?
+          players[0].errors.add(:id, "に誤りがあります")
+          return false
         end
+        
+        next if player.name.blank? && player.id.blank?
+        player.save! if player.name.present? && player.id.blank?
+        @session_players << searched_player # 登録済みplayerの場合はplayer情報を取得してsession用配列に格納する
+      #   # -----------------------------
+      #   if player.name.blank?
+      #     if player.id.blank?
+      #       next
+      #     elsif player.id.present?
+      #       @session_players << searched_player # 登録済みplayerの場合はplayer情報を取得してsession用配列に格納する
+      #     end
+      #   elsif player.name.present?
+      #     if player.id.blank?
+      #       player.save! # ひとつでもsaveできなければtransactionを抜ける必要があるためsave!
+      #       @session_players << searched_player
+      #     elsif player.id.present?
+      #       @session_players << searched_player
+      #     end
+      #   end
+      # # -----------------------------
+
         
         # byebug
 
