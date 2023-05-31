@@ -5,7 +5,7 @@
       %p.w-lg-50.pt-3.fs-3.text-green 対局成績
   
       %p.text-main.mb-1.fs-sm
-        ="日付：#{@match.match_day.strftime('%Y/%m/%d')}"
+        ="日付：#{@match.match_on.strftime('%Y/%m/%d')}"
       %p.text-main.fs-sm
         ="ルール：#{Rule.find(@match.rule_id).name}"
         

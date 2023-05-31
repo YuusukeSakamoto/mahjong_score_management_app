@@ -20,7 +20,7 @@ ja:
         chip_rate: チップpt / 枚
       match:
         rule: ルール
-        match_day: 対局日付
+        match_on: 対局日付
         ie: 家
       results:
         score: 得点

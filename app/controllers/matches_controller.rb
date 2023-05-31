@@ -3,8 +3,8 @@ class MatchesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   
   def index
-    match_id = Result.where(player_id: current_user.player.id).select(:match_id).pluck(:match_id)
-    @matches = Match.where(id: match_id)
+    match_ids = Result.where(player_id: current_user.player.id).select(:match_id).pluck(:match_id)
+    @matches = Match.where(id: match_ids)
   end  
   
   def new
@@ -18,18 +18,17 @@ class MatchesController < ApplicationController
   def create
     @match = Match.new(match_params)
     if ie_uniq?(@match) && @match.save
-      redirect_to match_path(@match), flash: {notice: "対局成績を登録しました"}
+      redirect_to match_path(@match), notice: "対局成績を登録しました"
     else
       render :new
     end
   end
   
-  def edit
-  end
+  def edit; end
   
   def update
-    if @match.update(match_params) && ie_uniq?(@match)
-      redirect_to match_path(@match), flash: {notice: "対局成績を更新しました"}
+    if ie_uniq?(@match) && @match.update(match_params)
+      redirect_to match_path(@match), notice: "対局成績を更新しました"
     else
       render :edit
     end
@@ -48,7 +47,7 @@ class MatchesController < ApplicationController
     
     def match_params
       params.require(:match).
-        permit(:rule_id, :player_id, :match_day, :memo, results_attributes: [:id, :score, :point, :ie, :player_id, :rank])
+        permit(:rule_id, :player_id, :match_on, :memo, results_attributes: [:id, :score, :point, :ie, :player_id, :rank])
     end
     
     # 入力された家に重複がないか

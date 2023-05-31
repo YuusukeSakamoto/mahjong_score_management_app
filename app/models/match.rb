@@ -4,6 +4,6 @@ class Match < ApplicationRecord
   has_many :results ,dependent: :destroy #matchに紐づいたresultsも削除される
   accepts_nested_attributes_for :results #resultも同時に保存できるようになる
   
-  validates :match_day, presence: true
+  validates :match_on, presence: true
 
 end
