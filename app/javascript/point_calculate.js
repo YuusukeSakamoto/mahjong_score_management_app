@@ -9,17 +9,17 @@ $(document).on('turbolinks:load', function () {
       });
       // 全プレイヤーのscoreが入力された場合
       if (is_full) {
-          var scores_rules_ies = [];
-          var rule_id = [];
-          var scores = [];
-          var ies = [];
+          let scores_rules_ies = [];
+          let rule_id = [];
+          let scores = [];
+          let ies = [];
           
           $('[id$="_score"]').each(function(){
-            var score = parseInt($(this).val());
+            let score = parseInt($(this).val());
             scores.push(score)
           });
           $('[id$="_ie"]').each(function(){
-            var ie = parseInt($(this).val());
+            let ie = parseInt($(this).val());
             ies.push(ie)
           });
           rule_id.push(parseInt($('#match_rule_id').val()))

@@ -2,7 +2,7 @@ $(document).on('turbolinks:load', function () {
   $(function () {
     $('#form_player_collection_players_attributes_0_id').blur(function () {
       //  フォームからフォーカスを外したタイミングで以下の処理を実行する
-      var id = $.trim($(this).val());
+      let id = $.trim($(this).val());
       $.ajax({
         type: 'GET', // リクエストのタイプ
         url: '/players/searches', // リクエストを送信するURL
@@ -23,7 +23,7 @@ $(document).on('turbolinks:load', function () {
     
     $('#form_player_collection_players_attributes_1_id').blur(function () {
       //  フォームからフォーカスを外したタイミングで以下の処理を実行する
-      var id = $.trim($(this).val());
+      let id = $.trim($(this).val());
       $.ajax({
         type: 'GET', // リクエストのタイプ
         url: '/players/searches', // リクエストを送信するURL
@@ -43,7 +43,7 @@ $(document).on('turbolinks:load', function () {
     
     $('#form_player_collection_players_attributes_2_id').blur(function () {
       //  フォームからフォーカスを外したタイミングで以下の処理を実行する
-      var id = $.trim($(this).val());
+      let id = $.trim($(this).val());
       $.ajax({
         type: 'GET', // リクエストのタイプ
         url: '/players/searches', // リクエストを送信するURL
@@ -63,7 +63,7 @@ $(document).on('turbolinks:load', function () {
   
     $('#form_player_collection_players_attributes_3_id').blur(function () {
       //  フォームからフォーカスを外したタイミングで以下の処理を実行する
-      var id = $.trim($(this).val());
+      let id = $.trim($(this).val());
       $.ajax({
         type: 'GET', // リクエストのタイプ
         url: '/players/searches', // リクエストを送信するURL

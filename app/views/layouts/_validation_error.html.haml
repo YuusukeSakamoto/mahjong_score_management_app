@@ -1,8 +1,6 @@
 - if instance.errors.any?
   %ul.alert.alert-danger.text-center
-    // = p instance.errors.full_messages
     %h3
-    // = binding.pry
     - instance.errors.full_messages.each do |msg|
       %li.list-unstyled
         = msg

@@ -2,15 +2,15 @@
 $(document).on('turbolinks:load', function () { 
   $(function(){
     $('[id$="_score"]').change(function () {
-      var scores = [];
+      let scores = [];
       $('[id$="_score"]').each(function() {
         scores.push($( this ).val());
       });
       
-      var scores_filtered = scores.filter(v => v) // nilを排除する
+      let scores_filtered = scores.filter(v => v) // nilを排除する
 
-      var total_score = scores_filtered.reduce(function(sum, element){
-        var total = (sum + parseInt(element))
+      let total_score = scores_filtered.reduce(function(sum, element){
+        let total = (sum + parseInt(element))
         return total;
       }, 0);
       

@@ -21,10 +21,10 @@
         = f.label :対局日時, class: 'title-p fw-bold text-main'
         %span.p_required 必須
         - if controller.action_name == "edit"
-          = f.date_field :match_at, value: @match.match_at, autofocus: true, 
+          = f.date_field :match_day, value: @match.match_day, autofocus: true, 
             class: 'form-control py-md-3 rounded bg-white box-shadow mb-3 text-center'
         - else 
-          = f.date_field :match_at, value: Date.today, autofocus: true, 
+          = f.date_field :match_day, value: Date.today, autofocus: true, 
             class: 'form-control py-md-3 rounded bg-white box-shadow mb-3 text-center'
       .d-flex
         %span.title-p.fw-bold.text-main 得点

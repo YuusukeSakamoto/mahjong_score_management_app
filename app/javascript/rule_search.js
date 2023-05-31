@@ -1,7 +1,7 @@
 $(document).on('turbolinks:load', function () { 
   $(function () {
     $('#match_rule_id').blur(function () {
-      var id = $.trim($(this).val());
+      let id = $.trim($(this).val());
       console.log(id);
       $.ajax({
         type: 'GET', // リクエストのタイプ
@@ -13,8 +13,8 @@ $(document).on('turbolinks:load', function () {
       .done(function(data) {
         $('.js-rule ul').remove();
         $('.js-remaining_score span').remove();
-        var all_score = data.mochi * 4
-        var value = data.score_decimal_point_calc
+        let all_score = data.mochi * 4
+        let value = data.score_decimal_point_calc
       	if (value === 1) {
       		var pt_calc = "計算しない(小数点そのまま)"
       		

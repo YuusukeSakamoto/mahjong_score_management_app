@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_25_145420) do
+ActiveRecord::Schema.define(version: 2023_05_31_110633) do
 
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2023_05_25_145420) do
   create_table "matches", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "player_id", null: false
     t.bigint "rule_id", null: false
-    t.date "match_at"
+    t.date "match_day"
     t.string "memo"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
