@@ -15,20 +15,21 @@ $(document).on('turbolinks:load', function () {
         $('.js-remaining_score span').remove();
         let all_score = data.mochi * 4
         let value = data.score_decimal_point_calc
+        let pt_calc = ''
       	if (value === 1) {
-      		var pt_calc = "計算しない(小数点そのまま)"
+      		pt_calc = "計算しない(小数点そのまま)"
       		
       	} else if (value === 2) {
-      			var pt_calc = "五捨六入"
+      		pt_calc = "五捨六入"
       		
       	} else if (value === 3) {
-      			var pt_calc = "四捨五入"
+      		pt_calc = "四捨五入"
       		
       	} else if (value === 4) {
-      			var pt_calc = "切り捨て"
+      		pt_calc = "切り捨て"
       		
       	} else if (value === 5) {
-      			var pt_calc = "切り上げ"
+      		pt_calc = "切り上げ"
       		
       	} 
         $('.js-rule').append(
