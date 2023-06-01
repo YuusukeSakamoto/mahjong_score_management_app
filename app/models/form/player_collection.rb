@@ -33,20 +33,23 @@ class Form::PlayerCollection < Form::Base
       return false
     end
     
-    
-    
     Player.transaction do
       self.players.map do |player|
         searched_player = Player.find_by(id: player.id)
         # player_idが未登録の場合、エラーとする
-        if searched_player.nil?
+        if searched_player.nil? && player.name.blank?
           players[0].errors.add(:id, "に誤りがあります")
           return false
         end
         
-        next if player.name.blank? && player.id.blank?
-        player.save! if player.name.present? && player.id.blank?
-        @session_players << searched_player # 登録済みplayerの場合はplayer情報を取得してsession用配列に格納する
+        if player.name.present? && player.id.blank?
+          player.save! 
+          @session_players << player
+          next
+        end
+        player.user_id = searched_player.user.id if searched_player.user.present? # ユーザー登録しているプレイヤーはuse_idを埋める
+        
+        @session_players << player # 登録済みplayerの場合はplayer情報を取得してsession用配列に格納する
       #   # -----------------------------
       #   if player.name.blank?
       #     if player.id.blank?

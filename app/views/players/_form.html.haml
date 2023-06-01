@@ -9,10 +9,10 @@
           .col-3.mx-1  
             = f.label :"ID", class: 'title-p fw-bold text-main'
             -if i == 1 && current_user.player.present?
-              = f.text_field :id, readonly: true, value: current_user.player.id,
+              = f.number_field :id, readonly: true, value: current_user.player.id,
                 class: 'form-control py-md-3 rounded bg-gray box-shadow mb-md-3'
             -else
-              = f.text_field :id, autofocus: true, 
+              = f.number_field :id, autofocus: true, 
                 class: 'form-control py-md-3 rounded bg-white box-shadow mb-md-3'
           .col-8.mx-1
             = f.label :"プレイヤー名#{i}", class: 'title-p fw-bold text-main'
