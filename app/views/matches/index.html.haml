@@ -1,0 +1,31 @@
+.container
+  .row.d-flex.justify-content-center
+    = render 'shared/flash'
+
+    .col-12.text-center.pb-2
+      %p.w-lg-50.pt-3.fs-3.text-green 対局成績一覧
+      
+      = link_to '対局成績登録', new_match_path, class: 'px-2 py-1 mb-2 rounded text-white bg-green'
+      
+      .mt-3.table-responsive
+        %table.table.table-sm.text-nowrap.col-10.col-md-6.px-2.fs-sm
+          %thead
+            %tr.text-main
+              %th{scope: "col"} No
+              %th{scope: "col"} 対局日
+              %th{scope: "col"} プレイヤー1
+              %th{scope: "col"} プレイヤー2
+              %th{scope: "col"} プレイヤー3
+              %th{scope: "col"} プレイヤー4
+              %th{scope: "col"} ルール名
+              %th{scope: "col"} 
+          - @matches.each_with_index do |match, i| 
+            %tr
+              %td{scope: "row"}= i + 1
+              %td= match.match_on.strftime('%Y/%m/%d')
+              - Player.get_players_name(match.results).each do |name|
+                %td= name
+              %td= Rule.find(match.rule_id).name
+              %td= link_to '詳細', match_path(match), class: 'px-1 py-1 rounded text-white bg-orange'
+      -if @matches.blank?
+        %p.text-main= "対局成績なし"

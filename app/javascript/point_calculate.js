@@ -9,29 +9,39 @@ $(document).on('turbolinks:load', function () {
       });
       // 全プレイヤーのscoreが入力された場合
       if (is_full) {
-          var score_rules = [];
-          var rule_id = [];
-          var scores = [];
+          let scores_rules_ies = [];
+          let rule_id = [];
+          let scores = [];
+          let ies = [];
           
           $('[id$="_score"]').each(function(){
-            var score = parseInt($(this).val());
+            let score = parseInt($(this).val());
             scores.push(score)
+          });
+          $('[id$="_ie"]').each(function(){
+            let ie = parseInt($(this).val());
+            ies.push(ie)
           });
           rule_id.push(parseInt($('#match_rule_id').val()))
           
-          score_rules.push(rule_id)
-          score_rules.push(scores)
+          scores_rules_ies.push(rule_id)
+          scores_rules_ies.push(scores)
+          scores_rules_ies.push(ies)
 
           $.ajax({
             type: 'GET', // リクエストのタイプ
             url: '/matches/calculates', // リクエストを送信するURL
-            data:  { score_rules: score_rules }, // サーバーに送信するデータ
+            data:  { scores_rules_ies: scores_rules_ies }, // サーバーに送信するデータ
             dataType: 'json' // サーバーから返却される型
           })
           // 正常にデータを受け取れた際の処理
           .done(function(data) {
-            $('[id$="_point"]').each(function(index){
-              $(this).val(data[index]);
+
+            $('[id$="_point"]').each(function(i){
+              $(this).val(data[0][0][i]);
+            });
+            $('[id$="_rank"]').each(function(i){
+              $(this).val(data[0][1][i]);
             });
           })
           .fail(function(){

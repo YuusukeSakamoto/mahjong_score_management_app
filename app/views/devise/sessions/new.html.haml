@@ -9,10 +9,10 @@
       .col-10.col-md-6
         = form_with model: @user, url: session_path(@user), class: 'p-form__input', local: true do |f|
           %div
-            = f.label :メールアドレス, class: "text-start text-main fw-bold mb-2 fs-6"
+            = f.label :メールアドレス, class: "text-start text-main fw-bold mb-2 "
             = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control py-md-3 rounded bg-white box-shadow mb-3"
           %div
             = f.label :パスワード, class: "text-start text-main fw-bold mb-2 pt-4"
             = f.password_field :password, autocomplete: "current-password", class: "form-control py-md-3 rounded bg-white box-shadow mb-3"
           .my-5.text-center
-            = f.submit "ログイン", class: 'btn fw-bold rounded py-3 w-50 text-white px-5 py-3 fs-6 bg-green'
+            = f.submit "ログイン", class: 'btn fw-bold rounded py-3 w-50 text-white px-5 py-3  bg-green'

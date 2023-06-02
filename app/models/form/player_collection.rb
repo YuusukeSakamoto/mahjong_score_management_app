@@ -39,7 +39,4 @@ class Form::PlayerCollection < Form::Base
       return false
   end
   
-  # def self.input_players
-  #   @input_players
-  # end
 end
