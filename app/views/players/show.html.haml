@@ -1,0 +1,9 @@
+.container
+  .row.d-flex.justify-content-center
+    = render 'shared/flash'
+    .col-11.col-md-7.text-center.pb-2
+      %p.w-lg-50.pt-3.fs-3.text-green プレイヤー詳細
+      
+      %p= "プレイヤー名 : #{@player.name}"
+      %p= "ID : #{@player.id}"
+      %p= "総対局数 : #{@player}"
