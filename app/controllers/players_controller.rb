@@ -28,6 +28,7 @@ class PlayersController < ApplicationController
       end
     else
       @form.players.each do |player|
+        # byebug
         @error_player = player unless player.errors.blank?
       end
       render :new

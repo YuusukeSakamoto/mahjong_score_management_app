@@ -7,7 +7,7 @@
       = form.fields_for :players do |f|
         .div-title.mb-2.d-flex.justify-content-between
           .col-3.mx-1  
-            = f.label :"ID", class: 'title-p fw-bold text-main'
+            = f.label :"id", class: 'title-p fw-bold text-main'
             -if i == 1 && current_user.player.present?
               = f.number_field :id, readonly: true, value: current_user.player.id,
                 class: 'form-control py-md-3 rounded bg-gray box-shadow mb-md-3'
@@ -15,7 +15,7 @@
               = f.number_field :id, autofocus: true, 
                 class: 'form-control py-md-3 rounded bg-white box-shadow mb-md-3'
           .col-8.mx-1
-            = f.label :"プレイヤー名#{i}", class: 'title-p fw-bold text-main'
+            = f.label :"プレイヤー名 #{i}", class: 'title-p fw-bold text-main'
             -if i == 1
               = f.text_field :name, readonly: true, value: current_user.name,
                 class: 'form-control py-md-3 rounded bg-gray box-shadow mb-md-3'

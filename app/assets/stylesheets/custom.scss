@@ -35,8 +35,15 @@ a {
     &:visited {
     }
     &:hover {
-      // color: red!important;
       opacity: 0.8;
       @extend %transition;
     }
+}
+
+button, input[type="submit"] {
+  @extend %transition;
+  &:hover {
+    @extend %transition;
+    opacity: 0.8;
+  }
 }
