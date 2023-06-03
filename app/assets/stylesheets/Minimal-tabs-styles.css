@@ -206,6 +206,11 @@ opacity:0;
   background-color: #3FB488!important;
 }
 
+/*borderの背景色*/
+.bg-light-green {
+  background-color: #f2fff2;
+}
+
 .bg-orange {
   background-color: #F8B978!important;
 }
@@ -231,4 +236,9 @@ opacity:0;
 .border-lightgray {
   border: 0.8px solid;
   color: #d3d3d3;
+}
+
+.border-bold-green {
+  border: 1.2px solid;
+  border-color: #a8dba8!important;
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_21_075725) do
+ActiveRecord::Schema.define(version: 2023_06_02_153709) do
 
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2023_05_21_075725) do
   create_table "matches", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "player_id", null: false
     t.bigint "rule_id", null: false
-    t.date "match_day"
+    t.date "match_on"
     t.string "memo"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2023_05_21_075725) do
   create_table "results", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "player_id", null: false
     t.integer "score", null: false
-    t.integer "point", null: false
+    t.float "point", null: false
     t.integer "ie", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 2023_05_21_075725) do
     t.integer "uma_3", null: false
     t.integer "uma_4", null: false
     t.integer "score_decimal_point_calc", null: false
-    t.integer "chip_existence_flag", null: false
+    t.boolean "is_chip", default: false, null: false
     t.integer "chip_rate"
     t.string "description"
     t.datetime "created_at", precision: 6, null: false

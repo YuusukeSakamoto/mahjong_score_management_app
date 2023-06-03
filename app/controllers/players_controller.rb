@@ -5,7 +5,9 @@ class PlayersController < ApplicationController
     @players = player.all
   end
   
-  def show; end
+  def show
+    @result = Result.new
+  end
   
   def new
     @form = Form::PlayerCollection.new
