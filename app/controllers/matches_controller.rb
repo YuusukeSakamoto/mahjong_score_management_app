@@ -1,4 +1,11 @@
 class MatchesController < ApplicationController
+  before_action :set_match, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  
+  def index
+    match_ids = Result.where(player_id: current_user.player.id).select(:match_id).pluck(:match_id)
+    @matches = Match.where(id: match_ids)
+  end  
   
   def new
     @match = Match.new
@@ -6,35 +13,52 @@ class MatchesController < ApplicationController
   end
   
   def show
-    @match = Match.find(params[:id])
   end
   
   def create
     @match = Match.new(match_params)
-    # byebug
-    # scores.transpose[1].include?(nil)
-    is_filled = true
-    @match.results.each do |r|
-      is_filled = false if r.score == nil
-    end
-    Match.set_rank(@match) if is_filled #scoreをもとに順位を設定する
-    if @match.save
-      redirect_to '/', flash: {notice: "対局成績を登録しました"}
+    if ie_uniq?(@match) && @match.save
+      redirect_to match_path(@match), notice: "対局成績を登録しました"
     else
-      # ★ 不要
-      # @match = Match.new
-      # 4.times { @match.results.build }
-      # flash.now[:alert] = "対局成績登録に失敗しました。再度入力してください。"
       render :new
     end
   end
   
+  def edit; end
+  
+  def update
+    if ie_uniq?(@match) && @match.update(match_params)
+      redirect_to match_path(@match), notice: "対局成績を更新しました"
+    else
+      render :edit
+    end
+  end
+  
+  def destroy
+    @match.destroy
+    redirect_to matches_path , flash: {notice: "対局成績を削除しました"}
+  end
   
   private
     
+    def set_match
+      @match = Match.find(params[:id])
+    end
+    
     def match_params
       params.require(:match).
-        permit(:rule_id, :player_id, :rank, :match_day, :memo, results_attributes: [:score, :point, :ie, :player_id])
+        permit(:rule_id, :player_id, :match_on, :memo, results_attributes: [:id, :score, :point, :ie, :player_id, :rank])
+    end
+    
+    # 入力された家に重複がないか
+    def ie_uniq?(match)
+      ie_ary = match.results.map(&:ie)
+      if ie_ary.uniq.length == ie_ary.length
+        true
+      else
+        match.errors.add(:ie, "が重複しています")
+        false
+      end
     end
 
 end

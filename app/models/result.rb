@@ -2,17 +2,10 @@ class Result < ApplicationRecord
   belongs_to :player
   belongs_to :match
   
-  # ★ 要らない
-  # accepts_nested_attributes_for :match #resultも同時に保存できるようになる
-  
-  # ★ 追記
-  validates :score, presence: true
+  validates :score, presence: true, numericality: { only_integer: true }
   validates :point, presence: true
-  # validates :ie, presence: true
-  validates :ie, presence: true, uniqueness: { scope: :match_id }
-  # validate :not_allow_same_ie
+  validates :ie, presence: true
   
-  # ★ matchから移動
   IE = [["東",1], ["南", 2], ["西",3], ["北", 4]]
   IE_NUM = [1, 2, 3, 4]  
   RANK_NUM = [1, 2, 3, 4]
@@ -108,13 +101,5 @@ class Result < ApplicationRecord
     Result.where(match_id: match_ids).where.not(player_id: player_id)
       .group(:player_id).order('count_player_id DESC').count(:player_id).to_a.first(5)
   end
-
-  
-  private
-  
-    def not_allow_same_ie
-      # byebug
-    end
-
   
 end

@@ -9,6 +9,7 @@ ja:
         name: プレイヤー名
         id: ID
       rule:
+        rule: " "
         name: ルール名
         mochi: 持ち
         kaeshi: 返し
@@ -17,11 +18,13 @@ ja:
         uma_3: ウマ３位
         uma_4: ウマ４位
         score_decimal_point_calc: Pt小数点計算方法
-        chip_existence_flag: チップ有無
+        is_chip: チップ有無
         chip_rate: チップpt / 枚
       match:
         rule: ルール
-        match_day: 対局日付
+        match_on: 対局日付
+        ie: 家
       results:
         score: 得点
         point: pt
+        ie: 家

@@ -177,6 +177,7 @@ footer {
 /***************************
 /* アニメーション*/
 /***************************
+
 /* その場で */
 .fadeIn{
 animation-name:fadeInAnime;
@@ -219,6 +220,7 @@ opacity:0;
   background-color: #FC6C85!important;
 }
 
+
 .bg-gray {
   background-color: #dcdcdc!important;
 }
@@ -226,7 +228,6 @@ opacity:0;
 .bg-delete-color {
   background-color: #a9a9a9!important;
 }
-
 
 .border-green {
   border: 0.8px solid;
@@ -236,9 +237,8 @@ opacity:0;
 .border-lightgray {
   border: 0.8px solid;
   color: #d3d3d3;
-}
 
 .border-bold-green {
   border: 1.2px solid;
   border-color: #a8dba8!important;
-}
+

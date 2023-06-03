@@ -12,6 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2023_06_02_153709) do
 
+
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

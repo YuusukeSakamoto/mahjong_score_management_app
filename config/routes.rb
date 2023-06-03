@@ -16,18 +16,16 @@ Rails.application.routes.draw do
     resources :calculates, only: :index, defaults: { format: :json }
   end
   
-  resources :matches, only: [:show, :new, :create, :update, :destroy] do 
+  resources :matches, only: [:index, :show, :new, :edit, :create, :update, :destroy] do 
     resources :results, only: [:index] 
   end
-  
-  resources :results
   
   devise_for :users
   resources :users
   
   get '/', to: 'tops#show'
   
-  get '/about', to: 'static_pages#about' 
+  get '/about', to: 'static_pages#about'  
   get '/contact', to: 'static_pages#contact' 
   
 end

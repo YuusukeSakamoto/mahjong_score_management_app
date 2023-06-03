@@ -24,7 +24,7 @@
               %td= "#{rule.kaeshi}点"
               %td= "#{rule.uma_1},#{rule.uma_2},#{rule.uma_3},#{rule.uma_4}"
               %td= Rule.get_value_score_decimal_point_calc(rule.score_decimal_point_calc)
-              %td= Rule.get_value_chip_existence_flag(rule.chip_existence_flag)
+              %td= Rule.get_value_is_chip(rule.is_chip)
               %td= Rule.get_value_chip_rate(rule.chip_rate)
               %td= link_to '編集', "/players/#{params[:player_id]}/rules/#{rule.id}/edit"
               
