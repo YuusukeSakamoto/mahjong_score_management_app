@@ -38,7 +38,6 @@
               %td{scope: "row"}回数
               - @player.rank_times.each do |rank_time|
                 %td.px-2= rank_time
-  
 
       .border-bold-green.rounded.col-11.col-lg-5.py-3.px-4.mb-4
         %p.mb-0.text-center.fw-bold 家別データ
@@ -52,15 +51,15 @@
               %th{scope: "col"} 北
             %tr
               %td.px-3{scope: "row"}平均順位
-              - Result.get_average_rank_by_ie(@player.id).each do |rank_rate|
+              - @player.average_rank_by_ie.each do |rank_rate|
                 %td.px-2= "#{rank_rate}位"
             %tr
               %td.px-3{scope: "row"}対局数
-              - Result.get_ie_times(@player.id).each do |ie_time|
+              - @player.ie_times.each do |ie_time|
                 %td.px-2= ie_time
             %tr
               %td.px-3{scope: "row"}合計pt
-              - Result.get_total_point_by_ie(@player.id).each do |ie_point|
+              - @player.total_point_by_ie.each do |ie_point|
                 %td.px-2= ie_point
                 
   .row
@@ -73,7 +72,7 @@
               %th{scope: "col"} プレイヤー名
               %th{scope: "col"} 対局数
 
-            - Result.get_often_play_times(@player.id).each do |id_time|
+            - @player.often_play_times.each do |id_time|
               %tr
                 %td{scope: "row"}
                   = link_to "#{Player.find(id_time[0]).name}", "/players/#{id_time[0]}"

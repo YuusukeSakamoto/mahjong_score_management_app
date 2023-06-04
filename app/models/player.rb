@@ -65,4 +65,45 @@ class Player < ApplicationRecord
     end
   end
   
+  #************************************
+  # 家別データ
+  #************************************
+
+  # 家別の平均順位を取得する
+  def average_rank_by_ie
+    ie_times.map.with_index do |ie_time, i|
+      next '-' if ie_time == 0
+      sprintf("%.1f", 
+        (results.where(ie: i + 1).pluck(:rank).sum / ie_time.to_f)
+      )
+    end
+  end
+  
+  # 家別の対局数を取得する
+  def ie_times
+    Result::IE_NUM.map do |ie|
+      results.where(ie: ie).count
+    end
+  end
+
+  # 家別のptを取得する
+  def total_point_by_ie
+    Result::IE_NUM.map do |ie|
+      sprintf("%+.1f", 
+        results.where(ie: ie).pluck(:point).sum
+      )
+    end
+  end
+  
+  #************************************
+  # よく遊ぶプレイヤーデータ
+  #************************************
+  
+  # よく遊ぶプレイヤーと回数を取得する（５人まで）
+  def often_play_times
+    match_ids = results.pluck(:match_id)
+    Result.where(match_id: match_ids).where.not(player_id: id)
+      .group(:player_id).order('count_player_id DESC').count(:player_id).to_a.first(5)
+  end
+  
 end
