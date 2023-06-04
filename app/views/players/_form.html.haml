@@ -17,10 +17,10 @@
           .col-8.mx-1
             = f.label :"プレイヤー名 #{i}", class: 'title-p fw-bold text-main'
             -if i == 1
-              = f.text_field :name, readonly: true, value: current_user.name,
+              = f.text_field :name, readonly: true, value: current_user.name, maxlength: '10',
                 class: 'form-control py-md-3 rounded bg-gray box-shadow mb-md-3'
             -else
-              = f.text_field :name, autofocus: true, 
+              = f.text_field :name, autofocus: true, maxlength: '10',
                 class: 'form-control py-md-3 rounded bg-white box-shadow mb-md-3'
           -if i == 1    
             = f.hidden_field :user_id, value: current_user.id
