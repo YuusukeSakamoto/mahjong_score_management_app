@@ -13,10 +13,10 @@
           = link_to 'アカウント情報編集', edit_user_registration_path, class: 'px-2 py-1 mb-2 rounded text-white bg-green'
   .row
     .border-top.border-bottom.bg-light-green.d-flex.flex-column.flex-md-row.justify-content-evenly.text-center.fw-bold.mb-4
-      %p.my-1.my-md-2= "総対局数  #{Result.get_total_match_count(@player.id)}局"
-      %p.my-1.my-md-2= "平均順位  #{Result.get_average_rank(@player.id)}位"
-      %p.my-1.my-md-2= "総合pt  #{Result.get_total_point(@player.id)}pt"
-      %p.my-1.my-md-2= "連対率  #{Result.get_rentai_rate(@player.id)}%"
+      %p.my-1.my-md-2= "総対局数  #{@player.total_match_count}局"
+      %p.my-1.my-md-2= "平均順位  #{@player.average_rank}位"
+      %p.my-1.my-md-2= "総合pt  #{@player.total_point}pt"
+      %p.my-1.my-md-2= "連対率  #{@player.rentai_rate}%"
       
   .row
     .d-flex.flex-wrap.justify-content-evenly
@@ -32,11 +32,11 @@
               %th{scope: "col"} 4位
             %tr
               %td.px-3{scope: "row"}順位率
-              - Result.get_rank_rate(@player.id).each do |rank_rate|
+              - @player.rank_rate.each do |rank_rate|
                 %td.px-2= "#{rank_rate}%"
             %tr
               %td{scope: "row"}回数
-              - Result.get_rank_times(@player.id).each do |rank_time|
+              - @player.rank_times.each do |rank_time|
                 %td.px-2= rank_time
   
 

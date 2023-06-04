@@ -1,13 +1,7 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: %i[ show edit update destroy ]
 
-  def index
-    @players = player.all
-  end
-  
-  def show
-    @result = Result.new
-  end
+  def show; end
   
   def new
     @form = Form::PlayerCollection.new
@@ -28,7 +22,6 @@ class PlayersController < ApplicationController
       end
     else
       @form.players.each do |player|
-        # byebug
         @error_player = player unless player.errors.blank?
       end
       render :new

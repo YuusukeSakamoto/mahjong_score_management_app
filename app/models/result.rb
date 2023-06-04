@@ -13,55 +13,6 @@ class Result < ApplicationRecord
   SANMA_TIMES = 3
 
   #************************************
-  # メインデータ
-  #************************************
-
-  # playerの総対局数を取得する
-  def self.get_total_match_count(player_id)
-    Result.where(player_id: player_id).count
-  end
-  
-  # playerの平均順位を取得する
-  def self.get_average_rank(player_id)
-    sprintf("%.2f", 
-      Result.where(player_id: player_id).pluck(:rank).sum / Result.get_total_match_count(player_id).to_f
-    )
-  end
-
-  
-  # playerの総合ptを取得する
-  def self.get_total_point(player_id)
-    sprintf("%+.1f", 
-      Result.where(player_id: player_id).pluck(:point).sum
-    )
-  end
-  
-  # playerの連対率を取得する
-  def self.get_rentai_rate(player_id)
-    sprintf("%.2f", 
-      (Result.where(player_id: player_id).where(rank: [1, 2]).count / Result.get_total_match_count(player_id).to_f) * 100  
-    )
-  end
-  
-  #************************************
-  # 順位別データ
-  #************************************
-  
-  # playerの各順位率を取得する
-  def self.get_rank_rate(player_id)
-    Result.get_rank_times(player_id).map do |rank_time|
-      sprintf("%.1f", (rank_time / Result.get_total_match_count(player_id).to_f) * 100)
-    end
-  end
-  
-  # playerの各順位回数を取得する
-  def self.get_rank_times(player_id)
-    RANK_NUM.map do |rank|
-      Result.where(player_id: player_id).where(rank: rank).count
-    end
-  end
-  
-  #************************************
   # 家別データ
   #************************************
 

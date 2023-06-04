@@ -237,8 +237,9 @@ opacity:0;
 .border-lightgray {
   border: 0.8px solid;
   color: #d3d3d3;
+}
 
 .border-bold-green {
   border: 1.2px solid;
   border-color: #a8dba8!important;
-
+}
