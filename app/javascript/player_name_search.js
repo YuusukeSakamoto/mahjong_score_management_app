@@ -37,7 +37,7 @@ $(document).on('turbolinks:load', function () {
       })
       .fail(function(){
         //通信に失敗した際の処理
-        $("#form_player_collection_players_attributes_1_name").val("") //空白をセットする
+        $("#form_player_collection_players_attributes_1_name").val("")//空白をセットする
       })
     })
     

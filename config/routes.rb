@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :searches, only: :index, defaults: { format: :json }
   end
   
-  resources :players do
+  resources :players, only: [:show, :new, :create] do 
     resources :rules
   end
   
