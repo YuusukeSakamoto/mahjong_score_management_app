@@ -5,7 +5,9 @@ ja:
         name: 名前
         password: パスワード
       player:
+        player: プレイヤー
         name: プレイヤー名
+        id: ID
       rule:
         rule: " "
         name: ルール名
@@ -26,4 +28,3 @@ ja:
         score: 得点
         point: pt
         ie: 家
-        

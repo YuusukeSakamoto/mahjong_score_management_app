@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_31_122957) do
+ActiveRecord::Schema.define(version: 2023_06_02_153709) do
+
 
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
@@ -49,7 +50,7 @@ ActiveRecord::Schema.define(version: 2023_05_31_122957) do
   create_table "results", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "player_id", null: false
     t.integer "score", null: false
-    t.integer "point", null: false
+    t.float "point", null: false
     t.integer "ie", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
