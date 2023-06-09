@@ -1,4 +1,3 @@
-- if notice
-  %p.alert.alert-success= notice
-- if alert
-  %p.alert.alert-danger= alert
+%div{style: "margin-top : 70px;"}
+  - flash.each do |key, value|
+    %p{:class => "flash #{key}"}= value
