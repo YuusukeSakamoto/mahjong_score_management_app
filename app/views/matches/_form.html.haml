@@ -11,8 +11,8 @@
           #div
             = f.label :ルール, class: 'title-p fw-bold text-main'
             %span.p_required 必須
-          = link_to 'ルール一覧', player_rules_path(current_player.id), class: 'text-pink fs-sm pt-1'
-        = f.collection_select(:rule_id, current_player.rules.all,
+          = link_to 'ルール一覧', player_rules_path(current_player), class: 'text-pink fs-sm pt-1'
+        = f.collection_select(:rule_id, current_player.rules,
                               :id, :name,
                               {prompt: "選択してください"},
                               class: 'form-control py-md-3 rounded bg-white box-shadow mb-3 text-center' )
