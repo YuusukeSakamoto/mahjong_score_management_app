@@ -1,0 +1,26 @@
+// フラッシュメッセージのコンテナのスタイル
+
+.flash {
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 20px 0;
+  // スマホレイアウト
+  @media (max-width: 480px) {
+    padding: 12px 0;
+  }
+}
+
+// 成功時とエラー時のスタイル
+// ※システムでクラス名が自動的に入るため「l-」がつかない
+.notice {
+  border-top: 2px solid #91d8b0; /* light-green */
+  border-bottom: 2px solid #91d8b0; /* light-green */
+  color: #17bc5f; /* green */
+}
+
+.alert {
+  border-top: 2px solid #ff7587; /* light-red */
+  border-bottom: 2px solid #ff7587; /* light-red */
+  color: #ee5266; /* red */
+}

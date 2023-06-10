@@ -56,28 +56,4 @@ class Form::PlayerCollection < Form::Base
     end
   end
   
-  private 
-    
-    # 入力したIDに重複がないか
-    def player_id_uniq?(valid_players)
-      player_id = valid_players.map(&:id)
-      player_id.length == player_id.uniq.length
-    end
-    
-     # 入力されたプレイヤーが4人でない場合はエラーとする
-    def is_player_missing?(players, valid_players)
-      if valid_players.count != 4
-        players[0].errors.add(:player, "が不足しています") 
-        return true
-      end
-    end
-    
-    # IDが重複している場合、エラーとする
-    def is_id_duplicated?(players, valid_players)
-      unless player_id_uniq?(valid_players)
-        players[0].errors.add(:id, "が重複しています")
-        return true
-      end
-    end
-    
 end
