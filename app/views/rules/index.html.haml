@@ -1,8 +1,6 @@
 .container
   .row.d-flex.justify-content-center
-    = render 'shared/flash'
-    // = render 'players'
-    
+
     .col-12.text-center.pb-2
       %p.w-lg-50.pt-3.fs-3.text-green ルール一覧
       = link_to 'ルール新規登録', new_player_rule_path, class: 'p-2'

@@ -1,6 +1,5 @@
 .container
   .row.d-flex.justify-content-center
-    = render 'shared/flash'
 
     .col-12.text-center.pb-2
       %p.w-lg-50.pt-3.fs-3.text-green 対局成績一覧
@@ -22,7 +21,7 @@
           - @matches.each_with_index do |match, i| 
             %tr
               %td{scope: "row"}= i + 1
-              %td= match.match_on.strftime('%Y/%m/%d')
+              %td= match.match_on.to_s(:yeardate)
               - Player.get_players_name(match.results).each do |name|
                 %td= name
               %td= Rule.find(match.rule_id).name

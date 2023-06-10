@@ -1,11 +1,10 @@
 .container
   .row.d-flex.justify-content-center
-    = render 'shared/flash'
     .col-12.text-center.pb-2
       %p.w-lg-50.pt-3.fs-3.text-green 対局成績
   
       %p.text-main.mb-1.fs-sm
-        ="日付：#{@match.match_on.strftime('%Y/%m/%d')}"
+        ="日付：#{@match.match_on.to_s(:yeardate)}"
       %p.text-main.fs-sm
         ="ルール：#{Rule.find(@match.rule_id).name}"
         

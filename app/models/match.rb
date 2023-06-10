@@ -6,4 +6,10 @@ class Match < ApplicationRecord
   
   validates :match_on, presence: true
 
+  
+  # ログインユーザーの該当対局のポイントを取得する
+  def current_player_point(id)
+    results.find_by(player_id: id).point
+  end
+  
 end

@@ -6,9 +6,6 @@
     = form_with model: @result, class: 'mb-4', local: true do |f|
       = render 'layouts/validation_error', instance: @result
       
-      // = f.hidden_field :result[][rule_id], value: 1
-      // = f.hidden_field :result[][recorded_player_id], value: current_user.player.id
-
       .div-title.mb-4
         = f.label :対局日時, class: 'title-p fw-bold text-main'
         %span.p_required 必須

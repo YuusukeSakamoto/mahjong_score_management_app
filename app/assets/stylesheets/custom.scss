@@ -1,4 +1,4 @@
-
+@import 'variable';
 
 ::placeholder {
    color: #d3d3d3!important;
@@ -15,7 +15,7 @@
 
 // スマホレイアウト
 @media (max-width: 480px) {
- body {
+ body, a {
    font-size: 0.8rem!important;
  }
 }
@@ -44,5 +44,40 @@ button, input[type="submit"] {
     @extend %transition;
     opacity: 0.8;
   }
+}
+
+.p-025 {
+  padding: 0.25rem!important;
+}
+
+.p-none {
+  padding: 0px;
+}
+
+/*blue*/
+.plus-color {
+  color: $plus-blue; 
+}
+
+/*red*/
+.minus-color {
+  color: $minus-red;
+}
+
+
+// 仮画像
+.temporary_image {
+  height: 300px;
+  width: 300px;
+  background-color: gray;
+}
+
+
+.text-navyblue {
+  color: $navyblue;
+}
+
+.border-start-green {
+  border-left: solid 4px $green;
 }
 
