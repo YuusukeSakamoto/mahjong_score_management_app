@@ -23,11 +23,11 @@
         %table.table.text-center
           - @matches.each do |match| 
             %tr
-              %td.p-025.px-0= match.match_on.strftime('%m/%d')
-              - if match.results.find_by(player_id: current_user.player.id).point >= 0
-                %td.p-025.plus-color.fw-bold= sprintf("%+.1f", match.results.find_by(player_id: current_user.player.id).point)
+              %td.p-025.px-0= match.match_on.to_s(:date)
+              - if match.current_player_point(current_player.id) >= 0
+                %td.p-025.plus-color.fw-bold= sprintf("%+.1f", match.current_player_point(current_player.id))
               - else    
-                %td.p-025.minus-color.fw-bold= sprintf("%+.1f", match.results.find_by(player_id: current_user.player.id).point)
+                %td.p-025.minus-color.fw-bold= sprintf("%+.1f", match.current_player_point(current_player.id))
 
               %td.p-025.px-2= link_to '詳細', match_path(match), class: 'border-lightgray rounded text-gray w-50 m-auto text-nowrap' 
 

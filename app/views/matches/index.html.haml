@@ -21,7 +21,7 @@
           - @matches.each_with_index do |match, i| 
             %tr
               %td{scope: "row"}= i + 1
-              %td= match.match_on.strftime('%Y/%m/%d')
+              %td= match.match_on.to_s(:yeardate)
               - Player.get_players_name(match.results).each do |name|
                 %td= name
               %td= Rule.find(match.rule_id).name

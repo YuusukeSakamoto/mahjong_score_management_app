@@ -12,7 +12,7 @@
       = render partial: 'result', locals: { players_num: '三人' }
 
       .col-7.col-md-4.m-auto
-        = link_to 'ルールを登録する', new_player_rule_path(current_user.player.id), 
+        = link_to 'ルールを登録する', new_player_rule_path(current_player.id), 
           class: "btn d-block rounded fw-bold box-shadow text-white px-3 py-2 py-md-3 bg-green mt-3 mt-md-0"
 
   / ログインしていない場合
