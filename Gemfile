@@ -29,6 +29,9 @@ gem 'haml-rails'
 gem 'devise'
 gem 'devise-i18n'
 
+# クリップボードにコピー
+gem 'clipboard-rails'
+
 # Image uploader
 gem 'carrierwave', '~> 2.0'
 

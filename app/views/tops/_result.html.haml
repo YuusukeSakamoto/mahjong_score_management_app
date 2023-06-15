@@ -7,8 +7,8 @@
           %p.my-1.my-md-2.mx-2.text-nowrap= "総対戦数  #{@player.total_match_count}戦"
           %p.my-1.my-md-2.mx-2.text-nowrap= "総合pt  #{@player.total_point}pt"
         .d-flex.justify-content-evenly.w-75
-          %p.my-1.my-md-2.mx-2= "平均順位  #{@player.average_rank}位"
-          %p.my-1.my-md-2.mx-2= "連対率  #{@player.average_rank}%"
+          %p.my-1.my-md-2.mx-2.text-nowrap= "平均順位  #{@player.average_rank}位"
+          %p.my-1.my-md-2.mx-2.text-nowrap= "連対率  #{@player.rentai_rate}%"
     .d-flex.flex-column.align-items-center.flex-md-row.align-items-md-start
       .col-10.col-md-6.px-3
         %p.border-green.bg-light-green.rounded.text-center.fw-bold.py-1 順位率
@@ -32,9 +32,9 @@
               %td.p-025.px-2= link_to '詳細', match_path(match), class: 'border-lightgray rounded text-gray w-50 m-auto text-nowrap' 
 
           -if @matches.blank?
-            %p.text-main= "対局成績なし"
+            %p.text-main.text-center= "対局成績なし"
     .col-7.col-md-5.m-auto
-      = link_to "#{players_num}麻雀の成績一覧を見る", matches_path, 
+      = link_to "#{players_num}麻雀の成績一覧を見る", player_path(@player), 
         class: "btn d-block rounded fw-bold box-shadow text-white px-2 py-2 mb-3 bg-orange"
 
 .border-bottom.border-2.pt-4.mb-4.w-100

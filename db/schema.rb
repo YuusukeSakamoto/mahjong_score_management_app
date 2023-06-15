@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_02_153709) do
-
+ActiveRecord::Schema.define(version: 2023_06_15_101500) do
 
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
@@ -44,6 +43,8 @@ ActiveRecord::Schema.define(version: 2023_06_02_153709) do
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "invite_create_at"
+    t.string "invite_token"
     t.index ["user_id"], name: "index_players_on_user_id"
   end
 
@@ -86,7 +87,7 @@ ActiveRecord::Schema.define(version: 2023_06_02_153709) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "name", null: false
+    t.string "name", default: "", null: false
     t.string "avatar"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

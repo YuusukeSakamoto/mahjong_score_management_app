@@ -1,0 +1,14 @@
+.container
+  .row.d-flex.justify-content-center
+    .col-11.col-md-7.text-center.pb-2.mt-4
+      %h3.text-green 招待する
+      %p.mt-1.mb-0.text-main.fw-bold= "#{@invited_player.name}"
+      %p.mb-2.text-main.fs-sm= "(ID : #{@invited_player.id})"
+      = text_area_tag '#', @invite_url, class: 'form-control', id: 'copy-target'
+      .px-2.py-2.m-2.text-gray.fs-sm.text-center
+        %p.mb-0 上記リンクを招待する方へ送ってください。
+        %p.mb-0 ※リンクは12時間有効です。
+      .line-it-button{"data-color" => "default", "data-count" => "false", 
+        "data-env" => "REAL", "data-lang" => "ja", "data-size" => "large", 
+        "data-type" => "share-a", "data-url" => "https://developers.line.biz/ja/docs/line-social-plugins/install-guide/using-line-share-buttons/", 
+        "data-ver" => "3", style: "display: none;"}
