@@ -1,6 +1,6 @@
 class RulesController < ApplicationController
   before_action :set_rule, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   def index
     @rules = Rule.all.where(player_id: params[:player_id])
@@ -63,6 +63,6 @@ class RulesController < ApplicationController
     def rule_params
       params.require(:rule).
         permit(:name, :mochi, :kaeshi, :uma_1, :uma_2, :uma_3, :uma_4, :score_decimal_point_calc, :is_chip, :chip_rate, :description).
-        merge(player_id: current_user.player.id)
+        merge(player_id: current_player.id)
     end
 end

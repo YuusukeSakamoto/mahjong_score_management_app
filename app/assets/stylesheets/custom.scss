@@ -16,11 +16,6 @@
  }
 }
 
-// hoverした時にふわっとさせる
-%transition {
-  transition: all  0.3s ease;
-}
-
 a {
   @extend %transition;
   display: block;
@@ -49,17 +44,6 @@ button, input[type="submit"] {
 .p-none {
   padding: 0px;
 }
-
-/*blue*/
-.plus-color {
-  color: $plus-blue; 
-}
-
-/*red*/
-.minus-color {
-  color: $minus-red;
-}
-
 
 // 仮画像
 .temporary_image {
@@ -143,10 +127,10 @@ button, input[type="submit"] {
 
 /* その場で */
 .fadeIn{
-animation-name:fadeInAnime;
-animation-duration:1s;
-animation-fill-mode:forwards;
-opacity:0;
+  animation-name:fadeInAnime;
+  animation-duration:1s;
+  animation-fill-mode:forwards;
+  opacity:0;
 }
 
 @keyframes fadeInAnime{
@@ -159,65 +143,66 @@ opacity:0;
   }
 }
 
+// hoverした時にふわっとさせる
+%transition {
+  transition: all  0.3s ease;
+}
+
 // ===============================
 // background 
 // ===============================
 
-.bg-green {
-  background-color: $green!important;
-}
-
-.bg-light-green {
-  background-color: $light-green;
-}
-
-.bg-orange {
-  background-color: $orange!important;
-}
-
-.bg-pink {
-  background-color: #FC6C85!important;
-}
-
-.bg-lightgray {
-  background-color: $lightgray!important;
-}
-
-.bg-gray {
-  background-color: #dcdcdc!important;
-}
-
-.bg-delete-color {
-  background-color: #a9a9a9!important;
+.bg {
+  &-green {
+    background-color: $green!important;
+  }
+  &-light-green {
+    background-color: $light-green;
+  }
+  &-orange {
+    background-color: $orange!important;
+  }
+  &-lightgray {
+    background-color: $lightgray!important;
+  }
+  &-gray {
+    background-color: #dcdcdc!important;
+  }
+  &-delete-color {
+    background-color: #a9a9a9!important;
+  }
 }
 
 // ===============================
-// テキスト
+// テキストカラー
 // ===============================
-.text-main {
-  color: $gray!important;
+.text{
+  &-main {
+    color: $gray!important;
+  }
+  &-green {
+    color: $green!important;
+  }
+  &-orange {
+    color: $orange!important;
+  }
+  &-pink {
+    color: #FC6C85!important;
+  }
+  &-gray {
+    color: #808080!important;
+  }
+  &-navyblue {
+    color: $navyblue;
+  }
+  &-minus {
+    color: $minus-red;
+  }
 }
 
-.text-green {
-  color: $green!important;
-}
-
-.text-orange {
-  color: $orange!important;
-}
-
-.text-pink {
-  color: #FC6C85!important;
-}
-
-.text-gray {
-  color: #808080!important;
-}
-
-.text-navyblue {
-  color: $navyblue;
-}
-
+// ===============================
+// フォントサイズ
+// ===============================
 .fs-sm {
-  font-size: 0.8rem;
+  font-size: 0.8rem!important;
 }

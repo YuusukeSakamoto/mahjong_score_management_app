@@ -32,7 +32,7 @@
               - if match.current_player_point(current_player.id) >= 0
                 %td.p-025.fw-bold= sprintf("%+.1f", match.current_player_point(current_player.id))
               - else    
-                %td.p-025.minus-color.fw-bold= sprintf("%+.1f", match.current_player_point(current_player.id))
+                %td.p-025.text-minus.fw-bold= sprintf("%+.1f", match.current_player_point(current_player.id))
 
               %td.p-025.px-2= link_to '詳細', match_path(match), class: 'border-lightgray rounded text-gray w-50 m-auto text-nowrap' 
 

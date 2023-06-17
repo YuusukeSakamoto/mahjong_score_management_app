@@ -1,49 +1,58 @@
 %header
-  %nav.navbar.navbar-light.navbar-expand-md.bg-white.py-md-0
-    .container
+  .container
+    // header上部
+    //　≧ 768px
+    .upper-contents.mt-3.d-none.d-md-block
       .col
         .d-flex.justify-content-between.align-items-center
-          %a{href: root_path}= image_tag 'logo.png', class: 'img-fluid', width: '180px'
+          = link_to image_tag('logo.png',width: '180px',alt: "logo", class: "img-fluid"), root_path
           - if user_signed_in?
-            / ログイン時
+            // ログイン時
+            .right-contents
+              .d-flex.align-items-center
+                %p.m-0.px-2.text-green.text-center{style: "font-size: 14px;"}= current_user.name
+                .header-icon
+                  - if current_user.avatar.present?
+                    = image_tag current_user.avatar.url, class: 'rounded-circle', alt: 'icon'
+                  - else
+                    = image_tag 'default_icon.png', class: 'rounded-circle', alt: 'icon'
+                = link_to 'ログアウト', destroy_user_session_path, class: 'fs-sm ms-2 text-main'
+          - else
+            // ログアウト時
+            .right-contents
+              .d-flex.align-items-center
+                = link_to 'ログイン', new_user_session_path, class: "me-2 text-main fs-sm"
+                = link_to 'アカウント登録', new_user_registration_path, 
+                  class: "btn rounded-pill text-white bg-green me-2 px-2 py-1 fs-sm"
+
+    // header下部 
+    %nav.navbar.navbar-light.navbar-expand-md.bg-white.py-md-0.mt-md-1
+      .col
+        .d-flex.justify-content-between.justify-content-md-center.align-items-center
+          .d-md-none
+            = link_to image_tag('logo.png',width: '180px',alt: "logo", class: "img-fluid"), root_path
+          - if user_signed_in?
+            // ログイン時
+            //　≧ 768px
             .d-flex.align-items-center.position-relative
               %nav#dropdown-nav.d-none.d-md-block
                 %ul
-                  %li
-                    %a{href: "#"} Top
-                  %li
-                    %a{href: "#"} About
-                  %li.has-child
-                    %a{href: "#"} Service
-                    / 子要素を持つ li にはhas-childというクラス名をつける
+                  %li.has-child.d-flex.flex-column.align-items-center
+                    %a.text-nowrap.current{href: "#"} 対局成績
                     %ul
-                      %li
-                        %a{href: "#"} Service Top
-                      %li
-                        %a{href: "#"} Service-1
-                      %li
-                        %a{href: "#"} Service-2
-                      %li
-                        %a{href: "#"} Service-3
-                  %li.has-child
-                    %a{href: "#"} Blog
+                      %li.child= link_to '個人成績詳細', player_path(@player)
+                      %li.child= link_to '対局一覧', matches_path
+                  %li.has-child.d-flex.flex-column.align-items-center
+                    %a.text-nowrap.current{href: "#"} ルール
                     %ul
-                      %li
-                        %a{href: "#"} Blog Top
-                      %li
-                        %a{href: "#"} Blog-1
-                      %li
-                        %a{href: "#"} Blog-2
-                      %li
-                        %a{href: "#"} Blog-3
-                      %li
-                        %a{href: "#"} Blog-4
-              .header-icon
-                - if current_user.avatar.present?
-                  = image_tag current_user.avatar.url, class: 'rounded-circle d-none d-md-block', alt: 'icon'
-                - else
-                  = image_tag 'default_icon.png', class: 'rounded-circle d-none d-md-block', alt: 'icon'
-              %p.px-2.mt-3.text-green.d-none.d-md-block{style: "font-size: 14px;"}= current_user.name
+                      %li.child= link_to '新規登録', new_player_rule_path(@player)
+                      %li.child= link_to 'ルール一覧', player_rules_path(@player)
+                  %li.has-child.d-flex.flex-column.align-items-center
+                    %a.text-nowrap.current{href: "#"} プレイヤー情報
+                    %ul
+                      %li.child= link_to '仮', '#'
+                      %li.child= link_to '仮', "#"
+              //　≦ 768px
               .openbtn.d-md-none
                 %span
                 %span
@@ -63,10 +72,29 @@
                     %li= link_to 'アカウント情報編集', edit_user_registration_path
                     %li= link_to 'ログアウト', destroy_user_session_path
           - else
+            // ログアウト時
+            //　≧ 768px
             .d-flex.align-items-center.position-relative
-              .d-none.d-md-block
-                = link_to 'ログイン', new_user_session_path, class: "btn me-3 text-green "
-                = link_to '新規ユーザー登録', new_user_registration_path, class: "btn text-white bg-green me-5 px-3 py-2", style: "font-size: 14px;"
+              %nav#dropdown-nav.d-none.d-md-block
+                %ul
+                  %li
+                    = link_to 'TOP', root_path , class: "text-nowrap current"
+                  %li.has-child.d-flex.flex-column.align-items-center
+                    %a.text-nowrap.current{href: "#"} 対局成績
+                    %ul
+                      %li.child= link_to '個人成績詳細', player_path(@player)
+                      %li.child= link_to '対局一覧', matches_path
+                  %li.has-child.d-flex.flex-column.align-items-center
+                    %a.text-nowrap.current{href: "#"} ルール
+                    %ul
+                      %li.child= link_to '新規登録', new_player_rule_path(@player)
+                      %li.child= link_to 'ルール一覧', player_rules_path(@player)
+                  %li.has-child.d-flex.flex-column.align-items-center
+                    %a.text-nowrap.current{href: "#"} プレイヤー情報
+                    %ul
+                      %li.child= link_to '仮', '#'
+                      %li.child= link_to '仮', "#"
+              //　≦ 768px
               .openbtn.d-md-none
                 %span
                 %span
