@@ -1,5 +1,6 @@
 class Player < ApplicationRecord
   validates :name, {presence: true, length: {maximum: 10}}
+  validates :invite_token, uniqueness:true
   
   belongs_to :user, optional: true #optional:trueで外部キーがnilでもDB登録できる
   has_many :rules ,dependent: :destroy #playerに紐づいたrulesも削除される
@@ -112,18 +113,17 @@ class Player < ApplicationRecord
     is_recorded_by_current_player?(current_player) && self.user_id.nil?
   end
   
+  # 招待トークンを発行してDB保存する
   def create_invite_token
     self.invite_token = SecureRandom.urlsafe_base64
     update_columns(invite_token: invite_token ,invite_create_at: Time.zone.now)
   end
 
-  private
-    
-    # current_playerが記録をつけたプレイヤーか真偽値を返す
-    def is_recorded_by_current_player?(current_player)
-      recorded_match_ids = current_player.matches.pluck(:id) # current_playerが記録した対局idを配列で取得
-      Result.where(match_id: recorded_match_ids).where.not(player_id: current_player.id)
-        .select(:player_id).distinct.pluck(:player_id).include?(id)
-    end
+  # current_playerが記録をつけたプレイヤーか真偽値を返す
+  def is_recorded_by_current_player?(current_player)
+    recorded_match_ids = current_player.matches.pluck(:id) # current_playerが記録した対局idを配列で取得
+    Result.where(match_id: recorded_match_ids).where.not(player_id: current_player.id)
+      .select(:player_id).distinct.pluck(:player_id).include?(id)
+  end
   
 end

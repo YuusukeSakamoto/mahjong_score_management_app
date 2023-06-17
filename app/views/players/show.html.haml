@@ -1,17 +1,19 @@
 .container
   .row.d-flex.justify-content-center
     .col-11.col-md-7.text-center.pb-2.mt-4
-      - if @player.user.nil?
-        = image_tag 'default_icon.png', alt: 'プレイヤー画像', class: 'rounded-circle border-green flex-shrink-0 fit-cover d-inline-block', style: 'width: 80px; height:auto;'
-      -else 
-        = image_tag "#{@player.user.avatar}", alt: 'ユーザー画像', class: 'rounded-circle border-green flex-shrink-0 fit-cover d-inline-block', style: 'width: 80px'
+      .body-icon.m-auto
+        - if @player.user.nil?
+          = image_tag 'default_icon.png', alt: 'プレイヤー画像', class: 'rounded-circle'
+        - else 
+          = image_tag "#{@player.user.avatar}", alt: 'ユーザー画像', class: 'rounded-circle'
       %p.mt-1.mb-0.text-main.fw-bold= "#{@player.name}"
       %p.mb-2.text-main.fs-sm= "(ID : #{@player.id})"
-      .mb-3
+      .mb-3.col-8.col-md-5.m-auto
         - if @player.user == current_user
           = link_to 'アカウント情報編集', edit_user_registration_path, class: 'px-2 py-1 mb-2 rounded text-white bg-green'
         - if @player.can_invite?(current_player)
-          = link_to 'アカウント招待する', new_players_invitations_path(player_id: @player.id), class: 'px-2 py-1 mb-2 rounded text-white bg-green'
+          = link_to 'アカウント招待する', new_players_invitations_path(player_id: @player.id), 
+            class: 'px-2 py-1 mb-2 rounded text-white bg-green',data: { "turbolinks" => false }
   .row
     .border-top.border-bottom.bg-light-green.d-flex.flex-column.flex-md-row.justify-content-evenly.text-center.fw-bold.mb-4
       %p.my-1.my-md-2= "総対局数  #{@player.total_match_count}局"
@@ -21,7 +23,7 @@
       
   .row
     .d-flex.flex-wrap.justify-content-evenly
-      .border-bold-green.rounded.col-11.col-lg-5.py-3.px-4.mb-4
+      .border-green-bold.rounded.col-11.col-lg-5.py-3.px-4.mb-4
         %p.mb-0.text-center.fw-bold 順位別データ
         %table.table.text-nowrap.px-2
           %thead.text-center
@@ -40,7 +42,7 @@
               - @player.rank_times.each do |rank_time|
                 %td.px-2= rank_time
 
-      .border-bold-green.rounded.col-11.col-lg-5.py-3.px-4.mb-4
+      .border-green-bold.rounded.col-11.col-lg-5.py-3.px-4.mb-4
         %p.mb-0.text-center.fw-bold 家別データ
         %table.table.text-nowrap.px-2
           %thead.text-center
@@ -65,7 +67,7 @@
                 
   .row
     .d-flex.flex-wrap.justify-content-evenly
-      .border-bold-green.rounded.col-11.col-lg-5.py-3.px-4.mb-4
+      .border-green-bold.rounded.col-11.col-lg-5.py-3.px-4.mb-4
         %p.mb-0.text-center.fw-bold よく遊ぶプレイヤー
         %table.table.text-nowrap.px-2
           %thead.text-center

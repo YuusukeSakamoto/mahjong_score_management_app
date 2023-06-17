@@ -21,7 +21,6 @@ Rails.application.routes.draw do
     resources :results, only: [:index] 
   end
   
-  # devise_for :users
   devise_for :users, controllers: {
     :confirmations => 'users/confirmations',
     :registrations => 'users/registrations',
@@ -29,9 +28,6 @@ Rails.application.routes.draw do
     :passwords => 'users/passwords'
   }
   
-  namespace :users do
-    resource :invitations
-  end
   resources :users
   
   root to: 'tops#show'

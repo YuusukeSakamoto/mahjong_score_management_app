@@ -7,13 +7,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   INVITATIOM_TOKEN_ENABLED_TIME = 12 #招待トークン有効時間
   # GET /resource/sign_up
   def new
-    if params_exist?
-      if params_is_valid?
-        @invited_player = Player.find(params[:p])
-      else
-        flash[:alert] = "無効なリンクです。リンク発行者に再発行をお願いしてください。"     
-        redirect_to root_path and return
-      end
+    return super unless params_exist? && invitaion_valid?
+    if invitaion_valid?
+      @invited_player = Player.find(params[:p])
+    else
+      flash[:alert] = "無効なリンクです。リンク発行者に再発行をお願いしてください。"     
+      redirect_to root_path and return
     end
     super
   end
@@ -23,7 +22,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     # super
     # devise元コードから転記---ここから---------------------------------
     build_resource(sign_up_params)
-
     resource.save
     yield resource if block_given?
     if resource.persisted?
@@ -84,7 +82,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
   
   # 招待トークンが正しいかつ期限切れでない場合にtrueを返す
-  def params_is_valid?
+  def invitaion_valid?
     invited_player = Player.find_by(id: params[:p])
     return false if invited_player.nil?
     Player.find_by(invite_token: params[:tk]) == invited_player && 
@@ -94,9 +92,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # 招待されたplayerに新規登録したuser_idを保存する
   def save_user_id_to_invited_player
     player = Player.find(params[:p_id])
-    player.name = params[:user][:name]
-    player.user_id = @user.id
-    player.save
+    player.update_columns(name: params[:user][:name] ,user_id: @user.id)
   end
   
 

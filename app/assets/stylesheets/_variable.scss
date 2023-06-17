@@ -6,11 +6,14 @@
 $green: #3FB488; // メインカラー
 $orange: #F8B978; //サブカラー
 $navyblue: #393944; //テキストカラー
+$gray: #707070; // テキストメインカラー(gray)
+$white: #ffffff; 
+$lightgray: #f7f7f7;
 
 // 部分的に使う色
-$light-green: #f2fff2; // 薄い緑、詳細データの背景など
-$border-green: #a8dba8; // light-greenよりは濃い緑、borderで使用
-
+$light-green: #EEF7F5; // 薄い緑、詳細データの背景など
+$border-green: #89D0B4; // light-greenよりは濃い緑、borderで使用
+// $border-orange: #; // light-greenよりは濃い緑、borderで使用
 
 // プラス・マイナス
 $plus-blue: #1d60cc; // プラス表記の青

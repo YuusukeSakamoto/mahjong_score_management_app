@@ -33,7 +33,7 @@ $(document).on('turbolinks:load', function () {
       		
       	} 
         $('.js-rule').append(
-        `<ul class="rounded border-green px-1 py-1 text-gray fs-sm text-center fadeIn">
+        `<ul class="rounded border-green-thin px-1 py-1 text-gray fs-sm text-center fadeIn">
         <p class="mb-0">< ルール詳細 ></p>
         <li style="list-style:none">${data.mochi}点持ち</li>
         <li style="list-style:none">${data.kaeshi}点返し</li>

@@ -9,12 +9,10 @@ class Players::InvitationsController < ApplicationController
   
   private
   
+    # 招待URLを発行する
     def generate_invite_url(invited_player)
-      "https://09992572d7cb4936a631ba6d42d83668.vfs.cloud9.ap-northeast-1.amazonaws.com/users/sign_up?" +
-      "tk=" + 
-      invited_player.invite_token.to_s +
-      "&p=" +
-      invited_player.id.to_s
+      token = invited_player.invite_token.to_s
+      p_id = invited_player.id.to_s
+      new_user_registration_url(tk: token, p: p_id)
     end
-  
 end
