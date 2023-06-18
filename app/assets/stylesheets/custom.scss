@@ -9,20 +9,11 @@
   display: contents;
 }
 
-.fs-sm {
-  font-size: 0.8rem;
-}
-
 // スマホレイアウト
 @media (max-width: 480px) {
  body, a {
    font-size: 0.8rem!important;
  }
-}
-
-// hoverした時にふわっとさせる
-%transition {
-  transition: all  0.3s ease;
 }
 
 a {
@@ -54,17 +45,6 @@ button, input[type="submit"] {
   padding: 0px;
 }
 
-/*blue*/
-.plus-color {
-  color: $plus-blue; 
-}
-
-/*red*/
-.minus-color {
-  color: $minus-red;
-}
-
-
 // 仮画像
 .temporary_image {
   height: 300px;
@@ -72,12 +52,157 @@ button, input[type="submit"] {
   background-color: gray;
 }
 
-
-.text-navyblue {
-  color: $navyblue;
+// ===============================
+// アイコン画像
+// ===============================
+.body-icon {
+  width: 80px; /* 親要素の幅 */
+  height: 80px; /* 親要素の高さ */
+  overflow: hidden; /* 親要素外のコンテンツを隠す */
+  
+  img {
+    width: 100%; /* 画像の幅を親要素に合わせる */
+    height: 100%; /* 画像の高さを親要素に合わせる */
+    object-fit: cover; /* 画像を切り取って親要素にフィットさせる */
+  }
 }
 
-.border-start-green {
-  border-left: solid 4px $green;
+.header-icon {
+  width: 50px; /* 親要素の幅 */
+  height: 50px; /* 親要素の高さ */
+  overflow: hidden; /* 親要素外のコンテンツを隠す */
+  
+  img {
+    width: 100%; /* 画像の幅を親要素に合わせる */
+    height: 100%; /* 画像の高さを親要素に合わせる */
+    object-fit: cover; /* 画像を切り取って親要素にフィットさせる */
+  }
 }
 
+// ===============================
+// ボーダー
+// ===============================
+// グリーン枠線
+.border-green {
+  border-color: $border-green!important;
+  &-thin {
+    @extend .border-green;
+    border: 0.8px solid;  
+  }
+  &-bold {
+    @extend .border-green;
+    border: 1.2px solid;
+  }
+  &-left {
+    border-left: solid 4px $green;
+  }
+}
+
+// オレンジ枠線
+.border-orange {
+  border-color: $orange!important;
+  &-thin {
+    @extend .border-orange;
+    border: 0.8px solid;  
+  }
+  &-bold {
+    @extend .border-orange;
+    border: 1.2px solid;
+  }
+  &-btn {
+    @extend .border-orange;
+    border-width: 3px!important;
+  }
+}
+
+// グレー枠線
+.border-lightgray {
+  border: 0.8px solid;
+  border-color: #d3d3d3;
+}
+
+// ===============================
+/* アニメーション*/
+// ===============================
+
+/* その場で */
+.fadeIn{
+  animation-name:fadeInAnime;
+  animation-duration:1s;
+  animation-fill-mode:forwards;
+  opacity:0;
+}
+
+@keyframes fadeInAnime{
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+// hoverした時にふわっとさせる
+%transition {
+  transition: all  0.3s ease;
+}
+
+// ===============================
+// background 
+// ===============================
+
+.bg {
+  &-green {
+    background-color: $green!important;
+  }
+  &-light-green {
+    background-color: $light-green;
+  }
+  &-orange {
+    background-color: $orange!important;
+  }
+  &-lightgray {
+    background-color: $lightgray!important;
+  }
+  &-gray {
+    background-color: #dcdcdc!important;
+  }
+  &-delete-color {
+    background-color: #a9a9a9!important;
+  }
+}
+
+// ===============================
+// テキストカラー
+// ===============================
+.text{
+  &-main {
+    color: $gray!important;
+  }
+  &-green {
+    color: $green!important;
+  }
+  &-orange {
+    color: $orange!important;
+  }
+  &-pink {
+    color: #FC6C85!important;
+  }
+  &-gray {
+    color: #808080!important;
+  }
+  &-navyblue {
+    color: $navyblue;
+  }
+  &-minus {
+    color: $minus-red;
+  }
+}
+
+// ===============================
+// フォントサイズ
+// ===============================
+.fs-sm {
+  font-size: 0.8rem!important;
+}

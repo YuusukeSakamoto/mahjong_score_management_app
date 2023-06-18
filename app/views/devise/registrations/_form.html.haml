@@ -3,10 +3,14 @@
     = form_with model: @user, url: user_registration_path, class: 'mb-4', local: true do |f|
       = render 'layouts/validation_error', instance: @user
       .div-title.mb-4
-        = f.label :ユーザーネーム, class: 'title-p fw-bold text-main'
+        = f.label :ユーザー名, class: 'title-p fw-bold text-main'
         %span.p_required 必須
-        = f.text_field :name, autofocus: true, autocomplete: "name", 
-          class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+        - if @invited_player.nil?
+          = f.text_field :name, autofocus: true, autocomplete: "name", 
+            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+        - else
+          = f.text_field :name, autofocus: true, autocomplete: "name", value: @invited_player.name,
+            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
       .div-title.mb-4
         = f.label :メールアドレス, class: 'title-p fw-bold text-main'
         %span.p_required 必須
@@ -24,10 +28,12 @@
           class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
           
       .img-select.mb-4
-        = f.label :ユーザー画像登録, class: 'fw-bold mb-2 text-main'
+        = f.label :ユーザー画像, class: 'fw-bold mb-2 text-main'
         = f.file_field :avatar, autofocus: true, class: 'mb-3', style: 'border: 0;'
         
+      - if @invited_player.present?
+        = text_field_tag(:p_id, @invited_player.id, type: "hidden")
 
       .col-12.d-flex.justify-content-center
         .p-form__input-submit
-          = f.submit "#{action}", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3  bg-green'
+          = f.submit "#{action}", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 bg-green'

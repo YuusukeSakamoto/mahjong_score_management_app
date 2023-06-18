@@ -1,5 +1,6 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   def show; end
   
@@ -13,9 +14,9 @@ class PlayersController < ApplicationController
 
     if @form.save
       # プレイヤーID未登録またはルール未登録の場合、ルール登録へ遷移
-      if current_user.player.nil? || current_user.player.rules.blank?
+      if current_player.nil? || current_player.rules.blank?
         set_session_players(@form)
-        redirect_to new_player_rule_path(current_user.player.id) 
+        redirect_to new_player_rule_path(current_player.id) 
       else
         set_session_players(@form)
         redirect_to new_match_path

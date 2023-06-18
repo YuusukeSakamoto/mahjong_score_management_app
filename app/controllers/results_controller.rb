@@ -65,7 +65,7 @@ class ResultsController < ApplicationController
     def result_params
       params.require(:result).
         permit(:rule_id, :match_time, :score, :point, :ie, :memo, :recorded_player_id).
-        merge(player_id: current_user.player.id)
+        merge(player_id: current_player.id)
     end
     
     def result_collection_params

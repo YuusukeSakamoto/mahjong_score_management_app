@@ -1,9 +1,9 @@
 class MatchesController < ApplicationController
   before_action :set_match, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!
   
   def index
-    match_ids = Result.where(player_id: current_user.player.id).select(:match_id).pluck(:match_id)
+    match_ids = Result.where(player_id: current_player.id).select(:match_id).pluck(:match_id)
     @matches = Match.where(id: match_ids)
   end  
   

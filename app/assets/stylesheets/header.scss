@@ -1,0 +1,239 @@
+@import 'variable';
+
+@media (min-width:768px) {
+  header {
+    border-bottom: 1px solid #c8c7cc; // ライトグレー
+  }
+}
+
+/*==================================================
+　ハンバーガーメニュー（3本線が回転して×になる）
+===================================================*/
+
+.openbtn{
+  position: fixed;
+  top: 7px;
+  right: 30px;
+  z-index: 9999;
+  background:$green;
+  cursor: pointer;
+  width: 40px;
+  height:40px;
+  border-radius: 10px;
+  box-shadow: 4px 8px 24px rgba(0,0,0,.15);
+  
+  /*ボタン内側*/
+  span {
+    display: inline-block;
+    transition: all .4s;
+    position: absolute;
+    left: 11px;
+    height: 3px;
+    border-radius: 2px;
+    background: #fff;
+    
+    // ハンバーガーメニューの3本線
+    &:nth-of-type(1) {
+      top: 11px;	
+      width: 45%;
+    }
+    &:nth-of-type(2) {
+      top: 19px;	
+      width: 35%;
+    }
+    &:nth-of-type(3) {
+      top: 27px;	
+      width: 20%;
+    }
+  }
+  
+  /*activeクラスが付与されると線が回転して×になる*/
+  &.active {
+    span:nth-of-type(1) {
+      top: 13px;
+      left: 14px;
+      transform: translateY(6px) rotate(-135deg);
+      width: 30%;
+    }
+    span:nth-of-type(2) {
+      opacity: 0;
+    }
+    span:nth-of-type(3) {
+      top: 25px;
+      left: 14px;
+      transform: translateY(-6px) rotate(135deg);
+      width: 30%;
+    }
+	}
+}
+
+// ======================================================
+//         ナビゲーション (右から出てくる)             
+// ======================================================
+
+#g-nav {
+  position:fixed;
+  z-index: 999;
+  /*ナビのスタート位置と形状*/
+  top:0;
+  right: -120%;
+  width:100%;
+  height: 100vh;/*ナビの高さ*/
+  background: $green;
+  opacity: 0.95;
+  /*動き*/
+  transition: all 0.8s;
+  
+  /*アクティブクラスがついたら位置を0に*/
+  &.panelactive{
+    right: 0;
+  }
+  
+  /*ナビゲーション*/
+  ul {
+    /*ナビゲーション天地中央揃え*/
+    position: absolute;
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+
+  /*リストのレイアウト設定*/
+  li{
+    list-style: none;
+    text-align: center;
+    a{
+      color: $white!important;
+      text-decoration: none;
+      padding:15px;
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: bold;
+    }
+    .nav-icon {
+      width: 60px; /* 親要素の幅 */
+      height: 60px; /* 親要素の高さ */
+      overflow: hidden; /* 親要素外のコンテンツを隠す */
+      margin: 0 auto;
+      img{
+        width: 100%; /* 画像の幅を親要素に合わせる */
+        height: 100%; /* 画像の高さを親要素に合わせる */
+        object-fit: cover; /* 画像を切り取って親要素にフィットさせる */
+      }
+    }
+  }
+}
+
+// ===============================================
+//           ドロップダウンメニュー　　　　　　　
+// ===============================================
+
+/*==ナビゲーション全体の設定*/
+#dropdown-nav{
+  color: $gray;
+  font-weight: bold;
+  text-align: center;
+  	
+  /*ナビゲーションを横並びに*/
+  ul{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0px;
+    // /*2階層目以降は横並びにしない*/
+    ul{
+      display: block;
+    }
+    /*下の階層のulや矢印の基点にするためliにrelativeを指定*/
+    li{
+      position: relative;
+      /*ナビゲーションのリンク設定*/
+      a{
+        display: block;
+        text-decoration: none;
+        padding: 10px 30px;
+        transition:all .3s;
+        // 	ホバーしてるときの文字色
+        &:hover,
+        &:active {
+          color: $green!important;
+        }
+      }
+      .child a{
+        padding:10px 35px;
+        // ホバーしてるときの背景色(展開メニューのみ)
+        &:hover,
+        &:active {
+          background: $lightgray;
+        }
+      }
+        
+      /*==矢印の設定*/
+      /*2階層目を持つliの矢印の設定*/
+      &.has-child::before{
+        content:'';
+        position: absolute;
+        left:15px;
+        top:19px;
+        width:6px;
+        height:6px;
+        border-top: 2px solid #999;
+        border-right:2px solid #999;
+        transform: rotate(135deg);
+      }
+      /*== 2階層目の共通設定 */
+      /*下の階層を持っているulの指定*/
+      &.has-child {
+        ul {
+          /*絶対配置で位置を指定*/
+          position: absolute;
+          top: 45px;
+          z-index: 3;
+          /*形状を指定*/
+          background: $white;
+          width:180px;
+          padding-left: 0px;
+          /*はじめは非表示*/
+          visibility: hidden;
+          opacity: 0;
+          /*アニメーション設定*/
+          transition: all .3s;
+          box-shadow: 4px 8px 24px rgba(0,0,0,.15);
+        }
+        /*hoverしたら表示*/
+        &:hover > ul,
+        &:active > ul{
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+      /*= ホバーしているメニューに下線表示 =*/
+      .current{
+        &:after{
+          content: '';
+          /*絶対配置で線の位置を決める*/
+          position: absolute;
+          bottom: 0;
+          left: 10%;
+          /*線の形状*/
+          width: 80%;
+          height: 2px;
+          background: $green;
+          /*アニメーションの指定*/
+          transition: all .3s;
+          transform: scale(0, 1);/*X方向0、Y方向1*/
+          transform-origin: center top;/*上部中央基点*/
+        }
+        /*現在地とhoverの設定*/
+        a::after{
+          transform: scale(1, 1);/*X方向にスケール拡大*/
+        }
+      }
+      a:hover::after {
+        transform: scale(1, 1);/*X方向にスケール拡大*/
+      }
+    }
+  }
+}
