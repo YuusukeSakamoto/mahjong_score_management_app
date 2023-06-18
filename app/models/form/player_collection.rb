@@ -2,9 +2,9 @@ class Form::PlayerCollection < Form::Base
   FORM_COUNT = 4 #登録フォームの数を指定
   attr_accessor :players, :session_players
 
-  def initialize(attributes = {})
+  def initialize(p_num, attributes = {})
     super attributes
-    self.players = FORM_COUNT.times.map { Player.new() } unless self.players.present?
+    self.players = p_num.times.map { Player.new() } unless self.players.present?
   end
 
   def players_attributes=(attributes)

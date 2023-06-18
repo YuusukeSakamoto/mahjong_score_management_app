@@ -9,7 +9,7 @@ class MatchesController < ApplicationController
   
   def new
     @match = Match.new
-    4.times { @match.results.build }
+    session[:players].count.times { @match.results.build }
   end
   
   def show

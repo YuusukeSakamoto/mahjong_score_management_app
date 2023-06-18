@@ -3,10 +3,17 @@
     %p.w-lg-50.pt-3.fs-3.text-green 対局ルール#{action}
   .col-10.col-md-6
     - if controller.action_name == "new"
-      %p まずは対局のルールを登録しましょう
-      %p 次回以降は登録したルールから選択できるようになります
+      %p.text-main.fs-sm まずは対局のルールを登録しましょう
+      %p.text-main.fs-sm 次回以降は登録したルールから選択できるようになります
     = form_with model: [@player, @rule], class: 'mb-4', local: true do |f|
       = render 'layouts/validation_error', instance: @rule
+      .div-title.mb-4
+        = f.label :人数, class: 'title-p fw-bold text-main'
+        %span.p_required 必須
+        = f.select :player_num, 
+          [ ["四人麻雀",4], ["三人麻雀", 3]], 
+          {prompt: "-- 人数を選択してください --"},
+          {class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'}
       .div-title.mb-4
         = f.label :ルール名, class: 'title-p fw-bold text-main'
         %span.p_required 必須

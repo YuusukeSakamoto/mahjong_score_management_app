@@ -4,12 +4,13 @@ class PlayersController < ApplicationController
   def show; end
   
   def new
-    @form = Form::PlayerCollection.new
+    @form = Form::PlayerCollection.new(params[:p_num].to_i)
     @error_player = Player.new
   end
   
   def create
-    @form = Form::PlayerCollection.new(player_collection_params)
+    @form = Form::PlayerCollection.new(0 ,player_collection_params)
+    # binding.pry
 
     if @form.save
       # プレイヤーID未登録またはルール未登録の場合、ルール登録へ遷移
