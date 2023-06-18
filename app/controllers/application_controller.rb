@@ -1,15 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :current_player
-  
-  # ログインユーザーに紐づくプレイヤーを取得する
-  def current_player
-    if user_signed_in?
-      @player = current_user.player 
-    else
-      @player = Player.find(1) # 仮ユーザー
-    end
-  end
+  include ApplicationHelper
   
   private
       # ユーザー登録時にnameもDB保存する
