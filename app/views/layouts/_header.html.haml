@@ -53,24 +53,25 @@
                       %li.child= link_to '仮', '#'
                       %li.child= link_to '仮', "#"
               //　≦ 768px
-              .openbtn.d-md-none
-                %span
-                %span
-                %span
-              %nav#g-nav
-                #g-nav-list
-                  %ul
-                    %li.mb-4
-                      .nav-icon
-                        // = image_tag current_user.avatar.url, class: 'rounded-circle', alt: 'icon'
-                    %li= link_to 'TOP', root_path
-                    %li= link_to '個人成績詳細', player_path(@player)
-                    %li= link_to '対局一覧', matches_path
-                    %li= link_to 'ルール登録', new_player_rule_path(@player)
-                    %li= link_to 'ルール一覧', player_rules_path(@player)
-                    %li= link_to 'プレイヤーを招待する', "#"
-                    %li= link_to 'アカウント情報編集', edit_user_registration_path
-                    %li= link_to 'ログアウト', destroy_user_session_path
+              #hamburger_menu.d-md-none
+                .openbtn
+                  %span
+                  %span
+                  %span
+                %nav#g-nav
+                  #g-nav-list
+                    %ul
+                      %li.mb-4
+                        .nav-icon
+                          // = image_tag current_user.avatar.url, class: 'rounded-circle', alt: 'icon'
+                      %li= link_to 'TOP', root_path
+                      %li= link_to '個人成績詳細', player_path(@player)
+                      %li= link_to '対局一覧', matches_path
+                      %li= link_to 'ルール登録', new_player_rule_path(@player)
+                      %li= link_to 'ルール一覧', player_rules_path(@player)
+                      %li= link_to 'プレイヤーを招待する', "#"
+                      %li= link_to 'アカウント情報編集', edit_user_registration_path
+                      %li= link_to 'ログアウト', destroy_user_session_path
           - else
             // ログアウト時
             //　≧ 768px
@@ -95,13 +96,14 @@
                       %li.child= link_to '仮', '#'
                       %li.child= link_to '仮', "#"
               //　≦ 768px
-              .openbtn.d-md-none
-                %span
-                %span
-                %span
-              %nav#g-nav
-                #g-nav-list
-                  %ul
-                    %li= link_to 'TOP', root_path
-                    %li= link_to 'アカウント登録', new_user_registration_path
-                    %li= link_to 'ログイン', new_user_session_path
+              #hamburger_menu.d-md-none
+                .openbtn.d-md-none
+                  %span
+                  %span
+                  %span
+                %nav#g-nav
+                  #g-nav-list
+                    %ul
+                      %li= link_to 'TOP', root_path
+                      %li= link_to 'アカウント登録', new_user_registration_path
+                      %li= link_to 'ログイン', new_user_session_path

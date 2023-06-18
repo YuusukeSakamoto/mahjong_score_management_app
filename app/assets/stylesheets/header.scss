@@ -2,7 +2,7 @@
 
 @media (min-width:768px) {
   header {
-	  border-bottom: 1px solid #c8c7cc; // ライトグレー
+    border-bottom: 1px solid #c8c7cc; // ライトグレー
   }
 }
 
@@ -11,57 +11,59 @@
 ===================================================*/
 
 .openbtn{
-	position: fixed;
-	z-index: 9999;
-	background:$green;
-	cursor: pointer;
+  position: fixed;
+  top: 7px;
+  right: 30px;
+  z-index: 9999;
+  background:$green;
+  cursor: pointer;
   width: 40px;
   height:40px;
-	border-radius: 10px;
-	box-shadow: 4px 8px 24px rgba(0,0,0,.15);
-	
-	/*ボタン内側*/
-	span {
-	  display: inline-block;
+  border-radius: 10px;
+  box-shadow: 4px 8px 24px rgba(0,0,0,.15);
+  
+  /*ボタン内側*/
+  span {
+    display: inline-block;
     transition: all .4s;
     position: absolute;
     left: 11px;
     height: 3px;
     border-radius: 2px;
-  	background: #fff;
-  	
-  	// ハンバーガーメニューの3本線
-  	&:nth-of-type(1) {
-  	  top: 11px;	
-	    width: 45%;
-  	}
-  	&:nth-of-type(2) {
-  	  top: 19px;	
-  	  width: 35%;
-  	}
-  	&:nth-of-type(3) {
-  	  top: 27px;	
-  	  width: 20%;
-  	}
-	}
-	
-	/*activeクラスが付与されると線が回転して×になる*/
-	&.active {
-  	span:nth-of-type(1) {
+    background: #fff;
+    
+    // ハンバーガーメニューの3本線
+    &:nth-of-type(1) {
+      top: 11px;	
+      width: 45%;
+    }
+    &:nth-of-type(2) {
+      top: 19px;	
+      width: 35%;
+    }
+    &:nth-of-type(3) {
+      top: 27px;	
+      width: 20%;
+    }
+  }
+  
+  /*activeクラスが付与されると線が回転して×になる*/
+  &.active {
+    span:nth-of-type(1) {
       top: 13px;
       left: 14px;
       transform: translateY(6px) rotate(-135deg);
       width: 30%;
-  	}
-  	span:nth-of-type(2) {
+    }
+    span:nth-of-type(2) {
       opacity: 0;
-  	}
-  	span:nth-of-type(3) {
+    }
+    span:nth-of-type(3) {
       top: 25px;
       left: 14px;
       transform: translateY(-6px) rotate(135deg);
       width: 30%;
-  	}
+    }
 	}
 }
 
@@ -102,13 +104,13 @@
     list-style: none;
     text-align: center;
     a{
-    	color: $white!important;
-    	text-decoration: none;
-    	padding:15px;
-    	display: block;
-    	text-transform: uppercase;
-    	letter-spacing: 0.1em;
-    	font-weight: bold;
+      color: $white!important;
+      text-decoration: none;
+      padding:15px;
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: bold;
     }
     .nav-icon {
       width: 60px; /* 親要素の幅 */
@@ -130,54 +132,54 @@
 
 /*==ナビゲーション全体の設定*/
 #dropdown-nav{
-	color: $gray;
-	font-weight: bold;
-	text-align: center;
+  color: $gray;
+  font-weight: bold;
+  text-align: center;
   	
   /*ナビゲーションを横並びに*/
   ul{
-  	list-style: none;
-  	display: flex;
-  	justify-content: center;
-  	margin-bottom: 0px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0px;
     // /*2階層目以降は横並びにしない*/
     ul{
-    	display: block;
+      display: block;
     }
     /*下の階層のulや矢印の基点にするためliにrelativeを指定*/
     li{
-    	position: relative;
+      position: relative;
       /*ナビゲーションのリンク設定*/
       a{
-      	display: block;
-      	text-decoration: none;
-      	padding: 10px 30px;
-      	transition:all .3s;
+        display: block;
+        text-decoration: none;
+        padding: 10px 30px;
+        transition:all .3s;
         // 	ホバーしてるときの文字色
         &:hover,
         &:active {
-        	color: $green!important;
+          color: $green!important;
         }
       }
       .child a{
-      	padding:10px 35px;
+        padding:10px 35px;
         // ホバーしてるときの背景色(展開メニューのみ)
         &:hover,
         &:active {
-        	background: $lightgray;
+          background: $lightgray;
         }
       }
         
       /*==矢印の設定*/
       /*2階層目を持つliの矢印の設定*/
       &.has-child::before{
-      	content:'';
-      	position: absolute;
-      	left:15px;
-      	top:19px;
-      	width:6px;
-      	height:6px;
-      	border-top: 2px solid #999;
+        content:'';
+        position: absolute;
+        left:15px;
+        top:19px;
+        width:6px;
+        height:6px;
+        border-top: 2px solid #999;
         border-right:2px solid #999;
         transform: rotate(135deg);
       }
@@ -186,19 +188,19 @@
       &.has-child {
         ul {
           /*絶対配置で位置を指定*/
-        	position: absolute;
-        	top: 45px;
-        	z-index: 3;
+          position: absolute;
+          top: 45px;
+          z-index: 3;
           /*形状を指定*/
-        	background: $white;
-        	width:180px;
-        	padding-left: 0px;
+          background: $white;
+          width:180px;
+          padding-left: 0px;
           /*はじめは非表示*/
-        	visibility: hidden;
-        	opacity: 0;
+          visibility: hidden;
+          opacity: 0;
           /*アニメーション設定*/
-        	transition: all .3s;
-        	box-shadow: 4px 8px 24px rgba(0,0,0,.15);
+          transition: all .3s;
+          box-shadow: 4px 8px 24px rgba(0,0,0,.15);
         }
         /*hoverしたら表示*/
         &:hover > ul,

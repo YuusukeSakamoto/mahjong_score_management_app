@@ -7,13 +7,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   INVITATIOM_TOKEN_ENABLED_TIME = 12 #招待トークン有効時間
   # GET /resource/sign_up
   def new
-    return super unless params_exist? && invitaion_valid?
-    if invitaion_valid?
-      @invited_player = Player.find(params[:p])
-    else
+    super and return unless params_exist?
+    unless invitaion_valid?
       flash[:alert] = "無効なリンクです。リンク発行者に再発行をお願いしてください。"     
       redirect_to root_path and return
     end
+    @invited_player = Player.find(params[:p])
     super
   end
 
