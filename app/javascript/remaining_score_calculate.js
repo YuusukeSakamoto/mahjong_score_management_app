@@ -13,7 +13,6 @@ $(document).on('turbolinks:load', function () {
         let total = (sum + parseInt(element))
         return total;
       }, 0);
-      
       let remaining_score = $('.js-remaining_score_hidden_value').text();
      
       let calculated_remaining_score = remaining_score - total_score

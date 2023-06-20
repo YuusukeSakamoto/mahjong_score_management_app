@@ -15,6 +15,7 @@ require("rule_search.js")  // ←jsファイル分だけ追加する
 require("remaining_score_calculate.js")  // ←jsファイル分だけ追加する
 require("global_menu.js")
 require("dropdown_menu.js")
+require("rule_form_change.js")
 
 Rails.start()
 Turbolinks.start()

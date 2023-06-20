@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_17_065959) do
+ActiveRecord::Schema.define(version: 2023_06_18_095011) do
 
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2023_06_17_065959) do
     t.string "memo"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "player_num", null: false
     t.index ["player_id"], name: "index_matches_on_player_id"
     t.index ["rule_id"], name: "index_matches_on_rule_id"
   end
@@ -77,6 +78,7 @@ ActiveRecord::Schema.define(version: 2023_06_17_065959) do
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "player_num", null: false
     t.index ["player_id"], name: "index_rules_on_player_id"
   end
 

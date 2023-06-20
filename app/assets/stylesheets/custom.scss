@@ -9,6 +9,11 @@
   display: contents;
 }
 
+// テーブルデータ
+td {
+  vertical-align: middle; // 垂直方向に中央寄せ
+}
+
 // スマホレイアウト
 @media (max-width: 480px) {
  body, a {
@@ -20,13 +25,21 @@ a {
   @extend %transition;
   display: block;
   color:inherit!important;
-  text-decoration: none!important;
-    &:visited {
-    }
-    &:hover {
-      opacity: 0.8;
-      @extend %transition;
-    }
+  &:visited {
+  }
+  &:hover {
+    opacity: 0.8;
+    color: $orange!important; // .btn以外はhover時,オレンジにする
+    @extend %transition;
+  }
+}
+
+.btn {
+  &:hover {
+    opacity: 0.8;
+    color: $white!important;
+    @extend %transition;
+  }
 }
 
 button, input[type="submit"] {
@@ -37,19 +50,27 @@ button, input[type="submit"] {
   }
 }
 
-.p-025 {
-  padding: 0.25rem!important;
-}
 
-.p-none {
-  padding: 0px;
-}
 
 // 仮画像
 .temporary_image {
   height: 300px;
   width: 300px;
   background-color: gray;
+}
+
+// ===============================
+// レイアウト・サイズ
+// ===============================
+
+
+
+.p-025 {
+  padding: 0.25rem!important;
+}
+
+.p-none {
+  padding: 0px;
 }
 
 // ===============================
@@ -84,7 +105,7 @@ button, input[type="submit"] {
 // ===============================
 // グリーン枠線
 .border-green {
-  border-color: $border-green!important;
+  border-color: $green!important;
   &-thin {
     @extend .border-green;
     border: 0.8px solid;  
@@ -95,7 +116,25 @@ button, input[type="submit"] {
   }
   &-left {
     border-left: solid 4px $green;
+    &-table { // 左枠線 成績表タイトル
+      @extend .border-green;
+      border-left: 4px solid;
+      padding-left: 0.4rem;
+      margin-bottom: 0.5rem;
+    }
   }
+  &-bottom {
+    border-bottom: solid 4px $green;
+    
+    &-title_main{ //四人麻雀/三人麻雀タイトル
+      @extend .border-green;
+      border-bottom: 3px solid; 
+      padding-left: 0.75rem!important;
+      padding-bottom: 0.25rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+
 }
 
 // オレンジ枠線

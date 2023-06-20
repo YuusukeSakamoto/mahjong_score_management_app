@@ -41,7 +41,7 @@
                     %a.text-nowrap.current{href: "#"} 対局成績
                     %ul
                       %li.child= link_to '個人成績詳細', player_path(@player)
-                      %li.child= link_to '対局一覧', matches_path
+                      %li.child= link_to '対局一覧', matches_path(p_id: @player.id)
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} ルール
                     %ul
@@ -66,7 +66,7 @@
                           // = image_tag current_user.avatar.url, class: 'rounded-circle', alt: 'icon'
                       %li= link_to 'TOP', root_path
                       %li= link_to '個人成績詳細', player_path(@player)
-                      %li= link_to '対局一覧', matches_path
+                      %li= link_to '対局一覧', matches_path(p_id: @player.id)
                       %li= link_to 'ルール登録', new_player_rule_path(@player)
                       %li= link_to 'ルール一覧', player_rules_path(@player)
                       %li= link_to 'プレイヤーを招待する', "#"
@@ -84,7 +84,7 @@
                     %a.text-nowrap.current{href: "#"} 対局成績
                     %ul
                       %li.child= link_to '個人成績詳細', player_path(@player)
-                      %li.child= link_to '対局一覧', matches_path
+                      %li.child= link_to '対局一覧', matches_path(p_id: @player.id)
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} ルール
                     %ul

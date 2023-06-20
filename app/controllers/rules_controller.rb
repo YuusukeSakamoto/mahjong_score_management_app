@@ -16,7 +16,7 @@ class RulesController < ApplicationController
   def create
     @rule = Rule.new(rule_params)
     if @rule.save
-      redirect_to new_match_path
+      redirect_to new_match_path, flash: {notice: "ルール < #{@rule.name} > を登録しました"}
     else
       set_player
       render :new
@@ -62,7 +62,7 @@ class RulesController < ApplicationController
   
     def rule_params
       params.require(:rule).
-        permit(:name, :mochi, :kaeshi, :uma_1, :uma_2, :uma_3, :uma_4, :score_decimal_point_calc, :is_chip, :chip_rate, :description).
+        permit(:player_num, :name, :mochi, :kaeshi, :uma_1, :uma_2, :uma_3, :uma_4, :score_decimal_point_calc, :is_chip, :chip_rate, :description).
         merge(player_id: current_player.id)
     end
 end

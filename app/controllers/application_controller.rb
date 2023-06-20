@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
+  include ApplicationHelper
+  
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :current_player
-  include ApplicationHelper
   
   private
       # ユーザー登録時にnameもDB保存する
