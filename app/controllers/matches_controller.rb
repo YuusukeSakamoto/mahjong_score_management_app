@@ -3,7 +3,7 @@ class MatchesController < ApplicationController
   before_action :authenticate_user!
   
   def index
-    match_ids = Result.where(player_id: params[:p_id]).select(:match_id).pluck(:match_id)
+    match_ids = Result.where(player_id: params[:p_id]).pluck(:match_id)
     @matches = Match.where(id: match_ids).desc
   end  
   

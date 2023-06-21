@@ -11,6 +11,7 @@ class Player < ApplicationRecord
   
   HYPHENS = [' - ',' - ',' - ',' - ']
   HYPHEN = ' - '
+  OFTEN_PLAYERS_NUM = 5
 
   def get_player_name(id)
     Player.find(id).name
@@ -33,13 +34,13 @@ class Player < ApplicationRecord
   
   # playerの総合ptを取得する
   def total_point
-    sprintf("%+.1f", results.where(match_id: match_ids).pluck(:point).sum)
+    sprintf("%+.1f", results.where(match_id: match_ids).sum(:point))
   end
   
   # playerの平均順位を取得する
   def average_rank
     return HYPHEN if results.where(match_id: match_ids).count == 0
-    sprintf("%.2f",results.where(match_id: match_ids).pluck(:rank).sum / total_match_count.to_f)
+    sprintf("%.2f",results.where(match_id: match_ids).sum(:point) / total_match_count.to_f)
   end
   
   # playerの連対率を取得する
@@ -85,7 +86,7 @@ class Player < ApplicationRecord
   def average_rank_by_ie
     ie_times.map.with_index do |ie_time, i|
       next HYPHEN if ie_time == 0
-      sprintf("%.1f", (results.where(ie: i + 1).pluck(:rank).sum / ie_time.to_f))
+      sprintf("%.1f", (results.where(ie: i + 1).sum(:point) / ie_time.to_f))
     end
   end
   
@@ -99,7 +100,7 @@ class Player < ApplicationRecord
   # 家別のptを取得する
   def total_point_by_ie
     Result::IE_NUM.map do |ie|
-      sprintf("%+.1f", results.where(match_id: match_ids).where(ie: ie).pluck(:point).sum)
+      sprintf("%+.1f", results.where(match_id: match_ids).where(ie: ie).sum(:point))
     end
   end
   
@@ -110,13 +111,20 @@ class Player < ApplicationRecord
   # よく遊ぶプレイヤーと回数を取得する（５人まで）
   def often_play_times
     attended_match_ids = results.where(match_id: match_ids).pluck(:match_id)
-    five_players = Result.where(match_id: attended_match_ids).where.not(player_id: id)
-                .group(:player_id).order('count_player_id DESC').count(:player_id).to_a.first(5)
+    often_play_players = Result.where(match_id: attended_match_ids)
+                                  .where.not(player_id: id)
+                                  .group(:player_id)
+                                  .order('count_player_id DESC')
+                                  .limit(OFTEN_PLAYERS_NUM)
+                                  .count(:player_id)
+                                  .to_a
+    
+    return often_play_players if often_play_players.count >= OFTEN_PLAYERS_NUM
     # 五人いない場合はハイフンで埋める
-    while five_players.count < 5 
-      five_players << [HYPHEN, 0]
+    (OFTEN_PLAYERS_NUM - often_play_players.count).times do 
+      often_play_players << [HYPHEN, 0]  
     end
-    return five_players
+    return often_play_players
   end
   
   #************************************

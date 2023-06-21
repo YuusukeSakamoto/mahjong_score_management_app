@@ -4,7 +4,7 @@ class PlayersController < ApplicationController
 
   def show
     @sanyon_match_ids = {} # 三麻/四麻の成績表示のためのハッシュ
-    match_ids = Result.where(player_id: params[:id]).select(:match_id).pluck(:match_id)
+    match_ids = Result.where(player_id: params[:id]).pluck(:match_id)
     @sanyon_match_ids[3] = Match.sanma(match_ids).pluck(:id)   #三麻のmatch_idを配列で格納
     @sanyon_match_ids[4] = Match.yonma(match_ids).pluck(:id)   #四麻のmatch_idを配列で格納
   end

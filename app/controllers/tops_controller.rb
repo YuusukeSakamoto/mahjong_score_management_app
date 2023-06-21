@@ -5,7 +5,7 @@ class TopsController < ApplicationController
       @sanyon_matches = {}
       @sanyon_match_ids = {}
       
-      match_ids = Result.where(player_id: current_player.id).select(:match_id).pluck(:match_id)
+      match_ids = Result.where(player_id: current_player.id).pluck(:match_id)
       @sanyon_matches[3] = Match.sanma(match_ids).desc.first(5)
       @sanyon_matches[4] = Match.yonma(match_ids).desc.first(5)
       @player = Player.find_by(user_id: current_user.id)
