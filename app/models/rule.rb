@@ -2,6 +2,7 @@ class Rule < ApplicationRecord
   belongs_to :player
   has_many :results
   
+  validates :play_type, presence: true, numericality: { in: 3..4 }
   validates :name, presence: true, uniqueness: { scope: :player }
   validates :mochi, :kaeshi, :uma_1, :uma_2, :uma_3, :uma_4, :score_decimal_point_calc, presence: true
   validates :is_chip, inclusion: [true, false] # boolean型のpresenceチェック

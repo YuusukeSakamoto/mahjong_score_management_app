@@ -10,78 +10,11 @@
       %p.mb-2.text-main.fs-sm= "(ID : #{@player.id})"
       .mb-3.col-8.col-md-5.m-auto
         - if @player.user == current_user
-          = link_to 'アカウント情報編集', edit_user_registration_path, class: 'px-2 py-1 mb-2 rounded text-white bg-green'
+          = link_to '編集', edit_user_registration_path, class: 'btn px-2 py-1 mb-2 rounded text-white bg-green'
         - if @player.can_invite?(current_player)
           = link_to 'アカウント招待する', new_players_invitations_path(player_id: @player.id), 
             class: 'px-2 py-1 mb-2 rounded text-white bg-green',data: { "turbolinks" => false }
-  .row
-    .border-top.border-bottom.bg-light-green.d-flex.flex-column.flex-md-row.justify-content-evenly.text-center.fw-bold.mb-4
-      %p.my-1.my-md-2= "総対局数  #{@player.total_match_count}局"
-      %p.my-1.my-md-2= "総合pt  #{@player.total_point}pt"
-      %p.my-1.my-md-2= "平均順位  #{@player.average_rank}位"
-      %p.my-1.my-md-2= "連対率  #{@player.average_rank}%"
-      
-  .row
-    .d-flex.flex-wrap.justify-content-evenly
-      .border-green-bold.rounded.col-11.col-lg-5.py-3.px-4.mb-4
-        %p.mb-0.text-center.fw-bold 順位別データ
-        %table.table.text-nowrap.px-2
-          %thead.text-center
-            %tr.text-main
-              %th{scope: "col"} 
-              %th{scope: "col"} 1位
-              %th{scope: "col"} 2位
-              %th{scope: "col"} 3位
-              %th{scope: "col"} 4位
-            %tr
-              %td.px-3{scope: "row"}順位率
-              - @player.rank_rate.each do |rank_rate|
-                %td.px-2= "#{rank_rate}%"
-            %tr
-              %td{scope: "row"}回数
-              - @player.rank_times.each do |rank_time|
-                %td.px-2= rank_time
-
-      .border-green-bold.rounded.col-11.col-lg-5.py-3.px-4.mb-4
-        %p.mb-0.text-center.fw-bold 家別データ
-        %table.table.text-nowrap.px-2
-          %thead.text-center
-            %tr.text-main
-              %th{scope: "col"} 
-              %th{scope: "col"} 東
-              %th{scope: "col"} 南
-              %th{scope: "col"} 西
-              %th{scope: "col"} 北
-            %tr
-              %td.px-3{scope: "row"}平均順位
-              - @player.average_rank_by_ie.each do |rank_rate|
-                %td.px-2= "#{rank_rate}位"
-            %tr
-              %td.px-3{scope: "row"}対局数
-              - @player.ie_times.each do |ie_time|
-                %td.px-2= ie_time
-            %tr
-              %td.px-3{scope: "row"}合計pt
-              - @player.total_point_by_ie.each do |ie_point|
-                %td.px-2= ie_point
-                
-  .row
-    .d-flex.flex-wrap.justify-content-evenly
-      .border-green-bold.rounded.col-11.col-lg-5.py-3.px-4.mb-4
-        %p.mb-0.text-center.fw-bold よく遊ぶプレイヤー
-        %table.table.text-nowrap.px-2
-          %thead.text-center
-            %tr.text-main
-              %th{scope: "col"} プレイヤー名
-              %th{scope: "col"} 対局数
-
-            - @player.often_play_times.each do |id_time|
-              %tr
-                %td{scope: "row"}
-                  = link_to "#{Player.find(id_time[0]).name}", "/players/#{id_time[0]}"
-                %td.px-2= id_time[1]
-              
-  .row.justify-content-center
-    .col-8.col-md-6.col-lg-3.text-center.pb-2
-      = link_to '対局成績一覧を見る', matches_path, 
-        class: 'btn d-block rounded fw-bold box-shadow text-white px-3 py-3 fs-6 bg-orange'
+    .yonma_results.mb-3.text-main
+      = render partial: 'result', locals: { play_type: 4 }
+    .sanma_results.mb-3.text-main
+      = render partial: 'result', locals: { play_type: 3 }

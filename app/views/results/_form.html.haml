@@ -29,9 +29,7 @@
             = f.text_field :point, autofocus: true,
               class: 'form-control py-2 py-md-3 rounded bg-white box-shadow'
             %p.fw-bold.text-main.mb-0.mx-2 pt
-            = f.select :ie, 
-              [ ["東",1], ["南", 2], ["西",3], ["北", 4] ], {},
-              {class: 'form-control py-2 py-md-3 rounded bg-white box-shadow'}
+            = f.select :ie, [ #{IE} ],{},{class: 'form-control py-2 py-md-3 rounded bg-white box-shadow'}
           
       .div-title.mb-4
         = f.label :'対局メモ', class: 'title-p fw-bold text-main'

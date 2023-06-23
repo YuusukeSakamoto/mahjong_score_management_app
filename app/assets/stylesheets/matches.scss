@@ -1,3 +1,25 @@
-// Place all the styles related to the matches controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: https://sass-lang.com/
+// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+// match-viewにのみ関係するcssを記述
+// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+// ===============================
+// 対局一覧画面
+// ===============================
+
+.w {
+  &-sanyonma, &-show {
+    width: 5%;
+  }
+  &-date{
+    width: 10%;
+  }  
+  &-players{
+    width: 60%;
+    &-name {
+      width: 15%;
+    }
+  }  
+  &-rule{
+    width: 20%;
+  }  
+}

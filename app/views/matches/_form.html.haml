@@ -1,18 +1,20 @@
 .row.d-flex.justify-content-center
   .col-12.text-center.pb-2
     %p.w-lg-50.pt-3.fs-3.text-green 対局成績#{action}
+    %p.text-main #{conversion_kanji_num(session_player_num)}人麻雀
   .col-10.col-md-8
 
     = form_with model: @match, class: 'mb-4', local: true do |f|
       = render 'layouts/validation_error', instance: @match
       = f.hidden_field :player_id, value: current_player.id
+      = f.hidden_field :play_type, value: session_player_num
       .mb-4
         .d-flex.justify-content-between
           #div
             = f.label :ルール, class: 'title-p fw-bold text-main'
             %span.p_required 必須
           = link_to 'ルール一覧', player_rules_path(current_player), class: 'text-pink fs-sm pt-1'
-        = f.collection_select(:rule_id, current_player.rules,
+        = f.collection_select(:rule_id, current_player.rule_list(session_player_num),
                               :id, :name,
                               {prompt: "選択してください"},
                               class: 'form-control py-md-3 rounded bg-white box-shadow mb-3 text-center' )
@@ -27,9 +29,9 @@
           = f.date_field :match_on, value: Date.today, autofocus: true, 
             class: 'form-control py-md-3 rounded bg-white box-shadow mb-3 text-center'
       .d-flex
-        %span.title-p.fw-bold.text-main 得点
+        %span.title-p.fw-bold.text-main.mb-0 得点
         %span.p_required 必須
-        .js-remaining_score.text-main.fw-bold.ps-4 残り点：
+        .js-remaining_score.text-main.fw-bold.ps-4 残り得点：
       // 選択されたプレイヤー分だけフォーム表示   
       - i = 0
       = f.fields_for :results do |result|
@@ -47,7 +49,7 @@
                 {class: 'form-control py-1 py-md-3 rounded bg-white box-shadow w-25 text-center'}    
             %p.text-main.mb-0.mx-1.mx-md-2 家
             
-            = result.number_field :score, autofocus: true, placeholder: "25000", step: "100",
+            = result.number_field :score, autofocus: true, step: "100",
               class: "form-control py-1 py-md-3 rounded bg-white box-shadow text-center"
             %p.text-main.mb-0.mx-1.mx-md-2 点
             

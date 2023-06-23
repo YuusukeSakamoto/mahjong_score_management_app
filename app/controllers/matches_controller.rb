@@ -3,13 +3,13 @@ class MatchesController < ApplicationController
   before_action :authenticate_user!
   
   def index
-    match_ids = Result.where(player_id: current_player.id).select(:match_id).pluck(:match_id)
-    @matches = Match.where(id: match_ids)
+    match_ids = Result.where(player_id: params[:p_id]).pluck(:match_id)
+    @matches = Match.where(id: match_ids).desc
   end  
   
   def new
     @match = Match.new
-    4.times { @match.results.build }
+    session_player_num.times { @match.results.build }
   end
   
   def show
@@ -36,7 +36,7 @@ class MatchesController < ApplicationController
   
   def destroy
     @match.destroy
-    redirect_to matches_path , flash: {notice: "対局成績を削除しました"}
+    redirect_to matches_path , notice: "対局成績を削除しました"
   end
   
   private
@@ -47,7 +47,7 @@ class MatchesController < ApplicationController
     
     def match_params
       params.require(:match).
-        permit(:rule_id, :player_id, :match_on, :memo, results_attributes: [:id, :score, :point, :ie, :player_id, :rank])
+        permit(:rule_id, :player_id, :match_on, :memo, :play_type, results_attributes: [:id, :score, :point, :ie, :player_id, :rank])
     end
     
     # 入力された家に重複がないか
