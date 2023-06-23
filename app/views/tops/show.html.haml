@@ -8,8 +8,8 @@
         = link_to '成績入力 (三人麻雀)',new_player_path(p_num: 3), 
           class: "btn d-block rounded fw-bold box-shadow text-white px-3 py-2 py-md-3 bg-green mt-3 mt-md-0"
 
-      = render partial: 'result', locals: { player_num: 4 }
-      = render partial: 'result', locals: { player_num: 3 }
+      = render partial: 'result', locals: { play_type: 4 }
+      = render partial: 'result', locals: { play_type: 3 }
 
       .col-7.col-md-4.m-auto
         = link_to 'ルールを登録する', new_player_rule_path(current_player.id), 

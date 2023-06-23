@@ -47,7 +47,7 @@ class MatchesController < ApplicationController
     
     def match_params
       params.require(:match).
-        permit(:rule_id, :player_id, :match_on, :memo, :player_num, results_attributes: [:id, :score, :point, :ie, :player_id, :rank])
+        permit(:rule_id, :player_id, :match_on, :memo, :play_type, results_attributes: [:id, :score, :point, :ie, :player_id, :rank])
     end
     
     # 入力された家に重複がないか

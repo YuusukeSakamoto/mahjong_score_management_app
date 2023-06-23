@@ -1,10 +1,10 @@
 .row.justify-content-center
   .col-11.rounded.text-main.px-0
-    %h4.text-center.m-4.fw-bold 対局成績 (#{conversion_kanji_num(player_num)}人麻雀)
+    %h4.text-center.m-4.fw-bold 対局成績 (#{conversion_kanji_num(play_type)}人麻雀)
     .border-top.border-bottom.bg-light-green.d-flex.flex-column.flex-md-row.justify-content-evenly.text-center.fw-bold.mb-4
       .d-flex.flex-column.align-items-center.flex-md-row
         .d-flex.justify-content-evenly.w-75
-          - @player.match_ids = @sanyon_match_ids[player_num]
+          - @player.match_ids = @sanyon_match_ids[play_type]
           %p.my-1.my-md-2.mx-2.text-nowrap= "総対局数  #{@player.total_match_count}局"
           %p.my-1.my-md-2.mx-2.text-nowrap= "総合pt  #{@player.total_point}pt"
         .d-flex.justify-content-evenly.w-75
@@ -14,9 +14,9 @@
       .col-10.col-md-6.px-3
         %p.border-green-left.fw-bold.py-1.ps-2.mb-2 順位率
         %table.table.table-bordered.text-nowrap.px-3.text-center.text-main
-          - @player.rank_results(player_num).each.with_index(1) do |rate_time, i|
-            %tr
-              %td.px-3.bg-lightgray.fw-bold{scope: "row"}= "#{i}位"
+          - @player.rank_results(play_type).each.with_index(1) do |rate_time, i|
+            %tr.w-100
+              %td.px-3.bg-lightgray.fw-bold.w-rank{scope: "row"}= "#{i}位"
               %td.px-2= "#{rate_time[0]}%"
               %td.px-2= "#{rate_time[1]}回"
 
@@ -27,7 +27,7 @@
             %i.bx.bx-chevrons-right.h-50
             .px-0= link_to '対局一覧', matches_path(p_id: @player.id), class: 'text-gray text-nowrap' 
         %table.table.text-center.text-main
-          - @sanyon_matches[player_num].each do |match| 
+          - @sanyon_matches[play_type].each do |match| 
             %tr
               %td.p-025.px-0= match.match_on.to_s(:date)
               - if match.current_player_point(current_player.id) >= 0
@@ -36,10 +36,10 @@
                 %td.p-025.text-minus.fw-bold= sprintf("%+.1f", match.current_player_point(current_player.id))
               %td.p-025.px-2= link_to '詳細', match_path(match), class: 'border-lightgray rounded text-gray w-50 m-auto text-nowrap' 
 
-          -if @sanyon_matches[player_num].blank?
+          -if @sanyon_matches[play_type].blank?
             %p.text-main.text-center= "対局成績なし"
     .col-7.col-md-5.m-auto
-      = link_to "#{conversion_kanji_num(player_num)}人麻雀の成績詳細を見る", player_path(@player), 
+      = link_to "#{conversion_kanji_num(play_type)}人麻雀の成績詳細を見る", player_path(@player), 
         class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"
 
 .border-bottom.border-2.pt-4.mb-4.w-100

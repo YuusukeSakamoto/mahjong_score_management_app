@@ -6,10 +6,10 @@
     = form_with model: [@player, @rule], class: 'mb-4', local: true do |f|
       = render 'layouts/validation_error', instance: @rule
       .div-title.mb-4
-        = f.label :ルール種類, class: 'title-p fw-bold text-main'
+        = f.label :'三麻/四麻', class: 'title-p fw-bold text-main'
         %span.p_required 必須
         .d-flex.align-items-end.w-100
-          = f.select :player_num, 
+          = f.select :play_type, 
             [ ["四人麻雀",4], ["三人麻雀", 3]], 
             { selected: session_player_num },
             {class: 'form-control w-50 py-md-3 rounded bg-white box-shadow'}

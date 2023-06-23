@@ -1,43 +1,44 @@
 .container
-  .row.d-flex.justify-content-center
-    .col-12.text-center.pb-2
-      %p.w-lg-50.pt-3.fs-3.text-green 対局成績
-  
-      %p.text-main.mb-1.fs-sm
-        ="日付：#{@match.match_on.to_s(:yeardate)}"
-      %p.text-main.fs-sm
-        ="ルール：#{Rule.find(@match.rule_id).name}"
-        
-      = link_to '対局成績一覧', matches_path, class: 'px-2 py-1 mb-2 rounded text-white bg-green'
-      
-      .d-flex.justify-content-center.mt-2
-        %table.table.col-10.col-md-6.px-2
-          %thead
-            %tr.text-main
-              %th{scope: "col"} 順位
-              %th.px-2{scope: "col"} プレイヤー
-              %th{scope: "col"} 得点
-              %th{scope: "col"} pt
-              %th{scope: "col"} 家
-          - @match.results.order(:rank).each do |result| 
-            %tr
-              %td{scope: "row"}= result.rank
-              %td= Player.find(result.player_id).name
-              %td= result.score
-              %td= result.point
-              %td= Result::IE[result.ie - 1][0]
-    .col-12.pb-2
-      .match-memo.mb-4
-        .fw-bold.text-main.mb-2.text-center 対局メモ
-        .col-8.m-auto.rounded.border-lightgray.px-2.py-1
-          - if @match.memo.blank?
-            %p
-          -else
-            %p.text-dark.mb-0= @match.memo
+  .row.mt-4
+    .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.text-main
+      .d-flex.align-items-end
+        %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0 対局成績詳細
+        .d-flex.fs-sm
+          %p.mb-0.ms-2="#{@match.match_on.to_s(:yeardate)}"
+          %p.mb-0.ms-2="#{Rule.find(@match.rule_id).name}"
+      .d-md-flex.align-items-center.fw-bold.d-none.d-md-inline-block
+        %i.bx.bx-chevrons-right{style: "padding-top: 1px;"}
+        .px-0= link_to '対局一覧', matches_path(p_id: current_player.id)
+
+    .d-flex.justify-content-center.mt-2
+      %table.table.col-10.col-md-6.text-nowrap.text-main.text-center.px-2
+        %thead
+          %tr.bg-lightgray.w-100.fw-bold
+            %th.w-rank{scope: "col"} 順位
+            %th.px-2{scope: "col"} プレイヤー
+            %th{scope: "col"} 得点
+            %th{scope: "col"} pt
+            %th{scope: "col"} 家
+        - @match.results.order(:rank).each do |result| 
+          %tr
+            %td{scope: "row"}= result.rank
+            %td= Player.find(result.player_id).name
+            %td= result.score
+            %td= result.point
+            %td= Result::IE[result.ie - 1][0]
+  .row
+    .col-12.pb-2.text-main
+      %p.border-green-left-table.fw-bold  対局メモ
+      .mx-0.px-2.py-1
+        - if @match.memo.blank?
+          %p
+        -else
+          %p.mb-0= @match.memo
+    - if @match.player_id == current_player.id
       .col-6.m-auto.mt-3.mb-3
-        = link_to '編集する', edit_match_path(@match), class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3  bg-green'
-      // 成績登録から遷移してきたら、続けて成績登録するボタンを出力する
-      - before_uri = URI.parse(request.referer)
-      - if Rails.application.routes.recognize_path(before_uri.path)[:action] == "new" 
-        .col-6.m-auto
-          = link_to '続けて成績登録する', new_match_path, class: 'btn d-block rounded fw-bold box-shadow text-white px-3 px-md-5 py-3  bg-orange'
+        = link_to '編集する', edit_match_path(@match), class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 bg-green'
+    // 成績登録から遷移してきたら、続けて成績登録するボタンを出力する
+    - before_uri = URI.parse(request.referer)
+    - if Rails.application.routes.recognize_path(before_uri.path)[:action] == "new" 
+      .col-6.m-auto
+        = link_to '続けて成績登録する', new_match_path, class: 'btn d-block rounded fw-bold box-shadow text-white px-3 px-md-5 py-3  bg-orange'

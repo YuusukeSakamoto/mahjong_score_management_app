@@ -12,7 +12,7 @@ $(document).on('turbolinks:load', function () {
       .done(function(data) {
         $('.js-rule ul').remove();
         $('.js-remaining_score span').remove();
-        let all_score = data.mochi * data.player_num
+        let all_score = data.mochi * data.play_type
         let value = data.score_decimal_point_calc
         let pt_calc = ''
         
@@ -29,9 +29,9 @@ $(document).on('turbolinks:load', function () {
       	} 
       	
       	let umas = []
-      	if (data.player_num === 3) {
+      	if (data.play_type === 3) {
       	  umas = [data.uma_1, data.uma_2, data.uma_3].join(',');
-      	} else if (data.player_num === 4) {
+      	} else if (data.play_type === 4) {
       	  umas = [data.uma_1, data.uma_2, data.uma_3, data.uma_4].join(',');
         }
 

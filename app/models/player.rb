@@ -1,6 +1,6 @@
 class Player < ApplicationRecord
   validates :name, {presence: true, length: {maximum: 10}}
-  validates :invite_token, uniqueness:true
+  validates :invite_token, uniqueness:true, allow_nil: true
   
   belongs_to :user, optional: true #optional:trueで外部キーがnilでもDB登録できる
   has_many :rules ,dependent: :destroy #playerに紐づいたrulesも削除される
@@ -12,8 +12,8 @@ class Player < ApplicationRecord
   HYPHENS = [' - ',' - ',' - ',' - ']
   HYPHEN = ' - '
   OFTEN_PLAYERS_NUM = 5
-
-  def get_player_name(id)
+  
+  def self.get_name(id)
     Player.find(id).name
   end
   
@@ -53,9 +53,9 @@ class Player < ApplicationRecord
   # 順位別データ
   #************************************
   # 順位別データを配列にまとめる
-  def rank_results(player_num)
+  def rank_results(play_type)
     rank_results = [rank_rate, rank_times].transpose
-    rank_results.pop if player_num == 3 #三麻の場合、4位の結果を消去する
+    rank_results.pop if play_type == 3 #三麻の場合、4位の結果を消去する
     return rank_results
   end
   
@@ -124,7 +124,7 @@ class Player < ApplicationRecord
     (OFTEN_PLAYERS_NUM - often_play_players.count).times do 
       often_play_players << [HYPHEN, 0]  
     end
-    return often_play_players
+    often_play_players
   end
   
   #************************************
@@ -155,12 +155,12 @@ class Player < ApplicationRecord
   
   # プレイヤーが登録したルール数を取得する
   def rules_num
-    rules.where(player_num: session_player_num).count
+    rules.where(play_type: session_player_num).count
   end
   
   # 登録した四人麻雀or三人麻雀ルールをすべて取得する
-  def rule_list(player_num)
-    rules.where(player_num: player_num)
+  def rule_list(play_type)
+    rules.where(play_type: play_type)
   end
   
 end

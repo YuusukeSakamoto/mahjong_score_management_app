@@ -16,7 +16,9 @@ class RulesController < ApplicationController
   def create
     @rule = Rule.new(rule_params)
     if @rule.save
-      redirect_to new_match_path, flash: {notice: "ルール < #{@rule.name} > を登録しました"}
+      # 成績登録０件の場合、新規成績登録ページへ
+      redirect_to new_match_path, flash: {notice: "ルール < #{@rule.name} > を登録しました"} and return unless @player.matches.exists?(play_type: @rule.play_type) 
+      redirect_to player_rules_path, flash: {notice: "ルール < #{@rule.name} > を登録しました"} and return
     else
       set_player
       render :new
@@ -24,11 +26,12 @@ class RulesController < ApplicationController
   end
 
   def edit
+    redirect_to root_path, flash: {alert: 'ルール登録者でなければ、編集できません。'} and return unless current_player == @rule.player
     set_player
   end
 
   def update
-    # redirect_to root_path, flash: {alert: '投稿者でなければ、更新できません。'} and return unless current_user == @rule.user
+    redirect_to root_path, flash: {alert: 'ルール登録者でなければ、更新できません。'} and return unless current_player == @rule.player
 
     if @rule.update(rule_params)
       redirect_to player_rules_path, flash: {notice: "ルール < #{@rule.name} > を編集しました"}
@@ -39,7 +42,7 @@ class RulesController < ApplicationController
   end
 
   def destroy
-    # redirect_to root_path, flash: {alert: '投稿者でなければ、削除できません。'} and return unless current_user == @rule.user
+    redirect_to root_path, flash: {alert: 'ルール登録者でなければ、削除できません。'} and return unless current_player == @rule.player
     @rule.destroy
     redirect_to player_rules_path, flash: {notice: "ルール < #{@rule.name} > を削除しました"}
   end
@@ -62,7 +65,7 @@ class RulesController < ApplicationController
   
     def rule_params
       params.require(:rule).
-        permit(:player_num, :name, :mochi, :kaeshi, :uma_1, :uma_2, :uma_3, :uma_4, :score_decimal_point_calc, :is_chip, :chip_rate, :description).
+        permit(:play_type, :name, :mochi, :kaeshi, :uma_1, :uma_2, :uma_3, :uma_4, :score_decimal_point_calc, :is_chip, :chip_rate, :description).
         merge(player_id: current_player.id)
     end
 end

@@ -20,7 +20,7 @@ class PlayersController < ApplicationController
     if @form.save
       # ルール未登録の場合、ルール登録へ遷移
       set_session_players(@form)
-      if current_player.rules.where(player_num: session_player_num).blank?
+      if current_player.rules.where(play_type: session_player_num).blank?
         redirect_to new_player_rule_path(current_player.id) 
       else
         redirect_to new_match_path
