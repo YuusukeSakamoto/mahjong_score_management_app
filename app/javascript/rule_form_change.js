@@ -2,6 +2,12 @@ $(document).on('turbolinks:load', function () {
   $(function () {
     // ページが読み込まれたら
     $(document).ready(function () {
+      let is_recording = gon.is_recording
+      // 成績登録中はルールを固定する
+      if (is_recording) {
+        $('#match_rule_id').css('pointer-events', 'none');
+        $('#match_rule_id').attr('tabindex', '-1');
+      }
       let play_type = $('#rule_play_type').val();
       if (play_type === '3') {
         // 三人麻雀の場合はウマ4位を非表示にし、値0とする

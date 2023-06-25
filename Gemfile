@@ -32,8 +32,12 @@ gem 'devise-i18n'
 # Image uploader
 gem 'carrierwave', '~> 2.0'
 
+# jsでrailsで定義した処理を使用
+gem 'gon'
+
 group :development, :test do
   gem 'byebug', '11.1.3'
+  gem 'faker'
 end
 
 group :development do

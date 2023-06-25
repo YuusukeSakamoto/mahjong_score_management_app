@@ -23,10 +23,10 @@ class Form::PlayerCollection < Form::Base
           return false
         end
         
-        # IDが重複している場合、エラーとする　
-        if player_ids.include?(player.id)
+        # IDが空白でないかつIDが重複している場合、エラーとする　
+        if player.id.present? && player_ids.include?(player.id)
            player.errors.add(:id, "が重複しています")
-            return false
+           return false
         end
         player_ids << player.id
          

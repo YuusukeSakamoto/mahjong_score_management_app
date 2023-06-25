@@ -3,26 +3,26 @@
 
     = form_with model: @form, url: players_path,method: :post, local: true do |form|
       = render 'layouts/validation_error', instance: @error_player
-      - i = 1
+      - i = 0
       = form.fields_for :players do |f|
         .div-title.mb-2.d-flex.justify-content-between
           .col-3.mx-1  
             = f.label :"id", class: 'title-p fw-bold text-main'
-            -if i == 1 && current_player.present?
+            -if i == 0 && current_player.present?
               = f.number_field :id, readonly: true, value: current_player.id,
                 class: 'form-control py-md-3 rounded bg-gray box-shadow mb-md-3'
             -else
-              = f.number_field :id, autofocus: true, 
+              = f.number_field :id, autofocus: true, value: @default_players[i]['id'],
                 class: 'form-control py-md-3 rounded bg-white box-shadow mb-md-3'
           .col-8.mx-1
             = f.label :"プレイヤー名 #{i}", class: 'title-p fw-bold text-main'
-            -if i == 1
+            -if i == 0
               = f.text_field :name, readonly: true, value: current_user.name, maxlength: '10',
                 class: 'form-control py-md-3 rounded bg-gray box-shadow mb-md-3'
             -else
-              = f.text_field :name, autofocus: true, maxlength: '10',
+              = f.text_field :name, autofocus: true, maxlength: '10', value: @default_players[i]['name'],
                 class: 'form-control py-md-3 rounded bg-white box-shadow mb-md-3'
-          -if i == 1    
+          -if i == 0    
             = f.hidden_field :user_id, value: current_user.id
           - i += 1
           

@@ -2,20 +2,25 @@ class MatchesController < ApplicationController
   before_action :set_match, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
   
+  attr_accessor :mg
+  
   def index
-    match_ids = Result.where(player_id: params[:p_id]).pluck(:match_id)
+    match_ids = Result.match_ids(params[:p_id])
     @matches = Match.where(id: match_ids).desc
   end  
   
   def new
     @match = Match.new
-    session_player_num.times { @match.results.build }
+    session_players_num.times { @match.results.build }
+    gon.is_recording = recording?
   end
   
   def show
+    set_match_group if recording?
   end
   
   def create
+    create_match_group until recording?
     @match = Match.new(match_params)
     if ie_uniq?(@match) && @match.save
       redirect_to match_path(@match), notice: "対局成績を登録しました"
@@ -36,7 +41,7 @@ class MatchesController < ApplicationController
   
   def destroy
     @match.destroy
-    redirect_to matches_path , notice: "対局成績を削除しました"
+    redirect_back fallback_location: root_path , notice: "対局成績を削除しました"
   end
   
   private
@@ -45,9 +50,17 @@ class MatchesController < ApplicationController
       @match = Match.find(params[:id])
     end
     
+    def create_match_group
+      @mg = MatchGroup.create(rule_id: params[:match][:rule_id])
+      session[:mg] = @mg.id
+      session[:rule] = params[:match][:rule_id] # ２回目以降の成績登録時のデフォルトルールとして使用するためrule_idをセットする
+    end
+    
     def match_params
       params.require(:match).
-        permit(:rule_id, :player_id, :match_on, :memo, :play_type, results_attributes: [:id, :score, :point, :ie, :player_id, :rank])
+            permit(:rule_id, :player_id, :match_on, :memo, :play_type,
+                    results_attributes: [:id, :score, :point, :ie, :player_id, :rank]).
+            merge(match_group_id: session[:mg])
     end
     
     # 入力された家に重複がないか

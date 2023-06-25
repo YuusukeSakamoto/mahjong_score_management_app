@@ -28,7 +28,8 @@ Rails.application.routes.draw do
     :passwords => 'users/passwords'
   }
   
-  resources :users
+  resources :users  
+  resources :match_groups, only: [:index, :show]
   
   root to: 'tops#show'
   
