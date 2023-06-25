@@ -1,5 +1,6 @@
 class MatchGroupsController < ApplicationController
-  
+  before_action :authenticate_user!
+
   # 記録したor記録された成績表一覧を表示する / ログインユーザーのみ照会可能
   def index
     match_ids = Result.match_ids(current_player.id)
