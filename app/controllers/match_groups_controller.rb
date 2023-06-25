@@ -4,7 +4,7 @@ class MatchGroupsController < ApplicationController
   def index
     match_ids = Result.match_ids(current_player.id)
     mg_ids = Match.where(id: match_ids).distinct.pluck(:match_group_id)
-    @match_groups = MatchGroup.where(id: mg_ids)
+    @match_groups = MatchGroup.where(id: mg_ids).desc
   end
   
   def show

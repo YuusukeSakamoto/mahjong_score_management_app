@@ -2,6 +2,8 @@ class MatchGroup < ApplicationRecord
   has_many :matches ,dependent: :destroy #match_groupに紐づいたmatchesも削除される
   belongs_to :rule
   
+  scope :desc, -> { order(created_at: :desc) } #作成の降順
+  
   # match_group_id単位にすべてのmatchの各プレイヤーのptを配列で取得する
   def points
     match_results = []
