@@ -10,17 +10,17 @@ class PlayersController < ApplicationController
   end
   
   def new
-    @form = Form::PlayerCollection.new(params[:p_num].to_i)
+    @form = Form::PlayerCollection.new(params[:play_type].to_i)
     @error_player = Player.new
-    set_default_players  if session[:players].present?
+    set_default_players
   end
   
   def create
     @form = Form::PlayerCollection.new(0 ,player_collection_params)
 
     if @form.save
+      set_session_players(@form) 
       # ルール未登録の場合、ルール登録へ遷移
-      set_session_players(@form)
       if current_player.rules.where(play_type: session_players_num).blank?
         redirect_to new_player_rule_path(current_player.id) 
       else
@@ -41,6 +41,7 @@ class PlayersController < ApplicationController
       @player = Player.find(params[:id])  
     end
     
+    # セッションへプレイヤー情報を格納する
     def set_session_players(form)
       session[:players] = form.session_players
     end
@@ -51,8 +52,13 @@ class PlayersController < ApplicationController
     end
     
     def set_default_players
+      @default_players = []
+      if session[:players].nil?
+        params[:play_type].to_i.times{ @default_players << Player.new } 
+        return
+      end
       @default_players = session[:players]
       # default_playersが足りない場合、仮プレイヤーを追加する
-      @default_players << Player.new if session_players_num == 3 && params[:p_num].to_i == 4
+      @default_players << Player.new if session_players_num == 3 && params[:play_type].to_i == 4
     end
 end

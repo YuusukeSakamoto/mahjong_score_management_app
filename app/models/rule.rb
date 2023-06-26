@@ -1,6 +1,7 @@
 class Rule < ApplicationRecord
   belongs_to :player
   has_many :results
+  # has_many :match_groups
   
   validates :play_type, presence: true, numericality: { in: 3..4 }
   validates :name, presence: true, uniqueness: { scope: :player }
@@ -9,6 +10,9 @@ class Rule < ApplicationRecord
   validates :chip_rate, presence: true, if: :is_chip #チップ有のときchip_rateが空でないか
   validates :chip_rate, absence: true, unless: :is_chip #チップ無のときchip_rateが空であるか
 
+  scope :sanma, -> (p_id){ where(player_id: p_id).where(play_type: 3) }
+  scope :yonma, -> (p_id){ where(player_id: p_id).where(play_type: 4) }
+  
   # 小数点計算方法のコード値を返す
   def self.get_value_score_decimal_point_calc(score_decimal_point_calc)
     case score_decimal_point_calc

@@ -10,8 +10,7 @@
         %span.p_required 必須
         .d-flex.align-items-end.w-100
           = f.select :play_type, 
-            [ ["四人麻雀",4], ["三人麻雀", 3]], 
-            { selected: session_players_num },
+            [ ["四人麻雀",4], ["三人麻雀", 3]], {},
             {class: 'form-control w-50 py-md-3 rounded bg-white box-shadow'}
           %p.fw-bold.text-main.text-nowrap.mb-0.mx-2 用ルール
       .div-title.mb-4

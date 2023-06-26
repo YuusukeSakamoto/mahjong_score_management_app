@@ -7,9 +7,9 @@
           = link_to "次の対局を記録する(#{conversion_kanji_num(session_players_num)}人麻雀)", new_match_path, 
             class: "btn d-block rounded fw-bold box-shadow text-white px-3 py-2 py-md-3 bg-green"
         - else 
-          = link_to '成績入力 (四人麻雀)',new_player_path(p_num: 4), 
+          = link_to '成績入力 (四人麻雀)',new_player_path(play_type: 4), 
             class: "btn d-block rounded fw-bold box-shadow text-white px-3 py-2 py-md-3 bg-green"
-          = link_to '成績入力 (三人麻雀)',new_player_path(p_num: 3), 
+          = link_to '成績入力 (三人麻雀)',new_player_path(play_type: 3), 
             class: "btn d-block rounded fw-bold box-shadow text-white px-3 py-2 py-md-3 bg-green mt-3 mt-md-0"
       = render partial: 'match_groups/result_table' if recording?
       = render partial: 'result', locals: { play_type: 4 }

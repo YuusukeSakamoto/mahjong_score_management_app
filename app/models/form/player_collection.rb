@@ -1,9 +1,9 @@
 class Form::PlayerCollection < Form::Base
   attr_accessor :players, :session_players
 
-  def initialize(p_num, attributes = {})
+  def initialize(play_type, attributes = {})
     super attributes
-    self.players = p_num.times.map { Player.new() } unless self.players.present?
+    self.players = play_type.times.map { Player.new() } unless self.players.present?
   end
 
   def players_attributes=(attributes)

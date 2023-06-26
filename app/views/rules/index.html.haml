@@ -1,28 +1,8 @@
 .container
-  .row.d-flex.justify-content-center
-
+  .row.d-flex.justify-content-center.text-main
     .col-12.text-center.pb-2
-      %p.w-lg-50.pt-3.fs-3.text-green ルール一覧
-      = link_to 'ルール新規登録', new_player_rule_path, class: 'p-2'
-      .d-flex.justify-content-center.mt-2
-        %table.table-bordered.table-hover.col-10.col-md-6
-          %tr
-            %th.px-2 ルール名
-            %th 持ち
-            %th 返し
-            %th ウマ
-            %th pt小数点計算方法
-            %th チップ有無
-            %th チップpt/枚
-            %th 
-          - @rules.each do |rule|
-            %tr
-              %td= rule.name
-              %td= "#{rule.mochi}点"
-              %td= "#{rule.kaeshi}点"
-              %td= "#{rule.uma_1},#{rule.uma_2},#{rule.uma_3},#{rule.uma_4}"
-              %td= Rule.get_value_score_decimal_point_calc(rule.score_decimal_point_calc)
-              %td= Rule.get_value_is_chip(rule.is_chip)
-              %td= Rule.get_value_chip_rate(rule.chip_rate)
-              %td= link_to '編集', "/players/#{params[:player_id]}/rules/#{rule.id}/edit"
-              
+      = render partial: 'rule', locals: { play_type: 4 }        
+      = render partial: 'rule', locals: { play_type: 3 }        
+    .col-7.col-md-5.m-auto
+      = link_to 'ルールを登録する', new_player_rule_path, 
+        class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"

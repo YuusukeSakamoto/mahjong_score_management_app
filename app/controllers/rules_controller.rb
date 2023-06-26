@@ -3,7 +3,9 @@ class RulesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @rules = Rule.all.where(player_id: params[:player_id])
+    @sanyon_rules = {}
+    @sanyon_rules[3] = Rule.sanma(params[:player_id])
+    @sanyon_rules[4] = Rule.yonma(params[:player_id])
   end
 
   def show
@@ -17,7 +19,9 @@ class RulesController < ApplicationController
     @rule = Rule.new(rule_params)
     if @rule.save
       # 成績登録０件の場合、新規成績登録ページへ
-      redirect_to new_match_path, flash: {notice: "ルール < #{@rule.name} > を登録しました"} and return unless @player.matches.exists?(play_type: @rule.play_type) 
+      unless @player.matches.exists?(play_type: @rule.play_type) 
+        redirect_to new_match_path, flash: {notice: "ルール < #{@rule.name} > を登録しました"} and return 
+      end
       redirect_to player_rules_path, flash: {notice: "ルール < #{@rule.name} > を登録しました"} and return
     else
       set_player
@@ -59,6 +63,7 @@ class RulesController < ApplicationController
     
     def set_rule_player
       @rule = Rule.new
+      @rule.play_type = session_players_num #プレイヤー選択された人数を初期値とする
       set_player
       session[:players] = params[:players] unless params[:players].nil? #params[:players] → PlayersControllerのcreateアクションから受け取る
     end

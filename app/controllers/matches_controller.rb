@@ -10,7 +10,12 @@ class MatchesController < ApplicationController
   end  
   
   def new
+    if session[:players].nil?
+      redirect_to root_path, flash: {alert: 'プレイヤーが選択されていません'} and return 
+    end
     @match = Match.new
+    @match.play_type = session_players_num
+    @players = session[:players]
     session_players_num.times { @match.results.build }
     gon.is_recording = recording?
   end
@@ -29,7 +34,10 @@ class MatchesController < ApplicationController
     end
   end
   
-  def edit; end
+  def edit
+    player_ids = @match.results.pluck(:player_id)
+    @players = Player.where(id: player_ids)
+  end
   
   def update
     if ie_uniq?(@match) && @match.update(match_params)

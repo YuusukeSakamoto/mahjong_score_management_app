@@ -5,8 +5,8 @@
       .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.mt-4
         .d-flex.align-items-end
           %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0 成績表一覧
-          %p.mb-0.ms-2.fs-sm=Player.get_name(current_player.id)
-          %p.mb-0.ms-2.fs-sm ※ 他プレイヤーに記録されたものも含む
+          %p.mb-0.ms-2.fs-sm.fw-bold=Player.get_name(current_player.id)
+          %p.mb-0.ms-2.fs-sm ※ 他プレイヤーに記録された成績も含む
       .mt-3.table-responsive
         %table.table.table-bordered.table-sm.text-main.text-nowrap.col-10.col-md-6.px-2.fs-sm
           %thead
@@ -22,7 +22,7 @@
               %td= "#{conversion_kanji_num(mg.rule.play_type)}麻"
               - Player.get_players_name(mg.matches.first.results).each do |name|
                 %td.w-players-name= name
-              %td= Rule.find(mg.rule_id).name
+              %td= mg.rule.name
               %td.p-0
                 = link_to match_group_path(mg), class: 'px-1 pt-1 pb-0 text-main' do
                   %i.bx.bx-link-external.bx-sm{style: "padding-top: 1px;"}
