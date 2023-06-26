@@ -12,7 +12,6 @@ players_2 = []
 users.each_with_index do |user, i|
   user_data = User.find_by(email: user[:email])
   if user_data.nil?
-    # binding.pry
     u = User.create(email: user[:email],
                     password: user[:password],
                     password_confirmation: user[:password_confirmation],
@@ -23,18 +22,6 @@ users.each_with_index do |user, i|
   end
 end
 
-# users.each do |user|
-#   binding.pry
-#   user.build_player(name: user.name[:name]).save
-#   players_1 << user.player
-#   players_2 << user.player if n == 0
-# end
-# 4.times do |n|
-#   user = User.find_or_create_by({email: "test#{n+1}@example.com", password: '00000000', password_confirmation: '00000000', name: "テストユーザー##{n+1}"})
-#   user.build_player(name: "テストユーザー##{n+1}").save
-#   players_1 << user.player
-#   players_2 << user.player if n == 0
-# end
 # **** player作成 *******************************************************
 4.times do |n|
   player = Player.find_or_create_by(name: "テストプレイヤー##{n+1}")
