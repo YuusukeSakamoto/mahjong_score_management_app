@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_18_095011) do
+ActiveRecord::Schema.define(version: 2023_06_23_113818) do
 
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
@@ -22,9 +22,11 @@ ActiveRecord::Schema.define(version: 2023_06_18_095011) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "form_result_collections", charset: "utf8mb4", force: :cascade do |t|
+  create_table "match_groups", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "rule_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["rule_id"], name: "index_match_groups_on_rule_id"
   end
 
   create_table "matches", charset: "utf8mb4", force: :cascade do |t|
@@ -35,6 +37,8 @@ ActiveRecord::Schema.define(version: 2023_06_18_095011) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "play_type", null: false
+    t.bigint "match_group_id"
+    t.index ["match_group_id"], name: "index_matches_on_match_group_id"
     t.index ["player_id"], name: "index_matches_on_player_id"
     t.index ["rule_id"], name: "index_matches_on_rule_id"
   end
@@ -90,12 +94,14 @@ ActiveRecord::Schema.define(version: 2023_06_18_095011) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "name", default: "", null: false
+    t.string "name", null: false
     t.string "avatar"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "match_groups", "rules"
+  add_foreign_key "matches", "match_groups"
   add_foreign_key "matches", "players"
   add_foreign_key "matches", "rules"
   add_foreign_key "results", "matches"

@@ -1,0 +1,34 @@
+// 今回の対局成績表
+.row.mt-3
+  .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.text-main
+    .d-flex.align-items-end
+      %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0 対局成績表
+      .d-flex.fs-sm
+        %p.mb-0.ms-2="#{@match_group.created_at.to_date.to_s(:yeardate)}"
+        %p.mb-0.ms-2="#{Rule.find(@match_group.rule_id).name}"
+
+  .d-flex.justify-content-center.mt-2
+    %table.table.col-10.col-md-6.text-main.text-center.px-2.result_table.w-100
+      %thead
+        %tr.bg-lightgray.w-100.fw-bold
+          %th.w-no{scope: "col"} No
+          - Player.get_players_name(@match_group.matches.first.results, false).each do |name|
+            %th.w-name{scope: "col"}= name
+      - match_results, total_points = @match_group.points
+      - match_results.each.with_index(1) do |m_results, i| 
+        %tr
+          %td{scope: "row"}
+            =link_to i, match_path(m_results.first.match_id)
+          - m_results.each do |result|
+            %td= result.point
+      %tfoot
+        %tr.bg-lightgray.fw-bold
+          %td 合計
+          - total_points.each do |point|
+            %td= point
+- if recording?
+  .col-7.col-md-5.m-auto
+    = link_to '記録を終了する', match_group_path(session[:mg], fix: true),
+      class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"
+
+.border-bottom.border-2.pt-4.mb-4.w-100

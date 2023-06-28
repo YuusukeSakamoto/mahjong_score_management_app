@@ -39,8 +39,12 @@ class Matches::CalculatesController < ApplicationController
       # ウマをptに反映させる
       points = calculated_soten.map.with_index{ |n, i| n += uma_ary[ranks[i] - 1] }
       # オカをptに反映させる
-      oka = ((rule.kaeshi - rule.mochi ) * session_player_num) / 1000.to_f
-      points[ranks.index(1)] += oka # 1位のptにウマを追加する
+      oka = ((rule.kaeshi - rule.mochi ) * session_players_num) / 1000.to_f
+      # 1位のptにウマを追加する
+      points[ranks.index(1)] += oka 
+      # pt合計が0ではない場合、ズレてるptを一位ptに反映させる (小数点計算によって誤差が生まれてしまうもの)
+      points[ranks.index(1)] -= points.sum unless points.sum == 0
+      points.map{ |p| p.round(1)}
       return points, ranks
     end
     

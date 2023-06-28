@@ -1,9 +1,9 @@
 class Form::PlayerCollection < Form::Base
   attr_accessor :players, :session_players
 
-  def initialize(p_num, attributes = {})
+  def initialize(play_type, attributes = {})
     super attributes
-    self.players = p_num.times.map { Player.new() } unless self.players.present?
+    self.players = play_type.times.map { Player.new() } unless self.players.present?
   end
 
   def players_attributes=(attributes)
@@ -23,10 +23,10 @@ class Form::PlayerCollection < Form::Base
           return false
         end
         
-        # IDが重複している場合、エラーとする　
-        if player_ids.include?(player.id)
+        # IDが空白でないかつIDが重複している場合、エラーとする　
+        if player.id.present? && player_ids.include?(player.id)
            player.errors.add(:id, "が重複しています")
-            return false
+           return false
         end
         player_ids << player.id
          

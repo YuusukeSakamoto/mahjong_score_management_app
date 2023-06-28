@@ -17,9 +17,11 @@ class Player < ApplicationRecord
     Player.find(id).name
   end
   
-  def self.get_players_name(results)
+  # resultsからプレイヤー名の配列を返す
+  # サンマの場合四人目にハイフン埋めがいらない場合は第二引数にfalseを指定
+  def self.get_players_name(results, hyphen = true)
     players_name = results.map{ |result| Player.find(result.player_id).name }
-    players_name << HYPHEN if results.count == 3
+    players_name << HYPHEN if results.count == 3 && hyphen
     return players_name
   end
 
@@ -40,7 +42,7 @@ class Player < ApplicationRecord
   # playerの平均順位を取得する
   def average_rank
     return HYPHEN if results.where(match_id: match_ids).count == 0
-    sprintf("%.2f",results.where(match_id: match_ids).sum(:point) / total_match_count.to_f)
+    sprintf("%.2f",results.where(match_id: match_ids).sum(:rank) / total_match_count.to_f)
   end
   
   # playerの連対率を取得する
@@ -86,7 +88,7 @@ class Player < ApplicationRecord
   def average_rank_by_ie
     ie_times.map.with_index do |ie_time, i|
       next HYPHEN if ie_time == 0
-      sprintf("%.1f", (results.where(ie: i + 1).sum(:point) / ie_time.to_f))
+      sprintf("%.1f", (results.where(ie: i + 1).sum(:rank) / ie_time.to_f))
     end
   end
   
@@ -155,7 +157,7 @@ class Player < ApplicationRecord
   
   # プレイヤーが登録したルール数を取得する
   def rules_num
-    rules.where(play_type: session_player_num).count
+    rules.where(play_type: session_players_num).count
   end
   
   # 登録した四人麻雀or三人麻雀ルールをすべて取得する

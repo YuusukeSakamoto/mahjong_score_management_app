@@ -1,26 +1,26 @@
 .row.d-flex.justify-content-center
   .col-12.text-center.pb-2
     %p.w-lg-50.pt-3.fs-3.text-green 対局成績#{action}
-    %p.text-main #{conversion_kanji_num(session_player_num)}人麻雀
+    %p.text-main #{conversion_kanji_num(@match.play_type)}人麻雀
   .col-10.col-md-8
 
     = form_with model: @match, class: 'mb-4', local: true do |f|
       = render 'layouts/validation_error', instance: @match
       = f.hidden_field :player_id, value: current_player.id
-      = f.hidden_field :play_type, value: session_player_num
+      = f.hidden_field :play_type
       .mb-4
         .d-flex.justify-content-between
           #div
             = f.label :ルール, class: 'title-p fw-bold text-main'
             %span.p_required 必須
           = link_to 'ルール一覧', player_rules_path(current_player), class: 'text-pink fs-sm pt-1'
-        = f.collection_select(:rule_id, current_player.rule_list(session_player_num),
+        = f.collection_select(:rule_id, current_player.rule_list(@match.play_type),
                               :id, :name,
-                              {prompt: "選択してください"},
+                              { selected: session[:rule] },
                               class: 'form-control py-md-3 rounded bg-white box-shadow mb-3 text-center' )
       .js-rule.mb-2
       .mb-4
-        = f.label :対局日時, class: 'title-p fw-bold text-main'
+        = f.label :対局日, class: 'title-p fw-bold text-main'
         %span.p_required 必須
         - if controller.action_name == "edit"
           = f.date_field :match_on, value: @match.match_on, autofocus: true, 
@@ -36,8 +36,8 @@
       - i = 0
       = f.fields_for :results do |result|
         .mb-2.mb-md-4
-          = result.label :"#{session[:players][i]['name']}", class: 'title-p fw-bold text-main'
-          %span.title-p.text-main (ID : #{session[:players][i]["id"]})
+          = result.label :"#{@players[i]['name']}", class: 'title-p fw-bold text-main'
+          %span.title-p.text-main= "(ID : #{@players[i]['id']})"
           .d-flex.align-items-end.justify-content-between
             - if @match.results[i].ie.nil?
               = result.select :ie, 
@@ -57,7 +57,7 @@
               class: 'form-control py-1 py-md-3 rounded box-shadow w-50 text-center'
             %p.text-main.mb-0.mx-1.mx-md-2 pt
 
-            = result.hidden_field :player_id, value: session[:players][i]["id"]
+            = result.hidden_field :player_id, value: @players[i]['id']
             = result.hidden_field :rank, value: @match.results[i].rank
         - i += 1
           

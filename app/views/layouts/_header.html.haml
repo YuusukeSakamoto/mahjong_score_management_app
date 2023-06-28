@@ -13,7 +13,7 @@
                 %p.m-0.px-2.text-green.text-center{style: "font-size: 14px;"}= current_user.name
                 .header-icon
                   - if current_user.avatar.present?
-                    = image_tag current_user.avatar.url, class: 'rounded-circle', alt: 'icon'
+                    = image_tag current_user.avatar.url, class: 'rounded-circle border', alt: 'icon'
                   - else
                     = image_tag 'default_icon.png', class: 'rounded-circle', alt: 'icon'
                 = link_to 'ログアウト', destroy_user_session_path, class: 'fs-sm ms-2 text-main'
@@ -37,10 +37,13 @@
             .d-flex.align-items-center.position-relative
               %nav#dropdown-nav.d-none.d-md-block
                 %ul
+                  %li
+                    = link_to 'TOP', root_path , class: "text-nowrap current"
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} 対局成績
                     %ul
                       %li.child= link_to '個人成績詳細', player_path(@player)
+                      %li.child= link_to '成績表一覧', match_groups_path
                       %li.child= link_to '対局一覧', matches_path(p_id: @player.id)
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} ルール

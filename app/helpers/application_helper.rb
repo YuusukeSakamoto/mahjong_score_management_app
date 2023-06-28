@@ -19,8 +19,18 @@ module ApplicationHelper
   end
   
   # セッションに格納されているプレイヤー数を取得する
-  def session_player_num
+  def session_players_num
     session[:players].count
   end
-
+  
+  # セッションに格納されているmatch_groupからインスタンスを取得する
+  def set_match_group
+    @match_group = MatchGroup.find(session[:mg])
+  end
+  
+  # 成績記録中か真偽値で返す
+  def recording?
+    session[:mg].present?
+  end
+  
 end
