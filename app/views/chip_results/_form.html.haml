@@ -1,0 +1,19 @@
+.row.d-flex.justify-content-center
+  = form_with model: @form, url: match_group_chip_results_path ,method: :post, local: true do |form|
+    = render 'layouts/validation_error', instance: @form
+    %span=  "ルール : #{@rule.name}"
+    %span.chip_rate= @rule.chip_rate
+    %span pt / 枚
+    - i = 0
+    = form.fields_for :chip_results do |f|
+      %p.title-p.fw-bold.text-main 
+        = @players[i]["name"]
+      = f.number_field :number, autofocus: true,
+        class: 'form-control py-md-3 rounded bg-white box-shadow mb-md-3'
+      %p.text-main.mb-0.mx-1.mx-md-2 枚
+      = f.hidden_field :match_group_id, value: @match_group.id
+      = f.hidden_field :player_id, value: @players[i]["id"]
+      - i += 1
+    .col-12.d-flex.justify-content-center.mt-4
+      .p-form__input-submit
+        = form.submit "#{action}", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-orange'
