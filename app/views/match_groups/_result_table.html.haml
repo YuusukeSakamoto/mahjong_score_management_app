@@ -27,7 +27,7 @@
                 %td= point
               %td.p-0
                 - if links[i][:idx] == MatchGroup::CHIP
-                  = link_to edit_match_group_chip_result_path(@match_group, play_type: @match_group.play_type), class: 'px-1 pt-1 pb-0 text-main' do
+                  = link_to '#', class: 'px-1 pt-1 pb-0 text-main' do
                     %i.bx.bx-edit-alt.bx-sm{style: "padding-top: 1px;"}
                 - else
                   = link_to edit_match_path(links[i][:id]), class: 'px-1 pt-1 pb-0 text-main' do
@@ -37,6 +37,7 @@
           %td 合計
           - total_points.each do |point|
             %td= point
+          %td 
 - if recording?
   - if @match_group.rule.is_chip
     .col-7.col-md-5.m-auto
@@ -47,6 +48,5 @@
     .col-7.col-md-5.m-auto
       = link_to '記録終了する', match_group_path(session[:mg], fix: true),
         class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"
-
 
 .border-bottom.border-2.pt-4.mb-4.w-100

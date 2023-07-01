@@ -26,16 +26,17 @@ class ChipResultsController < ApplicationController
     end
   end
   
-  def edit
-    @form = Form::ChipResultCollection.new(params[:play_type].to_i)
-    @form.chip_results = @form.find(params[:match_group_id])
-    @players = Player.get_players_name(@form.chip_results)
-  end
 
-  def update
-    binding.pry
-    @update_form = Form::ChipResultCollection.new(0 , chip_results_collection_params)
-  end
+  # def edit
+  #   @form = Form::ChipResultCollection.new(params[:play_type].to_i)
+  #   @form.chip_results = @form.find(params[:match_group_id])
+  #   @players = Player.get_players_name(@form.chip_results)
+  # end
+
+  # def update
+  #   binding.pry
+  #   @update_form = Form::ChipResultCollection.new(0 , chip_results_collection_params)
+  # end
   
   def destroy
     
