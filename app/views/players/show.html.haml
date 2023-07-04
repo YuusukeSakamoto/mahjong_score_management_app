@@ -14,7 +14,7 @@
         - if @player.can_invite?(current_player)
           // なぜが以降の@playerが書き換えられてしまい、正しいURLを発行できない
           = link_to 'アカウント招待する', new_players_invitations_path(player_id: @player.id), 
-            class: 'px-2 py-1 mb-2 rounded text-white bg-green',data: { "turbolinks" => false }
+            class: 'btn px-2 py-1 mb-2 rounded text-white bg-green',data: { "turbolinks" => false }
     .yonma_results.mb-3.text-main
       = render partial: 'result', locals: { play_type: 4 }
     .sanma_results.mb-3.text-main

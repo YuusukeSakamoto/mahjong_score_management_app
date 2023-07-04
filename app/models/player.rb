@@ -86,9 +86,9 @@ class Player < ApplicationRecord
 
   # 家別の平均順位を取得する
   def average_rank_by_ie
-    ie_times.map.with_index do |ie_time, i|
+    ie_times.map.with_index(1) do |ie_time, i|
       next HYPHEN if ie_time == 0
-      sprintf("%.1f", (results.where(ie: i + 1).sum(:rank) / ie_time.to_f))
+      sprintf("%.1f", (results.where(ie: i).sum(:rank) / ie_time.to_f))
     end
   end
   

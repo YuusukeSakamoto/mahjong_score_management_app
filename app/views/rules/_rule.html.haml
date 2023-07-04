@@ -17,7 +17,7 @@
         %th.w-pt_calc{scope: "col"}pt小数点
         %th.w-chip{scope: "col"} チップ有無
         %th.w-chip_rate{scope: "col"} チップpt/枚
-        %th.w-show{scope: "col"} 詳細
+        %th.w-show{scope: "col"} 編集
     - @sanyon_rules[play_type].each do |rule| 
       %tr
         %td= rule.name
@@ -33,4 +33,4 @@
         %td= Rule.get_value_chip_rate(rule.chip_rate)
         %td.p-0
           = link_to edit_player_rule_path(current_player, rule), class: 'px-1 pt-1 pb-0 text-main' do
-            %i.bx.bx-link-external.bx-sm{style: "padding-top: 1px;"}
+            %i.bx.bx-edit-alt.bx-sm{style: "padding-top: 1px;"}

@@ -58,10 +58,19 @@ class MatchesController < ApplicationController
       @match = Match.find(params[:id])
     end
     
+    # match初回登録時、match_groupを登録しセッションへmatch_groupとruleを格納する
     def create_match_group
       @mg = MatchGroup.create(rule_id: params[:match][:rule_id])
+      create_chip_results if @mg.rule.is_chip
       session[:mg] = @mg.id
       session[:rule] = params[:match][:rule_id] # ２回目以降の成績登録時のデフォルトルールとして使用するためrule_idをセットする
+    end
+    
+    # チップ有ルールの場合、仮で0枚登録する
+    def create_chip_results
+      session[:players].each do |player|
+        @mg.chip_results.create(player_id: player["id"], point: 0, number: 0, is_temporary: 1)
+      end
     end
     
     def match_params

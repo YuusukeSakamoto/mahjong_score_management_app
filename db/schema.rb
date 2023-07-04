@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2023_06_28_124315) do
     t.bigint "player_id", null: false
     t.integer "number", null: false
     t.float "point", null: false
+    t.boolean "is_temporary", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["match_group_id"], name: "index_chip_results_on_match_group_id"

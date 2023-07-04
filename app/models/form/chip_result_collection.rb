@@ -1,9 +1,18 @@
 class Form::ChipResultCollection < Form::Base
   attr_accessor :chip_results, :session_players
 
-  def initialize(play_type, attributes = {})
-    super attributes
-    self.chip_results = play_type.times.map { ChipResult.new() } unless self.chip_results.present?
+  def initialize(attributes, action)
+    if action == 'new'
+      unless self.chip_results.present?
+        self.chip_results = attributes.map do |attribute|
+          ChipResult.new(match_group_id: attribute["match_group_id"], 
+                              player_id: attribute["player_id"], 
+                              number: attribute["number"] ) 
+        end
+      end
+    elsif action == 'create'
+      super attributes
+    end
   end
 
   def chip_results_attributes=(attributes)

@@ -25,7 +25,7 @@ class MatchGroup < ApplicationRecord
       links << link
     end
     # チップptがあれば追加する
-    if chip_results.present?
+    if chip_results.present? && not_temporary_data?
       chip_points = chip_results.pluck(:point)
       each_points << chip_points
       link = {idx: CHIP} 
@@ -39,5 +39,17 @@ class MatchGroup < ApplicationRecord
   def get_index(match_id)
     matches.pluck(:id).index(match_id) + 1
   end
+  
+  # match_groupにおけるプレイヤーを返す
+  def players
+    Player.where(id: matches.first.results.pluck(:player_id))
+  end
+  
+  private
+  
+    # チップデータはユーザーによって登録されたデータか(=仮データでないか)
+    def not_temporary_data?
+      !chip_results.pluck(:is_temporary).all?
+    end
   
 end
