@@ -2,7 +2,7 @@ class Form::ChipResultCollection < Form::Base
   attr_accessor :chip_results, :session_players
 
   def initialize(attributes, action)
-    if action == 'new'
+    if action == 'edit'
       unless self.chip_results.present?
         self.chip_results = attributes.map do |attribute|
           ChipResult.new(match_group_id: attribute["match_group_id"], 
@@ -19,8 +19,9 @@ class Form::ChipResultCollection < Form::Base
     self.chip_results = attributes.map { |key, value| ChipResult.new(value) }
   end
 
-  def save
+  def save(mg)
     ChipResult.transaction do
+      mg.chip_results.each(&:destroy!)
       self.chip_results.map(&:save!)
     end      
       return true

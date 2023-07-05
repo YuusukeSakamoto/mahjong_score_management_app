@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   
   resources :users  
   resources :match_groups, only: [:index, :show] do
-    resources :chip_results, only: [:index, :new, :edit, :create, :update, :destroy]
+    resource :chip_results, only: [:edit, :create]
   end
   
   root to: 'tops#show'
