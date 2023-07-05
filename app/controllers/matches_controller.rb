@@ -5,6 +5,7 @@ class MatchesController < ApplicationController
   attr_accessor :mg
   
   def index
+    @player = Player.find(params[:p_id])
     match_ids = Result.match_ids(params[:p_id])
     @matches = Match.where(id: match_ids).desc
   end  
@@ -21,7 +22,7 @@ class MatchesController < ApplicationController
   end
   
   def show
-    set_match_group if recording?
+    @match_group = set_session_match_group if recording?
   end
   
   def create

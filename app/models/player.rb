@@ -88,7 +88,7 @@ class Player < ApplicationRecord
   def average_rank_by_ie
     ie_times.map.with_index(1) do |ie_time, i|
       next HYPHEN if ie_time == 0
-      sprintf("%.1f", (results.where(ie: i).sum(:rank) / ie_time.to_f))
+      sprintf("%.1f", (results.where(ie: i).where(match_id: match_ids).sum(:rank) / ie_time.to_f))
     end
   end
   
