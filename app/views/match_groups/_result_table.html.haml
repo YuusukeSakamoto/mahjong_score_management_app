@@ -6,6 +6,8 @@
       .d-flex.fs-sm
         %p.mb-0.ms-2="#{@match_group.created_at.to_date.to_s(:yeardate)}"
         %p.mb-0.ms-2="#{Rule.find(@match_group.rule_id).name}"
+        - if Rule.find(@match_group.rule_id).is_chip
+          %p.mb-0.ms-2 / チップ有
 
   .d-flex.justify-content-center.mt-2
     %table.table.col-10.col-md-6.text-main.text-center.px-2.result_table.w-100
@@ -14,21 +16,37 @@
           %th.w-no{scope: "col"} No
           - Player.get_players_name(@match_group.matches.first.results, false).each do |name|
             %th.w-name{scope: "col"}= name
-      - match_results, total_points = @match_group.points
-      - match_results.each.with_index(1) do |m_results, i| 
-        %tr
-          %td{scope: "row"}
-            =link_to i, match_path(m_results.first.match_id)
-          - m_results.each do |result|
-            %td= result.point
+          %th.w-edit{scope: "col"} 編集
+          - each_points, total_points, links = @match_group.get_table_element
+          - each_points.each.with_index(0) do |points, i| 
+            %tr
+              %td{scope: "row"}
+                - if links[i][:idx] == MatchGroup::CHIP
+                  %span=links[i][:idx]
+                - else 
+                  = link_to links[i][:idx], match_path(links[i][:id])
+              - points.each do |point|
+                %td= point
+              %td.p-0
+                - if links[i][:idx] == MatchGroup::CHIP
+                  = link_to edit_match_group_chip_results_path(@match_group.id), class: 'px-1 pt-1 pb-0 text-main' do
+                    %i.bx.bx-edit-alt.bx-sm{style: "padding-top: 1px;"}
+                - else
+                  = link_to edit_match_path(links[i][:id]), class: 'px-1 pt-1 pb-0 text-main' do
+                    %i.bx.bx-edit-alt.bx-sm{style: "padding-top: 1px;"}
       %tfoot
         %tr.bg-lightgray.fw-bold
           %td 合計
           - total_points.each do |point|
             %td= point
-- if recording?
-  .col-7.col-md-5.m-auto
-    = link_to '記録を終了する', match_group_path(session[:mg], fix: true),
-      class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"
+          %td
+.col-7.col-md-5.m-auto
+  - if recording?
+    - if @match_group.rule.is_chip
+      = link_to 'チップ集計して記録終了する', edit_match_group_chip_results_path(session[:mg]),
+        class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"
+    - else
+      = link_to '記録終了する', match_group_path(session[:mg], fix: true),
+        class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"
 
 .border-bottom.border-2.pt-4.mb-4.w-100

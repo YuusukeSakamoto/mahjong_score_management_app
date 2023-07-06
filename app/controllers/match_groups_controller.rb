@@ -11,16 +11,8 @@ class MatchGroupsController < ApplicationController
   def show
     @match_group = MatchGroup.find(params[:id])
     if params[:fix] == 'true' # 対局成績を確定ボタンから遷移した場合
-      fix_match_group 
-      flash.now[:notice] = "対局成績が確定しました"
+      end_record 
     end
   end
-  
-  private 
-  
-    # sessionからmatch_groupとruleを削除し、match_groupを確定させる
-    def fix_match_group
-      session[:mg] = nil 
-      session[:rule] = nil
-    end
+
 end

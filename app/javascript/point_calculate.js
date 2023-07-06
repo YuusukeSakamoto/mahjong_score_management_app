@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function () { 
   $(function () {
-    $('[id$="_score"], #match_rule_id').change(function () {
+    $('[id$="_score"], #match_rule_id, [id$="_ie"]').change(function () {
       let is_full = true;
       $('[id$="_score"], #match_rule_id').each(function(index) {
         if ($('[id$="_score"], #match_rule_id').eq(index).val() === "") {
@@ -36,9 +36,8 @@ $(document).on('turbolinks:load', function () {
           })
           // 正常にデータを受け取れた際の処理
           .done(function(data) {
-
             $('[id$="_point"]').each(function(i){
-              $(this).val(data[0][0][i]);
+              $(this).val(Math.round(data[0][0][i] * 10) / 10);
             });
             $('[id$="_rank"]').each(function(i){
               $(this).val(data[0][1][i]);

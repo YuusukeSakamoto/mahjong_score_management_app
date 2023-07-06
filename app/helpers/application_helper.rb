@@ -1,11 +1,7 @@
 module ApplicationHelper
   # ログインユーザーに紐づくプレイヤーを取得する
   def current_player
-    if user_signed_in?
-      @player = current_user.player
-    else
-      @player = Player.find(1) # 仮ユーザー
-    end
+    current_user&.player || Player.find(1) # 仮ユーザー
   end
   
   # 漢数字に変換する
@@ -23,9 +19,9 @@ module ApplicationHelper
     session[:players].count
   end
   
-  # セッションに格納されているmatch_groupからインスタンスを取得する
-  def set_match_group
-    @match_group = MatchGroup.find(session[:mg])
+  # セッションに格納されているmatch_groupを取得する
+  def set_session_match_group
+    MatchGroup.find(session[:mg])
   end
   
   # 成績記録中か真偽値で返す

@@ -20,6 +20,7 @@ $(document).on('turbolinks:load', function () {
           $('.js-remaining_score span').remove();
           let all_score = data.mochi * data.play_type
           let value = data.score_decimal_point_calc
+          let is_chip = '無'
           let pt_calc = ''
           
         	if (value === 1) {
@@ -33,6 +34,10 @@ $(document).on('turbolinks:load', function () {
         	} else if (value === 5) {
         		pt_calc = "切り上げ"
         	} 
+        	
+        	if (data.is_chip) {
+        	  is_chip = '有'
+        	}
         	
         	let umas = []
         	if (data.play_type === 3) {
@@ -48,6 +53,7 @@ $(document).on('turbolinks:load', function () {
           <li style="list-style:none">${data.kaeshi}点返し</li>
           <li style="list-style:none">ウマ (${umas})</li>
           <li style="list-style:none">pt小数点 : ${pt_calc}</li>
+          <li style="list-style:none">チップ : ${is_chip}</li>
           </ul>`
           );
           $('.js-remaining_score').append(

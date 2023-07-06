@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     resources :calculates, only: :index, defaults: { format: :json }
   end
   
-  resources :matches, only: [:index, :show, :new, :edit, :create, :update, :destroy] do 
+  resources :matches do 
     resources :results, only: [:index] 
   end
   
@@ -29,7 +29,9 @@ Rails.application.routes.draw do
   }
   
   resources :users  
-  resources :match_groups, only: [:index, :show]
+  resources :match_groups, only: [:index, :show] do
+    resource :chip_results, only: [:edit, :update]
+  end
   
   root to: 'tops#show'
   

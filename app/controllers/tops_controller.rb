@@ -2,7 +2,7 @@ class TopsController < ApplicationController
   
   def show
     if user_signed_in?
-      set_match_group if recording?
+      @match_group = set_session_match_group if recording?
       
       @sanyon_matches = {}
       @sanyon_match_ids = {}
