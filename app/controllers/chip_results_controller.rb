@@ -1,6 +1,6 @@
 class ChipResultsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_match_group, :set_rule, only: [:edit, :create]
+  before_action :set_match_group, :set_rule, only: [:edit, :update]
   
   def edit
     @players = @match_group.players
@@ -12,7 +12,7 @@ class ChipResultsController < ApplicationController
     @form = Form::ChipResultCollection.new(chip_results_ary, 'edit')
   end
 
-  def create
+  def update
     @form = Form::ChipResultCollection.new(chip_results_collection_params, 'create')
     @form.chip_results.each do |chip_result|
       chip_result.point = calculate_point(chip_result)

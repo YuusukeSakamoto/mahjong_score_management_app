@@ -1,5 +1,5 @@
 .row.d-flex.justify-content-center
-  = form_with model: @form, url: match_group_chip_results_path ,method: :post, local: true do |form|
+  = form_with model: @form, url: match_group_chip_results_path ,method: :patch, local: true do |form|
     = render 'layouts/validation_error', instance: @form
     %p.text-main= "獲得したチップ枚数を入力してください(#{@rule.chip_rate}pt / 枚)"
     = form.hidden_field :rule_id, value: @match_group.rule_id
