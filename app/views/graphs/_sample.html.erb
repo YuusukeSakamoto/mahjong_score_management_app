@@ -1,45 +1,57 @@
-<canvas id="myLineChart"></canvas>
-  <script>
-    $(document).on('turbolinks:load', function() {
-      var ctx = document.getElementById("myLineChart");
-      var myLineChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ['6日前', '5日前', '4日前', '3日前', '2日前', '1日前', '今日'],
-          datasets: [
-            {
-              label: '投稿した本の数',
-              data: [
-                <%= @books.created_6day_ago.count %>,
-                <%= @books.created_5day_ago.count %>, 
-                <%= @books.created_4day_ago.count %>, 
-                <%= @books.created_3day_ago.count %>, 
-                <%= @books.created_2day_ago.count %>, 
-                <%= @books.created_yesterday.count %>, 
-                <%= @books.created_today.count %>
-              ],
-              borderColor: "rgba(0,0,255,1)",
-              backgroundColor: "rgba(0,0,0,0)",
-              tension: 0.4
-            }
-          ],
+<div class="canvas-container">
+  <canvas id="RankLineChart<%= play_type %>" class="rank-line-graph"></canvas>
+</div>
+<script>
+  $(document).on('turbolinks:load', function() {
+    var ctx = document.getElementById("RankLineChart<%= play_type %>");
+    var rankLineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['', '', '', '', '', '', '', '', '', ''],
+        datasets: [
+          {
+            label: '順位',
+            data: <%= @rank_datas[play_type].to_json %>, // .to_jsonはnilをnullに変換するため
+            borderColor: "rgba(252, 108, 133)",
+            backgroundColor: "rgba(0,0,0,0)",
+            tension: 0
+          }
+        ],
+      },
+      options: {
+        animation: false,
+        plugins: {			
+  				legend: {
+  					display: false
+  				},
+  				tooltip: {
+            enabled: false, // マウスオーバー時のツールチップを非表示
+          }
+  			},
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y:{
+            max: <%= play_type %>,
+            min: 1,
+            reverse: true, // y軸反転
+            ticks: {
+              stepSize: 1,
+              userCallback: function(label, index, labels) {
+                if (Math.floor(label) === label) {
+                  return label;
+                }
+              }
+            },
+          },
+          x:{
+            stacked: true,
+            grid: {
+              display: false, // 横軸のグリッド（縦線たち）を非表示
+            },
+          },
         },
-        options: {
-          title: {
-            display: true,
-            text: '7日間の投稿数の比較'
-          },
-          responsive: true,
-          scales: {
-            y:{
-              suggestedMin: 0,
-              suggestedMax: 10
-            },
-            x:{
-              stacked: true
-            },
-          },
-        }
-      });
+      }
     });
-  </script>
+  });
+</script>

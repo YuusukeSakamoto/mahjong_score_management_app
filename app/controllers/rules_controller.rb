@@ -1,5 +1,6 @@
 class RulesController < ApplicationController
   before_action :set_rule, only: [:show, :edit, :update, :destroy]
+  before_action :set_player, only: [:create, :edit]
   before_action :authenticate_user!
 
   def index
@@ -24,14 +25,12 @@ class RulesController < ApplicationController
       end
       redirect_to player_rules_path, flash: {notice: "ルール < #{@rule.name} > を登録しました"} and return
     else
-      set_player
       render :new
     end
   end
 
   def edit
     redirect_to root_path, flash: {alert: 'ルール登録者でなければ、編集できません。'} and return unless current_player == @rule.player
-    set_player
   end
 
   def update
