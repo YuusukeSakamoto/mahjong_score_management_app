@@ -64,17 +64,19 @@
                 %nav#g-nav
                   #g-nav-list
                     %ul
-                      %li.mb-4
+                      %li
                         .nav-icon
-                          // = image_tag current_user.avatar.url, class: 'rounded-circle', alt: 'icon'
-                      %li= link_to 'TOP', root_path
+                          = image_tag current_user.avatar.url, class: 'rounded-circle', alt: 'icon'
+                        %span ID : #{current_player.id}
+                        =link_to "#{current_user.name}", edit_user_registration_path, class: "border-b"
+                      %li= link_to 'TOP', root_path, class: "border-b"
                       %li= link_to '個人成績詳細', player_path(current_player)
-                      %li= link_to '対局一覧', matches_path(p_id: current_player.id)
+                      %li= link_to '成績表一覧', match_groups_path
+                      %li= link_to '対局一覧', matches_path(p_id: current_player.id), class: "border-b"
                       %li= link_to 'ルール登録', new_player_rule_path(current_player)
-                      %li= link_to 'ルール一覧', player_rules_path(current_player)
-                      %li= link_to 'プレイヤーを招待する', "#"
-                      %li= link_to 'アカウント情報編集', edit_user_registration_path
-                      %li= link_to 'ログアウト', destroy_user_session_path
+                      %li= link_to 'ルール一覧', player_rules_path(current_player), class: "border-b"
+                      %li= link_to 'プレイヤーを招待する', "#", class: "border-b"
+                      %li= link_to 'ログアウト', destroy_user_session_path, class: "border-b"
           - else
             // ログアウト時
             //　≧ 768px
