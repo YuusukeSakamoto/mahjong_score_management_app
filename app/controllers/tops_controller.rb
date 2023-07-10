@@ -9,7 +9,7 @@ class TopsController < ApplicationController
       match_ids = Result.match_ids(current_player.id)
       set_sanyon_matches(match_ids)
       set_sanyon_match_ids(match_ids)
-      set_graph_rank_datas
+      set_graph_rank_data
     end
   end
   
@@ -28,18 +28,18 @@ class TopsController < ApplicationController
     end
     
     # 順位グラフ用データをセットする
-    def set_graph_rank_datas
-      @rank_datas = {}
-      @rank_datas[3] = @player.results.where(match_id: @sanyon_match_ids[3]).last(RANK_DATA_NUM).pluck(:rank)
-      add_null(@rank_datas[3]) if @rank_datas[3].count <= RANK_DATA_NUM
-      @rank_datas[4] = @player.results.where(match_id: @sanyon_match_ids[4]).last(RANK_DATA_NUM).pluck(:rank)
-      add_null(@rank_datas[4]) if @rank_datas[4].count <= RANK_DATA_NUM
+    def set_graph_rank_data
+      @rank_data = {}
+      @rank_data[3] = @player.results.where(match_id: @sanyon_match_ids[3]).last(RANK_DATA_NUM).pluck(:rank)
+      add_null(@rank_data[3]) if @rank_data[3].count <= RANK_DATA_NUM
+      @rank_data[4] = @player.results.where(match_id: @sanyon_match_ids[4]).last(RANK_DATA_NUM).pluck(:rank)
+      add_null(@rank_data[4]) if @rank_data[4].count <= RANK_DATA_NUM
     end
     
     # RANK_DATA_NUMに満たない場合はNULLで埋める
-    def add_null(rank_datas)
-      (RANK_DATA_NUM - rank_datas.count).times do |i|
-        rank_datas << nil
+    def add_null(rank_data)
+      (RANK_DATA_NUM - rank_data.count).times do |i|
+        rank_data << nil
       end
     end
 end

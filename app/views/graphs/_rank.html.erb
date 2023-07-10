@@ -11,7 +11,7 @@
         datasets: [
           {
             label: '順位',
-            data: <%= @rank_datas[play_type].to_json %>, // .to_jsonはnilをnullに変換するため
+            data: <%= @rank_data[play_type].to_json %>, // .to_jsonはnilをnullに変換するため
             borderColor: "rgba(252, 108, 133)",
             backgroundColor: "rgba(0,0,0,0)",
             tension: 0
