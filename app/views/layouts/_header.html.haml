@@ -88,13 +88,13 @@
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} 対局成績
                     %ul
-                      %li.child= link_to '個人成績詳細', player_path(current_player)
-                      %li.child= link_to '対局一覧', matches_path(p_id: current_player.id)
+                      %li.child= link_to '個人成績詳細', "#"
+                      %li.child= link_to '対局一覧', "#"
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} ルール
                     %ul
-                      %li.child= link_to '新規登録', new_player_rule_path(current_player)
-                      %li.child= link_to 'ルール一覧', player_rules_path(current_player)
+                      %li.child= link_to '新規登録', "#"
+                      %li.child= link_to 'ルール一覧', "#"
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} プレイヤー情報
                     %ul
