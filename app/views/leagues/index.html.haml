@@ -16,7 +16,7 @@
                 .card-body
                   .d-flex.justify-content-center.align-items-center.py-1.mb-2.border-green-thin_bottom
                     %h5.fw-bold.card-title.mb-0= league.name
-                    = link_to new_match_path(league: league.id), class: 'px-1 pt-1 pb-0 text-main' do
+                    = link_to league_path(league), class: 'px-1 pt-1 pb-0 text-main' do
                       %i.bx.bx-link-external.text-gray{style: "padding-top: 1px;"}
                   .d-flex.flex-wrap.justify-content-center.mb-1
                     - league.league_players.each do |l_player|

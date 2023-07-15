@@ -3,6 +3,7 @@ class CreateRules < ActiveRecord::Migration[6.1]
     create_table :rules do |t|
       t.references :player, null: false, foreign_key: true
       t.string :name, null: false
+      t.integer :play_type, null: false
       t.integer :mochi, null: false
       t.integer :kaeshi, null: false
       t.integer :uma_1, null: false
@@ -10,9 +11,9 @@ class CreateRules < ActiveRecord::Migration[6.1]
       t.integer :uma_3, null: false
       t.integer :uma_4, null: false
       t.integer :score_decimal_point_calc, null: false
-      t.integer :is_chip, null: false
-      t.integer :chip_rate, null: false
-      t.string :description, null: false
+      t.boolean :is_chip, default: false, null: false
+      t.integer :chip_rate
+      t.string :description
 
       t.timestamps
     end
