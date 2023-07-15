@@ -96,15 +96,20 @@
     z-index: 999;
     top: 50%;
     left: 50%;
+    width: 75%;
+    padding: 0px;
     transform: translate(-50%,-50%);
   }
 
   /*リストのレイアウト設定*/
   li{
+    color: $white!important;
     list-style: none;
     text-align: center;
+    .border-b {
+      border-bottom: 1px white solid;
+    }
     a{
-      color: $white!important;
       text-decoration: none;
       padding:15px;
       display: block;

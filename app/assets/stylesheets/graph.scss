@@ -1,0 +1,7 @@
+// グラフに関するcss
+.canvas-container {
+  position: relative;
+  width:  calc(100% - 10px);
+  height: 150px;
+  overflow: hidden;
+}
