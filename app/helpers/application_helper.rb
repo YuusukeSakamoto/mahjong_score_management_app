@@ -1,7 +1,7 @@
 module ApplicationHelper
   # ログインユーザーに紐づくプレイヤーを取得する
   def current_player
-    current_user&.player # 仮ユーザー
+    current_user&.player
   end
   
   # 漢数字に変換する

@@ -12,8 +12,8 @@ class CreateRules < ActiveRecord::Migration[6.1]
       t.integer :uma_4, null: false
       t.integer :score_decimal_point_calc, null: false
       t.boolean :is_chip, default: false, null: false
-      t.integer :chip_rate
-      t.string :description
+      t.integer :chip_rate, null: false
+      t.string :description, null: false
 
       t.timestamps
     end
