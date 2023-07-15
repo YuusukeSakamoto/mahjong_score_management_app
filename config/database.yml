@@ -50,6 +50,6 @@ test:
 #
 production:
   <<: *default
-  database: mahjong_score_management_production
-  username: mahjong_score_management
-  password: <%= ENV['MAHJONG_SCORE_MANAGEMENT_DATABASE_PASSWORD'] %>
+  adapter: postgresql
+  encoding: unicode
+  url: <%= ENV['DATABASE_URL'] %>
