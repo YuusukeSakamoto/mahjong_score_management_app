@@ -6,8 +6,9 @@ class Player < ApplicationRecord
   has_many :rules ,dependent: :destroy #playerに紐づいたrulesも削除される
   has_many :matches 
   has_many :results 
+  has_many :leagues 
   
-  attr_accessor :invite_token, :match_ids
+  attr_accessor :invite_token, :match_ids, :cr
   
   HYPHENS = [' - ',' - ',' - ',' - ']
   HYPHEN = ' - '
@@ -135,7 +136,8 @@ class Player < ApplicationRecord
   
   # current_playerから該当プレイヤーが招待可能か真偽値を返す
   def can_invite?(current_player)
-    is_recorded_by_current_player?(current_player) && self.user_id.nil?
+    self.cr = current_player
+    is_recorded_by_current_player? && self.user_id.nil?
   end
   
   # 招待トークンを発行してDB保存する
@@ -145,10 +147,25 @@ class Player < ApplicationRecord
   end
 
   # current_playerが記録をつけたプレイヤーか真偽値を返す
-  def is_recorded_by_current_player?(current_player)
-    recorded_match_ids = current_player.matches.pluck(:id) # current_playerが記録した対局idを配列で取得
-    Result.where(match_id: recorded_match_ids).where.not(player_id: current_player.id)
-      .select(:player_id).distinct.pluck(:player_id).include?(id)
+  def is_recorded_by_current_player?
+    recorded_players.include?(id)
+  end
+  
+  # current_playerが招待可能な全プレイヤーを取得する
+  def invitation_players
+    self.cr = self
+    Player.where(id: cr.recorded_players).where(user_id: nil)
+  end
+  
+  # current_playerが記録した対局idを配列で取得
+  def recorded_match_ids
+    cr.matches.pluck(:id) 
+  end
+  
+  # current_playerが成績記録したプレイヤーを配列で取得
+  def recorded_players
+    Result.where(match_id: recorded_match_ids).where.not(player_id: cr.id)
+      .select(:player_id).distinct.pluck(:player_id)
   end
   
   #************************************
@@ -163,6 +180,24 @@ class Player < ApplicationRecord
   # 登録した四人麻雀or三人麻雀ルールをすべて取得する
   def rule_list(play_type)
     rules.where(play_type: play_type)
+  end
+  
+  #************************************
+  # リーグ用メソッド
+  #************************************
+  # プレイヤーがリーグを登録しているか
+  def leagues_registered?
+    leagues.count > 0
+  end
+  
+  # 成績推移グラフ用のデータを取得する
+  def point_history_data(l_id)
+    points = results.where(match_id: match_ids).pluck(:point)
+    points_history = [0]
+    points.each do |point|
+      points_history << (points_history[-1] + point).round(1)
+    end
+    points_history
   end
   
 end

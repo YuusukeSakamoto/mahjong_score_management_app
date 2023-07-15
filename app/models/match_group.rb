@@ -2,6 +2,7 @@ class MatchGroup < ApplicationRecord
   has_many :matches ,dependent: :destroy #match_groupに紐づいたmatchesも削除される
   belongs_to :rule
   has_many :chip_results
+  belongs_to :league, optional: true #optional:trueで外部キーがnilでもDB登録できる
   
   scope :desc, -> { order(created_at: :desc) } #作成の降順
   

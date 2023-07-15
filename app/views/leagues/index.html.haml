@@ -1,0 +1,34 @@
+.container
+  .row.d-flex.justify-content-center.text-main
+    .col-12.text-center.pb-2
+      .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.mt-4
+        .d-flex.align-items-end
+          %h4.text-center.text-md-start.fw-bold.mb-0 リーグ一覧
+      - if @leagues.blank?
+        .col-6.col-md-4.m-auto
+          %p.fs-bold.text-center.mt-4 リーグが登録されていません
+          = link_to 'リーグ作成する', new_league_path(p_id: current_player.id)
+      - else
+        .mt-3.table-responsive
+          %table.table.table-bordered.table-sm.text-main.text-nowrap.col-10.col-md-6.fs-table
+            %thead
+              %tr.bg-lightgray.w-100
+                %th.w-show{scope: "col"} 記録
+                %th.w-date{scope: "col"} リーグ名
+                %th.w-players{colspan: "4",scope: "col"}参加プレイヤー
+                %th.w-rule{scope: "col"} ルール
+                %th.w-show{scope: "col"} 編集/削除
+              - @leagues.each do |league| 
+                %tr
+                  %td.p-0
+                    = link_to new_match_path(league: league.id), class: 'px-1 pt-1 pb-0 text-main' do
+                      %i.bx.bx-edit-alt.bx-size{style: "padding-top: 1px;"}
+                  %td= link_to league.name, league_path(league),data: { "turbolinks" => false }
+                  - league.league_players.each do |l_player|
+                    %td= l_player.player.name
+                  -if league.league_players.count == 3
+                    %td -
+                  %td= league.rule.name
+                  %td.p-0
+                    = link_to edit_league_path(league), class: 'px-1 pt-1 pb-0 text-main' do
+                      %i.bx.bx-edit-alt.bx-size{style: "padding-top: 1px;"}

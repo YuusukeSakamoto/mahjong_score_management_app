@@ -1,6 +1,8 @@
 - if instance.errors.any?
-  %ul.alert.alert-danger.text-center
+  %ul.alert.validation-alert.text-center
     %h3
     - instance.errors.full_messages.each do |msg|
-      %li.list-unstyled
-        = msg
+      .d-flex.align-items-center
+        %i.bx.bx-error-alt.pe-1
+        %li.list-unstyled
+          = msg

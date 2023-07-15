@@ -1,0 +1,61 @@
+.container
+  .row.d-flex.justify-content-center
+    .col-11.col-md-7.text-center.pb-2.mt-4
+      %h2.text-center.fw-bold.mb-2= @league.name
+      %span.text-main.fs-sm.mx-1= "#{@league.first_record_day} ~ #{@league.last_record_day}"
+      %p.text-main.fs-sm.mb-0= "対局数 : #{@league.match_count}"
+      %p.text-main.fs-sm.mb-0= @league.description
+  .row
+    .col-md-10.m-auto
+      .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main
+        %h4.text-center.text-md-start.fw-bold.mb-0 順位表
+      .mt-3.table-responsive
+        %table.table.table-bordered.table-sm.text-main.text-nowrap.text-center.col-10.col-md-6.px-2.fs-sm
+          %thead
+            %tr.bg-lightgray.w-100
+              %th.w-date{scope: "col"} 順位
+              %th.w-mochi{scope: "col"} プレイヤー
+              %th.w-uma{scope: "col"} 総合pt
+              %th.w-uma{scope: "col"} 1位
+              %th.w-uma{scope: "col"} 2位
+              %th.w-uma{scope: "col"} 3位
+              %th.w-uma{scope: "col"} 4位
+            - @rank_table_data.each.with_index(1) do |data, i| 
+              %tr
+                %td= i
+                %td= data[:name]
+                %td= data[:total_pt]
+                - data[:rank_times].each do |d|
+                  %td= d
+  .row
+    .col-md-10.m-auto.mb-2
+      .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main
+        %h4.text-center.text-md-start.fw-bold.mb-0 総合pt推移
+      = render partial: 'graphs/league_result', locals: { league_id: @league.id }
+
+  .row
+    .col-md-10.m-auto
+      .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main
+        %h4.text-center.text-md-start.fw-bold.mb-0 リーグ対局一覧
+
+      .mt-3.table-responsive
+        %table.table.table-sm.text-main.text-center.col-10.col-md-6.fs-table
+          %thead.align-middle
+            %tr.bg-lightgray.w-100
+              %th.w-date{scope: "col"} 対局日
+              - @l_players.each do |l_player|
+                %th.w-players-name{scope: "col"}= l_player.player.name
+              %th.w-show{scope: "col"} 詳細
+          -  @l_matches.each do |match| 
+            %tr
+              %td= match.match_on.to_s(:yeardate)
+              - match.results.order(:player_id).each do |r|
+                %td.w-players-name= r.point
+              %td.p-0
+                = link_to match_path(match), class: 'px-1 pt-1 pb-0 text-main' do
+                  %i.bx.bx-link-external.bx-size{style: "padding-top: 1px;"}
+      -if @l_matches.blank?
+        %p 対局成績なし
+        
+  .col-6.col-md-4.mt-3.mx-auto
+    = link_to 'リーグ対局を記録する', new_match_path(league: @league.id), class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"

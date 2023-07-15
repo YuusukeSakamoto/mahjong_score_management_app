@@ -46,15 +46,20 @@
                       %li.child= link_to '成績表一覧', match_groups_path
                       %li.child= link_to '対局一覧', matches_path(p_id: current_player.id)
                   %li.has-child.d-flex.flex-column.align-items-center
+                    %a.text-nowrap.current{href: "#"} リーグ対局
+                    %ul
+                      %li.child= link_to 'リーグ作成', new_league_path(p_id: current_player.id)
+                      %li.child= link_to 'リーグ一覧', leagues_path, data: { "turbolinks" => false }
+                  %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} ルール
                     %ul
-                      %li.child= link_to '新規登録', new_player_rule_path(current_player)
+                      %li.child= link_to 'ルール登録', new_player_rule_path(current_player)
                       %li.child= link_to 'ルール一覧', player_rules_path(current_player)
                   %li.has-child.d-flex.flex-column.align-items-center
-                    %a.text-nowrap.current{href: "#"} プレイヤー情報
+                    %a.text-nowrap.current{href: "#"} その他
                     %ul
-                      %li.child= link_to '仮', '#'
-                      %li.child= link_to '仮', "#"
+                      %li.child= link_to 'アカウント招待', players_invitations_path
+                      %li.child= link_to 'Q&A', "#"
               //　≦ 768px
               #hamburger_menu.d-md-none
                 .openbtn
@@ -73,9 +78,12 @@
                       %li= link_to '個人成績詳細', player_path(current_player)
                       %li= link_to '成績表一覧', match_groups_path
                       %li= link_to '対局一覧', matches_path(p_id: current_player.id), class: "border-b"
+                      %li= link_to 'リーグ作成', new_league_path(p_id: current_player.id)
+                      %li= link_to 'リーグ一覧', leagues_path, class: "border-b",data: { "turbolinks" => false }
                       %li= link_to 'ルール登録', new_player_rule_path(current_player)
                       %li= link_to 'ルール一覧', player_rules_path(current_player), class: "border-b"
-                      %li= link_to 'プレイヤーを招待する', "#", class: "border-b"
+                      %li= link_to 'アカウント招待', players_invitations_path, class: "border-b"
+                      %li= link_to 'Q&A', "#", class: "border-b"
                       %li= link_to 'ログアウト', destroy_user_session_path, class: "border-b"
           - else
             // ログアウト時

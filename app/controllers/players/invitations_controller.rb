@@ -1,6 +1,10 @@
 class Players::InvitationsController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @invited_players = current_player.invitation_players
+  end
+
   def new
     @invited_player = Player.find(params[:player_id])
     @invited_player.create_invite_token # 招待トークンを格納する

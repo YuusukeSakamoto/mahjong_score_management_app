@@ -5,6 +5,8 @@
       %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0 対局成績表
       .d-flex.fs-sm
         %p.mb-0.ms-2="#{@match_group.created_at.to_date.to_s(:yeardate)}"
+        - if @match_group.league_id.present?
+          %p.mb-0.ms-2="#{League.find(@match_group.league_id).name}"
         %p.mb-0.ms-2="#{Rule.find(@match_group.rule_id).name}"
         - if Rule.find(@match_group.rule_id).is_chip
           %p.mb-0.ms-2 / チップ有
@@ -48,5 +50,8 @@
     - else
       = link_to '記録終了する', match_group_path(session[:mg], fix: true),
         class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"
-
-.border-bottom.border-2.pt-4.mb-4.w-100
+  - else 
+    - if @match_group.league_id.present?
+      = link_to 'リーグ成績を見る', league_path(@match_group.league_id),
+        class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white",
+        data: { "turbolinks" => false }

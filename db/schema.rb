@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_28_124315) do
+ActiveRecord::Schema.define(version: 2023_07_10_133812) do
 
   create_table "chip_results", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "match_group_id", null: false
@@ -34,10 +34,33 @@ ActiveRecord::Schema.define(version: 2023_06_28_124315) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "league_players", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "league_id", null: false
+    t.bigint "player_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["league_id"], name: "index_league_players_on_league_id"
+    t.index ["player_id"], name: "index_league_players_on_player_id"
+  end
+
+  create_table "leagues", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.bigint "rule_id", null: false
+    t.string "name", null: false
+    t.integer "play_type", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id"], name: "index_leagues_on_player_id"
+    t.index ["rule_id"], name: "index_leagues_on_rule_id"
+  end
+
   create_table "match_groups", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "rule_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "league_id"
+    t.index ["league_id"], name: "index_match_groups_on_league_id"
     t.index ["rule_id"], name: "index_match_groups_on_rule_id"
   end
 
@@ -114,6 +137,11 @@ ActiveRecord::Schema.define(version: 2023_06_28_124315) do
 
   add_foreign_key "chip_results", "match_groups"
   add_foreign_key "chip_results", "players"
+  add_foreign_key "league_players", "leagues"
+  add_foreign_key "league_players", "players"
+  add_foreign_key "leagues", "players"
+  add_foreign_key "leagues", "rules"
+  add_foreign_key "match_groups", "leagues"
   add_foreign_key "match_groups", "rules"
   add_foreign_key "matches", "match_groups"
   add_foreign_key "matches", "players"

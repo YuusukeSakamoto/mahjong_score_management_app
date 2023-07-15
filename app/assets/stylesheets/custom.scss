@@ -1,13 +1,10 @@
 @import 'variable';
+@import 'mixin';
 
 ::placeholder {
    color: #d3d3d3!important;
 }
 
-// エラーメッセージ出力時にレイアウト崩れるの防止
-.field_with_errors {
-  display: contents;
-}
 
 // テーブルデータ
 td {
@@ -15,10 +12,10 @@ td {
 }
 
 // スマホレイアウト
-@media (max-width: 480px) {
- body, a {
-   font-size: 0.8rem!important;
- }
+@include smartphone {
+  body, a {
+    font-size: 0.8rem!important;
+  }
 }
 
 a {
@@ -50,20 +47,28 @@ button, input[type="submit"] {
   }
 }
 
-
-
 // 仮画像
 .temporary_image {
   height: 300px;
   width: 300px;
   background-color: gray;
 }
+// ===============================
+// バリデーションエラーMSG
+// ===============================
+.validation-alert{
+  border: 2px solid #ff7587!important; /* light-red */
+  color: #ee5266; /* red */
+}
+
+// エラーメッセージ出力時にレイアウト崩れるの防止
+.field_with_errors {
+  display: contents;
+}
 
 // ===============================
 // レイアウト・サイズ
 // ===============================
-
-
 
 .p-025 {
   padding: 0.25rem!important;
@@ -242,6 +247,52 @@ button, input[type="submit"] {
 // ===============================
 // フォントサイズ
 // ===============================
-.fs-sm {
-  font-size: 0.8rem!important;
+.fs{
+  &-sm {
+    font-size: 0.8rem!important;
+    @include smartphone {
+      font-size: 0.6rem!important;
+    }
+  }
+  &-table {
+    a {
+      font-size: 0.8rem!important;
+      @include smartphone {
+        font-size: 0.5rem!important;
+      }
+    }
+    font-size: 0.8rem!important;
+    @include smartphone {
+      font-size: 0.5rem!important;
+    }
+  }
+}
+
+// ===============================
+// 特定項目
+// ===============================
+/*必須項目*/
+.p_required {
+  color: $green; 
+  font-weight: bold;
+  padding-left: 10px;
+}
+/*フォーム注意文(赤)*/
+.p_warning {
+  color: $red; 
+  font-size: 0.8rem;
+  @include smartphone {
+    font-size: 0.5rem!important;
+  }
+  padding-left: 10px;
+}
+
+// ===============================
+// boxicon
+// ===============================
+.bx-size {
+  font-size: 1.55rem!important;
+  @include smartphone {
+    font-size: 1.1rem!important;
+  }
 }

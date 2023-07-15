@@ -131,21 +131,125 @@ mg = MatchGroup.create({rule_id: players_2[0].rules.first.id})
   
 4.times do |i|
   m = Match.create({player_id: players_2[0].id,
-                               rule_id: players_2[0].rules.first.id,
-                               match_on: Date.today,
-                               play_type: 4,
-                               match_group_id: mg.id})
+                   rule_id: players_2[0].rules.first.id,
+                   match_on: Date.today,
+                   play_type: 4,
+                   match_group_id: mg.id})
                
   4.times do |k|
     Result.create({match_id: m.id, 
-                              player_id: players_2[k].id,
-                              score: scores[k],
-                              point: points[k],
-                              ie: ies[k],
-                              rank: ranks[k]})
+                  player_id: players_2[k].id,
+                  score: scores[k],
+                  point: points[k],
+                  ie: ies[k],
+                  rank: ranks[k]})
   end
   scores << scores.shift
   points << points.shift
   ies << ies.shift
   ranks << ranks.shift
+end
+# **** リーグ登録 (4マ)*******************************************************
+league = League.create({player_id: players_1[0].id,
+                        rule_id: players_1[0].rules.first.id,
+                        name: "テストリーグ",
+                        play_type: 4,
+                        description: "これはテストリーグです"
+                      })
+
+4.times do |i|
+  LeaguePlayer.create!({league_id: league.id,
+                      player_id: players_1[i].id})
+end
+
+# **** リーグ成績登録 #1 *******************************************************
+scores = [ 31500, 27000, 23000, 18500]
+points = [ 50, 7, -17, -40]
+ies = [ 1, 2, 3, 4]
+ranks = [1, 2, 3, 4]
+
+mg = MatchGroup.create({rule_id: players_1[0].rules.first.id, league_id: league.id })
+                        
+4.times do |i|
+  m = Match.create({player_id: players_1[0].id,
+                   rule_id: players_1[0].rules.first.id,
+                   match_on: Date.today - 2,
+                   play_type: 4,
+                   match_group_id: mg.id})
+               
+  4.times do |k|
+    Result.create({match_id: m.id, 
+                  player_id: players_1[k].id,
+                  score: scores[k],
+                  point: points[k],
+                  ie: ies[k],
+                  rank: ranks[k]})
+  end
+  if i < 2 # 対局結果を均一にしないため
+    scores << scores.shift
+    points << points.shift
+    ies << ies.shift
+    ranks << ranks.shift
+  end
+end
+# **** リーグ成績登録 #2 *******************************************************
+scores = [ 34500, 23900, 19300, 22300]
+points = [ 54.5, 3.9, -40.7, -17.7]
+ies = [ 1, 2, 3, 4]
+ranks = [1, 2, 4, 3]
+
+mg = MatchGroup.create({rule_id: players_1[0].rules.first.id, league_id: league.id })
+                        
+4.times do |i|
+  m = Match.create({player_id: players_1[0].id,
+                   rule_id: players_1[0].rules.first.id,
+                   match_on: Date.today - 1 ,
+                   play_type: 4,
+                   match_group_id: mg.id})
+               
+  4.times do |k|
+    Result.create({match_id: m.id, 
+                  player_id: players_1[k].id,
+                  score: scores[k],
+                  point: points[k],
+                  ie: ies[k],
+                  rank: ranks[k]})
+  end
+  
+  scores << scores.shift
+  points << points.shift
+  ies << ies.shift
+  ranks << ranks.shift
+end
+
+# **** リーグ成績登録 #3 *******************************************************
+scores = [ 9100, 34900, 19800, 13900]
+points = [ -50.9, 77.2, -0.2, -26.1]
+ies = [ 1, 2, 3, 4]
+ranks = [4, 1, 2, 3]
+
+mg = MatchGroup.create({rule_id: players_1[0].rules.first.id, league_id: league.id })
+                        
+4.times do |i|
+  m = Match.create({player_id: players_1[0].id,
+                   rule_id: players_1[0].rules.first.id,
+                   match_on: Date.today,
+                   play_type: 4,
+                   match_group_id: mg.id})
+               
+  4.times do |k|
+    Result.create({match_id: m.id, 
+                  player_id: players_1[k].id,
+                  score: scores[k],
+                  point: points[k],
+                  ie: ies[k],
+                  rank: ranks[k]})
+  end
+  
+  if i > 1 # 対局結果を均一にしないため
+    scores << scores.shift
+    points << points.shift
+    ies << ies.shift
+    ranks << ranks.shift
+  end
 end

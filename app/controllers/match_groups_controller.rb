@@ -11,7 +11,7 @@ class MatchGroupsController < ApplicationController
   def show
     @match_group = MatchGroup.find(params[:id])
     if params[:fix] == 'true' # 対局成績を確定ボタンから遷移した場合
-      end_record 
+      end_record
     end
   end
 
