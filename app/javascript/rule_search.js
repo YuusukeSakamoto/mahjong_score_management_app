@@ -24,7 +24,7 @@ $(document).on('turbolinks:load', function () {
           let pt_calc = ''
           
         	if (value === 1) {
-        		pt_calc = "計算しない(小数点そのまま)"
+        		pt_calc = "計算しない"
         	} else if (value === 2) {
         		pt_calc = "五捨六入"
         	} else if (value === 3) {
@@ -48,9 +48,7 @@ $(document).on('turbolinks:load', function () {
           
           $('.js-rule').append(
           `<ul class="rounded border-green-thin px-1 py-1 text-gray fs-sm text-center fadeIn">
-          <p class="mb-0">< ルール詳細 ></p>
-          <li style="list-style:none">${data.mochi}点持ち</li>
-          <li style="list-style:none">${data.kaeshi}点返し</li>
+          <li style="list-style:none">${data.mochi}点持ち / ${data.kaeshi}点返し</li>
           <li style="list-style:none">ウマ (${umas})</li>
           <li style="list-style:none">pt小数点 : ${pt_calc}</li>
           <li style="list-style:none">チップ : ${is_chip}</li>

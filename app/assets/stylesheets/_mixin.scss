@@ -1,0 +1,6 @@
+// スマホレイアウト
+@mixin smartphone {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}

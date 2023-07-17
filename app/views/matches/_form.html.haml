@@ -1,7 +1,13 @@
 .row.d-flex.justify-content-center
   .col-12.text-center.pb-2
     %p.w-lg-50.pt-3.fs-3.text-green 対局成績#{action}
-    %p.text-main #{conversion_kanji_num(@match.play_type)}人麻雀
+    - if @league.present?
+      %p.text-main.mb-1="#{conversion_kanji_num(@match.play_type)}人麻雀 / #{@league.name}"
+    - else
+      %p.text-main.mb-1="#{conversion_kanji_num(@match.play_type)}人麻雀"
+  .col-12.text-center
+    %p.text-main.fs-sm.mb-0 ・ptは全ての得点を入力後に自動計算されます 
+    %p.text-main.fs-sm.mb-0 ・ptを手動で変更することも可能です
   .col-10.col-md-8
 
     = form_with model: @match, class: 'mb-4', local: true do |f|

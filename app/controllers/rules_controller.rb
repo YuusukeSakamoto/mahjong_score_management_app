@@ -13,17 +13,17 @@ class RulesController < ApplicationController
   end
 
   def new
+    session[:previous_url] = request.referer  # ここで前ページセッションを保存
     set_rule_player
   end
 
   def create
     @rule = Rule.new(rule_params)
     if @rule.save
-      # 成績登録０件の場合、新規成績登録ページへ
-      unless @player.matches.exists?(play_type: @rule.play_type) 
+      if session[:previous_url].include?(new_player_path)
         redirect_to new_match_path, flash: {notice: "ルール < #{@rule.name} > を登録しました"} and return 
       end
-      redirect_to player_rules_path, flash: {notice: "ルール < #{@rule.name} > を登録しました"} and return
+      redirect_to session[:previous_url], flash: {notice: "ルール < #{@rule.name} > を登録しました"} and return  # create後に遷移させる
     else
       render :new
     end

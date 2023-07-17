@@ -22,9 +22,10 @@ class PlayersController < ApplicationController
       set_session_players(@form) 
       # ルール未登録の場合、ルール登録へ遷移
       if current_player.rules.where(play_type: session_players_num).blank?
-        redirect_to new_player_rule_path(current_player.id) 
+        redirect_to new_player_rule_path(current_player.id) and return
       else
-        redirect_to new_match_path
+        LeaguePlayer.create(@form, session[:league]) if session[:league].present?
+        redirect_to new_match_path and return
       end
     else
       @form.players.each do |player|

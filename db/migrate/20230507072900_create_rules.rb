@@ -3,6 +3,7 @@ class CreateRules < ActiveRecord::Migration[6.1]
     create_table :rules do |t|
       t.references :player, null: false, foreign_key: true
       t.string :name, null: false
+      t.integer :play_type, null: false
       t.integer :mochi, null: false
       t.integer :kaeshi, null: false
       t.integer :uma_1, null: false

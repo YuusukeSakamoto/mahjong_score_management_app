@@ -16,7 +16,7 @@ module ApplicationHelper
   
   # セッションに格納されているプレイヤー数を取得する
   def session_players_num
-    session[:players].count
+    session[:players]&.count
   end
   
   # セッションに格納されているmatch_groupを取得する
@@ -27,6 +27,11 @@ module ApplicationHelper
   # 成績記録中か真偽値で返す
   def recording?
     session[:mg].present?
+  end
+  
+  # リーグ成績記録中か真偽値で返す
+  def league_recording?
+    session[:league].present?
   end
   
 end

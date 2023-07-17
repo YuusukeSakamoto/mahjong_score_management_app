@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   
   namespace :players do 
     resources :searches, only: :index, defaults: { format: :json }
-    resource :invitations, only: [:new]
+    resources :invitations, only: [:index, :new]
   end  
   
   namespace :rules do 
@@ -31,11 +31,10 @@ Rails.application.routes.draw do
   resources :users  
   resources :match_groups, only: [:index, :show] do
     resource :chip_results, only: [:edit, :update]
-  end
+  end  
   
+  resources :leagues
+
   root to: 'tops#show'
-  
-  get '/about', to: 'static_pages#about'  
-  get '/contact', to: 'static_pages#contact' 
   
 end

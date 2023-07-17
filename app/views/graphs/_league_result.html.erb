@@ -1,0 +1,60 @@
+<div class="canvas-container" style="height: 250px;">
+  <canvas id="LeagueLineChart<%= league_id %>" class="league-line-graph"></canvas>
+</div>
+<script>
+  var LeagueLineChart;
+  $(document).on('turbolinks:load', function() {
+    if (LeagueLineChart) {
+      LeagueLineChart.destroy();
+    }
+    var ctx = document.getElementById("LeagueLineChart<%= league_id %>");
+    LeagueLineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: <%== @graph_labels.to_json %>,
+        datasets: <%== @graph_datasets.to_json %>,
+      },
+      options: {
+        animation: false,
+        plugins: {			
+  				legend: {
+  					display: true, // 凡例の表示
+  					labels: {
+  					  boxWidth: 1 // 凡例の太さ
+  					}
+  				},
+        },
+        elements: {
+          line: {
+            borderWidth: 2 // 折れ線の太さ
+          },
+          point:{
+            radius: 0 // データポイントの点
+          },
+  			},
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y:{
+            max: <%== @y_max %>,
+            min: <%== @y_min %>,
+            ticks: {
+              stepSize: 100,
+              userCallback: function(label, index, labels) {
+                if (Math.floor(label) === label) {
+                  return label;
+                }
+              }
+            },
+          },
+          x:{
+            stacked: true,
+            grid: {
+              display: false, // 横軸のグリッド（縦線たち）を非表示
+            },
+          },
+        },
+      }
+    });
+  });
+</script>

@@ -14,11 +14,13 @@ class MatchesController < ApplicationController
     if session[:players].nil?
       redirect_to root_path, flash: {alert: 'プレイヤーが選択されていません'} and return 
     end
-    @match = Match.new
-    @match.play_type = session_players_num
     @players = session[:players]
+    set_league_data if params[:league].present? #リーグ対局記録ボタンから遷移したきた場合
+    @match = Match.new
+    @match.play_type = @players.count
     session_players_num.times { @match.results.build }
     gon.is_recording = recording?
+    gon.is_league_recording = league_recording?
   end
   
   def show
@@ -59,9 +61,18 @@ class MatchesController < ApplicationController
       @match = Match.find(params[:id])
     end
     
+    # リーグに関するデータをセッション等にセットする
+    def set_league_data
+      @league = League.find(params[:league])
+      session[:league] = params[:league]
+      session[:rule] = @league.rule.id
+      @players = @league.league_players.map {|l_player| l_player.player }
+      session[:players] = @players
+    end
+    
     # match初回登録時、match_groupを登録しセッションへmatch_groupとruleを格納する
     def create_match_group
-      @mg = MatchGroup.create(rule_id: params[:match][:rule_id])
+      @mg = MatchGroup.create(rule_id: params[:match][:rule_id], league_id: session[:league])
       create_chip_results if @mg.rule.is_chip
       session[:mg] = @mg.id
       session[:rule] = params[:match][:rule_id] # ２回目以降の成績登録時のデフォルトルールとして使用するためrule_idをセットする

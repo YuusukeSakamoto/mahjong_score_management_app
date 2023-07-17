@@ -1,13 +1,10 @@
 @import 'variable';
+@import 'mixin';
 
 ::placeholder {
    color: #d3d3d3!important;
 }
 
-// エラーメッセージ出力時にレイアウト崩れるの防止
-.field_with_errors {
-  display: contents;
-}
 
 // テーブルデータ
 td {
@@ -15,10 +12,10 @@ td {
 }
 
 // スマホレイアウト
-@media (max-width: 480px) {
- body, a {
-   font-size: 0.8rem!important;
- }
+@include smartphone {
+  body, a {
+    font-size: 0.8rem!important;
+  }
 }
 
 a {
@@ -50,20 +47,28 @@ button, input[type="submit"] {
   }
 }
 
-
-
 // 仮画像
 .temporary_image {
   height: 300px;
   width: 300px;
   background-color: gray;
 }
+// ===============================
+// バリデーションエラーMSG
+// ===============================
+.validation-alert{
+  border: 2px solid #ff7587!important; /* light-red */
+  color: #ee5266; /* red */
+}
+
+// エラーメッセージ出力時にレイアウト崩れるの防止
+.field_with_errors {
+  display: contents;
+}
 
 // ===============================
 // レイアウト・サイズ
 // ===============================
-
-
 
 .p-025 {
   padding: 0.25rem!important;
@@ -108,11 +113,24 @@ button, input[type="submit"] {
   border-color: $green!important;
   &-thin {
     @extend .border-green;
-    border: 0.8px solid;  
+    border: 0.8px solid;
+    &_bottom {
+      @extend .border-green;
+      border-bottom: 0.8px solid; 
+    }
   }
   &-bold {
     @extend .border-green;
-    border: 1.2px solid;
+    border: 1.2px solid!important;
+  }
+  &-btn {
+    @extend .border-green;
+    border: 2px solid!important;
+    &:hover {
+      opacity: 0.8;
+      color: $green!important;
+      @extend %transition;
+    }
   }
   &-left {
     border-left: solid 4px $green;
@@ -134,7 +152,6 @@ button, input[type="submit"] {
       margin-bottom: 0.5rem;
     }
   }
-
 }
 
 // オレンジ枠線
@@ -150,7 +167,13 @@ button, input[type="submit"] {
   }
   &-btn {
     @extend .border-orange;
-    border-width: 3px!important;
+    border-width: 2px!important;
+    color: $orange!important;
+    &:hover {
+      opacity: 0.8;
+      color: $orange!important;
+      @extend %transition;
+    }
   }
 }
 
@@ -242,6 +265,52 @@ button, input[type="submit"] {
 // ===============================
 // フォントサイズ
 // ===============================
-.fs-sm {
-  font-size: 0.8rem!important;
+.fs{
+  &-sm {
+    font-size: 0.8rem!important;
+    @include smartphone {
+      font-size: 0.6rem!important;
+    }
+  }
+  &-table {
+    a {
+      font-size: 0.8rem!important;
+      @include smartphone {
+        font-size: 0.5rem!important;
+      }
+    }
+    font-size: 0.8rem!important;
+    @include smartphone {
+      font-size: 0.5rem!important;
+    }
+  }
+}
+
+// ===============================
+// 特定項目
+// ===============================
+/*必須項目*/
+.p_required {
+  color: $green; 
+  font-weight: bold;
+  padding-left: 10px;
+}
+/*フォーム注意文(赤)*/
+.p_warning {
+  color: $red; 
+  font-size: 0.8rem;
+  @include smartphone {
+    font-size: 0.5rem!important;
+  }
+  padding-left: 10px;
+}
+
+// ===============================
+// boxicon
+// ===============================
+.bx-size {
+  font-size: 1.55rem!important;
+  @include smartphone {
+    font-size: 1.1rem!important;
+  }
 }

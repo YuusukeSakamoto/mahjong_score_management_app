@@ -4,10 +4,11 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :current_player
   
-  # sessionからmatch_groupとruleを削除し、match_groupを確定させる
+  # sessionからmatch_groupとruleとleagueを削除し、match_groupを確定させる
   def end_record
     session[:mg] = nil 
     session[:rule] = nil
+    session[:league] = nil
   end
   
   private

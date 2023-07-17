@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_28_124315) do
+ActiveRecord::Schema.define(version: 2023_07_10_133812) do
 
   create_table "chip_results", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "match_group_id", null: false
@@ -34,21 +34,44 @@ ActiveRecord::Schema.define(version: 2023_06_28_124315) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "league_players", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "league_id", null: false
+    t.bigint "player_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["league_id"], name: "index_league_players_on_league_id"
+    t.index ["player_id"], name: "index_league_players_on_player_id"
+  end
+
+  create_table "leagues", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.bigint "rule_id", null: false
+    t.string "name", null: false
+    t.integer "play_type", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id"], name: "index_leagues_on_player_id"
+    t.index ["rule_id"], name: "index_leagues_on_rule_id"
+  end
+
   create_table "match_groups", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "rule_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "league_id"
+    t.index ["league_id"], name: "index_match_groups_on_league_id"
     t.index ["rule_id"], name: "index_match_groups_on_rule_id"
   end
 
   create_table "matches", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "player_id", null: false
     t.bigint "rule_id", null: false
+    t.integer "play_type", null: false
     t.date "match_on"
     t.string "memo"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "play_type", null: false
     t.bigint "match_group_id"
     t.index ["match_group_id"], name: "index_matches_on_match_group_id"
     t.index ["player_id"], name: "index_matches_on_player_id"
@@ -58,23 +81,23 @@ ActiveRecord::Schema.define(version: 2023_06_28_124315) do
   create_table "players", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "user_id"
+    t.string "invite_token"
+    t.datetime "invite_create_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "invite_create_at"
-    t.string "invite_token"
     t.index ["invite_token"], name: "index_players_on_invite_token", unique: true
     t.index ["user_id"], name: "index_players_on_user_id"
   end
 
   create_table "results", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "match_id", null: false
     t.bigint "player_id", null: false
     t.integer "score", null: false
     t.float "point", null: false
     t.integer "ie", null: false
+    t.integer "rank", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "rank", null: false
-    t.bigint "match_id", null: false
     t.index ["match_id"], name: "index_results_on_match_id"
     t.index ["player_id"], name: "index_results_on_player_id"
   end
@@ -82,6 +105,7 @@ ActiveRecord::Schema.define(version: 2023_06_28_124315) do
   create_table "rules", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "player_id", null: false
     t.string "name", null: false
+    t.integer "play_type", null: false
     t.integer "mochi", null: false
     t.integer "kaeshi", null: false
     t.integer "uma_1", null: false
@@ -94,11 +118,12 @@ ActiveRecord::Schema.define(version: 2023_06_28_124315) do
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "play_type", null: false
     t.index ["player_id"], name: "index_rules_on_player_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "avatar"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -106,14 +131,17 @@ ActiveRecord::Schema.define(version: 2023_06_28_124315) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "name", null: false
-    t.string "avatar"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "chip_results", "match_groups"
   add_foreign_key "chip_results", "players"
+  add_foreign_key "league_players", "leagues"
+  add_foreign_key "league_players", "players"
+  add_foreign_key "leagues", "players"
+  add_foreign_key "leagues", "rules"
+  add_foreign_key "match_groups", "leagues"
   add_foreign_key "match_groups", "rules"
   add_foreign_key "matches", "match_groups"
   add_foreign_key "matches", "players"
