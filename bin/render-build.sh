@@ -18,7 +18,7 @@ bundle exec rake assets:precompile
 bundle exec rake assets:clean
 
 echo "executing migrate"
-# bundle exec rails db:migrate
-DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:migrate:reset
+bundle exec rails db:migrate
+# DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:migrate:reset #データもリセットされるので注意
 
 echo "render-build.sh: done"
