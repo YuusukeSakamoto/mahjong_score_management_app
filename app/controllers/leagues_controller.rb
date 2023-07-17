@@ -16,7 +16,7 @@ class LeaguesController < ApplicationController
   end
   
   def new
-    set_player
+    @player = Player.find(params[:p_id])
     @league = League.new(player_id: params[:p_id])
   end
   
@@ -36,7 +36,7 @@ class LeaguesController < ApplicationController
   
   def update
     if @league.update(league_params)
-      redirect_to leagues_path(@league), notice: "リーグ情報を更新しました"
+      redirect_to leagues_path(@league), notice: "#{@league.name}のリーグ情報を更新しました"
     else
       render :edit
     end
@@ -44,17 +44,13 @@ class LeaguesController < ApplicationController
   
   def destroy
     @league.destroy
-    redirect_to leagues_path(@league), notice: "リーグを削除しました"
+    redirect_to leagues_path, notice: "リーグ< #{@league.name} >を削除しました"
   end
   
   private
   
     def set_league
       @league = League.find(params[:id])
-    end
-    
-    def set_player
-      @player = Player.find(params[:p_id])
     end
     
     def set_session_league

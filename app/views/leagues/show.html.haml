@@ -3,7 +3,7 @@
     .col-11.col-md-7.text-center.pb-2.mt-4
       %h2.text-center.fw-bold.mb-2= @league.name
       %span.text-main.fs-sm.mx-1= "#{@league.first_record_day} ~ #{@league.last_record_day}"
-      %p.text-main.fs-sm.mb-0= "対局数 : #{@league.match_count}"
+      %p.text-main.fs-sm.mb-0= "対局数 : #{Match.league(@league.mg_ids).count}"
       %p.text-main.fs-sm.mb-0= @league.description
   .row
     .col-md-10.m-auto

@@ -100,10 +100,4 @@ class League < ApplicationRecord
     ["#FFFFFF", "#FFFFFF", "#FFFFFF","#FFFFFF"][0..(play_type - 1)] # 全部白
   end
   
-  # リーグにおける対局数を返す
-  def match_count
-    Match.league(@mg_ids).count
-  end
-  
-  
 end

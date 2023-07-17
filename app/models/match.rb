@@ -11,7 +11,7 @@ class Match < ApplicationRecord
   scope :asc, -> { order(match_on: :asc) } #対局日付の降順
   scope :sanma, -> (match_ids){ where(id: match_ids).where(play_type: 3) } #三麻のmatch_idを配列で格納
   scope :yonma, -> (match_ids){ where(id: match_ids).where(play_type: 4) } #四麻のmatch_idを配列で格納
-  scope :league, -> (match_ids){ where(match_group_id: match_ids).asc } #リーグ対局をすべて取得する
+  scope :league, -> (mg_ids){ where(match_group_id: mg_ids).asc } #リーグ対局をすべて取得する
 
   # ログインユーザーの該当対局のポイントを取得する
   def current_player_point(id)
