@@ -10,7 +10,7 @@ class Form::ChipResultCollection < Form::Base
                               number: attribute["number"] ) 
         end
       end
-    elsif action == 'create'
+    elsif action == 'update'
       super attributes
     end
   end

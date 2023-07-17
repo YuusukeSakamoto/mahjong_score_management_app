@@ -13,7 +13,7 @@ class ChipResultsController < ApplicationController
   end
 
   def update
-    @form = Form::ChipResultCollection.new(chip_results_collection_params, 'create')
+    @form = Form::ChipResultCollection.new(chip_results_collection_params, 'update')
     @form.chip_results.each do |chip_result|
       chip_result.point = calculate_point(chip_result)
     end
