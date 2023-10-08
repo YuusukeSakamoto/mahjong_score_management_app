@@ -2,7 +2,11 @@
   .row.d-flex.justify-content-center
     .col-11.col-md-7.text-center.pb-2.mt-4
       %h2.text-center.fw-bold.mb-2= @league.name
-      %span.text-main.fs-sm.mx-1= "#{@league.first_record_day} ~ #{@league.last_record_day}"
+      %span.text-main.fs-sm.mx-1
+        - if @l_matches.blank?
+          = '対局成績がありません'
+        - else
+          = "#{@league.first_record_day} ~ #{@league.last_record_day}"
       %p.text-main.fs-sm.mb-0= "対局数 : #{Match.league(@league.mg_ids).count}"
       %p.text-main.fs-sm.mb-0= @league.description
   .row
@@ -55,7 +59,7 @@
                 = link_to match_path(match), class: 'px-1 pt-1 pb-0 text-main' do
                   %i.bx.bx-link-external.bx-size{style: "padding-top: 1px;"}
       -if @l_matches.blank?
-        %p 対局成績なし
+        %p.text-center.text-main 対局成績なし
         
   .col-6.col-md-4.mt-3.mx-auto
     = link_to 'リーグ対局を記録する', new_match_path(league: @league.id), class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"

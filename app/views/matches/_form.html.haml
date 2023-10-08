@@ -2,7 +2,7 @@
   .col-12.text-center.pb-2
     %p.w-lg-50.pt-3.fs-3.text-green 対局成績#{action}
     - if @league.present?
-      %p.text-main.mb-1="#{conversion_kanji_num(@match.play_type)}人麻雀 / #{@league.name}"
+      %p.text-main.fw-bold.mb-1="#{@league.name}"
     - else
       %p.text-main.mb-1="#{conversion_kanji_num(@match.play_type)}人麻雀"
   .col-12.text-center
@@ -19,7 +19,8 @@
           #div
             = f.label :ルール, class: 'title-p fw-bold text-main'
             %span.p_required 必須
-          = link_to 'ルール一覧', player_rules_path(current_player), class: 'text-pink fs-sm pt-1'
+          - if @league.blank?
+            = link_to 'ルール一覧', player_rules_path(current_player), class: 'text-pink fs-sm pt-1'
         = f.collection_select(:rule_id, current_player.rule_list(@match.play_type),
                               :id, :name,
                               { selected: session[:rule] },

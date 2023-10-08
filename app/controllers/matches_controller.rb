@@ -11,7 +11,7 @@ class MatchesController < ApplicationController
   end  
   
   def new
-    if session[:players].nil?
+    if session[:players].nil? && params[:league].nil?
       redirect_to root_path, flash: {alert: 'プレイヤーが選択されていません'} and return 
     end
     @players = session[:players]

@@ -9,6 +9,7 @@ class League < ApplicationRecord
   attr_accessor :mg_ids, :l_match_ids
   
   def first_record_day
+    return nil if match_groups.count == 0
     match_groups.first.matches.first.match_on.to_s(:yeardate)
   end
   
