@@ -1,6 +1,16 @@
 @import 'variable';
 @import 'mixin';
 
+body{
+ 	display:flex;
+  flex-direction:column;
+ 	min-height: 100vh;
+}
+
+footer{
+  margin-top: auto;
+}
+
 ::placeholder {
    color: #d3d3d3!important;
 }

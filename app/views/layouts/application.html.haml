@@ -8,11 +8,11 @@
     = render 'shared/flash'
     = yield
     = render 'layouts/footer'
-    = debug(params) if Rails.env.development?
-    = debug(session[:players]) if Rails.env.development?
-    = "session[:mg] #{session[:mg]}" if Rails.env.development?
-    = "session[:rule] #{session[:rule]}" if Rails.env.development?
-    = "session[:league] #{session[:league]}" if Rails.env.development?
+    // = debug(params) if Rails.env.development?
+    // = debug(session[:players]) if Rails.env.development?
+    // = "session[:mg] #{session[:mg]}" if Rails.env.development?
+    // = "session[:rule] #{session[:rule]}" if Rails.env.development?
+    // = "session[:league] #{session[:league]}" if Rails.env.development?
     = include_gon
     / js
     %script{async: "async", defer: "defer", src: "https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js"} / LINEシェアリンク用

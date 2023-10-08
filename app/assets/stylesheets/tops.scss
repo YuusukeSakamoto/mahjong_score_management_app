@@ -1,3 +1,74 @@
-// Place all the styles related to the tops controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: https://sass-lang.com/
+@import 'mixin';
+@import 'variable';
+
+#home, #home-end{
+  background-image: url('/assets/bg-image.jpg');
+  /* 背景画像のサイズを調整する場合 */
+  background-size: cover;
+  /* 背景画像を中央に配置する場合 */
+  background-position: center center;
+  /* 背景画像を固定する場合（スクロールしても背景が動かない） */
+  background-attachment: fixed;
+  /* 背景画像を繰り返し表示しない場合 */
+  background-repeat: no-repeat;
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2); /* 半透明の黒色を指定 */
+  }
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.home-text {
+  width: fit-content;
+  background-color: white;
+  padding: 7px;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+
+#feature {
+  .card {
+    border: $green 2px solid;
+    border-radius: 20px;
+    margin: 0.5rem;
+
+    p {
+      margin-bottom: 0px;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+}
+
+.step-title {
+  font-weight: bold;
+}
+
+.feature_card {
+  text-align: center;
+  margin: 0 auto;
+  img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 6px;
+  }
+  &__image01, &__image02 {
+    padding: 6px;
+  }
+  &__title {
+    font-weight: bold;
+    color: $dark-green;
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+  }
+}

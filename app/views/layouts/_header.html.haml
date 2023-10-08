@@ -96,18 +96,24 @@
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} 対局成績
                     %ul
-                      %li.child= link_to '個人成績詳細', "#"
-                      %li.child= link_to '対局一覧', "#"
+                      %li.child= link_to '個人成績詳細', '#'
+                      %li.child= link_to '成績表一覧', '#'
+                      %li.child= link_to '対局一覧', '#'
+                  %li.has-child.d-flex.flex-column.align-items-center
+                    %a.text-nowrap.current{href: "#"} リーグ対局
+                    %ul
+                      %li.child= link_to 'リーグ作成', '#'
+                      %li.child= link_to 'リーグ一覧', '#'
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} ルール
                     %ul
-                      %li.child= link_to '新規登録', "#"
-                      %li.child= link_to 'ルール一覧', "#"
+                      %li.child= link_to 'ルール登録', '#'
+                      %li.child= link_to 'ルール一覧', '#'
                   %li.has-child.d-flex.flex-column.align-items-center
-                    %a.text-nowrap.current{href: "#"} プレイヤー情報
+                    %a.text-nowrap.current{href: "#"} その他
                     %ul
-                      %li.child= link_to '仮', '#'
-                      %li.child= link_to '仮', "#"
+                      %li.child= link_to 'アカウント招待', '#'
+                      %li.child= link_to 'Q&A', "#"
               //　≦ 768px
               #hamburger_menu.d-md-none
                 .openbtn.d-md-none
