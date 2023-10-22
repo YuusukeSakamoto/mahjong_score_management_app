@@ -17,6 +17,9 @@
                   - else
                     = image_tag 'default_icon.png', class: 'rounded-circle', alt: 'icon'
                 = link_to 'ログアウト', destroy_user_session_path, class: 'fs-sm ms-2 text-main'
+                / ログインしてるユーザーが管理者の場合のみ
+                - if current_user.try(:admin?)
+                  .fs-sm.text-main.ms-2= link_to '管理画面ログイン', rails_admin_path
           - else
             // ログアウト時
             .right-contents
@@ -85,6 +88,9 @@
                       %li= link_to 'アカウント招待', players_invitations_path, class: "border-b"
                       %li= link_to 'Q&A', "#", class: "border-b"
                       %li= link_to 'ログアウト', destroy_user_session_path, class: "border-b"
+                      / ログインしてるユーザーが管理者の場合のみ
+                      - if current_user.try(:admin?)
+                        %li= link_to '管理画面ログイン', rails_admin_path, class: "border-b"
           - else
             // ログアウト時
             //　≧ 768px

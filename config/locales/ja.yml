@@ -32,3 +32,8 @@ ja:
         name: リーグ名
         rule_id: ルール
         play_type: 三麻/四麻
+  enums:
+    user:
+      role:
+        general: 一般
+        admin: 管理者
