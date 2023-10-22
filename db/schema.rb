@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_22_002602) do
+ActiveRecord::Schema.define(version: 2023_10_22_053329) do
 
   create_table "chip_results", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "match_group_id", null: false
@@ -22,6 +22,15 @@ ActiveRecord::Schema.define(version: 2023_10_22_002602) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["match_group_id"], name: "index_chip_results_on_match_group_id"
     t.index ["player_id"], name: "index_chip_results_on_player_id"
+  end
+
+  create_table "contacts", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "content", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_contacts_on_user_id"
   end
 
   create_table "form_bases", charset: "utf8mb4", force: :cascade do |t|
@@ -138,6 +147,7 @@ ActiveRecord::Schema.define(version: 2023_10_22_002602) do
 
   add_foreign_key "chip_results", "match_groups"
   add_foreign_key "chip_results", "players"
+  add_foreign_key "contacts", "users"
   add_foreign_key "league_players", "leagues"
   add_foreign_key "league_players", "players"
   add_foreign_key "leagues", "players"
