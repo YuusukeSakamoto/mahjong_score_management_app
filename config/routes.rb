@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   namespace :players do 
     resources :searches, only: :index, defaults: { format: :json }
     resources :invitations, only: [:index, :new]

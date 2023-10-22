@@ -20,3 +20,7 @@ require("rule_form_change.js")
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+$(function(){
+  setTimeout("$('.flash').fadeOut('slow')", 2000);
+});

@@ -35,6 +35,13 @@ gem 'carrierwave', '~> 2.0'
 # jsでrailsで定義した処理を使用
 gem 'gon'
 
+# 管理画面
+gem 'rails_admin'
+gem 'cancancan'
+
+#enum日本語化
+gem 'enum_help'
+
 group :development, :test do
   gem 'byebug', '11.1.3'
   gem 'faker'
