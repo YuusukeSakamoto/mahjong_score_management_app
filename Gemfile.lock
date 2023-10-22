@@ -110,6 +110,10 @@ GEM
       warden (~> 1.2.3)
     devise-i18n (1.11.0)
       devise (>= 4.9.0)
+    dotenv (2.8.1)
+    dotenv-rails (2.8.1)
+      dotenv (= 2.8.1)
+      railties (>= 3.2)
     enum_help (0.0.19)
       activesupport (>= 3.0.0)
     erubi (1.12.0)
@@ -339,6 +343,7 @@ DEPENDENCIES
   chart-js-rails (~> 0.1.4)
   devise
   devise-i18n
+  dotenv-rails
   enum_help
   faker
   font-awesome-sass

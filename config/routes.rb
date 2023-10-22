@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   end  
   
   resources :leagues
+  
+  resources :contacts, only: [:new, :create]
 
   root to: 'tops#show'
   

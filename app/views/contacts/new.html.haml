@@ -1,0 +1,27 @@
+.container
+  .row
+    .col-12.text-center.pb-2
+      .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.mt-4
+        .d-flex.align-items-end.text-main
+          %h4.text-center.text-md-start.fw-bold.mb-0 問い合わせ
+  .row
+    .col-12.pb-2.text-main
+      = form_with(model: @contact, local: true) do |f|
+        .col-8.mx-auto
+          = render 'layouts/validation_error', instance: @contact
+          .d-flex.flex-column.mb-2
+            .contact-label.mb-1
+              = f.label "お名前", class: "fw-bold"
+              %span.p_required 必須
+            = f.text_field :name, placeholder: "お名前", value: current_user.name,
+              class: "form-control rounded"
+          .d-flex.flex-column.mb-4
+            .contact-label.mb-1
+              = f.label "お問合せ内容", class: "fw-bold"
+              %span.p_required 必須
+            = f.text_area :content, placeholder: "お問合せ内容を入力してください",
+              class: "form-control rounded", rows: 5
+            = f.hidden_field :user_id, value: current_user.id
+          .p-form__input-submit.text-center
+            = f.submit "送信する", 
+              class: 'btn rounded fw-bold box-shadow text-white px-5 py-3 bg-orange'

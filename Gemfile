@@ -42,6 +42,9 @@ gem 'cancancan'
 #enum日本語化
 gem 'enum_help'
 
+#　環境変数
+gem 'dotenv-rails'
+
 group :development, :test do
   gem 'byebug', '11.1.3'
   gem 'faker'
