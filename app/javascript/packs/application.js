@@ -16,6 +16,7 @@ require("remaining_score_calculate.js")  // ←jsファイル分だけ追加す�
 require("global_menu.js")
 require("dropdown_menu.js")
 require("rule_form_change.js")
+require("player_select.js")
 
 Rails.start()
 Turbolinks.start()

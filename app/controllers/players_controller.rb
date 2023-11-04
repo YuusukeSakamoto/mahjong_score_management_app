@@ -10,30 +10,46 @@ class PlayersController < ApplicationController
   end
   
   def new
-    @form = Form::PlayerCollection.new(params[:play_type].to_i)
-    @error_player = Player.new
-    set_default_players
+    @play_type = params[:play_type]
+    @league_name = League.find_by(id: params[:league]).name if params[:league].present?
+    # URLによる認証済みプレイヤーがいればセットする
+    @authenticated_users = User.where(token_issued_user: current_user.id)
+    
+    get_played_player
+    current_user.generate_authentication_url
+    @authentication_url = players_authentications_url(tk: current_user.player_select_token)
   end
   
   def create
-    @form = Form::PlayerCollection.new(0 ,player_collection_params)
-
-    if @form.save
-      set_session_players(@form) 
-      # ルール未登録の場合、ルール登録へ遷移
-      if current_player.rules.where(play_type: session_players_num).blank?
-        redirect_to new_player_rule_path(current_player.id) and return
+    session_players = []
+    
+    p_ids_names = params[:p_ids].map(&:to_i).zip(params[:p_names])
+    
+    p_ids_names.each do |id, name| 
+      if id == 0 
+        new_player = Player.create(name: name)
+        session_players << new_player
       else
-        LeaguePlayer.create(@form, session[:league]) if session[:league].present?
-        redirect_to new_match_path and return
+        searched_player = Player.find_by(id: id)
+        if searched_player.nil? #playerが登録されていない場合、エラーとする
+          get_played_player
+          redirect_to new_player_path(play_type: p_ids_names.count), alert: "プレイヤー選択でエラーが発生しました" and return
+        end
+        searched_player.user&.update(token_issued_user: nil) #トークン発行元ユーザーの情報をリセット
+        session_players << searched_player
       end
-    else
-      @form.players.each do |player|
-        @error_player = player unless player.errors.blank?
-      end
-      @default_players = @form.players
-      render :new
     end
+    
+    session[:players] = session_players
+
+    # ルール未登録の場合、ルール登録へ遷移
+    if current_player.rules.where(play_type: session_players_num).blank?
+      redirect_to new_player_rule_path(current_player.id) and return
+    else
+      LeaguePlayer.create(session[:players], session[:league]) if session[:league].present?
+      redirect_to new_match_path(league: session[:league]) and return
+    end
+
   end
   
   private 
@@ -42,24 +58,19 @@ class PlayersController < ApplicationController
       @player = Player.find(params[:id])  
     end
     
-    # セッションへプレイヤー情報を格納する
-    def set_session_players(form)
-      session[:players] = form.session_players
-    end
-    
-    def player_collection_params
-        params.require(:form_player_collection)
-        .permit(players_attributes: [:name, :user_id, :id])
-    end
-    
-    def set_default_players
-      @default_players = []
-      if session[:players].nil?
-        params[:play_type].to_i.times{ @default_players << Player.new } 
-        return
-      end
-      @default_players = session[:players]
-      # default_playersが足りない場合、仮プレイヤーを追加する
-      @default_players << Player.new if session_players_num == 3 && params[:play_type].to_i == 4
+    def get_played_player
+      match_ids = Result.where(player_id: current_player.id).pluck(:match_id) 
+      # current_playerがこれまで遊んだプレイヤーidと記録時間のhashを取得する (最近遊んだ順)
+      hash_id_time = Result.where(match_id: match_ids)
+                          .where.not(player_id: current_player.id)
+                          .group(:player_id)
+                          .maximum(:created_at)
+      
+      sorted_hash = hash_id_time.sort_by { |_, val| -val.to_i }
+      p_ids = sorted_hash.map { |key, _| key } # player_idの配列
+      names = Player.where(id: p_ids).pluck(:name)
+      
+      @played_players = p_ids.zip(names) # プレイヤー名とIDを格納
+
     end
 end

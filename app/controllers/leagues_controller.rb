@@ -24,7 +24,7 @@ class LeaguesController < ApplicationController
     @league = League.new(league_params)
     if @league.save
       set_session_league
-      redirect_to new_player_path(play_type: @league.play_type), flash: {notice: "次に参加プレイヤーを登録してください"}
+      redirect_to new_player_path(play_type: @league.play_type, league: @league.id)
     else
       @player = Player.find(@league.player_id)
       render :new

@@ -25,8 +25,8 @@ class Player < ApplicationRecord
     players_name << HYPHEN if results.count == 3 && hyphen
     return players_name
   end
-
-  #************************************
+  
+   #************************************
   # メインデータ
   #************************************
 

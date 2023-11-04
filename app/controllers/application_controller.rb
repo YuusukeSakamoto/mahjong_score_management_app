@@ -1,14 +1,17 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   
-  before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :current_player
+  TOKEN_ENABLED_TIME = 15 # プレイヤー選択におけるトークンの有効期限（分）
   
-  # sessionからmatch_groupとruleとleagueを削除し、match_groupを確定させる
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :current_player #ApplicationHelperに記載
+  
+  # sessionからmatch_group/rule/league/playersを削除し、match_groupを確定させる
   def end_record
     session[:mg] = nil 
     session[:rule] = nil
     session[:league] = nil
+    session[:players] = nil
   end
   
   private

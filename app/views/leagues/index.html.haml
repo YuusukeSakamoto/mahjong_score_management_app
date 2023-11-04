@@ -16,12 +16,20 @@
                 .card-body
                   .d-flex.justify-content-center.align-items-center.py-1.mb-2.border-green-thin_bottom
                     %h5.fw-bold.card-title.mb-0= league.name
-                    = link_to league_path(league), class: 'px-1 pt-1 pb-0 text-main' do
-                      %i.bx.bx-link-external.text-gray{style: "padding-top: 1px;"}
+                    - if league.league_players.present?
+                      = link_to league_path(league), class: 'px-1 pt-1 pb-0 text-main' do
+                        %i.bx.bx-link-external.text-gray{style: "padding-top: 1px;"}
                   .d-flex.flex-wrap.justify-content-center.mb-1
-                    - league.league_players.each do |l_player|
-                      %p.card-text.p-1.mb-0.fs-sm= l_player.player.name
-                  = link_to 'リーグ対局を記録する', new_match_path(league: league.id), 
-                    class: "col-sm-6 btn d-block rounded fw-bold px-1 py-1 mx-auto mb-1 bg-orange text-white fs-sm"
+                    - if league.league_players.blank?
+                      %p プレイヤー未登録
+                    - else 
+                      - league.league_players.each do |l_player|
+                        %p.card-text.p-1.mb-0.fs-sm= l_player.player.name
+                  - if league.league_players.blank?
+                    = link_to 'プレイヤーを登録する', new_player_path(play_type: league.play_type, league: league.id),
+                      class: "col-sm-6 btn d-block rounded fw-bold px-1 py-1 mx-auto mb-1 bg-orange text-white fs-sm"                
+                  - else
+                    = link_to 'リーグ対局を記録する', new_match_path(league: league.id), 
+                      class: "col-sm-6 btn d-block rounded fw-bold px-1 py-1 mx-auto mb-1 bg-orange text-white fs-sm"
                   = link_to '編集/削除', edit_league_path(league), 
                     class: "col-sm-6 btn d-block rounded fw-bold px-1 py-1 mx-auto bg-gray text-white text-nowrap fs-sm"

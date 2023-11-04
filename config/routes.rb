@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :players do 
     resources :searches, only: :index, defaults: { format: :json }
     resources :invitations, only: [:index, :new]
+    resources :authentications, only: :index
   end  
   
   namespace :rules do 
