@@ -1,37 +1,68 @@
 .row.d-flex.justify-content-center
-  .col-10.col-md-6
+  .col-10.col-md-8.text-main
+    
+    .info.px-2.py-2.mb-1.mx-1.text-center
+      .d-flex.align-items-center.justify-content-center
+        %i.bx.bxs-info-circle.pe-2.text-pink{style: "padding-top: 1px;"}
+        %p.mb-0.fw-bold まずはプレイヤーを選択・追加しましょう！
+    
+    .selected_players
+      %h5.border-green-left-table.fw-bold.mb-3
+        参加プレイヤー (
+        %span.player-count= @play_type
+        )
+      .selected_players-item 
+        %span #{current_player.name}
+        .p_id{style: "display: none"}= current_player.id
+      
+      - if @authenticated_users.present?
+        - @authenticated_users.each do |user|
+          .selected_players-item 
+            %span #{user.player.name}
+            %i.bx.bx-trash.player-delete-1
+            .p_id{style: "display: none"}= user.player.id
+  
+    .adding_method
+      %h5.border-green-left-table.fw-bold 追加方法
+        
+    .played_players
+      .d-flex.align-items-center.mb-1
+        %i.bx.bxs-down-arrow.text-green
+        %p.mb-0.ps-1.fw-bold 1. 過去遊んだプレイヤーから選択する
+      - if @played_players.blank?
+        %p.text-center まだいません
+      - else
+        %ul.players_list
+          - @played_players.each do |p|
+            %li.players_list-item 
+              .p_name #{p[1]}
+              .p_id{style: "display: none"}= p[0]
+              
+    .create_players
+      .d-flex.align-items-center.mb-1
+        %i.bx.bxs-down-arrow.text-green
+        %p.mb-0.ps-1.fw-bold 2. プレイヤーを新規作成する
+        %span.fs-sm (10文字以内)
+      .d-flex.align-items-center.mb-3
+        %input{ autofocus: true, maxlength: 10, class: "form-control ms-1 py-md-1 box-shadow rounded bg-white w-75" }
+        %button.btn.ms-2.py-md-1.rounded.fw-bold.box-shadow.border-orange-btn 作成
+              
+    .invite_users
+      .d-flex.align-items-center
+        %i.bx.bxs-down-arrow.text-green
+        %p.mb-0.ps-1.fw-bold 3. アカウント登録済みプレイヤーを参加させる
+      .process.mb-2
+        %p.fs-sm.mb-0.ps-4 <手順>
+        %p.fs-sm.mb-0.ps-4 1. 参加するプレイヤーは下記URLからログインする
+        %p.fs-sm.mb-0.ps-4 2. このページを更新する
+        %p.fs-sm.mb-0.ps-4 ※ URLは発行から15分間有効です
 
-    = form_with model: @form, url: players_path,method: :post, local: true do |form|
-      = render 'layouts/validation_error', instance: @error_player
-      - i = 0
-      = form.fields_for :players do |f|
-        .div-title.mb-2.d-flex.justify-content-between
-          .col-3.mx-1  
-            = f.label :"id", class: 'title-p fw-bold text-main'
-            -if i == 0 && current_player.present?
-              = f.number_field :id, readonly: true, value: current_player.id,
-                class: 'form-control py-md-3 rounded bg-gray box-shadow mb-md-3'
-            -else
-              = f.number_field :id, autofocus: true, value: @default_players[i]['id'],
-                class: 'form-control py-md-3 rounded bg-white box-shadow mb-md-3'
-          .col-8.mx-1
-            = f.label :"プレイヤー名 #{i}", class: 'title-p fw-bold text-main'
-            -if i == 0
-              = f.text_field :name, readonly: true, value: current_user.name, maxlength: '10',
-                class: 'form-control py-md-3 rounded bg-gray box-shadow mb-md-3'
-            -else
-              = f.text_field :name, autofocus: true, maxlength: '10', value: @default_players[i]['name'],
-                class: 'form-control py-md-3 rounded bg-white box-shadow mb-md-3'
-          -if i == 0    
-            = f.hidden_field :user_id, value: current_user.id
-          - i += 1
-          
-      .col-12.d-flex.justify-content-center.mt-4
-        .p-form__input-submit
-          = form.submit "#{action}", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-orange'
-          
-      .col-12.d-flex.justify-content-center.mt-4
-        .p-form__input-submit
-
-          = link_to '戻る', '/', 
-          class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-delete-color'
+      = text_area_tag '#', @authentication_url, class: "form-control ms-1 py-md-1 box-shadow rounded bg-white"
+        
+    .text-center.mt-3.mb-5
+      = button_to 'ページ更新', request.path, method: :get, params: { play_type: @play_type},
+        class: "col-8 col-md-4 btn rounded fw-bold box-shadow border-orange-btn px-4 py-2 fs-6 mb-3", 
+        id: "update_btn"     
+      = button_to 'プレイヤー決定', players_path, method: :post, 
+        class: "col-8 col-md-4 btn rounded fw-bold box-shadow text-white px-4 py-2 fs-6 bg-orange text-center", 
+        id: "create_btn"

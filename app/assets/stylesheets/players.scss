@@ -2,6 +2,7 @@
 // player-viewにのみ関係するcssを記述
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
+@import 'variable';
 // ===============================
 // プレイヤー詳細画面
 // ===============================
@@ -18,5 +19,49 @@
   }
   &-time {
     width: 30%;
+  }
+}
+
+// ===============================
+// プレイヤー選択画面
+// ===============================
+
+.players_list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  padding-left: 0;
+  &-item {
+    width: 48%;
+    border: 1px solid $gray;
+    border-radius: 5px;
+    padding: 0.25rem;
+    margin: 0.1rem 0.1rem 0.1rem 0.25rem;
+    text-align: center;
+    list-style: none;
+    cursor: pointer;
+    &:hover {
+      background-color: $green-5;
+    }
+  }
+}
+
+.selected_players {
+  margin-bottom: 1.25rem;
+  &-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 0.25rem 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  i {
+    font-size: 1.2rem;
+    cursor: pointer;
+    &:hover {
+      color: $orange;
+    }
   }
 }

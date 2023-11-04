@@ -2,9 +2,9 @@ class LeaguePlayer < ApplicationRecord
   belongs_to :league
   belongs_to :player
   
-  def self.create(form, league_id)
+  def self.create(players, league_id)
     LeaguePlayer.transaction do
-      form.players.each do |player|
+      players.each do |player|
         LeaguePlayer.create!(player_id: player.id, league_id: league_id)
       end
     end      
