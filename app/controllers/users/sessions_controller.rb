@@ -24,4 +24,21 @@ class Users::SessionsController < Devise::SessionsController
   def configure_sign_in_params
     devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   end
+  
+  # ログイン後のリダイレクト先を指定
+  # プレイヤー選択時のユーザー認証時 → 認証完了ページ
+  # 通常ログイン時　→ トップページ
+  def after_sign_in_path_for(_resource)
+    if params[:user][:u_id].present?
+      user = User.find_by(id: params[:user][:u_id])
+      if user.present?
+        tk = user.player_select_token
+        players_authentications_path(tk: tk)
+      else
+        flash[:alert] = "認証に失敗しました"
+        root_path
+      end
+    end
+    root_path
+  end
 end

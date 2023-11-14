@@ -1,39 +1,77 @@
+.row.justify-content-center
+  .col-11.col-md-9.text-center.pb-2
+    .page-title
+      .d-flex.align-items-end.text-main
+        %h4.text-center.text-md-start.fw-bold.mb-0 アカウント#{action}
+        
 .row.d-flex.justify-content-center
-  .col-10.col-md-6
-    = form_with model: @user, url: user_registration_path, class: 'mb-4', local: true do |f|
+  .col-10.col-md-8
+    = form_with model: @user, url: user_registration_path, class: 'mb-2', local: true do |f|
       = render 'layouts/validation_error', instance: @user
-      .div-title.mb-4
-        = f.label :ユーザー名, class: 'title-p fw-bold text-main'
+      .div-title.mb-3
+        = f.label :ユーザー名, class: 'title-p text-main'
+        %span.fs-sm.text-main (10文字以内)
         %span.p_required 必須
         - if @invited_player.nil?
-          = f.text_field :name, autofocus: true, autocomplete: "name", 
-            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+          = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10,
+            class: 'form-control py-md-1 rounded bg-white box-shadow'
         - else
           = f.text_field :name, autofocus: true, autocomplete: "name", value: @invited_player.name,
-            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
-      .div-title.mb-4
-        = f.label :メールアドレス, class: 'title-p fw-bold text-main'
+            class: 'form-control py-md-1 rounded bg-white box-shadow'
+            
+      .div-title.mb-3
+        = f.label :メールアドレス, class: 'title-p text-main'
         %span.p_required 必須
         = f.email_field :email, autofocus: true, autocomplete: "email", 
-          class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
-      .div-title.mb-4
-        = f.label :パスワード, class: 'title-p fw-bold text-main'
-        %span.p_required 必須
-        = f.password_field :password, autofocus: true, autocomplete: "password", 
-          class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
-      .div-title.mb-4
-        = f.label :パスワード確認, class: 'title-p fw-bold text-main'
-        %span.p_required 必須
-        = f.password_field :password_confirmation, autofocus: true, autocomplete: "password", 
-          class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+          class: 'form-control py-md-1 rounded bg-white box-shadow'
+
+      .div-title.mb-3
+        = f.label :アイコン画像, class: 'title-p text-main'
+        %br
+        .custom-file-upload
+          = f.file_field :avatar, id: 'user_avatar', class: 'form-control custom-file-input', data: { existing_avatar: @user.avatar.url }
+          %label.custom-file-label.mt-2{ for: 'user_avatar' } 画像を選択
           
-      .img-select.mb-4
-        = f.label :ユーザー画像, class: 'fw-bold mb-2 text-main'
-        = f.file_field :avatar, autofocus: true, class: 'mb-3', style: 'border: 0;'
+      .div-title.mb-3
+        - if @user.persisted?
+          = f.label :'変更後パスワード', class: 'title-p text-main'
+        - else
+          = f.label :パスワード, class: 'title-p text-main'
+          %span.p_required 必須
+        %span.fs-sm.text-main (8文字以上)
+        = f.password_field :password, autofocus: true, autocomplete: "password", 
+          class: 'form-control py-md-1 rounded bg-white box-shadow mb-3'
+          
+      .div-title.mb-3
+        - if @user.persisted?
+          = f.label :'変更後パスワード確認', class: 'title-p text-main'
+        - else
+          = f.label :パスワード確認, class: 'title-p text-main'
+          %span.p_required 必須
+        = f.password_field :password_confirmation, autofocus: true, autocomplete: "password", 
+          class: 'form-control py-md-1 rounded bg-white box-shadow mb-3'
+          
+      - if @user.persisted?
+        .div-title.mb-3
+          = f.label :current_password, "現在のパスワード", class: 'title-p text-main'
+          %span.p_required 必須
+          = f.password_field :current_password, autofocus: true, autocomplete: "current-password",
+            class: 'form-control py-md-1 rounded bg-white box-shadow mb-3'
         
       - if @invited_player.present?
         = text_field_tag(:p_id, @invited_player.id, type: "hidden")
 
-      .col-12.d-flex.justify-content-center
-        .p-form__input-submit
-          = f.submit "#{action}", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 bg-green'
+      .col-8.col-md-5.m-auto
+        = f.button type: 'submit', class: 'main-btn--orange w-100' do
+          .btn-text
+            %i.fa-regular.fa-circle-check.pe-1.fw-bold
+            %span #{action}
+
+        - if @user.persisted?
+          = link_to registration_path(resource_name), 
+            data: { confirm: "本当に削除しますか?アカウントに紐づいた全ての情報が削除されます", 
+            turbo_confirm: "Are you sure?" }, method: :delete, 
+            class: "main-btn--white-red my-3" do
+            .btn-text
+              %i.fa-regular.fa-trash-can.pe-1
+              %span アカウント削除

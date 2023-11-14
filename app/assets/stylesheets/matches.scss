@@ -30,13 +30,19 @@
 .result_table {
   table-layout: fixed;
   .w {
+    vertical-align: middle; // 上下中央寄せ
+    padding: 0.5rem 0.1rem!important;
+    font-size: 0.8rem;
     &-no {
+      @extend .w;
       width: 8%;
     }
     &-name{
+      @extend .w;
       width: 22%;
     }
     &-edit{
+      @extend .w;
       width: 8%;
     }
   }  

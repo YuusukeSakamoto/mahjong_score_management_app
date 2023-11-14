@@ -10,21 +10,21 @@
             // ログイン時
             .right-contents
               .d-flex.align-items-center
-                %p.m-0.px-2.text-green.text-center{style: "font-size: 14px;"}= current_user.name
+                = link_to current_user.name, user_path(current_user.id), class: 'fs-sm pe-2 text-green hover-underline'
                 .header-icon
                   - if current_user.avatar.present?
                     = image_tag current_user.avatar.url, class: 'rounded-circle border', alt: 'icon'
                   - else
                     = image_tag 'default_icon.png', class: 'rounded-circle', alt: 'icon'
-                = link_to 'ログアウト', destroy_user_session_path, class: 'fs-sm ms-2 text-main'
+                = link_to 'ログアウト', destroy_user_session_path, class: 'fs-sm ms-2 text-main hover-underline'
                 / ログインしてるユーザーが管理者の場合のみ
                 - if current_user.try(:admin?)
-                  .fs-sm.text-main.ms-2= link_to '管理画面', rails_admin_path
+                  .fs-sm.text-main.ms-2.hover-underline= link_to '管理画面', rails_admin_path
           - else
             // ログアウト時
             .right-contents
               .d-flex.align-items-center
-                = link_to 'ログイン', new_user_session_path, class: "me-2 text-main fs-sm"
+                = link_to 'ログイン', new_user_session_path, class: "me-2 text-main fs-sm hover-underline"
                 = link_to 'アカウント登録', new_user_registration_path, 
                   class: "btn rounded-pill text-white bg-green me-2 px-2 py-1 fs-sm"
 
@@ -45,11 +45,11 @@
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} 対局成績
                     %ul
-                      %li.child= link_to '個人成績詳細', player_path(current_player)
+                      %li.child= link_to '個人成績', player_path(current_player)
                       %li.child= link_to '成績表一覧', match_groups_path
                       %li.child= link_to '対局一覧', matches_path(p_id: current_player.id)
                   %li.has-child.d-flex.flex-column.align-items-center
-                    %a.text-nowrap.current{href: "#"} リーグ対局
+                    %a.text-nowrap.current{href: "#"} リーグ戦
                     %ul
                       %li.child= link_to 'リーグ作成', new_league_path(p_id: current_player.id)
                       %li.child= link_to 'リーグ一覧', leagues_path, data: { "turbolinks" => false }
@@ -77,9 +77,9 @@
                         .nav-icon
                           = image_tag current_user.avatar.url, class: 'rounded-circle', alt: 'icon'
                         %span ID : #{current_player.id}
-                        =link_to "#{current_user.name}", edit_user_registration_path, class: "border-b"
+                        =link_to "#{current_user.name}", user_path(current_user.id), class: "border-b"
                       %li= link_to 'TOP', root_path, class: "border-b"
-                      %li= link_to '個人成績詳細', player_path(current_player)
+                      %li= link_to '個人成績', player_path(current_player)
                       %li= link_to '成績表一覧', match_groups_path
                       %li= link_to '対局一覧', matches_path(p_id: current_player.id), class: "border-b"
                       %li= link_to 'リーグ作成', new_league_path(p_id: current_player.id)
@@ -108,7 +108,7 @@
                       %li.child= link_to '成績表一覧', '#'
                       %li.child= link_to '対局一覧', '#'
                   %li.has-child.d-flex.flex-column.align-items-center
-                    %a.text-nowrap.current{href: "#"} リーグ対局
+                    %a.text-nowrap.current{href: "#"} リーグ戦
                     %ul
                       %li.child= link_to 'リーグ作成', '#'
                       %li.child= link_to 'リーグ一覧', '#'

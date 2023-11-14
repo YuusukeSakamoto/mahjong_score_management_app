@@ -22,13 +22,13 @@ $(document).on('turbolinks:load', function () {
       
       $selectedPlayersContainer.append($playerItem);
     });
-
   }
   
   // プレイヤー選択数の上限を設定
   let playerCount = $('.player-count').text();
   let maxPlayers = Number(playerCount);
   
+  add_params(); // セッション格納分のプレイヤー情報をparamsに追加
   updateCreateButtonActivation(); // 決定ボタン状態の初期設定をする
 
   // プレイヤーを選択肢から選択する処理
@@ -116,6 +116,10 @@ $(document).on('turbolinks:load', function () {
   }
   
   function add_params() {
+    
+    // 最初に#create_btn内のすべてのinput要素を削除
+    $('#create_btn').find('input').remove();
+
     // プレイヤー人数になったら#create_btnにparamsを追加
     if ($('.selected_players-item').length === maxPlayers) {
 
@@ -146,9 +150,9 @@ $(document).on('turbolinks:load', function () {
   function updateCreateButtonActivation() {
     // プレイヤー人数が上限に達している場合に#create_btnをアクティブにするか非アクティブにする
     if ($('.selected_players-item').length === maxPlayers) {
-      $('#create_btn').prop('disabled', false); // ボタンをアクティブにする
+      $('#create_btn').prop('disabled', false).removeClass('inactive');
     } else {
-      $('#create_btn').prop('disabled', true); // ボタンを非アクティブにする
+      $('#create_btn').prop('disabled', true).addClass('inactive');
     }
   }
 

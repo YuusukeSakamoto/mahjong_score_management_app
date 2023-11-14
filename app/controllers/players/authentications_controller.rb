@@ -1,6 +1,9 @@
 class Players::AuthenticationsController < ApplicationController
   
   def index
+    unless user_signed_in?
+      redirect_to new_user_session_path(u_id: params[:u_id]) and return
+    end
     player_select_token = params[:tk]
     user = User.find_by(player_select_token: player_select_token)
   
@@ -12,7 +15,7 @@ class Players::AuthenticationsController < ApplicationController
       flash[:notice] = "認証が完了しました、有効期限内にプレイヤー選択を完了させてください"
     else
       # URLが無効または有効期限切れの場合
-      redirect_to root_path, alert: 'URLが無効または有効期限切れです。'
+      redirect_to root_path , alert: 'URLが無効または有効期限切れです。'
     end
     
   end

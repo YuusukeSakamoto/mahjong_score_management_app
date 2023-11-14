@@ -4,17 +4,32 @@ class League < ApplicationRecord
   has_many :league_players, dependent: :destroy #leagueに紐づいたleague_playersも削除される
   has_many :match_groups, dependent: :destroy #leagueに紐づいたmatch_groupsも削除される
   
-  validates :name, presence: true
+  validates :name, presence: true, length: { maximum: 15 }
+  validates :play_type, presence: true
+  validates :rule_id, presence: true
   
   attr_accessor :mg_ids, :l_match_ids
   
+  
+  #************************************
+  # リーグ情報
+  #************************************ 
+  # リーグにおける最初に記録した日
   def first_record_day
     return nil if match_groups.count == 0
-    match_groups.first.matches.first.match_on.to_s(:yeardate)
+    @first_record_day ||= match_groups.first.matches.first.match_on.to_s(:yeardate)
   end
   
+  # リーグにおける最後に記録した日
   def last_record_day
-    match_groups.last.matches.last.match_on.to_s(:yeardate)
+    return nil if match_groups.count == 0
+    @last_record_day ||= match_groups.last.matches.last.match_on.to_s(:yeardate)
+  end
+  
+  # リーグにおける総対局数
+  def match_count
+    @mg_ids ||= match_groups.pluck(:id)
+    @match_count ||= Match.league(@mg_ids).count
   end
   
   #************************************
@@ -29,8 +44,8 @@ class League < ApplicationRecord
       l_player.player.match_ids = @l_match_ids
       data = {}
       data[:name] = l_player.player.name
-      data[:total_pt] = l_player.player.total_point
-      data[:rank_times] = l_player.player.rank_times
+      data[:total_pt] = l_player.player.total_point_for_league
+      data[:rank_times] = l_player.player.rank_times_for_league
       rank_table_data << data
     end
     # 総合ポイントで昇順にする
@@ -86,7 +101,7 @@ class League < ApplicationRecord
     @points_history = []
     league_players.each do |l_player|
       l_player.player.match_ids = @l_match_ids
-      @points_history << l_player.player.point_history_data(id)
+      @points_history << l_player.player.point_history_data
     end
     @points_history
   end

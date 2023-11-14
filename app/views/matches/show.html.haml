@@ -38,7 +38,9 @@
           %p.mb-0= @match.memo
   // 成績登録中の場合は、続けて成績登録するボタンを出力する
   - if recording?
-    .col-6.m-auto
-      = link_to '次の対局成績を登録する', new_match_path, class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-green text-white"
-
+    .col-8.col-md-6.m-auto
+      = link_to new_match_path, class: "main-btn--green mb-3" do
+        .btn-text 
+          %i.fa-solid.fa-angles-right
+          %span #{@match_group.matches.count + 1}局目の成績を登録
     = render partial: 'match_groups/result_table'

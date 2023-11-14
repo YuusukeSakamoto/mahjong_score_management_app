@@ -1,0 +1,17 @@
+.container
+  .row.justify-content-center
+    .col-11.col-md-9.text-center.pb-2
+      .page-title
+        .d-flex.align-items-end.text-main
+          %h4.text-center.text-md-start.fw-bold.mb-0 パスワード再設定
+  .row.justify-content-center
+    .col-10.col-md-8.text-center.pb-2
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+        = render 'layouts/validation_error', instance: resource
+        .mail
+          = f.label :ご登録のメールアドレス, class: "fw-bold text-main pb-2"
+          = f.email_field :email, autofocus: true, placeholder: "sample@example.com", 
+            class: "form-control py-md-1 rounded bg-white box-shadow"
+        .actions.mt-3
+          = button_tag(type: 'submit', class: "btn btn-secondary translatable-text") do
+            パスワード再設定用リンクを送信

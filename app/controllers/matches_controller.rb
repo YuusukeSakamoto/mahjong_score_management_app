@@ -16,6 +16,7 @@ class MatchesController < ApplicationController
     end
     @players = session[:players]
     set_league_data if params[:league].present? #リーグ対局記録ボタンから遷移したきた場合
+    set_league if session[:league].present? #リーグ記録中の場合
     @match = Match.new
     @match.play_type = @players.count
     session_players_num.times { @match.results.build }
@@ -28,7 +29,7 @@ class MatchesController < ApplicationController
   end
   
   def create
-    create_match_group until recording?
+    create_match_group unless recording?
     @match = Match.new(match_params)
     if ie_uniq?(@match) && @match.save
       redirect_to match_path(@match), notice: "対局成績を登録しました"
@@ -59,6 +60,11 @@ class MatchesController < ApplicationController
     
     def set_match
       @match = Match.find(params[:id])
+    end
+    
+    # セッションからleagueをセット
+    def set_league
+      @league = League.find(session[:league])
     end
     
     # リーグに関するデータをセッション等にセットする

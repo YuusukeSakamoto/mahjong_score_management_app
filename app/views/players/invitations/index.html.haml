@@ -1,22 +1,36 @@
 .container
-  .row
-    .col-12.text-center.pb-2
-      .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.mt-4
+  .row.justify-content-center
+    .col-11.col-md-9.text-center.pb-2
+      .page-title
         .d-flex.align-items-end.text-main
-          %h4.text-center.text-md-start.fw-bold.mb-0 アカウント招待可能プレイヤー
-  .row.text-main.fs-sm.fw-bold
-    %p.mb-0 ・あなたがこれまでに対局記録をつけたプレイヤーをアカウント招待することができます
-    %p ・発行される招待リンクよりアカウント登録することで、これまで記録した成績を引継ぐことができます
+          %h4.text-center.text-md-start.fw-bold.mb-0 アカウント招待
+  .row.justify-content-center
+    .col-10.col-md-8.text-main.fs-sm.fw-bold
+      .d-flex.align-items-center.mb-1
+        %i.fa-solid.fa-circle-info.text-pink.fs-sm.pe-1
+        %p.mb-0 あなたがこれまでに対局記録をつけたプレイヤーをアカウント招待することができます
+      .d-flex.align-items-center
+        %i.fa-solid.fa-circle-info.text-pink.fs-sm.pe-1
+        %p.mb-0 発行される招待リンクよりアカウント登録することで、これまで記録した成績を引継ぐことができます
     
   .row.justify-content-center.text-main
     - if @invited_players.blank?
       %p.fs-bold.text-center.mt-4 招待可能プレイヤーはいません
     - else
-      .col-10.col-md-6.mt-3.table-responsive.text-center
+      .col-10.col-md-6.my-3.table-responsive.text-center
         %table.table.text-main.text-nowrap.col-10.col-md-6.fs-table
           - @invited_players.each do |player| 
             %tr
               %td.fw-bold= player.name
-              %td= link_to 'アカウント招待', new_players_invitation_path(player_id: player.id), 
-                  class: 'btn px-2 py-1 rounded text-white bg-orange',data: { "turbolinks" => false }
-              %td= link_to '詳細', player_path(player), class: 'btn px-2 py-1 rounded text-white bg-green'
+              %td
+                = link_to new_players_invitation_path(player_id: player.id), 
+                  class: "main-btn--white-orange-sm px-1 py-1 m-auto" do
+                  .btn-text
+                    %i.fa-solid.fa-user-plus
+                    %span 招待
+              %td
+                = link_to player_path(player),
+                  class: "main-btn--white-green-sm px-1 py-1 m-auto" do
+                  .btn-text
+                    %i.fa-solid.fa-chart-simple
+                    %span 詳細

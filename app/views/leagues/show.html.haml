@@ -1,14 +1,22 @@
 .container
   .row.d-flex.justify-content-center
     .col-11.col-md-7.text-center.pb-2.mt-4
-      %h2.text-center.fw-bold.mb-2= @league.name
-      %span.text-main.fs-sm.mx-1
-        - if @l_matches.blank?
-          = '対局成績がありません'
-        - else
-          = "#{@league.first_record_day} ~ #{@league.last_record_day}"
-      %p.text-main.fs-sm.mb-0= "対局数 : #{Match.league(@league.mg_ids).count}"
+      .d-flex.justify-content-center.align-items-end.mb-2
+        %h2.text-center.fw-bold.mb-0= @league.name
+        = link_to  edit_league_path(league: @league.id),
+          class: "" do
+          %i.bx.bxs-edit-alt.text-main.ps-2
+      - if @l_matches.present?
+        %p.text-main.fs-sm.mb-0 #{@league.first_record_day} ~ #{@league.last_record_day}
+      %p.text-main.fs-sm.mb-0= "対局数 : #{@league.match_count}"
       %p.text-main.fs-sm.mb-0= @league.description
+      .d-flex.justify-content-center.mt-1
+        = link_to new_match_path(league: @league.id),
+          class: "main-btn--white-orange-sm px-1 py-0 m-auto" do
+          .btn-text
+            %i.fa-solid.fa-pen
+            %span 記録
+
   .row
     .col-md-10.m-auto
       .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main
@@ -43,23 +51,29 @@
         %h4.text-center.text-md-start.fw-bold.mb-0 リーグ対局一覧
 
       .mt-3.table-responsive
-        %table.table.table-sm.text-main.text-center.col-10.col-md-6.fs-table
+        %table.table.table-sm.text-main.text-center.col-10.col-md-6.fs-table#league_match_list
           %thead.align-middle
             %tr.bg-lightgray.w-100
+              %th.w-no{scope: "col"} No
               %th.w-date{scope: "col"} 対局日
               - @l_players.each do |l_player|
                 %th.w-players-name{scope: "col"}= l_player.player.name
-              %th.w-show{scope: "col"} 詳細
-          -  @l_matches.each do |match| 
+              %th.w-icon{scope: "col"}
+          -  @l_matches.each.with_index do |match, i| 
             %tr
+              %td= i + 1
               %td= match.match_on.to_s(:yeardate)
               - match.results.order(:player_id).each do |r|
                 %td.w-players-name= r.point
               %td.p-0
-                = link_to match_path(match), class: 'px-1 pt-1 pb-0 text-main' do
-                  %i.bx.bx-link-external.bx-size{style: "padding-top: 1px;"}
+                = link_to match_path(match), class: 'pt-1 pb-0 text-main' do
+                  %i.bx.bx-chevrons-right.bx-size.text-main{style: "padding-top: 1px;"}
       -if @l_matches.blank?
-        %p.text-center.text-main 対局成績なし
+        %p.text-center.text-main.fs-sm 対局成績なし
         
-  .col-6.col-md-4.mt-3.mx-auto
-    = link_to 'リーグ対局を記録する', new_match_path(league: @league.id), class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"
+  .col-8.col-md-5.m-auto.my-2
+    = link_to new_match_path(league: @league.id), method: :delete,
+      class: "main-btn--orange w-100" do
+      .btn-text
+        %i.fa-solid.fa-pen.pe-1.fw-bold
+        %span リーグ対局を記録する

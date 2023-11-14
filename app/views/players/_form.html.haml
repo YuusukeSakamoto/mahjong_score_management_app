@@ -21,7 +21,13 @@
             %span #{user.player.name}
             %i.bx.bx-trash.player-delete-1
             .p_id{style: "display: none"}= user.player.id
-  
+    .text-center.my-3
+      = button_to players_path, method: :post, 
+        class: "col-8 col-md-6 main-btn--orange m-auto d-flex justify-content-center align-items-center", 
+        id: "create_btn" do
+        %i.fa-regular.fa-circle-check.fs-sm.pe-2
+        %span プレイヤー決定
+
     .adding_method
       %h5.border-green-left-table.fw-bold 追加方法
         
@@ -45,7 +51,7 @@
         %span.fs-sm (10文字以内)
       .d-flex.align-items-center.mb-3
         %input{ autofocus: true, maxlength: 10, class: "form-control ms-1 py-md-1 box-shadow rounded bg-white w-75" }
-        %button.btn.ms-2.py-md-1.rounded.fw-bold.box-shadow.border-orange-btn 作成
+        %button.ms-2.py-md-1.main-btn--white-orange-sm 作成
               
     .invite_users
       .d-flex.align-items-center
@@ -60,9 +66,7 @@
       = text_area_tag '#', @authentication_url, class: "form-control ms-1 py-md-1 box-shadow rounded bg-white"
         
     .text-center.mt-3.mb-5
-      = button_to 'ページ更新', request.path, method: :get, params: { play_type: @play_type},
-        class: "col-8 col-md-4 btn rounded fw-bold box-shadow border-orange-btn px-4 py-2 fs-6 mb-3", 
-        id: "update_btn"     
-      = button_to 'プレイヤー決定', players_path, method: :post, 
-        class: "col-8 col-md-4 btn rounded fw-bold box-shadow text-white px-4 py-2 fs-6 bg-orange text-center", 
-        id: "create_btn"
+      = button_to request.path, method: :get, params: { play_type: @play_type}, 
+        class: "col-8 col-md-5 mb-3 main-btn--white-orange", id: "update_btn" do
+        %i.bx.bx-revision.pe-1.text-orange.fw-bold{style: "padding-top: 1px;"}
+        ページ更新

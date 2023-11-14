@@ -5,8 +5,8 @@
 // 汎用的に使える色
 $green: #3FB488; // メインカラー
 $orange: #F8B978; //サブカラー
-$navyblue: #393944; //テキストカラー
-$gray: #707070; // テキストメインカラー(gray)
+$navyblue: #393944;
+$gray: #707070; 
 $white: #ffffff; 
 $lightgray: #f7f7f7;
 $red: #ee5266;
@@ -18,6 +18,8 @@ $green-5: #ebf7f3; // $ 最も薄いgreen
 
 // 部分的に使う色
 $light-green: #EEF7F5; // 薄い緑、詳細データの背景など
+$green-2: #65c39f; // メインカラーより2つ薄い
+$orange-2: #f7ac60; // サブカラーより少し濃い
 $border-green: #89D0B4; // light-greenよりは濃い緑、borderで使用
 // $border-orange: #; // light-greenよりは濃い緑、borderで使用
 

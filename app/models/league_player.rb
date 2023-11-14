@@ -2,6 +2,8 @@ class LeaguePlayer < ApplicationRecord
   belongs_to :league
   belongs_to :player
   
+  # validates :, presence: true, numericality: { in: 3..4 }
+  
   def self.create(players, league_id)
     LeaguePlayer.transaction do
       players.each do |player|

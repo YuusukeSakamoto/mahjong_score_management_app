@@ -1,0 +1,33 @@
+.container
+  .row.justify-content-center
+    .col-11.col-md-9.text-center.pb-2
+      .page-title
+        .d-flex.align-items-end.text-main
+          %h4.text-center.text-md-start.fw-bold.mb-0 アカウント情報
+          
+  .row.justify-content-center
+    .col-11.col-md-7.text-center.pb-2.mt-2
+      .body-icon.m-auto.my-2
+        - if @user.avatar.nil?
+          = image_tag 'default_icon.png', alt: 'プレイヤー画像', class: 'rounded-circle'
+        - else 
+          = image_tag "#{@user.avatar}", alt: 'ユーザー画像', class: 'rounded-circle'
+      %p.mt-1.mb-0.text-main.fw-bold= "#{@user.name}"
+      %p.mb-2.text-main.fs-sm= "(ID : #{@user.player.id})"
+          
+      .user-info.text-main.mb-3
+        .d-flex.justify-content-center.align-items-center
+          %i.fa-regular.fa-envelope.pe-2
+          %p.mb-0=@user.email
+          
+      .d-flex.justify-content-center.mb-2
+        = link_to edit_user_registration_path,
+          class: "main-btn--white-orange-sm px-1 py-0 mx-1" do
+          .btn-text
+            %i.fa-solid.fa-pen
+            %span 編集
+        = link_to player_path(current_player.id),
+          class: "main-btn--white-orange-sm px-1 py-0 mx-1" do
+          .btn-text
+            %i.fa-solid.fa-chart-simple
+            %span 成績

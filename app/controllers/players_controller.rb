@@ -3,26 +3,26 @@ class PlayersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @sanyon_match_ids = {} # 三麻/四麻の成績表示のためのハッシュ
-    match_ids = Result.where(player_id: params[:id]).pluck(:match_id)
-    @sanyon_match_ids[3] = Match.sanma(match_ids).pluck(:id)   #三麻のmatch_idを配列で格納
-    @sanyon_match_ids[4] = Match.yonma(match_ids).pluck(:id)   #四麻のmatch_idを配列で格納
   end
   
   def new
     @play_type = params[:play_type]
-    @league_name = League.find_by(id: params[:league]).name if params[:league].present?
+    end_record if session[:league].present? && session[:mg].nil? # リーグ戦1局目登録中にプレイヤー選択に遷移した場合、セッションを解放する
+    if params[:league].present?
+      @league = League.find_by(id: params[:league])
+      session[:league] = @league.id
+      session[:rule] = @league.rule_id
+    end
     # URLによる認証済みプレイヤーがいればセットする
     @authenticated_users = User.where(token_issued_user: current_user.id)
     
     get_played_player
     current_user.generate_authentication_url
-    @authentication_url = players_authentications_url(tk: current_user.player_select_token)
+    @authentication_url = players_authentications_url(tk: current_user.player_select_token, u_id: current_user.id)
   end
   
   def create
     session_players = []
-    
     p_ids_names = params[:p_ids].map(&:to_i).zip(params[:p_names])
     
     p_ids_names.each do |id, name| 
@@ -45,8 +45,15 @@ class PlayersController < ApplicationController
     # ルール未登録の場合、ルール登録へ遷移
     if current_player.rules.where(play_type: session_players_num).blank?
       redirect_to new_player_rule_path(current_player.id) and return
+    end
+    
+    # リーグ作成後のプレイヤー選択の場合
+    if session[:league].present? && league_players_registered?
+      LeaguePlayer.where(league_id: session[:league]).destroy_all #削除
+      LeaguePlayer.create(session[:players], session[:league]) #登録
+      redirect_to new_match_path(league: session[:league]) and return
     else
-      LeaguePlayer.create(session[:players], session[:league]) if session[:league].present?
+      LeaguePlayer.create(session[:players], session[:league]) # 登録
       redirect_to new_match_path(league: session[:league]) and return
     end
 
@@ -68,9 +75,14 @@ class PlayersController < ApplicationController
       
       sorted_hash = hash_id_time.sort_by { |_, val| -val.to_i }
       p_ids = sorted_hash.map { |key, _| key } # player_idの配列
-      names = Player.where(id: p_ids).pluck(:name)
+      p_names = p_ids.map {|p| Player.find(p).name }
       
-      @played_players = p_ids.zip(names) # プレイヤー名とIDを格納
-
+      @played_players = p_ids.zip(p_names) # プレイヤー名とIDを格納
+    end
+    
+    # リーグプレイヤーがすでに登録されているか
+    def league_players_registered?
+      l = League.find(session[:league])
+      l.league_players.count == l.play_type # リーグプレイヤーが正しい人数登録されている場合true
     end
 end

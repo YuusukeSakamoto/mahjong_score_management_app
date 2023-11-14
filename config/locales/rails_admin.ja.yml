@@ -11,7 +11,7 @@ ja:
     attributes:
       # 各モデルのカラム名を記載
       user:
-        name: 名前
+        name: ユーザー名
         email: メールアドレス
         password: パスワード
       post:

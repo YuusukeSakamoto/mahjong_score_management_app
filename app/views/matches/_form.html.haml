@@ -1,67 +1,66 @@
 .row.d-flex.justify-content-center
-  .col-12.text-center.pb-2
-    %p.w-lg-50.pt-3.fs-3.text-green 対局成績#{action}
-    - if @league.present?
-      %p.text-main.fw-bold.mb-1="#{@league.name}"
-    - else
-      %p.text-main.mb-1="#{conversion_kanji_num(@match.play_type)}人麻雀"
-  .col-12.text-center
-    %p.text-main.fs-sm.mb-0 ・ptは全ての得点を入力後に自動計算されます 
-    %p.text-main.fs-sm.mb-0 ・ptを手動で変更することも可能です
   .col-10.col-md-8
-
+    .info.mb-3.mx-2.fs-sm.text-main.text-center
+      .info-content.text-start
+        %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
+        %span.mb-0.fw-bold ptは全ての得点を入力後に自動計算されます
+      .info-content.text-start
+        %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
+        %span.mb-0.fw-bold ptを手動で変更することも可能です
+      
+  .col-10.col-md-8
     = form_with model: @match, class: 'mb-4', local: true do |f|
       = render 'layouts/validation_error', instance: @match
       = f.hidden_field :player_id, value: current_player.id
       = f.hidden_field :play_type
-      .mb-4
-        .d-flex.justify-content-between
-          #div
-            = f.label :ルール, class: 'title-p fw-bold text-main'
-            %span.p_required 必須
-          - if @league.blank?
-            = link_to 'ルール一覧', player_rules_path(current_player), class: 'text-pink fs-sm pt-1'
-        = f.collection_select(:rule_id, current_player.rule_list(@match.play_type),
-                              :id, :name,
-                              { selected: session[:rule] },
-                              class: 'form-control py-md-3 rounded bg-white box-shadow mb-3 text-center' )
+      .d-flex.justify-content-between
+        #div
+          = f.label :ルール, class: 'title-p text-main'
+          %span.p_required 必須
+        - if @league.blank?
+          = link_to 'ルール一覧', player_rules_path(current_player), class: 'text-pink fs-sm pt-1'
+      = f.collection_select(:rule_id, current_player.rule_list(@match.play_type),
+                            :id, :name,
+                            { selected: session[:rule] },
+                            class: 'form-control py-md-1 rounded bg-white box-shadow mb-1 text-center' )
       .js-rule.mb-2
-      .mb-4
-        = f.label :対局日, class: 'title-p fw-bold text-main'
+      .mb-2
+        = f.label :対局日, class: 'title-p text-main'
         %span.p_required 必須
         - if controller.action_name == "edit"
           = f.date_field :match_on, value: @match.match_on, autofocus: true, 
-            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3 text-center'
+            class: 'form-control py-md-1 rounded bg-white box-shadow mb-1 text-center'
         - else 
           = f.date_field :match_on, value: Date.today, autofocus: true, 
-            class: 'form-control py-md-3 rounded bg-white box-shadow mb-3 text-center'
-      .d-flex
-        %span.title-p.fw-bold.text-main.mb-0 得点
+            class: 'form-control py-md-1 rounded bg-white box-shadow mb-1 text-center'
+      .d-flex.align-items-end.mb-2
+        %span.title-p.text-main.mb-0 得点
         %span.p_required 必須
         .js-remaining_score.text-main.fw-bold.ps-4 残り得点：
       // 選択されたプレイヤー分だけフォーム表示   
       - i = 0
       = f.fields_for :results do |result|
-        .mb-2.mb-md-4
-          = result.label :"#{@players[i]['name']}", class: 'title-p fw-bold text-main'
-          %span.title-p.text-main= "(ID : #{@players[i]['id']})"
+        .mb-2
+          // 大文字変換対策
+          - player_name = @players[i]['name']  
+          = result.label :name, player_name, class: 'text-main fw-bold'
           .d-flex.align-items-end.justify-content-between
             - if @match.results[i].ie.nil?
               = result.select :ie, 
                 Result::IE , { selected: i + 1 }, 
-                {class: 'form-control py-1 py-md-3 rounded bg-white box-shadow w-25 text-center'}    
+                {class: 'form-control py-1 py-md-1 rounded bg-white box-shadow w-25 text-center'}    
             - else
               = result.select :ie, 
                 Result::IE , { selected: @match.results[i].ie }, 
-                {class: 'form-control py-1 py-md-3 rounded bg-white box-shadow w-25 text-center'}    
+                {class: 'form-control py-1 py-md-1 rounded bg-white box-shadow w-25 text-center'}    
             %p.text-main.mb-0.mx-1.mx-md-2 家
             
             = result.number_field :score, autofocus: true, step: "100",
-              class: "form-control py-1 py-md-3 rounded bg-white box-shadow text-center"
+              class: "form-control py-1 py-md-1 rounded bg-white box-shadow text-center"
             %p.text-main.mb-0.mx-1.mx-md-2 点
             
             = result.number_field :point, autofocus: true, step: "0.1",
-              class: 'form-control py-1 py-md-3 rounded box-shadow w-50 text-center'
+              class: 'form-control py-1 py-md-1 rounded box-shadow w-50 text-center'
             %p.text-main.mb-0.mx-1.mx-md-2 pt
 
             = result.hidden_field :player_id, value: @players[i]['id']
@@ -69,20 +68,25 @@
         - i += 1
           
       .my-4
-        = f.label :'対局メモ', class: 'title-p fw-bold text-main'
+        = f.label :'対局メモ', class: 'title-p text-main'
         = f.text_area :memo, autofocus: true, 
-          class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
+          class: 'form-control py-md-1 rounded bg-white box-shadow mb-1'
 
-      - if controller.action_name == ("edit" || "update")
-        .col-12.d-flex.justify-content-center
-          .p-form__input-submit
-            = f.submit "更新する", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3  bg-orange'
-        .col-12.d-flex.justify-content-center.mt-4
-          .p-form__input-submit
-            = link_to '削除する', match_path(@match), method: :delete,
-              data: { confirm: "本当に対局成績を削除しますか？"},
-              class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3  bg-delete-color'
-      - else 
-        .col-12.d-flex.justify-content-center
-          .p-form__input-submit
-            = f.submit "#{action}する", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3  bg-orange'
+      .col-8.col-md-5.m-auto
+        - if controller.action_name == ("edit" || "update")
+          .mt-3
+            = f.button type: 'submit', class: 'main-btn--orange w-100' do
+              .btn-text
+                %i.bx.bx-revision.pe-1.fw-bold
+                %span 更新
+          .mt-3
+            = link_to match_path(@match), method: :delete, class: "main-btn--white-red mb-3" do
+              .btn-text
+                %i.fa-regular.fa-trash-can.pe-1
+                %span 削除
+        - else 
+          .d-flex.justify-content-center
+            = f.button type: 'submit', class: 'main-btn--orange w-100' do
+              .btn-text
+                %i.fa-solid.fa-pen.pe-1.fw-bold
+                %span 登録

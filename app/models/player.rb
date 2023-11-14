@@ -1,18 +1,22 @@
 class Player < ApplicationRecord
-  validates :name, {presence: true, length: {maximum: 10}}
+  validates :name, presence: true, length: { maximum: 10 }
   validates :invite_token, uniqueness:true, allow_nil: true
   
   belongs_to :user, optional: true #optional:trueで外部キーがnilでもDB登録できる
-  has_many :rules ,dependent: :destroy #playerに紐づいたrulesも削除される
+  has_many :rules, dependent: :destroy #playerに紐づいたrulesも削除される
   has_many :matches 
   has_many :results 
   has_many :leagues 
   
   attr_accessor :invite_token, :match_ids, :cr
-  
-  HYPHENS = [' - ',' - ',' - ',' - ']
+
   HYPHEN = ' - '
+  HYPHEN_COUNT = 4
+  HYPHENS = Array.new(HYPHEN_COUNT, HYPHEN)
   OFTEN_PLAYERS_NUM = 5
+  
+  SANMA = 3
+  RANK_DATA_NUM = 10 #順位グラフに表示する数
   
   def self.get_name(id)
     Player.find(id).name
@@ -21,35 +25,86 @@ class Player < ApplicationRecord
   # resultsからプレイヤー名の配列を返す
   # サンマの場合四人目にハイフン埋めがいらない場合は第二引数にfalseを指定
   def self.get_players_name(results, hyphen = true)
-    players_name = results.map{ |result| Player.find(result.player_id).name }
-    players_name << HYPHEN if results.count == 3 && hyphen
+    player_ids = results.map(&:player_id)
+    players = Player.where(id: player_ids).includes(:results)
+    players_name = players.map(&:name)
+    players_name << HYPHEN if results.count == SANMA && hyphen
     return players_name
   end
   
    #************************************
   # メインデータ
   #************************************
-
+  
   # playerの総対局数を取得する
-  def total_match_count
-    results.where(match_id: match_ids).count
+  def total_match_count(play_type = @play_type)
+    @play_type = play_type
+    @total_match_count ||= {}
+    @total_match_count[play_type] ||= results_for_matches(play_type).count
+  end
+  
+  # playerが参加したmatchのresultsを取得する
+  def results_for_matches(play_type = @play_type)
+    @results_for_matches ||= {}
+    @results_for_matches[play_type] ||= results.where(match_id: match_ids_for_play_type(play_type))
+  end
+  
+  # play_typeに基づいて適切なmatch_idsを取得する
+  def match_ids_for_play_type(play_type)
+    @match_ids = Match.left_joins(:results)
+                      .where(play_type: play_type)
+                      .where(results: { match_id: Result.match_ids(id) })
+                      .distinct
+                      .pluck(:id)
+  end
+  
+  # 直近の対局データを取得する
+  def get_sanyon_matches(play_type)
+    @sanyon_matches_first_5 = {}
+    @sanyon_matches_first_5[play_type] = Match.match_ids(match_ids, play_type).desc.first(5)
+  end
+  
+  # play_typeに基づくmatch_idsを取得する
+  def get_sanyon_match_ids(play_type)
+    @sanyon_match_ids = {}
+    @sanyon_match_ids[play_type] = Match.match_ids(match_ids, play_type)
+  end
+  
+  # match存在確認
+  def matches_present?
+    results_for_matches.count > 0
   end
   
   # playerの総合ptを取得する
-  def total_point
-    sprintf("%+.1f", results.where(match_id: match_ids).sum(:point))
+  def total_point(play_type)
+    "%+.1f" % results_for_matches(play_type).sum(:point)
   end
-  
+    
   # playerの平均順位を取得する
   def average_rank
-    return HYPHEN if results.where(match_id: match_ids).count == 0
-    sprintf("%.2f",results.where(match_id: match_ids).sum(:rank) / total_match_count.to_f)
+    return HYPHEN unless matches_present?
+    "%.2f" % (results_for_matches.sum(:rank) / total_match_count.to_f)
   end
   
   # playerの連対率を取得する
   def rentai_rate
-    return ' - ' if results.where(match_id: match_ids).count == 0
-    sprintf("%.2f", (results.where(match_id: match_ids).where(rank: [1, 2]).count / total_match_count.to_f) * 100)
+    return HYPHEN unless matches_present?
+    "%.2f" % ((results_for_matches.where(rank: [1, 2]).count / total_match_count.to_f) * 100)
+  end
+  
+  # 順位グラフ用データをセットする
+  def set_graph_rank_data(play_type)
+    @rank_data= {}
+    @rank_data[play_type] = results.where(match_id: get_sanyon_match_ids(play_type)).last(RANK_DATA_NUM).pluck(:rank)
+    add_null(@rank_data[play_type]) if @rank_data[play_type].count < RANK_DATA_NUM
+    @rank_data
+  end
+  
+  # RANK_DATA_NUMに満たない場合はNULLで埋める
+  def add_null(rank_data)
+    (RANK_DATA_NUM - rank_data.count).times do |i|
+      rank_data << nil
+    end
   end
   
   #************************************
@@ -58,7 +113,7 @@ class Player < ApplicationRecord
   # 順位別データを配列にまとめる
   def rank_results(play_type)
     rank_results = [rank_rate, rank_times].transpose
-    rank_results.pop if play_type == 3 #三麻の場合、4位の結果を消去する
+    rank_results.pop if play_type == SANMA #三麻の場合、4位の結果を消去する
     return rank_results
   end
   
@@ -66,14 +121,14 @@ class Player < ApplicationRecord
   def rank_rate
     return HYPHENS if rank_times.sum == 0
     rank_times.map do |rank_time|
-      sprintf("%.1f", (rank_time / total_match_count.to_f) * 100)
+      "%.1f" % ((rank_time / total_match_count.to_f) * 100)
     end
   end
   
   # playerの各順位回数を取得する
-  def rank_times
+  def rank_times(play_type = @play_type)
     Result::RANK_NUM.map do |rank|
-      results.where(match_id: match_ids).where(rank: rank).count
+      results_for_matches(play_type).where(rank: rank).count
     end
   end
   
@@ -89,21 +144,21 @@ class Player < ApplicationRecord
   def average_rank_by_ie
     ie_times.map.with_index(1) do |ie_time, i|
       next HYPHEN if ie_time == 0
-      sprintf("%.1f", (results.where(ie: i).where(match_id: match_ids).sum(:rank) / ie_time.to_f))
+      "%.1f" % (results_for_matches.where(ie: i).sum(:rank) / ie_time.to_f)
     end
   end
   
   # 家別の対局数を取得する
   def ie_times
     Result::IE_NUM.map do |ie|
-      results.where(match_id: match_ids).where(ie: ie).count
+      results_for_matches.where(ie: ie).count
     end
   end
 
   # 家別のptを取得する
   def total_point_by_ie
     Result::IE_NUM.map do |ie|
-      sprintf("%+.1f", results.where(match_id: match_ids).where(ie: ie).sum(:point))
+      "%+.1f" % (results_for_matches.where(ie: ie).sum(:point))
     end
   end
   
@@ -113,7 +168,7 @@ class Player < ApplicationRecord
   
   # よく遊ぶプレイヤーと回数を取得する（５人まで）
   def often_play_times
-    attended_match_ids = results.where(match_id: match_ids).pluck(:match_id)
+    attended_match_ids = results_for_matches.pluck(:match_id)
     often_play_players = Result.where(match_id: attended_match_ids)
                                   .where.not(player_id: id)
                                   .group(:player_id)
@@ -191,13 +246,25 @@ class Player < ApplicationRecord
   end
   
   # 成績推移グラフ用のデータを取得する
-  def point_history_data(l_id)
+  def point_history_data
     points = results.where(match_id: match_ids).pluck(:point)
     points_history = [0]
     points.each do |point|
       points_history << (points_history[-1] + point).round(1)
     end
     points_history
+  end
+  
+  # 総合ptを取得する
+  def total_point_for_league
+    "%+.1f" %  results.where(match_id: match_ids).sum(:point)
+  end
+  
+  # playerの各順位回数を取得する
+  def rank_times_for_league
+    Result::RANK_NUM.map do |rank|
+      results.where(match_id: match_ids).where(rank: rank).count
+    end
   end
   
 end

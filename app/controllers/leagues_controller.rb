@@ -1,7 +1,7 @@
 class LeaguesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_league, only: [:show, :edit, :update, :destroy]
-
+  
   def index
     @leagues = League.where(player_id: current_player.id)
   end
@@ -11,8 +11,8 @@ class LeaguesController < ApplicationController
     @graph_labels =  @league.graph_label
     @graph_datasets, @y_max, @y_min = @league.graph_data
     @l_players = LeaguePlayer.where(league_id: params[:id]).order(:player_id)
-    mg_ids = @league.match_groups.pluck(:id)
-    @l_matches = Match.league(mg_ids)
+    @mg_ids ||= @league.match_groups.pluck(:id)
+    @l_matches = Match.league(@mg_ids)
   end
   
   def new

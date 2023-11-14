@@ -1,21 +1,28 @@
 .row.d-flex.justify-content-center
-  = form_with model: @form, url: match_group_chip_results_path ,method: :patch, local: true do |form|
-    = render 'layouts/validation_error', instance: @form
-    %p.text-main= "獲得したチップ枚数を入力してください(#{@rule.chip_rate}pt / 枚)"
-    = form.hidden_field :rule_id, value: @match_group.rule_id
-    - i = 0
-    = form.fields_for :chip_results do |f|
-      .m-auto.col-5.mb-2
-        %p.fw-bold.text-main.text-start.mb-1
-          = @players[i]["name"]
-        .d-flex.align-items-end
-          = f.number_field :number, autofocus: true,
-            class: 'form-control py-md-3 rounded bg-white box-shadow col-5'
-          %span.text-main.mb-0.mx-1.mx-md-2 枚
-        = f.hidden_field :match_group_id, value: @match_group.id
-        = f.hidden_field :player_id, value: @players[i]["id"]
-        = f.hidden_field :is_temporary, value: false
-        - i += 1
-    .col-12.d-flex.justify-content-center.mt-4
-      .p-form__input-submit
-        = form.submit "#{action}", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 fs-6 bg-orange'
+  .col-10.col-md-8
+    .info.mb-3.mx-2.fs-sm.text-main.text-center
+      .info-content.text-center
+        %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
+        %span.mb-0.fw-bold 獲得したチップ枚数を入力してください(#{@rule.chip_rate}pt / 枚)
+    
+    = form_with model: @form, url: match_group_chip_results_path ,method: :patch, local: true do |form|
+      = render 'layouts/validation_error', instance: @form
+      = form.hidden_field :rule_id, value: @match_group.rule_id
+      - i = 0
+      = form.fields_for :chip_results do |f|
+        .d-flex.justify-content-center.align-items-center.mb-2
+          %p.fw-bold.text-main.text-center.mb-0.w-50
+            = @players[i]["name"]
+          .d-flex.align-items-end.w-25
+            = f.number_field :number, autofocus: true,
+              class: 'form-control py-md-1 rounded bg-white box-shadow'
+            %span.text-main.mb-0.mx-1.mx-md-2 枚
+          = f.hidden_field :match_group_id, value: @match_group.id
+          = f.hidden_field :player_id, value: @players[i]["id"]
+          = f.hidden_field :is_temporary, value: false
+          - i += 1
+      .col-8.col-md-5.m-auto.my-3
+        = form.button type: 'submit', class: 'main-btn--orange w-100' do
+          .btn-text
+            %i.fa-solid.fa-pen.pe-1.fw-bold
+            %span #{action}

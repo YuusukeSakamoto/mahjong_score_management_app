@@ -8,12 +8,19 @@
           = image_tag "#{@player.user.avatar}", alt: 'ユーザー画像', class: 'rounded-circle'
       %p.mt-1.mb-0.text-main.fw-bold= "#{@player.name}"
       %p.mb-2.text-main.fs-sm= "(ID : #{@player.id})"
-      .mb-3.col-8.col-md-5.m-auto
+      .mb-3.m-auto
         - if @player.user == current_user
-          = link_to '編集', edit_user_registration_path, class: 'btn px-2 py-1 mb-2 rounded text-white bg-green'
+          = link_to edit_user_registration_path,
+            class: "main-btn--white-green-sm p-1 m-auto d-inline-block" do
+            .btn-text.fs-sm
+              %i.fa-solid.fa-pen
+              %span 編集
         - if @player.can_invite?(current_player)
-          = link_to 'アカウント招待する', new_players_invitation_path(player_id: @player.id), 
-            class: 'btn px-2 py-1 mb-2 rounded text-white bg-green',data: { "turbolinks" => false }
+          = link_to new_players_invitation_path(player_id: @player.id), 
+            class: "main-btn--white-green-sm p-1 m-auto d-inline-block" ,data: { "turbolinks" => false } do
+            .btn-text.fs-sm
+              %i.fa-solid.fa-user-plus
+              %span アカウント招待
     .yonma_results.mb-3.text-main
       = render partial: 'result', locals: { play_type: 4 }
     .sanma_results.mb-3.text-main
