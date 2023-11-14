@@ -7,7 +7,7 @@
       = render 'layouts/validation_error', instance: @result
       
       .div-title.mb-4
-        = f.label :対局日時, class: 'title-p fw-bold text-main'
+        = f.label :対局日時, class: 'title-p text-main'
         %span.p_required 必須
         - if controller.action_name == "edit"
           = f.date_field :match_time, value: @result.match_time, autofocus: true, 
@@ -21,7 +21,7 @@
       // 選択されたプレイヤー分だけフォーム表示      
       - session[:players].each do |player_id|  
         .div-title.mb-4
-          = f.label :"#{Player.find(player_id).name}", class: 'title-p fw-bold text-main'
+          = f.label :"#{Player.find(player_id).name}", class: 'title-p text-main'
           .d-flex.align-items-end
             = f.text_field :score, autofocus: true, placeholder: "25000",
               class: 'form-control py-2 py-md-3 rounded bg-white box-shadow'
@@ -32,17 +32,15 @@
             = f.select :ie, [ #{IE} ],{},{class: 'form-control py-2 py-md-3 rounded bg-white box-shadow'}
           
       .div-title.mb-4
-        = f.label :'対局メモ', class: 'title-p fw-bold text-main'
+        = f.label :'対局メモ', class: 'title-p text-main'
         = f.text_area :memo, autofocus: true, 
           class: 'form-control py-md-3 rounded bg-white box-shadow mb-3'
 
       .col-12.d-flex.justify-content-center
-        .p-form__input-submit
-          = f.submit "#{action}する", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3  bg-green'
+        = f.submit "#{action}する", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3  bg-green'
     
     - if controller.action_name == "edit"
       .col-12.d-flex.justify-content-center.mt-4
-        .p-form__input-submit
-          = link_to '削除する', result_path(@result), method: :delete,
-            data: { confirm: "本当に対局成績を削除しますか？"},
-            class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3  bg-green'
+        = link_to '削除する', result_path(@result), method: :delete,
+          data: { confirm: "本当に対局成績を削除しますか？"},
+          class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3  bg-green'

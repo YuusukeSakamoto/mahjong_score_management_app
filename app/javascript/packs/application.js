@@ -17,11 +17,9 @@ require("global_menu.js")
 require("dropdown_menu.js")
 require("rule_form_change.js")
 require("player_select.js")
+require("flash.js")
+require("user_form.js")
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
-
-$(function(){
-  setTimeout("$('.flash').fadeOut('slow')", 2000);
-});

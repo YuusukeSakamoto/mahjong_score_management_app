@@ -1,33 +1,33 @@
 class UsersController < ApplicationController
-  def index
-    @users = User.all
-  end
+  # def index
+  #   @users = User.all
+  # end
   
-  def new
-    @user = User.new
+  # def new
+  #   @user = User.new
 
-  end
+  # end
   
-  def create
+  # def create
 
-  end
+  # end
   
   def show
     @user = User.find(params[:id])
   end
   
-  private
+  # private
    
-    def user_params
-      params.require(:user).permit(:name)  
-    end
+  #   def user_params
+  #     params.require(:user).permit(:name)  
+  #   end
   
-    def users_params
-      params.require(:users)
-    end
+  #   def users_params
+  #     params.require(:users)
+  #   end
     
-    def user_collection_params
-        params.require(:form_user_collection)
-        .permit(users_attributes: [:name])
-    end
+  #   def user_collection_params
+  #       params.require(:form_user_collection)
+  #       .permit(users_attributes: [:name])
+  #   end
 end

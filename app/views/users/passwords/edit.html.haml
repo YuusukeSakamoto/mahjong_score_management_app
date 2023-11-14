@@ -1,0 +1,24 @@
+.container
+  .row.justify-content-center
+    .col-11.col-md-9.text-center.pb-2
+      .page-title
+        .d-flex.align-items-end.text-main
+          %h4.text-center.text-md-start.fw-bold.mb-0 パスワード再設定
+  .row.justify-content-center
+    .col-10.col-md-8.text-center.pb-2
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+        = render 'layouts/validation_error', instance: resource
+        = f.hidden_field :reset_password_token
+        .field.mt-3
+          = f.label :新しいパスワード, class: "fw-bold text-main pb-2"
+          - if @minimum_password_length
+            %span.fw-bold.text-main (#{@minimum_password_length}文字以上)
+          = f.password_field :password, autofocus: true,
+            class: "form-control py-md-1 rounded bg-white box-shadow w-50 m-auto"
+        .field.mt-3
+          = f.label :新しいパスワード（確認用）, class: "fw-bold text-main pb-2"
+          = f.password_field :password_confirmation,
+            class: "form-control py-md-1 rounded bg-white box-shadow w-50 m-auto"
+        .actions.mt-3
+          = button_tag(type: 'submit', class: "btn btn-success translatable-text") do
+            パスワード変更

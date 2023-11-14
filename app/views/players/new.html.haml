@@ -1,8 +1,9 @@
 .container
   .row.justify-content-center
-    .col-12.text-center.pb-2
-      .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.mt-4
+    .col-11.col-md-9.text-center.pb-2
+      .page-title
         .d-flex.align-items-end.text-main
-          %h4.text-center.text-md-start.fw-bold.mb-0 プレイヤー選択
-          %span.ps-2 #{@league_name}
+          %h4.text-center.text-md-start.fw-bold.text-nowrap.mb-0 プレイヤー選択
+          - if @league.present?
+            %span.fw-bold.ps-2 #{@league.name}
   = render 'form', action: '決定'

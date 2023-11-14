@@ -1,3 +1,11 @@
 .container
-  .row.d-flex.justify-content-center
+  .row.justify-content-center
+    .col-11.col-md-9.text-center.pb-2
+      .page-title
+        .d-flex.align-items-end.text-main
+          %h4.text-center.text-md-start.fw-bold.mb-0 対局成績登録
+          - if @league.present?
+            %p.text-main.fw-bold.ps-2.mb-0="#{@league.name}"
+          - else
+            %p.text-main.fw-bold.ps-2.mb-0="#{conversion_kanji_num(@match.play_type)}人麻雀"
   = render 'form', action: '登録'

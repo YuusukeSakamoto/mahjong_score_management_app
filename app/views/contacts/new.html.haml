@@ -1,9 +1,9 @@
 .container
-  .row
-    .col-12.text-center.pb-2
-      .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.mt-4
+  .row.justify-content-center
+    .col-11.col-md-9.text-center.pb-2
+      .page-title
         .d-flex.align-items-end.text-main
-          %h4.text-center.text-md-start.fw-bold.mb-0 問い合わせ
+          %h4.text-center.text-md-start.fw-bold.mb-0 お問い合わせ
   .row
     .col-12.pb-2.text-main
       = form_with(model: @contact, local: true) do |f|
@@ -22,6 +22,8 @@
             = f.text_area :content, placeholder: "お問合せ内容を入力してください",
               class: "form-control rounded", rows: 5
             = f.hidden_field :user_id, value: current_user.id
-          .p-form__input-submit.text-center
-            = f.submit "送信する", 
-              class: 'btn rounded fw-bold box-shadow text-white px-5 py-3 bg-orange'
+          .col-8.col-md-5.m-auto.my-3
+            = f.button type: 'submit', class: 'main-btn--orange w-100' do
+              .btn-text
+                %i.fa-regular.fa-paper-plane.pe-1
+                %span 送信

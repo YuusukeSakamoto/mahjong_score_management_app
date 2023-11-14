@@ -23,14 +23,17 @@ Rails.application.routes.draw do
     resources :results, only: [:index] 
   end
   
+
+  
   devise_for :users, controllers: {
     :confirmations => 'users/confirmations',
     :registrations => 'users/registrations',
     :sessions => 'users/sessions',
-    :passwords => 'users/passwords'
+    :passwords => 'users/passwords' # passwordリセット
   }
+  resources :users, only: [:show]
   
-  resources :users  
+  # resources :users
   resources :match_groups, only: [:index, :show] do
     resource :chip_results, only: [:edit, :update]
   end  

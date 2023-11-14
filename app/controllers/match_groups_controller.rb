@@ -12,6 +12,7 @@ class MatchGroupsController < ApplicationController
     @match_group = MatchGroup.find(params[:id])
     if params[:fix] == 'true' # 対局成績を確定ボタンから遷移した場合
       end_record
+      flash[:notice] = "記録を終了しました"
     end
   end
 

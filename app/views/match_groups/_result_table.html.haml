@@ -1,16 +1,16 @@
 // 今回の対局成績表
-.row.mt-3
+.row.justify-content-center.mt-4
   .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.text-main
     .d-flex.align-items-end
       %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0 対局成績表
       .d-flex.fs-sm
-        %p.mb-0.ms-2="#{@match_group.created_at.to_date.to_s(:yeardate)}"
+        %p.mb-0.ms-2.text-nowrap="#{@match_group.created_at.to_date.to_s(:yeardate)}"
         - if @match_group.league_id.present?
-          %p.mb-0.ms-2="#{League.find(@match_group.league_id).name}"
-        %p.mb-0.ms-2="#{Rule.find(@match_group.rule_id).name}"
-        - if Rule.find(@match_group.rule_id).is_chip
-          %p.mb-0.ms-2 / チップ有
+          %p.mb-0.ms-2.text-nowrap="#{League.find(@match_group.league_id).name}"
+        - else
+          %p.mb-0.ms-2.text-nowrap="#{Rule.find(@match_group.rule_id).name}"
 
+.row.justify-content-center
   .d-flex.justify-content-center.mt-2
     %table.table.col-10.col-md-6.text-main.text-center.px-2.result_table.w-100
       %thead
@@ -18,7 +18,7 @@
           %th.w-no{scope: "col"} No
           - Player.get_players_name(@match_group.matches.first.results, false).each do |name|
             %th.w-name{scope: "col"}= name
-          %th.w-edit{scope: "col"} 編集
+          %th.w-edit{scope: "col"}
           - each_points, total_points, links = @match_group.get_table_element
           - each_points.each.with_index(0) do |points, i| 
             %tr
@@ -31,27 +31,35 @@
                 %td= point
               %td.p-0
                 - if links[i][:idx] == MatchGroup::CHIP
-                  = link_to edit_match_group_chip_results_path(@match_group.id), class: 'px-1 pt-1 pb-0 text-main' do
-                    %i.bx.bx-edit-alt.bx-sm{style: "padding-top: 1px;"}
+                  = link_to edit_match_group_chip_results_path(@match_group.id), class: 'px-1 pb-0 text-main' do
+                    %i.fa-regular.fa-pen-to-square{style: "padding-top: 1px;"}
                 - else
-                  = link_to edit_match_path(links[i][:id]), class: 'px-1 pt-1 pb-0 text-main' do
-                    %i.bx.bx-edit-alt.bx-sm{style: "padding-top: 1px;"}
+                  = link_to edit_match_path(links[i][:id]), class: 'px-1 pb-0 text-main' do
+                    %i.fa-regular.fa-pen-to-square{style: "padding-top: 1px;"}
       %tfoot
         %tr.bg-lightgray.fw-bold
-          %td 合計
+          %td 計
           - total_points.each do |point|
             %td= point
           %td
-.col-7.col-md-5.m-auto
+.col-8.col-md-6.m-auto.mb-3
   - if recording?
     - if @match_group.rule.is_chip
-      = link_to 'チップ集計して記録終了する', edit_match_group_chip_results_path(session[:mg]),
-        class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"
+      = link_to edit_match_group_chip_results_path(session[:mg]), class: "main-btn--orange mb-1" do
+        .btn-text
+          %i.fa-regular.fa-circle-check.pe-1
+          %span チップ集計して記録終了する
+        
     - else
-      = link_to '記録終了する', match_group_path(session[:mg], fix: true),
-        class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"
+      = link_to match_group_path(session[:mg], fix: true), class: "main-btn--orange mb-1" do
+        .btn-text
+          %i.fa-regular.fa-circle-check.pe-1
+          %span 記録終了する
+    .d-flex.justify-content-center.align-items-center
+      %i.fa-solid.fa-circle-info.text-pink.fs-sm.pe-1
+      %p.fs-sm.text-main.fw-bold.mb-0 この成績表には新たに成績を追加できなくなります
   - else 
     - if @match_group.league_id.present?
       = link_to 'リーグ成績を見る', league_path(@match_group.league_id),
-        class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white",
+        class: "main-btn--orange mb-3",
         data: { "turbolinks" => false }

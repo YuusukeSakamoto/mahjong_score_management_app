@@ -36,8 +36,13 @@ a {
   }
   &:hover {
     opacity: 0.8;
-    color: $orange!important; // .btn以外はhover時,オレンジにする
     @extend %transition;
+  }
+  &.hover-underline {
+    text-decoration: none!important;
+    &:hover {
+      text-decoration: underline!important;
+    }
   }
 }
 
@@ -63,12 +68,77 @@ button, input[type="submit"] {
   width: 300px;
   background-color: gray;
 }
+
+// ===============================
+// ボタン
+// ===============================
+.main-btn {
+  border: solid 1px transparent;
+  border-radius: 0.25rem;
+  font-weight: bold;
+  padding: 0.5rem 1.5rem;
+  box-shadow: 0px 0px 5px #d6d8f5;
+  text-decoration: none;
+  text-align: center;
+  @include smartphone {
+    padding: 0.5rem 1.2rem;
+  }
+  
+  &--orange {
+    @extend .main-btn;
+    color: $white!important;
+    background-color: $orange;
+  }
+  &--green {
+    @extend .main-btn;
+    color: $white!important;
+    background-color: $green;
+  }
+  &--white {
+    @extend .main-btn;
+    background-color: $white;
+    &-orange { 
+      @extend .main-btn--white;
+      border: 2px solid $orange;
+      color: $orange-2!important;
+      &-sm {
+        @extend .main-btn--white-orange;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+    }
+    &-green {
+      @extend .main-btn--white;
+      border: 2px solid $green-2;
+      color: $green!important;
+      &-sm {
+        @extend .main-btn--white-green;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+    }
+    &-red {
+      @extend .main-btn--white;
+      border: 2px solid $red;
+      color: $red!important;
+    }
+  }
+  
+}
+
+.inactive {
+  opacity: 0.6!important;
+}
 // ===============================
 // バリデーションエラーMSG
 // ===============================
 .validation-alert{
   border: 2px solid #ff7587!important; /* light-red */
+  border-radius: 0.25rem;
   color: #ee5266; /* red */
+  padding: 0.1rem 0.7rem 0.5rem 0.7rem;
+  font-weight: bold;
+  font-size: 0.7rem;
 }
 
 // エラーメッセージ出力時にレイアウト崩れるの防止
@@ -104,8 +174,8 @@ button, input[type="submit"] {
 }
 
 .header-icon {
-  width: 50px; /* 親要素の幅 */
-  height: 50px; /* 親要素の高さ */
+  width: 40px; /* 親要素の幅 */
+  height: 40px; /* 親要素の高さ */
   overflow: hidden; /* 親要素外のコンテンツを隠す */
   
   img {
@@ -154,7 +224,7 @@ button, input[type="submit"] {
   &-bottom {
     border-bottom: solid 4px $green;
     
-    &-title_main{ //四人麻雀/三人麻雀タイトル
+    &-title_main{ // ページタイトル
       @extend .border-green;
       border-bottom: 3px solid; 
       padding-left: 0.75rem!important;
@@ -245,6 +315,19 @@ button, input[type="submit"] {
   }
 }
 
+
+
+// ===============================
+// ページタイトル（共通）
+// ===============================
+.page-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 1.5rem!important;
+  @extend .border-green-bottom-title_main;
+}
+
 // ===============================
 // テキストカラー
 // ===============================
@@ -269,6 +352,9 @@ button, input[type="submit"] {
   }
   &-minus {
     color: $minus-red;
+  }
+  &-plus {
+    color: $plus-blue;
   }
 }
 
@@ -297,13 +383,22 @@ button, input[type="submit"] {
 }
 
 // ===============================
-// 特定項目
+// フォーム
 // ===============================
+/* 項目名 */
+.title-p {
+  border-left: 4px solid $green;
+  padding-left: 0.4rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
 /*必須項目*/
 .p_required {
   color: $green; 
   font-weight: bold;
-  padding-left: 10px;
+  padding-left: 5px;
+  font-size: 0.7rem;
 }
 /*フォーム注意文(赤)*/
 .p_warning {
@@ -319,8 +414,8 @@ button, input[type="submit"] {
 // boxicon
 // ===============================
 .bx-size {
-  font-size: 1.55rem!important;
+  font-size: 1.2rem!important;
   @include smartphone {
-    font-size: 1.1rem!important;
+    font-size: 0.8rem!important;
   }
 }

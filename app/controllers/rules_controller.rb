@@ -21,9 +21,9 @@ class RulesController < ApplicationController
     @rule = Rule.new(rule_params)
     if @rule.save
       if session[:previous_url].include?(new_player_path)
-        redirect_to new_match_path, flash: {notice: "ルール < #{@rule.name} > を登録しました"} and return 
+        redirect_to new_match_path, flash: {notice: "ルール<#{@rule.name}>を登録しました"} and return 
       end
-      redirect_to session[:previous_url], flash: {notice: "ルール < #{@rule.name} > を登録しました"} and return  # create後に遷移させる
+      redirect_to session[:previous_url], flash: {notice: "ルール<#{@rule.name}>を登録しました"} and return  # create後に遷移させる
     else
       render :new
     end
@@ -37,7 +37,7 @@ class RulesController < ApplicationController
     redirect_to root_path, flash: {alert: 'ルール登録者でなければ、更新できません。'} and return unless current_player == @rule.player
 
     if @rule.update(rule_params)
-      redirect_to player_rules_path, flash: {notice: "ルール < #{@rule.name} > を編集しました"}
+      redirect_to player_rules_path, flash: {notice: "<#{@rule.name}>を編集しました"}
     else
       set_player
       render :edit
@@ -47,7 +47,7 @@ class RulesController < ApplicationController
   def destroy
     redirect_to root_path, flash: {alert: 'ルール登録者でなければ、削除できません。'} and return unless current_player == @rule.player
     @rule.destroy
-    redirect_to player_rules_path, flash: {notice: "ルール < #{@rule.name} > を削除しました"}
+    redirect_to player_rules_path, flash: {notice: "ルール<#{@rule.name}>を削除しました"}
   end
 
   private

@@ -3,6 +3,8 @@
     .col-12.text-center.pb-2
       = render partial: 'rule', locals: { play_type: 4 }        
       = render partial: 'rule', locals: { play_type: 3 }        
-    .col-7.col-md-5.m-auto
-      = link_to 'ルールを登録する', new_player_rule_path, 
-        class: "btn d-block rounded fw-bold px-2 py-2 mb-3 bg-orange text-white"
+    .col-8.col-md-5.m-auto
+      = link_to new_player_rule_path, class: "main-btn--orange mb-3" do
+        .btn-text
+          %i.fa-solid.fa-pen.pe-1.fw-bold
+          %span ルール登録

@@ -1,6 +1,7 @@
 .container
-  .row.d-flex.justify-content-center
-    .col-11.col-md-7.text-center.pb-2
-      %p.w-lg-50.pt-3.fs-3.text-green チップ集計
-    .col-11.col-md-7.text-center.pb-2
-      = render 'form', action: '登録'
+  .row.justify-content-center
+    .col-11.col-md-9.text-center.pb-2
+      .page-title
+        .d-flex.align-items-end.text-main
+          %h4.text-center.text-md-start.fw-bold.mb-0 チップ集計
+  = render 'form', action: '登録'

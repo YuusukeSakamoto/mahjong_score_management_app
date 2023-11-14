@@ -1,3 +1,12 @@
 .container
-  .row.d-flex.justify-content-center
-    = render 'form', action: '作成'
+  .row.justify-content-center
+    .col-11.col-md-9.text-center.pb-2
+      .page-title
+        .d-flex.align-items-end.text-main
+          %h4.text-center.text-md-start.fw-bold.mb-0 リーグ作成
+    .col-10.col-md-8
+      .info.px-2.py-2.mb-1.mx-1.text-center.fs-sm.text-main
+        .d-flex.align-items-center.justify-content-center
+          %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
+          %p.mb-0.fw-bold リーグ基本情報を登録してください
+  = render 'form', action: '作成'

@@ -1,10 +1,9 @@
 class Rule < ApplicationRecord
   belongs_to :player
   has_many :results
-  # has_many :match_groups
-  
+
   validates :play_type, presence: true, numericality: { in: 3..4 }
-  validates :name, presence: true, uniqueness: { scope: :player }
+  validates :name, presence: true, uniqueness: { scope: :player }, length: { maximum: 15 }
   validates :mochi, :kaeshi, :uma_1, :uma_2, :uma_3, :uma_4, :score_decimal_point_calc, presence: true
   validates :is_chip, inclusion: [true, false] # boolean型のpresenceチェック
   validates :chip_rate, presence: true, if: :is_chip #チップ有のときchip_rateが空でないか

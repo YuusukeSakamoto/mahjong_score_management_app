@@ -1,69 +1,69 @@
-.row.d-flex.justify-content-center
-  .col-12.text-center.pb-2
-    %p.w-lg-50.pt-3.fs-3.text-green リーグ#{action}
-    - if controller.action_name == "new"
-      %p.text-main.text-center.fs-sm リーグ基本情報を登録してください
-    
-  .col-10.col-md-6
+.row.justify-content-center
+  .col-10.col-md-8
     = form_with model: [@league], class: 'mb-4', local: true do |f|
       = render 'layouts/validation_error', instance: @league
 
       .div-title.mb-2.mb-sm-3
-        = f.label :リーグ名, class: 'title-p fw-bold text-main mb-1'
+        = f.label :リーグ名, class: 'title-p text-main'
         %span.p_required 必須
+        %span.fs-sm.text-main (15文字以内)
         = f.text_field :name, autofocus: true, placeholder: "Mリーグ",
-          class: 'form-control py-md-3 rounded bg-white box-shadow js-rule_name'
+          class: 'form-control py-md-1 rounded bg-white box-shadow js-rule_name', maxlength: 15
       - if controller.action_name == "new" || controller.action_name == "create"
         .div-title.mb-2.mb-sm-3
-          = f.label :'三麻/四麻', class: 'title-p fw-bold text-main mb-1'
+          = f.label :'三麻/四麻', class: 'title-p text-main mb-1'
           %span.p_required 必須
           .d-flex.align-items-end.w-100
             = f.select :play_type, 
               [ ["四人麻雀",4], ["三人麻雀", 3]], {},
-              {class: 'form-control w-50 py-md-3 rounded bg-white box-shadow'}
+              {class: 'form-control w-50 py-md-1 rounded bg-white box-shadow'}
       - if controller.action_name == "edit"
         .div-title.mb-2.mb-sm-3
-          = f.label :'三麻/四麻', class: 'title-p fw-bold text-main mb-1'
+          = f.label :'三麻/四麻', class: 'title-p text-main mb-1'
           %span.p_warning ※変更不可
           .d-flex.align-items-end.w-100
             = f.select :play_type, 
               [ ["四人麻雀",4], ["三人麻雀", 3]], {},
-              {class: 'form-control w-50 py-md-3 rounded bg-gray box-shadow', tabindex: -1, style: "pointer-events: none;"}
+              {class: 'form-control w-50 py-md-1 rounded bg-gray box-shadow', tabindex: -1, style: "pointer-events: none;"}
 
       - if controller.action_name == "new" || controller.action_name == "create"
         .div-title.mb-2.mb-sm-3
           .d-flex.justify-content-between
             .left-content
-              = f.label :ルール選択, class: 'title-p fw-bold text-main mb-1'
+              = f.label :ルール選択, class: 'title-p text-main'
               %span.p_required 必須
             .right-content
               = link_to 'ルール新規登録', new_player_rule_path(current_player), class: 'text-pink fs-sm pt-1'
           = f.collection_select(:rule_id, current_player.rules, 
                                 :id, :name, {},
-                                class: 'form-control py-md-3 rounded bg-white box-shadow mb-3 text-center' )
+                                class: 'form-control py-md-1 rounded bg-white box-shadow mb-3 text-center' )
       - if controller.action_name == "edit"
         .div-title.mb-2.mb-sm-3
           .d-flex.justify-content-between
             .left-content
-              = f.label :ルール選択, class: 'title-p fw-bold text-main mb-1'
+              = f.label :ルール選択, class: 'title-p text-main'
               %span.p_warning ※変更不可
           = f.collection_select(:rule_id, current_player.rules, 
                                 :id, :name, {},
-                                class: 'form-control py-md-3 rounded bg-gray box-shadow mb-3 text-center',
+                                class: 'form-control py-md-1 rounded bg-gray box-shadow mb-3 text-center',
                                 tabindex: -1, style: "pointer-events: none;" )
    
       .div-title.mb-2.mb-sm-3
-        = f.label :'リーグ説明', class: 'title-p fw-bold text-main mb-0 mb-md-1'
+        = f.label :'リーグ説明', class: 'title-p text-main mb-md-1'
         = f.text_area :description, autofocus: true, 
-          class: 'form-control py-md-3 rounded bg-white box-shadow'
+          class: 'form-control py-md-1 rounded bg-white box-shadow'
 
-      .col-12.d-flex.justify-content-center
-        .p-form__input-submit
-          = f.submit "#{action}する", class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 bg-orange'
-    
-    - if controller.action_name == "edit"
-      .col-12.d-flex.justify-content-center.mt-4
-        .p-form__input-submit
-          = link_to '削除する', league_path(@league), method: :delete,
+      .col-8.col-md-6.m-auto.mb-3
+        = f.button type: 'submit', class: 'main-btn--orange w-100' do
+          .btn-text
+            %i.fa-solid.fa-pen.pe-1
+            %span #{action}
+
+      - if controller.action_name == "edit"
+        .col-8.col-md-6.m-auto
+          = link_to league_path(@league), method: :delete, 
             data: { confirm: "本当に削除しますか？（リーグの全記録が削除されます）"},
-            class: 'btn d-block rounded fw-bold box-shadow text-white px-5 py-3 bg-delete-color'
+            class: "main-btn--white-red mb-3" do
+            .btn-text
+              %i.fa-regular.fa-trash-can.pe-1
+              %span 削除

@@ -2,18 +2,41 @@
 - if user_signed_in?
   .container.pt-4
     .row.d-flex.justify-content-center
-      .col-lg-10.text-center.text-white.px-5.mb-4.mx-auto.d-md-flex.justify-content-evenly
-        - if recording?
-          = link_to "次の対局を記録する(#{conversion_kanji_num(session_players_num)}人麻雀)", new_match_path, 
-            class: "btn d-block rounded fw-bold box-shadow text-white px-3 py-2 py-md-3 bg-green"
-        - else 
-          = link_to '成績記録 (四人麻雀)',new_player_path(play_type: 4), 
-            class: "btn d-block rounded fw-bold box-shadow text-white px-3 py-2 py-md-3 bg-green"
-          = link_to '成績記録 (三人麻雀)',new_player_path(play_type: 3), 
-            class: "btn d-block rounded fw-bold box-shadow text-white px-3 py-2 py-md-3 bg-green mt-3 mt-md-0"
+      - if recording?
+        .col-lg-10.text-center.text-white.px-5.mb-3.mx-auto.d-md-flex.justify-content-evenly
+          .info.py-2.mb-1.text-center
+            .d-flex.align-items-center.justify-content-center
+              %i.bx.bxs-info-circle.pe-2.text-pink
+              %p.mb-0.fw-bold.text-main 記録を続けるか終了してください
+          = link_to new_match_path, class: "main-btn--green mb-3" do
+            .btn-text 
+              %i.fa-solid.fa-angles-right
+              %span 次の対局を記録する
+      - else 
+        .info.py-2.mb-1.text-center.fadeIn
+          .d-flex.align-items-center.justify-content-center
+            %i.fa-solid.fa-circle-arrow-down.pe-2.text-pink
+            %p.mb-0.fw-bold.text-main なにを記録しますか？
+        .col-lg-10.text-center.text-white.px-5.mb-3.mx-auto.d-md-flex.justify-content-evenly
+          = link_to new_player_path(play_type: 4), 
+            class: "col-md-3 main-btn--white-green mt-2 mt-md-0 py-md-3" do
+            .top-btn_text
+              %span 四人麻雀
+              %i.fa-solid.fa-user-pen
+
+          = link_to new_player_path(play_type: 3), 
+            class: "col-md-3 main-btn--white-green mt-2 mt-md-0 py-md-3" do
+            .top-btn_text
+              %span 三人麻雀
+              %i.fa-solid.fa-user-pen
+
           - if @player.leagues_registered?
-            = link_to 'リーグ対局記録', leagues_path, 
-              class: "btn d-block rounded fw-bold box-shadow text-green px-3 py-2 py-md-3 border-green-btn mt-3 mt-md-0"
+            = link_to leagues_path, 
+              class: "col-md-3 main-btn--white-green mt-2 mt-md-0 py-md-3" do
+              .btn_text
+                %span リーグ戦
+                %i.fa-solid.fa-trophy
+
       = render partial: 'match_groups/result_table' if recording?
       = render partial: 'result', locals: { play_type: 4 }
       = render partial: 'result', locals: { play_type: 3 }

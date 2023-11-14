@@ -1,26 +1,43 @@
 // フラッシュメッセージのコンテナのスタイル
+@import 'variable';
 
 .flash {
-  text-align: center;
+  position: fixed;
+  top: -100px;
+  left: 0;
+  right: 0;
+  width: 60%;
+  margin: 0 auto; 
+  padding: 15px 8px;
   font-size: 14px;
   font-weight: bold;
-  padding: 20px 0;
-  // スマホレイアウト
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 0px 20px rgba(0,0,0,0.2);
+  z-index: 9999;
+  transition: top 1.0s;
+  /* スマホレイアウト */
   @media (max-width: 480px) {
-    padding: 12px 0;
+    padding: 12px 8px;
   }
 }
 
 // 成功時とエラー時のスタイル
-// ※システムでクラス名が自動的に入るため「l-」がつかない
-.notice {
-  border-top: 2px solid #91d8b0; /* light-green */
-  border-bottom: 2px solid #91d8b0; /* light-green */
-  color: #17bc5f; /* green */
+.f-notice {
+  border: 2px solid #91d8b0; /* light-green */
+  border-radius: 15px;
+  color: #17bc5f!important; /* green */
 }
 
-.alert {
-  border-top: 2px solid #ff7587!important; /* light-red */
-  border-bottom: 2px solid #ff7587!important; /* light-red */
-  color: #ee5266; /* red */
+.f-alert {
+  border: 2px solid #ff7587!important; /* light-red */
+  border-radius: 15px;
+  color: #ee5266!important; /* red */
+}
+
+// ×ボタン
+.close-flash {
+  border: none;
+  background-color: $white;
+  color: inherit;
 }

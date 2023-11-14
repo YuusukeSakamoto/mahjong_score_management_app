@@ -1,35 +1,54 @@
 .container
   .row.d-flex.justify-content-center.text-main
-    .col-12.text-center.pb-2
-      .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.mt-4
-        .d-flex.align-items-end
-          %h4.text-center.text-md-start.fw-bold.mb-0 リーグ一覧
+    .col-11.col-md-9.text-center.pb-2
+      .page-title
+        %h4.text-center.text-md-start.fw-bold.mb-0 リーグ一覧
+        .header-right-item.fs-sm
+          %i.fa-solid.fa-user-pen
+          %span : 主催者
+          
       - if @leagues.blank?
-        .col-6.col-md-4.m-auto
+        .col-8.col-md-5.m-auto
           %p.fs-bold.text-center.mt-4 リーグが登録されていません
-          = link_to 'リーグ作成する', new_league_path(p_id: current_player.id)
       - else
-        .row
-          - @leagues.each do |league| 
-            .col-sm-6
-              .card
-                .card-body
-                  .d-flex.justify-content-center.align-items-center.py-1.mb-2.border-green-thin_bottom
-                    %h5.fw-bold.card-title.mb-0= league.name
-                    - if league.league_players.present?
-                      = link_to league_path(league), class: 'px-1 pt-1 pb-0 text-main' do
-                        %i.bx.bx-link-external.text-gray{style: "padding-top: 1px;"}
-                  .d-flex.flex-wrap.justify-content-center.mb-1
-                    - if league.league_players.blank?
-                      %p プレイヤー未登録
-                    - else 
-                      - league.league_players.each do |l_player|
-                        %p.card-text.p-1.mb-0.fs-sm= l_player.player.name
-                  - if league.league_players.blank?
-                    = link_to 'プレイヤーを登録する', new_player_path(play_type: league.play_type, league: league.id),
-                      class: "col-sm-6 btn d-block rounded fw-bold px-1 py-1 mx-auto mb-1 bg-orange text-white fs-sm"                
-                  - else
-                    = link_to 'リーグ対局を記録する', new_match_path(league: league.id), 
-                      class: "col-sm-6 btn d-block rounded fw-bold px-1 py-1 mx-auto mb-1 bg-orange text-white fs-sm"
-                  = link_to '編集/削除', edit_league_path(league), 
-                    class: "col-sm-6 btn d-block rounded fw-bold px-1 py-1 mx-auto bg-gray text-white text-nowrap fs-sm"
+        .row.justify-content-center
+          .col-12
+            - @leagues.each do |league| 
+              .league_item.d-flex.justify-content-start.align-items-center.my-2.pt-1.pb-2.border-bottom
+                .col-5.league_item-left.align-items-center
+                  %h5.fw-bold.mt-2.mb-2= league.name
+                  .fs-sm
+                    .d-flex.justify-content-center
+                      %p.mb-0 総対局数 : 
+                      %span.ps-1= league.match_count
+                    - if league.match_groups.present?
+                      %span #{league.first_record_day} ~ #{league.last_record_day}
+                    - else
+                      %span -
+                .col-3.col-md-2.league_itme-center.px-2
+                  = link_to new_match_path(league: league.id),
+                    class: "main-btn--white-orange-sm p-2 my-1" do
+                    .btn-text
+                      %i.fa-solid.fa-pen
+                      %span 記録
+                  = link_to league_path(league),
+                    class: "main-btn--white-green-sm p-2 my-1" do
+                    .btn-text
+                      %i.fa-solid.fa-chart-simple
+                      %span 成績
+                .col-4.col-md-5.league_itme-right.ps-2.ps-md-4.my-1
+                  .players.fs-sm
+                    .players-head
+                    - league.league_players.each do |l_player|
+                      .d-flex.align-items-center
+                        %p.mb-0.text-start.fw-bold= l_player.player.name
+                        - if league.player_id == l_player.player.id
+                          %i.fa-solid.fa-user-pen.ps-1
+
+        .row.my-3
+          .col-8.col-md-4.m-auto
+            = link_to new_league_path(p_id: current_player.id), 
+              class: "main-btn--orange w-100" do
+              .btn-text
+                %i.fa-solid.fa-trophy.pe-1
+                %span リーグ作成
