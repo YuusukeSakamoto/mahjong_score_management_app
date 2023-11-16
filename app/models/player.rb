@@ -245,26 +245,4 @@ class Player < ApplicationRecord
     leagues.count > 0
   end
   
-  # # 成績推移グラフ用のデータを取得する
-  # def point_history_data(mg_ids = [])
-  #   points = []
-  #   points_history = [0]
-    
-  #   if mg_ids.present?
-  #     # リーグルールがチップ=有の場合
-  #     mg_ids.each do |mg_id|
-  #       match_chip_pt = results.where(match_id: mg_id.matches.pluck(:id)).pluck(:point)
-  #       match_chip_pt << ChipResult.find_by(player_id: id, match_group_id: mg_id).point # 該当プレイヤーのチップptを取得
-  #       points.concat(match_chip_pt) # 配列の各要素を整数として配列に追加する
-  #     end
-  #   else
-  #     # リーグルールがチップ=無の場合
-  #     points = results.where(match_id: match_ids).pluck(:point)
-  #   end
-  #   points.each do |point|
-  #     points_history << (points_history[-1] + point).round(1)
-  #   end
-  #   @l_points_history = points_history
-  # end
-
 end
