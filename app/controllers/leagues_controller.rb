@@ -7,12 +7,11 @@ class LeaguesController < ApplicationController
   end
   
   def show
-    @rank_table_data = @league.rank_table
-    @graph_labels =  @league.graph_label
-    @graph_datasets, @y_max, @y_min = @league.graph_data
+    @l_matches = Match.where(league_id: params[:id]) 
+    @graph_datasets, @y_max, @y_min = @league.graph_data # 成績推移グラフのデータ
+    @graph_labels =  @league.graph_label # 成績推移グラフの日付ラベル
+    @rank_table_data = @league.rank_table(params[:id])  # 順位表のデータ
     @l_players = LeaguePlayer.where(league_id: params[:id]).order(:player_id)
-    @mg_ids ||= @league.match_groups.pluck(:id)
-    @l_matches = Match.league(@mg_ids)
   end
   
   def new

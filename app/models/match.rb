@@ -1,6 +1,7 @@
 class Match < ApplicationRecord
   belongs_to :player
   belongs_to :rule
+  belongs_to :league, optional: true #optional:trueで外部キーがnilでもDB登録できる
   has_many :results ,dependent: :destroy #matchに紐づいたresultsも削除される
   accepts_nested_attributes_for :results #resultも同時に保存できるようになる
   
