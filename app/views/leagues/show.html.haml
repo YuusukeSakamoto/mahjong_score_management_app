@@ -36,7 +36,10 @@
               %tr
                 %td= i
                 %td= data[:name]
-                %td= data[:total_pt]
+                - if rule_decimal_point_no_calc?(@league.rule_id)
+                  %td.fw-bold= show_pt(data[:total_pt], true)
+                - else
+                  %td.fw-bold= show_pt(data[:total_pt], false)
                 - data[:rank_times].each do |d|
                   %td= d
   .row
@@ -48,7 +51,7 @@
   .row
     .col-md-10.m-auto
       .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main
-        %h4.text-center.text-md-start.fw-bold.mb-0 リーグ対局一覧
+        %h4.text-center.text-md-start.fw-bold.mb-0 リーグ戦成績
 
       .mt-3.table-responsive
         %table.table.table-sm.text-main.text-center.col-10.col-md-6.fs-table#league_match_list
@@ -59,20 +62,37 @@
               - @l_players.each do |l_player|
                 %th.w-players-name{scope: "col"}= l_player.player.name
               %th.w-icon{scope: "col"}
+          - k = 1
           -  @l_matches.each.with_index do |match, i| 
             %tr
-              %td= i + 1
+              %td= k
               %td= match.match_on.to_s(:yeardate)
               - match.results.order(:player_id).each do |r|
-                %td.w-players-name= r.point
+                - if rule_decimal_point_no_calc?(@league.rule_id)
+                  %td.w-players-name= show_pt(r.point, true)
+                - else
+                  %td.w-players-name= show_pt(r.point, false)
               %td.p-0
                 = link_to match_path(match), class: 'pt-1 pb-0 text-main' do
                   %i.bx.bx-chevrons-right.bx-size.text-main{style: "padding-top: 1px;"}
+              - k += 1
+            // チップ有ルールの場合、チップptを挿入する
+            - if @league.rule_is_tip? && (MatchGroup.find(match.match_group_id).matches.last == match)
+              %tr
+                %td= k
+                %td= match.match_on.to_s(:yeardate)
+                - ChipResult.where(match_group_id: match.match_group_id).order(:player_id).each do |cr|
+                  %td.w-players-name= show_pt(cr.point, false)
+                %td.p-0
+                  = link_to edit_match_group_chip_results_path(match.match_group_id), class: 'pt-1 pb-0 text-main' do
+                    %i.bx.bxs-coin.bx-size.text-main{style: "padding-top: 1px;"}
+                - k += 1
+              
       -if @l_matches.blank?
         %p.text-center.text-main.fs-sm 対局成績なし
         
   .col-8.col-md-5.m-auto.my-2
-    = link_to new_match_path(league: @league.id), method: :delete,
+    = link_to new_match_path(league: @league.id),
       class: "main-btn--orange w-100" do
       .btn-text
         %i.fa-solid.fa-pen.pe-1.fw-bold

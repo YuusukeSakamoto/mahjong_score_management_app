@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_11_03_014034) do
+ActiveRecord::Schema.define(version: 2023_11_16_092625) do
 
   create_table "chip_results", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "match_group_id", null: false
     t.bigint "player_id", null: false
     t.integer "number", null: false
-    t.float "point", null: false
+    t.integer "point", null: false
     t.boolean "is_temporary", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -82,6 +82,8 @@ ActiveRecord::Schema.define(version: 2023_11_03_014034) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "match_group_id"
+    t.bigint "league_id"
+    t.index ["league_id"], name: "index_matches_on_league_id"
     t.index ["match_group_id"], name: "index_matches_on_match_group_id"
     t.index ["player_id"], name: "index_matches_on_player_id"
     t.index ["rule_id"], name: "index_matches_on_rule_id"
@@ -158,6 +160,7 @@ ActiveRecord::Schema.define(version: 2023_11_03_014034) do
   add_foreign_key "leagues", "rules"
   add_foreign_key "match_groups", "leagues"
   add_foreign_key "match_groups", "rules"
+  add_foreign_key "matches", "leagues"
   add_foreign_key "matches", "match_groups"
   add_foreign_key "matches", "players"
   add_foreign_key "matches", "rules"

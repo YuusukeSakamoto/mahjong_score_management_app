@@ -13,5 +13,5 @@ class Result < ApplicationRecord
   RANK_NUM = [1, 2, 3, 4]
   YONMA_TIMES = 4
   SANMA_TIMES = 3
-
+  
 end

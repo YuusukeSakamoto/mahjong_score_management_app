@@ -8,7 +8,7 @@ class Player < ApplicationRecord
   has_many :results 
   has_many :leagues 
   
-  attr_accessor :invite_token, :match_ids, :cr
+  attr_accessor :invite_token, :match_ids, :cr, :l_points_history
 
   HYPHEN = ' - '
   HYPHEN_COUNT = 4
@@ -243,28 +243,6 @@ class Player < ApplicationRecord
   # プレイヤーがリーグを登録しているか
   def leagues_registered?
     leagues.count > 0
-  end
-  
-  # 成績推移グラフ用のデータを取得する
-  def point_history_data
-    points = results.where(match_id: match_ids).pluck(:point)
-    points_history = [0]
-    points.each do |point|
-      points_history << (points_history[-1] + point).round(1)
-    end
-    points_history
-  end
-  
-  # 総合ptを取得する
-  def total_point_for_league
-    "%+.1f" %  results.where(match_id: match_ids).sum(:point)
-  end
-  
-  # playerの各順位回数を取得する
-  def rank_times_for_league
-    Result::RANK_NUM.map do |rank|
-      results.where(match_id: match_ids).where(rank: rank).count
-    end
   end
   
 end

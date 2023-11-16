@@ -32,7 +32,7 @@ class MatchGroup < ApplicationRecord
       link = {idx: CHIP} 
       links << link
     end
-    total_points = each_points.transpose.map(&:sum).map { |n| n.round(1) }  
+    total_points = each_points.transpose.map(&:sum).map { |n| n.round(1) }
     return each_points, total_points, links
   end
   

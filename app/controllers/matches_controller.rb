@@ -41,6 +41,7 @@ class MatchesController < ApplicationController
   def edit
     player_ids = @match.results.pluck(:player_id)
     @players = Player.where(id: player_ids)
+    @league = League.find_by(id: @match.league_id)
   end
   
   def update
@@ -93,7 +94,7 @@ class MatchesController < ApplicationController
     
     def match_params
       params.require(:match).
-            permit(:rule_id, :player_id, :match_on, :memo, :play_type,
+            permit(:rule_id, :player_id, :match_on, :memo, :play_type, :league_id,
                     results_attributes: [:id, :score, :point, :ie, :player_id, :rank]).
             merge(match_group_id: session[:mg])
     end

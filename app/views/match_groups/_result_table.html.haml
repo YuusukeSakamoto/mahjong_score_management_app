@@ -28,7 +28,10 @@
                 - else 
                   = link_to links[i][:idx], match_path(links[i][:id])
               - points.each do |point|
-                %td= point
+                - if rule_decimal_point_no_calc?(@match_group.rule_id)
+                  %td= show_pt(point, true)
+                - else
+                  %td= show_pt(point, false)
               %td.p-0
                 - if links[i][:idx] == MatchGroup::CHIP
                   = link_to edit_match_group_chip_results_path(@match_group.id), class: 'px-1 pb-0 text-main' do
@@ -40,7 +43,10 @@
         %tr.bg-lightgray.fw-bold
           %td 計
           - total_points.each do |point|
-            %td= point
+            - if rule_decimal_point_no_calc?(@match_group.rule_id)
+              %td= show_pt(point, true)
+            - else
+              %td= show_pt(point, false)
           %td
 .col-8.col-md-6.m-auto.mb-3
   - if recording?
