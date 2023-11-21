@@ -2,13 +2,16 @@
 @import 'variable';
 
 .flash {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
   position: fixed;
-  top: -100px;
+  top: 7px;
   left: 0;
   right: 0;
   width: 60%;
   margin: 0 auto; 
-  padding: 15px 8px;
+  padding: 10px 8px;
   font-size: 14px;
   font-weight: bold;
   text-align: center;
@@ -16,9 +19,14 @@
   box-shadow: 0 0px 20px rgba(0,0,0,0.2);
   z-index: 9999;
   transition: top 1.0s;
+  height: auto; /* 自動で高さを調整 */
+  max-width: 600px; /* 最大幅を設定 */
+  word-wrap: break-word; /* 長い単語を折り返す */
   /* スマホレイアウト */
   @media (max-width: 480px) {
-    padding: 12px 8px;
+    padding: 8px 4px;
+    font-size: 12px;
+    max-width: 380px; /* 最大幅を設定 */
   }
 }
 
@@ -40,4 +48,10 @@
   border: none;
   background-color: $white;
   color: inherit;
+}
+
+.hide-close-flash {
+  border: none;
+  background-color: $white;
+  color: $white;
 }

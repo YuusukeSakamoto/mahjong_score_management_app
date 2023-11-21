@@ -1,6 +1,5 @@
 // プレイヤー選択における選択したプレイヤーの追加を行う
-$(document).on('turbolinks:load', function () {
-  
+$(document).ready(function() { 
   // 読み込み時
   let selectedPlayers_str = sessionStorage.getItem('selected_players'); // jsセッション情報取得
   let selectedPlayers = JSON.parse(selectedPlayers_str); // 文字列→配列変換
@@ -93,7 +92,6 @@ $(document).on('turbolinks:load', function () {
   //  ******** 関数 **************** //
 
   function add_players(selected_player_name, p_id){
-
     let id = Number(p_id);
     
     let ids = selectedPlayers.map(selectedPlayer => selectedPlayer[0]);
@@ -104,7 +102,6 @@ $(document).on('turbolinks:load', function () {
       // 未選択の場合、選択プレイヤーに追加
       selectedPlayers.push([id, selected_player_name]);
       sessionStorage['selected_players'] = JSON.stringify(selectedPlayers); //セッション更新
-
       $('.selected_players').append(
         `<div class="selected_players-item">
           <span>${selected_player_name}</span>

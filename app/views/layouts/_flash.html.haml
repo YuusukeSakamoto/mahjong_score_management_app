@@ -1,5 +1,7 @@
 - flash.each do |key, value|
-  %p{:class => "flash f-#{key}"}
-    = value
-    %button.close-flash.ms-2{type: "button"} 
+  %div{:class => "flash f-#{key}"}
+    %button.hide-close-flash{type: "button"} 
+      %i.fa-regular.fa-circle-xmark
+    %p.mb-0= value
+    %button.close-flash{type: "button"} 
       %i.fa-regular.fa-circle-xmark

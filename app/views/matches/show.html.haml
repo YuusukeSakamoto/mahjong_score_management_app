@@ -28,7 +28,7 @@
             %td{scope: "row"}= result.rank
             %td= Player.find(result.player_id).name
             %td= result.score
-            %td= result.point
+            %td= show_pt(result.point, rule_decimal_point_no_calc?(@match.rule_id))
             %td= Result::IE[result.ie - 1][0]
   - if @match.memo.present?
     .row

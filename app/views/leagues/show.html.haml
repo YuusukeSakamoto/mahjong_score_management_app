@@ -36,10 +36,7 @@
               %tr
                 %td= i
                 %td= data[:name]
-                - if rule_decimal_point_no_calc?(@league.rule_id)
-                  %td.fw-bold= show_pt(data[:total_pt], true)
-                - else
-                  %td.fw-bold= show_pt(data[:total_pt], false)
+                %td.fw-bold= show_pt(data[:total_pt], rule_decimal_point_no_calc?(@league.rule_id))
                 - data[:rank_times].each do |d|
                   %td= d
   .row
@@ -68,10 +65,7 @@
               %td= k
               %td= match.match_on.to_s(:yeardate)
               - match.results.order(:player_id).each do |r|
-                - if rule_decimal_point_no_calc?(@league.rule_id)
-                  %td.w-players-name= show_pt(r.point, true)
-                - else
-                  %td.w-players-name= show_pt(r.point, false)
+                %td.w-players-name= show_pt(r.point, rule_decimal_point_no_calc?(@league.rule_id))
               %td.p-0
                 = link_to match_path(match), class: 'pt-1 pb-0 text-main' do
                   %i.bx.bx-chevrons-right.bx-size.text-main{style: "padding-top: 1px;"}

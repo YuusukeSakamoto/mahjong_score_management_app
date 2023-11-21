@@ -40,15 +40,15 @@ module ApplicationHelper
   end
   
   # ポイントの表示形式を編集して返す
-  def show_pt(point, decimal_point_calc)
-    point = point.to_i unless decimal_point_calc # 小数点なしルールの場合、小数点削る
+  def show_pt(point, decimal_point_no_calc)
+    point = point.to_i unless decimal_point_no_calc # 小数点なしルールの場合、小数点削る
   
     if point > 0
       "+#{point}"  # 正の値の場合はプラス記号を付ける
     elsif point < 0
       point.to_s  # 負の値の場合はそのまま文字列として返す
     else
-      decimal_point_calc ? "0.0" : "0"
+      decimal_point_no_calc ? "0.0" : "0"
     end
   end
 
