@@ -5,23 +5,28 @@ class MatchesController < ApplicationController
   attr_accessor :mg
   
   def index
-    @player = Player.find(params[:p_id])
-    match_ids = Result.match_ids(params[:p_id])
-    @matches = Match.where(id: match_ids).desc
+    if params[:p_id].present?
+      @player = Player.find_by(id: params[:p_id])
+      if @player
+        match_ids = Result.match_ids(params[:p_id])
+        @matches = Match.where(id: match_ids).desc
+      else
+        set_alert_and_redirect("指定されたプレイヤーは存在しません")
+      end
+    else
+      set_alert_and_redirect("プレイヤーIDが指定されていません")
+    end
   end  
   
   def new
-    if session[:players].nil? && params[:league].nil?
-      redirect_to root_path, flash: {alert: 'プレイヤーが選択されていません'} and return 
-    end
+    set_alert_and_redirect("他の成績を記録中です") if (session[:league] != params[:league]) && session[:mg].present?
+    set_alert_and_redirect("プレイヤーが選択されていません") if session[:players].nil? && params[:league].nil?
+  
     @players = session[:players]
-    set_league_data if params[:league].present? #リーグ対局記録ボタンから遷移したきた場合
-    set_league if session[:league].present? #リーグ記録中の場合
-    @match = Match.new
-    @match.play_type = @players.count
-    session_players_num.times { @match.results.build }
-    gon.is_recording = recording?
-    gon.is_league_recording = league_recording?
+    set_league_data if params[:league].present?
+    set_league if session[:league].present?
+  
+    initialize_match
   end
   
   def show
@@ -29,32 +34,50 @@ class MatchesController < ApplicationController
   end
   
   def create
-    create_match_group unless recording?
     @match = Match.new(match_params)
     if ie_uniq?(@match) && @match.save
+      create_match_group unless recording?
+      @match.update(match_group_id: session[:mg])
       redirect_to match_path(@match), notice: "対局成績を登録しました"
     else
+      @players = session[:players]
       render :new
     end
   end
   
   def edit
-    player_ids = @match.results.pluck(:player_id)
-    @players = Player.where(id: player_ids)
-    @league = League.find_by(id: @match.league_id)
+    set_player_league
+    set_gon('edit')
   end
   
   def update
     if ie_uniq?(@match) && @match.update(match_params)
       redirect_to match_path(@match), notice: "対局成績を更新しました"
     else
+      set_player_league
+      set_gon('update')
       render :edit
     end
   end
   
   def destroy
     @match.destroy
-    redirect_back fallback_location: root_path , notice: "対局成績を削除しました"
+    # match_groupに紐づくmatchが0になった場合、match_groupも削除する
+    if Match.count_in_match_group(@match.match_group_id) == 0
+      MatchGroup.find(@match.match_group_id).destroy
+      end_record
+    end
+    redirect_to root_path , notice: "対局成績を削除しました"
+  end
+  
+  # jsに渡す変数をセットする
+  def set_gon(action)
+    if action == 'new'
+      gon.is_recording = recording?
+      gon.is_league_recording = league_recording?
+    elsif action == 'edit' || action == 'update'
+      gon.is_edit = true # edit・updateの場合、無条件でルールは更新できないようにする
+    end
   end
   
   private
@@ -95,13 +118,12 @@ class MatchesController < ApplicationController
     def match_params
       params.require(:match).
             permit(:rule_id, :player_id, :match_on, :memo, :play_type, :league_id,
-                    results_attributes: [:id, :score, :point, :ie, :player_id, :rank]).
-            merge(match_group_id: session[:mg])
+                    results_attributes: [:id, :score, :point, :ie, :player_id, :rank])
     end
     
     # 入力された家に重複がないか
     def ie_uniq?(match)
-      ie_ary = match.results.map(&:ie)
+      ie_ary = params[:match][:results_attributes].values.map { |result| result[:ie].to_i }
       if ie_ary.uniq.length == ie_ary.length
         true
       else
@@ -109,5 +131,27 @@ class MatchesController < ApplicationController
         false
       end
     end
+    
+    def set_player_league
+      player_ids = @match.results.pluck(:player_id)
+      @players = Player.where(id: player_ids)
+      @league = League.find_by(id: @match.league_id)
+    end
+    
+    # flash[:alert]をセットし、ルートパスへリダイレクトする
+    def set_alert_and_redirect(message)
+      flash[:alert] = message
+      redirect_to root_path and return
+    end
+    
+    # match.newとセッション/gonの設定
+    def initialize_match
+      @match = Match.new
+      @match.play_type = @players.count
+      session_players_num.times { @match.results.build }
+      set_gon('new')
+    end
+      
+
 
 end

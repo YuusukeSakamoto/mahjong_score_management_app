@@ -313,6 +313,11 @@ button, input[type="submit"] {
   &-delete-color {
     background-color: #a9a9a9!important;
   }
+  // 変更不可項目のbackgroundカラー
+  // jsでクラスを追加して利用している
+  &-disabled {
+    background-color: $disabled!important;
+  }
 }
 
 
@@ -356,6 +361,10 @@ button, input[type="submit"] {
   &-plus {
     color: $plus-blue;
   }
+  &-warning {
+    color: $warning;
+  }
+  
 }
 
 // ===============================

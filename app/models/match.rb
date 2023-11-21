@@ -7,12 +7,14 @@ class Match < ApplicationRecord
   
   validates :play_type, presence: true, numericality: { in: 3..4 }
   validates :match_on, presence: true
+  validates :rule_id, presence: true
 
   scope :desc, -> { order(match_on: :desc) } #対局日付の降順
   scope :asc, -> { order(match_on: :asc) } #対局日付の降順
   scope :match_ids, -> (match_ids, play_type){ where(id: match_ids).where(play_type: play_type) } #play_typeに応じたmatch_idを配列で格納
   scope :league, -> (mg_ids){ where(match_group_id: mg_ids).asc } #リーグ対局のmatch_idをすべて取得する
-
+  scope :count_in_match_group, -> (mg_id){ where(match_group_id: mg_id).count } #match_groupにおけるmatchの数
+  
   # ログインユーザーの該当対局のポイントを取得する
   def current_player_point(id)
     results.find_by(player_id: id).point

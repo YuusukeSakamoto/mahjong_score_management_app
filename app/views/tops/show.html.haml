@@ -18,13 +18,13 @@
             %i.fa-solid.fa-circle-arrow-down.pe-2.text-pink
             %p.mb-0.fw-bold.text-main なにを記録しますか？
         .col-lg-10.text-center.text-white.px-5.mb-3.mx-auto.d-md-flex.justify-content-evenly
-          = link_to new_player_path(play_type: 4), 
+          = link_to new_player_path(play_type: 4), data: {"turbolinks" => false},
             class: "col-md-3 main-btn--white-green mt-2 mt-md-0 py-md-3" do
             .top-btn_text
               %span 四人麻雀
               %i.fa-solid.fa-user-pen
 
-          = link_to new_player_path(play_type: 3), 
+          = link_to new_player_path(play_type: 3), data: {"turbolinks" => false},
             class: "col-md-3 main-btn--white-green mt-2 mt-md-0 py-md-3" do
             .top-btn_text
               %span 三人麻雀
