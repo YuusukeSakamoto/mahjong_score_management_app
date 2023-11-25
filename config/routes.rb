@@ -23,8 +23,6 @@ Rails.application.routes.draw do
     resources :results, only: [:index] 
   end
   
-
-  
   devise_for :users, controllers: {
     :confirmations => 'users/confirmations',
     :registrations => 'users/registrations',
@@ -32,9 +30,9 @@ Rails.application.routes.draw do
     :passwords => 'users/passwords' # passwordリセット
   }
   resources :users, only: [:show]
+  resources :unsubscribes, only: [:index, :destroy]
   
-  # resources :users
-  resources :match_groups, only: [:index, :show] do
+  resources :match_groups, only: [:index, :show, :destroy] do
     resource :chip_results, only: [:edit, :update]
   end  
   

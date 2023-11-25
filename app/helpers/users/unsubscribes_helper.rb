@@ -1,0 +1,2 @@
+module Users::UnsubscribesHelper
+end

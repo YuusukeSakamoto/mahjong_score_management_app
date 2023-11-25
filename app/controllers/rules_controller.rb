@@ -21,23 +21,24 @@ class RulesController < ApplicationController
     @rule = Rule.new(rule_params)
     if @rule.save
       if session[:previous_url].include?(new_player_path)
-        redirect_to new_match_path, flash: {notice: "ルール<#{@rule.name}>を登録しました"} and return 
+        redirect_to new_match_path, notice: "ルール : #{@rule.name}を登録しました" and return 
       end
-      redirect_to session[:previous_url], flash: {notice: "ルール<#{@rule.name}>を登録しました"} and return  # create後に遷移させる
+      redirect_to session[:previous_url], notice: "ルール : #{@rule.name}を登録しました" and return  # create後に遷移させる
     else
       render :new
     end
   end
 
   def edit
-    redirect_to root_path, flash: {alert: 'ルール登録者でなければ、編集できません。'} and return unless current_player == @rule.player
+    redirect_to root_path, alert: 'ルール登録者でなければ、編集できません' and return unless current_player == @rule.player
+    @is_match = Match.exists?(rule_id: @rule.id)
   end
 
   def update
-    redirect_to root_path, flash: {alert: 'ルール登録者でなければ、更新できません。'} and return unless current_player == @rule.player
+    redirect_to root_path, alert: 'ルール登録者でなければ、更新できません' and return unless current_player == @rule.player
 
     if @rule.update(rule_params)
-      redirect_to player_rules_path, flash: {notice: "<#{@rule.name}>を編集しました"}
+      redirect_to player_rules_path, notice: "ルール : #{@rule.name}を編集しました"
     else
       set_player
       render :edit
@@ -45,19 +46,25 @@ class RulesController < ApplicationController
   end
 
   def destroy
-    redirect_to root_path, flash: {alert: 'ルール登録者でなければ、削除できません。'} and return unless current_player == @rule.player
-    @rule.destroy
-    redirect_to player_rules_path, flash: {notice: "ルール<#{@rule.name}>を削除しました"}
+    redirect_to root_path, alert: 'ルール登録者でなければ、削除できません' and return unless current_player == @rule.player
+    redirect_to player_rules_path, alert: '指定したルールで記録した成績が存在するため、削除できません' and return if Match.exists?(rule_id: @rule.id)
+
+    if @rule
+      @rule.destroy
+      redirect_to player_rules_path, notice: "ルール : #{@rule.name}を削除しました" and return
+    else
+      redirect_to root_path, alert: "削除できませんでした" and return
+    end
   end
 
   private
   
     def set_rule
-      @rule = Rule.find(params[:id])
+      @rule = Rule.find_by(id: params[:id])
     end
     
     def set_player
-      @player = Player.find(params[:player_id])
+      @player = Player.find_by(id: params[:player_id])
     end
     
     def set_rule_player

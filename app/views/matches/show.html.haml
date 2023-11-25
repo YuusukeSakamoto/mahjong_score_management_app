@@ -10,9 +10,15 @@
             %p.mb-0.ms-2="#{@match.match_on.to_s(:yeardate)}"
             %p.mb-0.ms-2="#{Rule.find(@match.rule_id).name}"
       - if @match.player_id == current_player.id
-        .d-flex.align-items-center.fw-bold
-          %i.bx.bx-chevrons-right{style: "padding-top: 1px;"}
-          .px-0= link_to '編集', edit_match_path(@match)
+        .d-flex
+          = link_to edit_match_path(@match) do
+            %i.fa-regular.fa-pen-to-square.text-main.pe-2
+          = link_to match_path(@match, { pre_url: request.referer ,btn: 'match' }), 
+                    data: { confirm: delete_confirm_message(@match_group)}, 
+                    method: :delete do 
+            %i.fa-regular.fa-trash-can.pe-1
+
+
 
     .d-flex.justify-content-center.mt-2
       %table.table.col-10.col-md-6.text-nowrap.text-main.text-center.px-2

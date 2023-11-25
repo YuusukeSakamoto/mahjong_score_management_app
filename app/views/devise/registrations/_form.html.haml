@@ -66,12 +66,10 @@
           .btn-text
             %i.fa-regular.fa-circle-check.pe-1.fw-bold
             %span #{action}
-
-        - if @user.persisted?
-          = link_to registration_path(resource_name), 
-            data: { confirm: "本当に削除しますか?アカウントに紐づいた全ての情報が削除されます", 
-            turbo_confirm: "Are you sure?" }, method: :delete, 
-            class: "main-btn--white-red my-3" do
+      - if @user.persisted?
+        .m-auto.fs-sm
+          = link_to unsubscribes_path, 
+            class: "text-center text-main my-3" do
             .btn-text
               %i.fa-regular.fa-trash-can.pe-1
-              %span アカウント削除
+              %span アカウント削除はこちら

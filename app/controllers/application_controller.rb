@@ -14,6 +14,12 @@ class ApplicationController < ActionController::Base
     session[:players] = nil
   end
   
+    # flash[:alert]をセットし、ルートパスへリダイレクトする
+  def set_alert_redirect_root(message)
+    flash[:alert] = message
+    redirect_to root_path and return
+  end
+  
   private
       # ユーザー登録時にnameもDB保存する
     def configure_permitted_parameters

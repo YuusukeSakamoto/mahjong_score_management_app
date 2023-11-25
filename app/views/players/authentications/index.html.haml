@@ -1,7 +1,9 @@
 .container
   .row
-    .col-11.col-md-9.text-center.pb-2
+    .col-11.col-md-9.text-center.pb-2.m-auto
       .page-title
         .d-flex.align-items-end.text-main
           %h4.text-center.text-md-start.fw-bold.mb-0 アカウント認証
-      %p= "#{@token_issued_user_name}からのアカウント認証が完了しました"
+      .info.text-main.fw-bold.my-3
+        %p.mb-0= "アカウント認証が完了しました！"
+        %p= "#{@token_issued_user_name}へページ更新するよう伝えてください"

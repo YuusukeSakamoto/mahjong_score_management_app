@@ -38,7 +38,9 @@ class Users::SessionsController < Devise::SessionsController
         flash[:alert] = "認証に失敗しました"
         root_path
       end
+    else
+      root_path
     end
-    root_path
   end
+  
 end

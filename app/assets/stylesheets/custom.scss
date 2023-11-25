@@ -123,6 +123,16 @@ button, input[type="submit"] {
       color: $red!important;
     }
   }
+  &--red {
+    @extend .main-btn;
+    background-color: $red;
+    &-white {
+      @extend .main-btn--red;
+      border: 2px solid $red;
+      color: $white!important;
+    }
+
+  }
   
 }
 
