@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  get 'questions/index'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   namespace :players do 
     resources :searches, only: :index, defaults: { format: :json }
@@ -40,6 +41,7 @@ Rails.application.routes.draw do
   
   resources :contacts, only: [:new, :create]
 
+  resources :questions, only: [:index]
   root to: 'tops#show'
   
 end

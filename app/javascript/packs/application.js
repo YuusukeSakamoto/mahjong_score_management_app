@@ -16,6 +16,7 @@ require("rule_form_change.js")
 require("player_select.js")
 require("flash.js")
 require("user_form.js")
+require("questions.js")
 
 Rails.start()
 Turbolinks.start()
