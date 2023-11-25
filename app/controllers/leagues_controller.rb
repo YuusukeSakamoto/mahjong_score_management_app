@@ -35,7 +35,7 @@ class LeaguesController < ApplicationController
   
   def update
     if @league.update(league_params)
-      redirect_to leagues_path(@league), notice: "#{@league.name}のリーグ情報を更新しました"
+      redirect_to league_path(@league), notice: "#{@league.name}のリーグ情報を更新しました"
     else
       render :edit
     end

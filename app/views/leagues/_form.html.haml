@@ -9,7 +9,7 @@
         %span.fs-sm.text-main (15文字以内)
         = f.text_field :name, autofocus: true, placeholder: "Mリーグ",
           class: 'form-control py-md-1 rounded bg-white box-shadow js-rule_name', maxlength: 15
-      - if controller.action_name == "new" || controller.action_name == "create"
+      - if @league.matches.count == 0
         .div-title.mb-2.mb-sm-3
           = f.label :'三麻/四麻', class: 'title-p text-main mb-1'
           %span.p_required 必須
@@ -17,7 +17,7 @@
             = f.select :play_type, 
               [ ["四人麻雀",4], ["三人麻雀", 3]], {},
               {class: 'form-control w-50 py-md-1 rounded bg-white box-shadow'}
-      - if controller.action_name == "edit"
+      - else
         .div-title.mb-2.mb-sm-3
           = f.label :'三麻/四麻', class: 'title-p text-main mb-1'
           %span.p_warning ※変更不可
@@ -26,27 +26,31 @@
               [ ["四人麻雀",4], ["三人麻雀", 3]], {},
               {class: 'form-control w-50 py-md-1 rounded bg-gray box-shadow', tabindex: -1, style: "pointer-events: none;"}
 
-      - if controller.action_name == "new" || controller.action_name == "create"
-        .div-title.mb-2.mb-sm-3
+      .div-title.mb-2.mb-sm-3
+        - if @league.matches.count == 0
           .d-flex.justify-content-between
             .left-content
-              = f.label :ルール選択, class: 'title-p text-main'
+              = f.label :ルール, class: 'title-p text-main'
               %span.p_required 必須
             .right-content
               = link_to 'ルール新規登録', new_player_rule_path(current_player), class: 'text-pink fs-sm pt-1'
           = f.collection_select(:rule_id, current_player.rules, 
                                 :id, :name, {},
-                                class: 'form-control py-md-1 rounded bg-white box-shadow mb-3 text-center' )
-      - if controller.action_name == "edit"
-        .div-title.mb-2.mb-sm-3
+                                class: 'form-control py-md-1 rounded bg-white box-shadow text-center' )
+        - else
           .d-flex.justify-content-between
             .left-content
-              = f.label :ルール選択, class: 'title-p text-main'
+              = f.label :ルール, class: 'title-p text-main'
               %span.p_warning ※変更不可
           = f.collection_select(:rule_id, current_player.rules, 
                                 :id, :name, {},
-                                class: 'form-control py-md-1 rounded bg-gray box-shadow mb-3 text-center',
+                                class: 'form-control py-md-1 rounded bg-gray box-shadow text-center',
                                 tabindex: -1, style: "pointer-events: none;" )
+        %button.js-rule-dropdown.mb-1.fs-sm.text-main{ type: 'button' }
+          %i.fa-solid.fa-caret-right
+          %span.ps-1 詳細
+        .js-rule-details{ style: "display: none;" }
+          .js-rule.mb-2
    
       .div-title.mb-2.mb-sm-3
         = f.label :'リーグ説明', class: 'title-p text-main mb-md-1'
@@ -56,8 +60,8 @@
       .col-8.col-md-6.m-auto.mb-3
         = f.button type: 'submit', class: 'main-btn--orange w-100' do
           .btn-text
-            %i.fa-solid.fa-pen.pe-1
-            %span 更新
+            %i.fa-regular.fa-circle-check.fs-sm
+            %span #{action}
 
       - if controller.action_name == "edit"
         .col-8.col-md-6.m-auto
