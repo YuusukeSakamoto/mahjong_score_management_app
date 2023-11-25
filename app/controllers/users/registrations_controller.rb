@@ -62,7 +62,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # DELETE /resource
   def destroy
-    super
+    # super
+    # devise元コードから転記---ここから---------------------------------
+    if resource.valid_password?(params[:current_password]) # パスワードが一致している場合
+      resource.destroy
+      # 追加開始 
+      resource.player.name = "削除済プレイヤー" 
+      resource.player.user_id = nil
+      resource.player.save
+      # 追加終了
+      Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+      set_flash_message! :notice, :destroyed
+      yield resource if block_given?
+      respond_with_navigational(resource){ redirect_to after_sign_out_path_for(resource_name), status: Devise.responder.redirect_status }
+    else
+      @user = resource
+      @user.errors.add(:current_password, 'が違います')
+      render template: "unsubscribes/index"
+    end
+    # devise元コードから転記----ここまで-------------------------------
   end
 
   # GET /resource/cancel

@@ -42,14 +42,20 @@ class LeaguesController < ApplicationController
   end
   
   def destroy
-    @league.destroy
-    redirect_to leagues_path, notice: "リーグ< #{@league.name} >を削除しました"
+    redirect_to root_path, alert: "リーグ作成者でないと削除できません" and return if @league.player_id != current_player.id 
+    
+    if @league
+      @league.destroy
+      redirect_to leagues_path, notice: "リーグ : #{@league.name}を削除しました" and return
+    else
+      redirect_to root_path, alert: "削除できませんでした" and return
+    end
   end
   
   private
   
     def set_league
-      @league = League.find(params[:id])
+      @league = League.find_by(id: params[:id])
     end
     
     def set_session_league

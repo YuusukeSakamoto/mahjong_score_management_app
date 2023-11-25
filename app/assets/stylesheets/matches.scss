@@ -48,11 +48,11 @@
     }
     &-name{
       @extend .w;
-      width: 22%;
+      width: 21%;
     }
-    &-edit{
+    &-edit , &-delete{
       @extend .w;
-      width: 8%;
+      width: 6%;
     }
-  }  
+  }
 }

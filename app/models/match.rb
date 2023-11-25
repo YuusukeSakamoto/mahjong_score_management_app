@@ -15,6 +15,8 @@ class Match < ApplicationRecord
   scope :league, -> (mg_ids){ where(match_group_id: mg_ids).asc } #リーグ対局のmatch_idをすべて取得する
   scope :count_in_match_group, -> (mg_id){ where(match_group_id: mg_id).count } #match_groupにおけるmatchの数
   
+  attr_accessor :pre_path
+  
   # ログインユーザーの該当対局のポイントを取得する
   def current_player_point(id)
     results.find_by(player_id: id).point

@@ -1,5 +1,5 @@
 .row.d-flex.justify-content-center
-  .col-10.col-md-8
+  .col-10.col-sm-7.col-md-5
     = form_with model: [@player, @rule], class: 'mb-3', local: true do |f|
       = render 'layouts/validation_error', instance: @rule
       .div-title.mb-2.mb-sm-3
@@ -17,15 +17,16 @@
         = f.text_field :name, autofocus: true, placeholder: "Mリーグルール",
           class: 'form-control py-md-1 rounded bg-white box-shadow js-rule_name', maxlength: 15
 
-      .d-flex.justify-content-between
-        .div-title.mb-2.mb-sm-3
+      .d-flex.justify-content-start
+        .div-title.col-5.mb-2.mb-sm-3
           = f.label :持ち, class: 'title-p text-main'
           %span.p_required 必須
           .d-flex.align-items-end
             = f.text_field :mochi, autofocus: true, placeholder: "25000",
               class: 'form-control py-2 py-md-1 rounded bg-white box-shadow'
             %p.fw-bold.text-main.mb-0.mx-2 点 
-        .div-title.mb-2.mb-sm-3
+            
+        .div-title.col-5.mb-2.mb-sm-3
           = f.label :返し, class: 'title-p text-main'
           %span.p_required 必須
           .d-flex.align-items-end
@@ -58,27 +59,27 @@
         = f.label :'pt小数点計算方法', class: 'title-p text-main mb-md-1'
         %span.p_required 必須
         = f.select :score_decimal_point_calc, 
-          [ ["計算しない(小数点そのまま)",1], ["五捨六入", 2], ["四捨五入", 3 ] ,["切り捨て", 4], ["切り上げ", 5] ], 
-          {prompt: "-- 計算方法を選択してください --"},
-          {class: 'form-control py-md-1 rounded bg-white box-shadow'}
+          [ ["計算しない",1], ["五捨六入", 2], ["四捨五入", 3 ] ,["切り捨て", 4], ["切り上げ", 5] ],
+          {},
+          {class: 'form-control py-md-1 rounded bg-white box-shadow w-50'}
 
-      .div-title.mb-2.mb-sm-3
-        = f.label :チップ有無, class: 'title-p text-main mb-md-1'
-        %span.p_required 必須
-        
-        = f.select :is_chip, 
-          [ ["あり", true], ["なし", false] ], 
-          {prompt: "-- チップ有無を選択してください --"},
-          {class: 'form-control py-md-1 rounded bg-white box-shadow'}
-
-      .div-title.mb-2.mb-sm-3
-        = f.label :'チップpt / 枚', class: 'title-p text-main mb-md-1'
-        // %span ※チップ１枚あたりのポイント
-        .d-flex.align-items-end
-          = f.text_field :chip_rate, autofocus: true, 
-            class: 'form-control py-md-1 rounded bg-white box-shadow'
-          %p.fw-bold.text-main.mb-0.mx-2 pt  
-          
+      .d-flex.justify-content-start
+        .div-title.col-6.mb-2.mb-sm-3
+          .d-flex.justify-content-start.align-items-end.mb-md-1.mb-2
+            = f.label :チップ有無, class: 'title-p text-main mb-0'
+            %span.p_required 必須
+          = f.select :is_chip, 
+            [ ["なし", false],["あり", true] ], 
+            {},
+            {class: 'form-control py-md-1 rounded bg-white box-shadow'}
+  
+        .div-title.col-6.mb-2.mb-sm-3.ps-3
+          = f.label :'チップpt / 枚', class: 'title-p text-main mb-md-1'
+          .d-flex.align-items-end
+            = f.text_field :chip_rate, autofocus: true, 
+              class: 'form-control py-md-1 rounded bg-white box-shadow w-50'
+            %p.fw-bold.text-main.mb-0.mx-2 pt  
+            
       .div-title.mb-2.mb-sm-3
         = f.label :'ルール説明', class: 'title-p text-main mb-md-1'
         = f.text_area :description, autofocus: true, 
@@ -91,10 +92,22 @@
             %span #{action}
             
     - if controller.action_name == "edit"
-      .col-8.col-md-5.m-auto.mt-2
-        = link_to player_rule_path(@player, @rule), method: :delete, 
-          data: { confirm: "本当に削除しますか？"},
-          class: "main-btn--white-red mb-3" do
-          .btn-text
-            %i.fa-regular.fa-trash-can.pe-1
-            %span 削除
+      - unless @is_match
+        .col-8.col-md-5.m-auto.mt-2.mb-3
+          = link_to player_rule_path(@player, @rule), method: :delete, 
+            data: { confirm: "本当に削除しますか？"},
+            class: "main-btn--white-red" do
+            .btn-text
+              %i.fa-regular.fa-trash-can.pe-1
+              %span 削除
+          
+      - else
+        .col-8.col-md-5.m-auto.mt-2.mb-1
+          = link_to "#", class: "main-btn--white-red mb-1", style: "opacity: 0.5; pointer-events: none;" do
+            .btn-text
+              %i.fa-regular.fa-trash-can.pe-1
+              %span 削除
+        .col-12.col-md-10.m-auto.mb-3
+          .d-flex.justify-content-center.align-items-center#match_create_warning
+            %i.fa-solid.fa-triangle-exclamation.text-warning.fs-sm.pe-1
+            %p.fs-sm.text-main.fw-bold.mb-0 このルールで記録した成績があるため削除できません

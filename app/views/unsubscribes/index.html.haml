@@ -1,0 +1,35 @@
+.container
+  .row
+    .col-11.col-md-9.text-center.pb-2.m-auto
+      .page-title
+        .d-flex.align-items-end.text-main
+          %h4.text-center.text-md-start.fw-bold.mb-0 アカウント削除
+          
+    .col-10.col-md-8.text-center.m-auto
+      .text-main.fw-bold.fs-sm
+        .d-flex.align-items-center.justify-content-center
+          %i.bx.bxs-info-circle.pe-2.text-pink
+          %p.mb-0 アカウント削除するとこれまで記録した成績を見れなくなります。
+        .d-flex.align-items-center.justify-content-center
+          %i.bx.bxs-info-circle.pe-2.text-pink
+          %p.mb-0 一度削除したら復元はできません。
+  
+      = form_with url: user_registration_path, method: :delete, local: true do |f|
+        = render 'layouts/validation_error', instance: @user
+        .div-title.my-3.w-75.m-auto
+          .text-start
+            %label.title-p.text-main パスワード
+            %span.p_required 必須
+          = f.password_field :current_password, autocomplete: "current-password",
+                             class: 'form-control py-md-1 rounded bg-white box-shadow mb-3',
+                             required: true
+      
+        .col-6.col-md-5.m-auto
+          = f.submit "アカウント削除", 
+                     data: { confirm: "本当にアカウント削除しますか？(アカウントの復元はできません)" },
+                     class: "main-btn--red-white mt-3 w-100"
+        .col-6.col-md-5.m-auto
+          = link_to user_path(@user), 
+            class: "main-btn--white-red mt-3 mb-3" do
+            .btn-text
+              %span キャンセル

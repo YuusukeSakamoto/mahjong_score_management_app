@@ -3,7 +3,7 @@ class MatchesController < ApplicationController
   before_action :authenticate_user!
   
   attr_accessor :mg
-  
+
   def index
     if params[:p_id].present?
       @player = Player.find_by(id: params[:p_id])
@@ -11,16 +11,16 @@ class MatchesController < ApplicationController
         match_ids = Result.match_ids(params[:p_id])
         @matches = Match.where(id: match_ids).desc
       else
-        set_alert_and_redirect("指定されたプレイヤーは存在しません")
+        set_alert_redirect_root("指定されたプレイヤーは存在しません")
       end
     else
-      set_alert_and_redirect("プレイヤーIDが指定されていません")
+      set_alert_redirect_root("プレイヤーIDが指定されていません")
     end
   end  
   
   def new
-    set_alert_and_redirect("他の成績を記録中です") if (session[:league] != params[:league]) && session[:mg].present?
-    set_alert_and_redirect("プレイヤーが選択されていません") if session[:players].nil? && params[:league].nil?
+    set_alert_redirect_root("他の成績を記録中です") if session[:mg].present? && params[:league].present? && (session[:league] != params[:league])
+    set_alert_redirect_root("プレイヤーが選択されていません") if session[:players].nil? && params[:league].nil?
   
     @players = session[:players]
     set_league_data if params[:league].present?
@@ -30,7 +30,8 @@ class MatchesController < ApplicationController
   end
   
   def show
-    @match_group = set_session_match_group if recording?
+    @match_group = MatchGroup.find_by(id: @match.match_group_id)
+    session[:pre_path] = request.referer unless request.referer.include?(edit_match_path)
   end
   
   def create
@@ -61,15 +62,17 @@ class MatchesController < ApplicationController
   end
   
   def destroy
-    @match.destroy
-    # match_groupに紐づくmatchが0になった場合、match_groupも削除する
-    if Match.count_in_match_group(@match.match_group_id) == 0
-      MatchGroup.find(@match.match_group_id).destroy
-      end_record
+    unless valid_match_for_current_player?(@match)
+      redirect_to root_path, alert: "指定の対局成績が存在しません" and return
     end
-    redirect_to root_path , notice: "対局成績を削除しました"
-  end
   
+    if @match.destroy
+      set_redirect_to(@match)
+    else
+      redirect_to root_path, alert: "削除できませんでした" and return
+    end
+  end
+
   # jsに渡す変数をセットする
   def set_gon(action)
     if action == 'new'
@@ -83,7 +86,7 @@ class MatchesController < ApplicationController
   private
     
     def set_match
-      @match = Match.find(params[:id])
+      @match = Match.find_by(id: params[:id])
     end
     
     # セッションからleagueをセット
@@ -138,12 +141,6 @@ class MatchesController < ApplicationController
       @league = League.find_by(id: @match.league_id)
     end
     
-    # flash[:alert]をセットし、ルートパスへリダイレクトする
-    def set_alert_and_redirect(message)
-      flash[:alert] = message
-      redirect_to root_path and return
-    end
-    
     # match.newとセッション/gonの設定
     def initialize_match
       @match = Match.new
@@ -152,6 +149,61 @@ class MatchesController < ApplicationController
       set_gon('new')
     end
       
-
+    # ***************** destroyアクション ************************ # 
+    
+    def valid_match_for_current_player?(match)
+      match && match.player_id == current_player.id
+    end
+    
+    # リダイレクト先を判定する
+    def set_redirect_to(match)
+      mg = MatchGroup.find_by(id: match.match_group_id)
+      match_count = mg.matches.count
+    
+      if recording?
+        recording_flow(mg, match_count)
+      else
+        non_recording_flow(mg, match_count)
+      end
+    end
+    
+    # 記録中の場合
+    def recording_flow(mg, match_count)
+      if match_count.zero?
+        mg.destroy
+        end_record
+        redirect_with_notice(root_path)
+      else
+        redirect_with_notice(match_path(mg.matches.last.id))
+      end
+    end
+    
+    # 記録中ではない場合
+    def non_recording_flow(mg, match_count)
+      case params[:btn]
+      when 'match'
+        redirect_with_notice(session[:pre_path])
+      when 'mg'
+        handle_match_group_flow(mg, match_count)
+      end
+    end
+    
+    # 成績表の削除ボタンから削除された場合
+    def handle_match_group_flow(mg, match_count)
+      if match_count.zero?
+        mg.destroy
+        redirect_with_notice(match_groups_path)
+      else
+        redirect_back_with_notice
+      end
+    end
+    
+    def redirect_with_notice(path)
+      redirect_to path, notice: "対局成績を削除しました"
+    end
+    
+    def redirect_back_with_notice
+      redirect_back(fallback_location: root_path, notice: "対局成績を削除しました")
+    end
 
 end
