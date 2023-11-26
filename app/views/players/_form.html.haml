@@ -4,7 +4,10 @@
     .info.px-2.py-2.mb-1.mx-1.text-center
       .d-flex.align-items-center.justify-content-center
         %i.bx.bxs-info-circle.pe-2.text-pink{style: "padding-top: 1px;"}
-        %p.mb-0.fw-bold まずはプレイヤーを選択・追加しましょう！
+        - if @league.present?
+          %p.mb-0.fw-bold リーグの参加プレイヤーを選択しましょう！
+        - else
+          %p.mb-0.fw-bold まずはプレイヤーを選択・追加しましょう！
     
     .selected_players
       %h5.border-green-left-table.fw-bold.mb-3

@@ -16,7 +16,7 @@ class Rule < ApplicationRecord
   def self.get_value_score_decimal_point_calc(score_decimal_point_calc)
     case score_decimal_point_calc
       when 1 then
-        '計算しない'
+        '小数点有効'
       when 2 then
         '五捨六入'
       when 3 then

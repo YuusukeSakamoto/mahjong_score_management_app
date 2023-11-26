@@ -13,17 +13,21 @@ class RulesController < ApplicationController
   end
 
   def new
-    session[:previous_url] = request.referer  # ここで前ページセッションを保存
+    session[:previous_url] = params[:previous_url] if params[:previous_url] # ここで遷移元をセッションを保存
     set_rule_player
   end
 
   def create
+    previous_url = session[:previous_url]
+    session[:previous_url] = nil
     @rule = Rule.new(rule_params)
     if @rule.save
-      if session[:previous_url].include?(new_player_path)
+      redirect_to player_rules_path, notice: "ルール : #{@rule.name}を登録しました" and return if previous_url.nil?
+      if previous_url.include?(new_player_path)
         redirect_to new_match_path, notice: "ルール : #{@rule.name}を登録しました" and return 
+      else
+        redirect_to previous_url, notice: "ルール : #{@rule.name}を登録しました" and return  # create後に遷移させる
       end
-      redirect_to session[:previous_url], notice: "ルール : #{@rule.name}を登録しました" and return  # create後に遷移させる
     else
       render :new
     end

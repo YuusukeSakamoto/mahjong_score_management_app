@@ -56,7 +56,7 @@ class Matches::CalculatesController < ApplicationController
     # ポイントの小数点計算をする
     def calculate_decimal_point(soten, rule)
       case rule.score_decimal_point_calc
-        when 1 #計算しない(小数点そのまま)
+        when 1 #小数点有効(小数点そのまま)
           soten
         when 2 #五捨六入
           soten.map do |n| 

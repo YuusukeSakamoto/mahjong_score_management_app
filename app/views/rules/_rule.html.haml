@@ -1,36 +1,40 @@
-.page-title
-  .d-flex.align-items-end
-    %h4.text-center.text-md-start.fw-bold.mb-0 ルール一覧
-    %p.mb-0.ms-2.fs #{conversion_kanji_num(play_type)}人麻雀
-.mt-3.table-responsive
-  %table.table.table-bordered.table-sm.text-main.text-nowrap.col-10.col-md-6.px-2.fs-sm
-    %thead
-      %tr.bg-lightgray.w-100
-        %th.w-date{scope: "col"} ルール名
-        %th.w-mochi{scope: "col"} 持ち
-        %th.w-kaeshi{scope: "col"} 返し
-        %th.w-uma{scope: "col"} ウマ1位
-        %th.w-uma{scope: "col"} ウマ2位
-        %th.w-uma{scope: "col"} ウマ3位
-        - if play_type == 4
-          %th.w-uma{scope: "col"} ウマ4位
-        %th.w-pt_calc{scope: "col"}pt小数点
-        %th.w-chip{scope: "col"} チップ有無
-        %th.w-chip_rate{scope: "col"} チップpt/枚
-        %th.w-show{scope: "col"} 編集
-    - @sanyon_rules[play_type].each do |rule| 
-      %tr
-        %td= rule.name
-        %td="#{rule.mochi}点"
-        %td= "#{rule.kaeshi}点"
-        %td= "#{rule.uma_1}"
-        %td= "#{rule.uma_2}"
-        %td= "#{rule.uma_3}"
-        - if play_type == 4
-          %td= "#{rule.uma_4}"
-        %td= Rule.get_value_score_decimal_point_calc(rule.score_decimal_point_calc)
-        %td= Rule.get_value_is_chip(rule.is_chip)
-        %td= Rule.get_value_chip_rate(rule.chip_rate)
-        %td.p-0
-          = link_to edit_player_rule_path(current_player, rule), class: 'px-1 pt-1 pb-0 text-main' do
-            %i.bx.bx-edit-alt.bx-sm{style: "padding-top: 1px;"}
+.row
+  .d-flex.justify-content-center.align-items-center.text-main
+    %i.fa-solid.fa-file-pen.pe-2
+    %p.mb-0.fw-bold #{conversion_kanji_num(play_type)}人麻雀用ルール
+  .mt-3
+    - if @sanyon_rules[play_type].blank?
+      %p.text-main 登録されていません
+    - else
+      - @sanyon_rules[play_type].each do |rule| 
+        .rule-card.mb-3
+          .rule-card-body
+            .rule-card-top
+              %h5.rule-card-title= rule.name
+              = link_to  edit_player_rule_path(current_player, rule) do
+                %i.bx.bxs-edit-alt.text-main.ps-2
+            .rule-card-body-detail
+              .rule-card-body-left
+                .rule-card-text
+                  %span 持ち :
+                  %p= "#{rule.mochi}点"
+                .rule-card-text
+                  %span ウマ : 
+                  - if play_type == 4
+                    %p= "#{rule.uma_1}.#{rule.uma_2}.#{rule.uma_3}.#{rule.uma_4}"
+                  - else
+                    %p= "#{rule.uma_1}.#{rule.uma_2}.#{rule.uma_3}"
+                .rule-card-text
+                  %span チップ : 
+                  %p= Rule.get_value_is_chip(rule.is_chip)
+  
+              .rule-card-body-right
+                .rule-card-text
+                  %span 返し : 
+                  %p= "#{rule.kaeshi}点"
+                .rule-card-text
+                  %span 点数計算 : 
+                  %p= Rule.get_value_score_decimal_point_calc(rule.score_decimal_point_calc)
+                .rule-card-text
+                  %span チップpt/枚 : 
+                  %p= Rule.get_value_chip_rate(rule.chip_rate)

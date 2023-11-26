@@ -34,9 +34,9 @@ module ApplicationHelper
     session[:league].present?
   end
   
-  # ルールが小数点有効か(=小数点計算しないか)
+  # ルールが小数点有効か(=小数点有効か)
   def rule_decimal_point_no_calc?(rule_id)
-    Rule.find(rule_id).score_decimal_point_calc == 1 # 計算しない
+    Rule.find(rule_id).score_decimal_point_calc == 1 # 小数点有効
   end
   
   # ポイントの表示形式を編集して返す

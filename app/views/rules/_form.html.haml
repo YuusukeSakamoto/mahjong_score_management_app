@@ -56,10 +56,10 @@
               class: 'form-control py-md-1 rounded bg-white box-shadow'
 
       .div-title.mb-2.mb-sm-3
-        = f.label :'pt小数点計算方法', class: 'title-p text-main mb-md-1'
+        = f.label :'点数計算', class: 'title-p text-main mb-md-1'
         %span.p_required 必須
         = f.select :score_decimal_point_calc, 
-          [ ["計算しない",1], ["五捨六入", 2], ["四捨五入", 3 ] ,["切り捨て", 4], ["切り上げ", 5] ],
+          [ ["小数点有効",1], ["五捨六入", 2], ["四捨五入", 3 ] ,["切り捨て", 4], ["切り上げ", 5] ],
           {},
           {class: 'form-control py-md-1 rounded bg-white box-shadow w-50'}
 
