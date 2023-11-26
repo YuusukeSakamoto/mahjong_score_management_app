@@ -8,4 +8,11 @@ class Rules::SearchesController < ApplicationController
     end
     
   end
+    
+  def show
+    play_type = params[:play_type]
+    # play_type に基づいてルールをフィルタリング
+    rules = current_player.rule_list(play_type)
+    render json: rules
+  end
 end

@@ -52,7 +52,7 @@ $(document).on('turbolinks:load', function () {
       let pt_calc = ''
       
     	if (value === 1) {
-    		pt_calc = "計算しない"
+    		pt_calc = "小数点有効"
     	} else if (value === 2) {
     		pt_calc = "五捨六入"
     	} else if (value === 3) {
@@ -78,7 +78,7 @@ $(document).on('turbolinks:load', function () {
       `<ul class="rounded border-green-thin px-1 py-1 text-gray fs-sm text-center">
       <li style="list-style:none">${data.mochi}点持ち / ${data.kaeshi}点返し</li>
       <li style="list-style:none">ウマ (${umas})</li>
-      <li style="list-style:none">pt小数点 : ${pt_calc}</li>
+      <li style="list-style:none">点数計算 : ${pt_calc}</li>
       <li style="list-style:none">チップ : ${is_chip}</li>
       </ul>`
       );
@@ -116,6 +116,23 @@ $(document).on('turbolinks:load', function () {
     }
   }
   
+  // ● <leagueフォーム>ルール選択肢を更新する関数
+  function updateRuleList(playType) {
+    $.ajax({
+      url: '/rules/searches/1',
+      method: 'GET',
+      dataType: 'json',
+      data: { play_type: playType },
+      success: function(rules) {
+        var options = rules.map(function(rule) {
+          return '<option value="' + rule.id + '">' + rule.name + '</option>';
+        });
+        $('#league_rule_id').html(options.join(''));
+        rule_detail('#league_rule_id');
+      }
+    });
+  }
+  
 
   // *********************************************************************
   // match関連ページのとき、ルール検索実行
@@ -135,6 +152,23 @@ $(document).on('turbolinks:load', function () {
       $('#match_rule_id').css('pointer-events', 'none');
       $('#match_rule_id').attr('tabindex', '-1');
     }
+  }
+  // league関連ページのとき、ルール検索実行
+  if (/^\/leagues\//.test(window.location.pathname)) {
+    let selector = '#league_rule_id';
+    $(document).ready(rule_detail(selector));
+    $('body').on('change', selector, function() {
+      rule_detail(selector);
+    });
+    // ページ読み込み時にルールリストを更新
+    var initialPlayType = $('#league_play_type').val();
+    updateRuleList(initialPlayType);
+  
+    // play_type セレクトボックスの値が変更されたときにルールリストを更新
+    $('#league_play_type').on('change', function() {
+      var selectedPlayType = $(this).val();
+      updateRuleList(selectedPlayType);
+    });
   }
   // ページロード時に関数実行
   checkFormCompletion();
@@ -226,4 +260,3 @@ $(document).on('click', '.js-memo-dropdown', function() {
     icon.removeClass('fa-caret-down').addClass('fa-caret-right'); // メモが非表示の場合
   }
 });
-

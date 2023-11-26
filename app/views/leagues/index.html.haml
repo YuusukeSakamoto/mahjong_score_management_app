@@ -44,11 +44,10 @@
                         %p.mb-0.text-start.fw-bold= l_player.player.name
                         - if league.player_id == l_player.player.id
                           %i.fa-solid.fa-user-pen.ps-1
-
-        .row.my-3
-          .col-8.col-md-4.m-auto
-            = link_to new_league_path(p_id: current_player.id), 
-              class: "main-btn--orange w-100" do
-              .btn-text
-                %i.fa-solid.fa-trophy.pe-1
-                %span リーグ作成
+      .row.my-3
+        .col-8.col-md-4.m-auto
+          = link_to new_league_path(p_id: current_player.id), 
+            class: "main-btn--orange w-100" do
+            .btn-text
+              %i.fa-solid.fa-trophy.pe-1
+              %span リーグ作成

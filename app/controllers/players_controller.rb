@@ -44,7 +44,7 @@ class PlayersController < ApplicationController
 
     # ルール未登録の場合、ルール登録へ遷移
     if current_player.rules.where(play_type: session_players_num).blank?
-      redirect_to new_player_rule_path(current_player.id) and return
+      redirect_to new_player_rule_path(current_player.id, previous_url: request.referer) and return
     end
     
     # リーグ作成後のプレイヤー選択の場合

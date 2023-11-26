@@ -31,7 +31,7 @@ class MatchesController < ApplicationController
   
   def show
     @match_group = MatchGroup.find_by(id: @match.match_group_id)
-    session[:pre_path] = request.referer unless request.referer.include?(edit_match_path)
+    session[:previous_url] = request.referer unless request.referer.include?(edit_match_path)
   end
   
   def create
@@ -182,7 +182,7 @@ class MatchesController < ApplicationController
     def non_recording_flow(mg, match_count)
       case params[:btn]
       when 'match'
-        redirect_with_notice(session[:pre_path])
+        redirect_with_notice(session[:previous_url])
       when 'mg'
         handle_match_group_flow(mg, match_count)
       end
@@ -199,6 +199,7 @@ class MatchesController < ApplicationController
     end
     
     def redirect_with_notice(path)
+      session[:previous_url] = nil if session[:previous_url]
       redirect_to path, notice: "対局成績を削除しました"
     end
     

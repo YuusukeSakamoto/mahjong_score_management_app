@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   
-  get 'questions/index'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   namespace :players do 
     resources :searches, only: :index, defaults: { format: :json }
@@ -9,7 +8,7 @@ Rails.application.routes.draw do
   end  
   
   namespace :rules do 
-    resources :searches, only: :index, defaults: { format: :json }
+    resources :searches, only: [:index ,:show], defaults: { format: :json }
   end
   
   resources :players, only: [:show, :new, :create] do 
