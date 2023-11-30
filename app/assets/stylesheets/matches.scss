@@ -2,6 +2,7 @@
 // match-viewにのみ関係するcssを記述
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 @import 'variable';
+@import 'mixin';
 // ===============================
 // 対局成績登録画面
 // ===============================
@@ -33,26 +34,118 @@
   }  
 }
 
-// ===============================
-// 対局詳細画面　- 対局成績表
-// ===============================
-.result_table {
-  table-layout: fixed;
-  .w {
-    vertical-align: middle; // 上下中央寄せ
-    padding: 0.5rem 0.1rem!important;
-    font-size: 0.8rem;
-    &-no {
-      @extend .w;
-      width: 8%;
+
+.matches-list {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  border: 1px solid #ddd; // 例として、グレーのボーダーを追加
+  border-radius: 0.25rem;
+  margin: 0 auto 0.5rem auto;
+  position: relative;
+  padding: 0.5rem;
+  text-decoration: none; // リンクのアンダーラインを取り除く
+  color: inherit; // リンクの色を継承する
+  max-width: 500px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 2px;
+
+  .record-number {
+    position: absolute;
+    top: 0.2rem;
+    left: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .left-side {
+    margin-top: 0.6rem;
+    padding-left: 0.8rem;
+    @include smartphone {
+      padding-left: 0.5rem;
     }
-    &-name{
-      @extend .w;
-      width: 21%;
+    text-align: left;
+    flex-basis: 22ch; // 固定幅を設定
+
+    .match-date {
+      font-size: 1rem; // 対局日のフォントサイズ
+      margin: 0.2rem 0rem 0.1rem 0rem;
     }
-    &-edit , &-delete{
-      @extend .w;
-      width: 6%;
+
+    .rule-info, .league-info {
+      font-size: 0.7rem; // ルール名のフォントサイズ
+      opacity: 0.8;
+      .fa-file-pen {
+        padding-left: 1px;
+      }
     }
   }
+
+  .center {
+    flex-grow: 1; // 利用可能なスペースを埋める
+    padding-left: 0.6rem;
+    text-align: left;
+    border-left: 1px solid #ddd;
+
+    .player-item {
+      display: flex;
+      align-items: center;
+      .player-name {
+        margin-bottom: 0;
+        padding-left: 0.2rem;
+        font-size: 0.7rem;
+        font-weight: bold;
+      }
+      .player-pt {
+        margin-bottom: 0;
+        padding-left: 0.2rem;
+        font-size: 0.7rem;
+      }
+      i {
+        font-size: 0.7rem;
+        padding-bottom: 1px;
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .right-side {
+    @include smartphone {
+      display: none;
+    }
+    i {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-right: 0.4rem;
+    }
+  }
+}
+
+// 三人麻雀/四人麻雀切り替えボタン
+#toggle-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+#toggle-to-four-m, #toggle-to-three-m,
+#toggle-to-four-mg, #toggle-to-three-mg {
+  border: 2px solid $orange-2; // 枠線の色はお好みで
+  background-color: white; // ボタンの背景色
+  color: $gray; // テキスト色
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 20px; // 楕円形のためのボーダー半径
+  font-size: 0.7em;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 2px;
+}
+
+#toggle-to-four-m.active, #toggle-to-three-m.active,
+#toggle-to-four-mg.active, #toggle-to-three-mg.active {
+  background-color: $orange-2; // アクティブなボタンの背景色
+  color: white; // アクティブなボタンのテキスト色
 }

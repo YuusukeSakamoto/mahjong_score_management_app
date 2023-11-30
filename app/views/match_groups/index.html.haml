@@ -1,31 +1,15 @@
 .container
   .row.d-flex.justify-content-center.text-main
-    .col-12.text-center.pb-2
-
+    .col-12.col-md-10.col-lg-7.text-center.pb-2
       .page-title
         .d-flex.align-items-end
           %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0 成績表一覧
-          %p.mb-0.ms-2.fs-sm.fw-bold=Player.get_name(current_player.id)
-          %p.mb-0.ms-2.fs-sm ※ 他プレイヤーに記録された成績も含む
-      .mt-3.table-responsive
-        %table.table.table-bordered.table-sm.text-main.text-nowrap.col-10.col-md-6.px-2.fs-sm
-          %thead
-            %tr.bg-lightgray.w-100
-              %th.w-date{scope: "col"} 対局日
-              %th.w-sanyonma{scope: "col"} 三麻/四麻
-              %th.w-players{colspan: "4",scope: "col"}参加プレイヤー
-              %th.w-rule{scope: "col"} ルール
-              %th.w-show{scope: "col"} 詳細
-          - @match_groups.each do |mg| 
-            %tr
-              %td= mg.created_at.to_date.to_s(:yeardate)
-              %td= "#{conversion_kanji_num(mg.rule.play_type)}麻"
-              - Player.get_players_name(mg.matches.first.results).each do |name|
-                %td.w-players-name= name
-              %td= mg.rule.name
-              %td.p-0
-                = link_to match_group_path(mg), class: 'px-1 pt-1 pb-0 text-main' do
-                  %i.bx.bx-link-external.bx-sm{style: "padding-top: 1px;"}
+          %p.mb-0.ms-2.fs-sm.fw-bold=current_player.name
+    .col-12.col-md-8.col-lg-6.m-auto
+      #toggle-buttons
+        %button.mb-2#toggle-to-four-mg{ type: "button", class: "active" } 四人麻雀
+        %button.mb-2#toggle-to-three-mg{ type: "button" } 三人麻雀
+      .mg-container
+        =render 'match_groups/mg_list'
       -if @match_groups.blank?
-        %p 対局成績なし
-
+        %p.mt-3.text-center 対局成績なし

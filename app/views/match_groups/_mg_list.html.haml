@@ -1,0 +1,24 @@
+- @match_groups.each_with_index do |mg, index|
+  = link_to match_group_path(mg), class: 'match-groups-list' do
+    .left-side
+      = image_tag 'result_record.png', class: ""
+      %p.match-date= mg.matches.last.created_at.to_date.to_s(:yeardate)
+      %p.match_number= "#{mg.matches.count}局"
+    .center
+      - Player.get_players_name(mg.matches.first.results).each do |p|
+        .player-item
+          %p.player-name= p.name
+          - if mg.matches.first.player_id == p.id
+            %i.fa-solid.fa-user-pen.ps-1
+    .right-side
+      .rule-info
+        %i.fa-solid.fa-file-pen
+        %span= rule_name(mg.rule_id)
+      .league-info
+        %i.fa-solid.fa-trophy
+        - if mg.league_id.nil?
+          %span.ps-1 -
+        - else
+          %span= league_name(mg.league_id)
+    .arrow
+      %i.fa.fa-chevron-right

@@ -4,10 +4,10 @@ users = [
   {email: 'user3@example.com', password: '00000000', password_confirmation: '00000000', name: "テストユーザー#3"},
   {email: 'user4@example.com', password: '00000000', password_confirmation: '00000000', name: "テストユーザー#4"}
 ]
-
-players_1 = []
-players_2 = []
-
+  
+  players_1 = []
+  players_2 = []
+  
 # **** user & player作成 *******************************************************
 users.each_with_index do |user, i|
   user_data = User.find_by(email: user[:email])
@@ -18,7 +18,7 @@ users.each_with_index do |user, i|
                     name: user[:name])
     u.build_player(name: u.name).save
     players_1 << u.player
-    players_2 << u.player if i == 0    
+    players_2 << u.player if i == 0
   end
 end
 

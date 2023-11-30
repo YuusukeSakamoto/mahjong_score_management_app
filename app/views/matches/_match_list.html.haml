@@ -1,0 +1,36 @@
+.row.d-flex.justify-content-center.text-main
+  .col-12.col-md-10.col-lg-7.text-center.pb-2
+    .page-title
+      .d-flex.align-items-end
+        %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0 対局一覧
+      %p.fw-bold.mb-0= "総対局数 : #{@matches.count} 局"
+  .col-12.col-md-8.col-lg-6.m-auto
+    #toggle-buttons
+      %button.mb-2#toggle-to-four-m{ type: "button", class: "active" } 四人麻雀
+      %button.mb-2#toggle-to-three-m{ type: "button" } 三人麻雀
+    - @matches.each_with_index do |match, index|
+      = link_to match_path(match), class: 'matches-list' do
+        %span.record-number= "#{match.match_on.to_s(:yeardate)}"
+        .left-side
+          .rule-info
+            %i.fa-solid.fa-file-pen
+            %span= rule_name(match.rule_id)
+          .league-info
+            %i.fa-solid.fa-trophy
+            - if match.league_id.nil?
+              %span.ps-1 -
+            - else
+              %span= league_name(match.league_id)
+        .center
+          - rule = Rule.find(match.rule_id)
+          - match.results.each do |result|
+            .player-item
+              %p.player-name= Player.find(result.player_id).name
+              - if match.player_id == result.player_id
+                %i.fa-solid.fa-user-pen.ps-1
+              %p.player-pt= "(#{show_pt(result.point, rule.score_decimal_point_calc)})"
+        .right-side
+          %i.fa.fa-chevron-right
+
+    -if @matches.blank?
+      %p.text-center.mt-3 対局成績なし
