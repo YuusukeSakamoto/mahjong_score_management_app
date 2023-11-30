@@ -6,7 +6,7 @@ class MatchGroupsController < ApplicationController
   def index
     match_ids = Result.match_ids(current_player.id)
     mg_ids = Match.where(id: match_ids).distinct.pluck(:match_group_id)
-    @match_groups = MatchGroup.where(id: mg_ids).desc
+    @match_groups = MatchGroup.where(id: mg_ids, play_type: 4).desc #デフォルトは四麻
   end
   
   def show
@@ -14,6 +14,8 @@ class MatchGroupsController < ApplicationController
       end_record
       flash.now[:notice] = "記録を終了しました"
     end
+    @rule = Rule.find_by(id: @match_group.rule_id)
+    @create_day = @match_group.matches.last.created_at.to_date.to_s(:yeardate)
   end
   
   def destroy

@@ -4,3 +4,17 @@
     @content;
   }
 }
+
+// タブレットレイアウト
+@mixin tablet {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+// デスクトップレイアウト
+@mixin desktop {
+  @media screen and (min-width: 769px) {
+    @content;
+  }
+}

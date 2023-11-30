@@ -1,82 +1,90 @@
 // 今回の対局成績表
-.row.justify-content-center.mt-4
-  .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.text-main
-    .left-content.d-flex.align-items-end
-      %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0 対局成績表
-      %p.mb-0.ms-2.text-nowrap.fs-sm="#{@match_group.created_at.to_date.to_s(:yeardate)}"
-      - if @match_group.league_id.present?
-        %p.mb-0.ms-2.text-nowrap.fs-sm="#{League.find(@match_group.league_id).name}"
-      - else
-        %p.mb-0.ms-2.text-nowrap.fs-sm="#{Rule.find(@match_group.rule_id).name}"
-    - if request.path == match_group_path(@match_group)
-      .right-content
-        = link_to match_group_path(@match_group),
-            data: { confirm: "対局成績表を削除しますか？" }, 
-            method: :delete, 
-            class: 'px-1 pb-0 text-main' do
-          %i.fa-regular.fa-trash-can
+- if request.path == match_group_path(@match_group)
+  .row.justify-content-center.mt-4
+    .col-12.col-md-10.text-center
+      .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.text-main
+        .left-content.d-flex.align-items-end
+          %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0
+            成績表
+        .right-content
+          = link_to match_group_path(@match_group),
+              data: { confirm: "対局成績表を削除しますか？" },
+              method: :delete,
+              class: 'px-1 pb-0 text-main' do
+            %i.fa-regular.fa-trash-can.me-2
 
 .row.justify-content-center
-  .d-flex.justify-content-center.mt-2
-    %table.table.col-10.col-md-6.text-main.text-center.px-2.result_table.w-100
-      %thead
-        %tr.bg-lightgray.w-100.fw-bold
-          %th.w-no{scope: "col"} No
-          - Player.get_players_name(@match_group.matches.first.results, false).each do |name|
-            %th.w-name{scope: "col"}= name
-          %th.w-edit{scope: "col"}
-          %th.w-delete{scope: "col"}
-          - each_points, total_points, links = @match_group.get_table_element
-          - each_points.each.with_index(0) do |points, i| 
-            %tr
-              %td{scope: "row"}
-                - if links[i][:idx] == MatchGroup::CHIP
-                  %span=links[i][:idx]
-                - else 
-                  = link_to links[i][:idx], match_path(links[i][:id])
-              - points.each do |point|
-                %td= show_pt(point, rule_decimal_point_no_calc?(@match_group.rule_id))
-              %td.p-0
-                - if links[i][:idx] == MatchGroup::CHIP
-                  = link_to edit_match_group_chip_results_path(@match_group.id), class: 'px-1 pb-0 text-main' do
-                    %i.fa-regular.fa-pen-to-square{style: "padding-top: 1px;"}
-                - else
-                  = link_to edit_match_path(links[i][:id]), class: 'px-1 pb-0 text-main' do
-                    %i.fa-regular.fa-pen-to-square{style: "padding-top: 1px;"}
-              %td.p-0
-                - unless links[i][:idx] == MatchGroup::CHIP
-                  = link_to match_path(links[i][:id], { pre_url: request.referer, btn: 'mg' }),
-                      data: { confirm: delete_confirm_message(@match_group) }, 
-                      method: :delete, 
-                      class: 'px-1 pb-0 text-main' do
-                    %i.fa-regular.fa-trash-can
+  .col-12.col-md-9.m-auto
+    .score-card.mt-2.card
+      .score-card-top
+        .score-card-top-left
+          %p.mb-0.ms-2.text-nowrap.fs-sm="#{@create_day}"
+          %p.mb-0.text-nowrap.fs-sm.score-card-top-rule=@rule.name
+        .score-card-top-center
+          %p.score-card-top-title 成績表
+          = image_tag 'result_record.png', class: ""
+        .score-card-top-right
+          %p.mb-0.ms-2.text-nowrap.fs-sm.score-card-top-day="#{@create_day}"
+          %p.mb-0.text-nowrap.fs-sm=@rule.name
+      %table.table.col-10.col-md-6.text-main.text-center.px-2.result_table.w-100
+        %thead
+          %tr.w-100.fw-bold
+            %th.w-no{scope: "col"} No
+            - Player.get_players_name(@match_group.matches.first.results).each do |p|
+              %th.w-name{scope: "col"}= p.name
+            %th.w-edit{scope: "col"}
+            %th.w-delete{scope: "col"}
+            - each_points, total_points, links = @match_group.get_table_element
+            - each_points.each.with_index(0) do |points, i|
+              %tr
+                %td{scope: "row"}
+                  - if links[i][:idx] == MatchGroup::CHIP
+                    %span=links[i][:idx]
+                  - else
+                    = link_to links[i][:idx], match_path(links[i][:id])
+                - points.each do |point|
+                  %td= show_pt(point, @match_group.rule_id)
+                %td.p-0
+                  - if links[i][:idx] == MatchGroup::CHIP
+                    = link_to edit_match_group_chip_results_path(@match_group.id), class: 'px-1 pb-0 text-main' do
+                      %i.fa-regular.fa-pen-to-square{style: "padding-top: 1px;"}
+                  - else
+                    = link_to edit_match_path(links[i][:id]), class: 'px-1 pb-0 text-main' do
+                      %i.fa-regular.fa-pen-to-square{style: "padding-top: 1px;"}
+                %td.p-0
+                  - unless links[i][:idx] == MatchGroup::CHIP
+                    = link_to match_path(links[i][:id], { pre_url: request.referer, btn: 'mg' }),
+                        data: { confirm: delete_confirm_message(@match_group) },
+                        method: :delete,
+                        class: 'px-1 pb-0 text-main' do
+                      %i.fa-regular.fa-trash-can
+            %tr.fw-bold.sum
+              %td 計
+              - total_points.each do |point|
+                %td= show_pt(point, @match_group.rule_id)
+              %td
+              %td
 
-
-      %tfoot
-        %tr.bg-lightgray.fw-bold
-          %td 計
-          - total_points.each do |point|
-            %td= show_pt(point, rule_decimal_point_no_calc?(@match_group.rule_id))
-          %td
-          %td
-.col-8.col-md-6.m-auto.mb-3
+.col-6.col-md-4.col-lg-3.m-auto.mb-3
   - if recording? && (request.path != match_group_path(@match_group))
     - if @match_group.rule.is_chip
-      = link_to edit_match_group_chip_results_path(session[:mg]), class: "main-btn--orange mb-1" do
+      = link_to edit_match_group_chip_results_path(session[:mg]), class: "main-btn--white-orange mb-1" do
         .btn-text
           %i.fa-regular.fa-circle-check.pe-1
-          %span チップ集計して記録終了する
-        
+          %span チップ集計する
+
     - else
-      = link_to match_group_path(session[:mg], fix: true), class: "main-btn--orange mb-1" do
+      = link_to match_group_path(session[:mg], fix: true), class: "main-btn--white-orange mb-1" do
         .btn-text
           %i.fa-regular.fa-circle-check.pe-1
           %span 記録終了する
     .d-flex.justify-content-center.align-items-center
       %i.fa-solid.fa-circle-info.text-pink.fs-sm.pe-1
-      %p.fs-sm.text-main.fw-bold.mb-0 この成績表には新たに成績を追加できなくなります
-  - else 
+      %p.fs-sm.text-main.fw-bold.mb-0.text-nowrap この成績表には新たに成績を追加できなくなります
+  - else
     - if @match_group.league_id.present?
-      = link_to 'リーグ成績を見る', league_path(@match_group.league_id),
-        class: "main-btn--orange mb-3",
-        data: { "turbolinks" => false }
+      = link_to league_path(@match_group.league_id), class: "main-btn--white-orange mb-3",
+        data: { "turbolinks" => false } do
+        .btn-text
+          %i.fa-solid.fa-chart-simple.pe-1
+          %span リーグ成績を見る

@@ -27,9 +27,11 @@ class Player < ApplicationRecord
   def self.get_players_name(results, hyphen = true)
     player_ids = results.map(&:player_id)
     players = Player.where(id: player_ids).includes(:results)
-    players_name = players.map(&:name)
-    players_name << HYPHEN if results.count == SANMA && hyphen
-    return players_name
+  end
+
+  def self.get_players(results)
+    player_ids = results.map(&:player_id)
+    players = Player.where(id: player_ids).includes(:results)
   end
   
    #************************************
