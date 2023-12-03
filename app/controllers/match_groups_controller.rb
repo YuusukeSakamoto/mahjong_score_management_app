@@ -6,7 +6,9 @@ class MatchGroupsController < ApplicationController
   def index
     match_ids = Result.match_ids(current_player.id)
     mg_ids = Match.where(id: match_ids).distinct.pluck(:match_group_id)
-    @match_groups = MatchGroup.where(id: mg_ids, play_type: 4).desc #デフォルトは四麻
+    @match_groups = MatchGroup.includes(:matches).where(id: mg_ids, play_type: 4).desc #デフォルトは四麻
+    @first_match_results_p_ids = @match_groups.map { |mg| mg.matches.first.results.pluck(:player_id) }
+    @first_match_player_ids = @match_groups.map { |mg| mg.matches.first.player_id }
   end
 
   def show

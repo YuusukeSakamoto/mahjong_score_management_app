@@ -6,7 +6,7 @@ class MatchesController < ApplicationController
 
   def index
     match_ids = current_player.match_ids_for_play_type(4) #デフォルトは四麻
-    @matches = Match.where(id: match_ids).desc
+    @matches = Match.includes(:results).where(id: match_ids).desc
   end
 
   def new

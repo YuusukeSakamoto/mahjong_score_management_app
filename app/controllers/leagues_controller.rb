@@ -6,16 +6,16 @@ class LeaguesController < ApplicationController
     league_player_ids = LeaguePlayer.where(player_id: current_player.id).pluck(:league_id) # current_playerが主催者でないが参加しているリーグ
     league_ids = League.where(player_id: current_player.id).pluck(:id) # current_playerが主催者のリーグ(league_player未選択の場合も抽出される)
     l_ids = (league_player_ids + league_ids).uniq
-    @leagues = League.where(id: l_ids).order(created_at: :desc)
+    @leagues = League.includes(league_players: :player).where(id: l_ids).order(created_at: :desc)
   end
 
   def show
     redirect_to root_path, alert: FlashMessages::ACCESS_DENIED and return unless @league.league_players.exists?(player_id: current_player.id)
-    @l_matches = Match.where(league_id: params[:id])
+    @l_matches = Match.includes(:results).where(league_id: params[:id])
     @graph_datasets, @y_max, @y_min = @league.graph_data # 成績推移グラフのデータ
     @graph_labels =  @league.graph_label # 成績推移グラフの日付ラベル
     @rank_table_data = @league.rank_table # 順位表のデータ
-    @l_players = LeaguePlayer.where(league_id: params[:id]).order(:player_id)
+    @l_players = LeaguePlayer.includes(:player).where(league_id: params[:id]).order(:player_id)
   end
 
   def new
