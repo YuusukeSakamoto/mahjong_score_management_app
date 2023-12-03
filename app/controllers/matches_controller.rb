@@ -5,12 +5,21 @@ class MatchesController < ApplicationController
   attr_accessor :mg
 
   def index
-    @matches = Match.where(player_id: current_player.id, play_type: 4).desc #デフォルトは四麻
+    match_ids = current_player.match_ids_for_play_type(4) #デフォルトは四麻
+    @matches = Match.where(id: match_ids).desc
   end
 
   def new
-    set_alert_redirect_root("他の成績を記録中です") if session[:mg].present? && params[:league].present? && (session[:league] != params[:league])
-    set_alert_redirect_root("プレイヤーが選択されていません") if session[:players].nil? && params[:league].nil?
+    if params[:league].present?
+      @league = League.find_by(id: params[:league])
+      redirect_to root_path, alert: FlashMessages::ACCESS_DENIED and return unless @league
+      # リーグ主催者でなければ成績登録不可
+      set_alert_redirect_root(FlashMessages::CANNOT_RECORD_LEAGUE) unless current_player.id == League.find_by(id: params[:league]).player_id
+    end
+    # 他の成績を記録中の場合、新規登録不可
+    set_alert_redirect_root(FlashMessages::RECORDING_NOW) if session[:mg].present? && params[:league].present? && (session[:league] != params[:league])
+    # プレイヤーが選択されていない場合、新規登録不可
+    set_alert_redirect_root(FlashMessages::PLAYER_NOT_SELECTED) if session[:players].nil? && params[:league].nil?
 
     @players = session[:players]
     set_league_data if params[:league].present?
@@ -20,6 +29,8 @@ class MatchesController < ApplicationController
   end
 
   def show
+    # matchにcurrent_playerが含まれていない場合、アクセス不可
+    redirect_to root_path, alert: FlashMessages::ACCESS_DENIED and return unless @match.results.pluck(:player_id).include?(current_player.id)
     @match_group = MatchGroup.find_by(id: @match.match_group_id)
     @rule = Rule.find_by(id: @match_group.rule_id)
     @create_day = @match_group.matches.last.created_at.to_date.to_s(:yeardate)
@@ -28,10 +39,11 @@ class MatchesController < ApplicationController
 
   def create
     @match = Match.new(match_params)
+    redirect_to root_path, alert: FlashMessages::FAIED_TO_CREATE_MATCH and return unless current_player == @match.player
     if ie_uniq?(@match) && @match.save
       create_match_group unless recording?
       @match.update(match_group_id: session[:mg])
-      redirect_to match_path(@match), notice: "対局成績を登録しました"
+      redirect_to match_path(@match), notice: FlashMessages::CREATE_MATCH
     else
       @players = session[:players]
       render :new
@@ -39,13 +51,15 @@ class MatchesController < ApplicationController
   end
 
   def edit
+    redirect_to root_path, alert: FlashMessages::EDIT_DENIED and return unless current_player == @match.player
     set_player_league
     set_gon('edit')
   end
 
   def update
+    redirect_to root_path, alert: FlashMessages::UPDATE_DENIED and return unless current_player == @match.player
     if ie_uniq?(@match) && @match.update(match_params)
-      redirect_to match_path(@match), notice: "対局成績を更新しました"
+      redirect_to match_path(@match), notice: FlashMessages::UPDATE_MATCH
     else
       set_player_league
       set_gon('update')
@@ -54,14 +68,11 @@ class MatchesController < ApplicationController
   end
 
   def destroy
-    unless valid_match_for_current_player?(@match)
-      redirect_to root_path, alert: "指定の対局成績が存在しません" and return
-    end
-
+    redirect_to root_path, alert: FlashMessages::DESTROY_DENIED and return unless current_player == @match.player
     if @match.destroy
       set_redirect_to(@match)
     else
-      redirect_to root_path, alert: "削除できませんでした" and return
+      redirect_to root_path, alert: FlashMessages::CANNOT_DESTROY and return
     end
   end
 
@@ -79,6 +90,7 @@ class MatchesController < ApplicationController
 
     def set_match
       @match = Match.find_by(id: params[:id])
+      redirect_to root_path, alert: FlashMessages::ACCESS_DENIED and return unless @match
     end
 
     # セッションからleagueをセット
@@ -88,7 +100,6 @@ class MatchesController < ApplicationController
 
     # リーグに関するデータをセッション等にセットする
     def set_league_data
-      @league = League.find(params[:league])
       session[:league] = params[:league]
       session[:rule] = @league.rule.id
       @players = @league.league_players.map {|l_player| l_player.player }
@@ -143,10 +154,6 @@ class MatchesController < ApplicationController
 
     # ***************** destroyアクション ************************ # 
 
-    def valid_match_for_current_player?(match)
-      match && match.player_id == current_player.id
-    end
-
     # リダイレクト先を判定する
     def set_redirect_to(match)
       mg = MatchGroup.find_by(id: match.match_group_id)
@@ -192,11 +199,11 @@ class MatchesController < ApplicationController
 
     def redirect_with_notice(path)
       session[:previous_url] = nil if session[:previous_url]
-      redirect_to path, notice: "対局成績を削除しました"
+      redirect_to path, notice: FlashMessages::DESTROY_MATCH
     end
 
     def redirect_back_with_notice
-      redirect_back(fallback_location: root_path, notice: "対局成績を削除しました")
+      redirect_back(fallback_location: root_path, notice: FlashMessages::DESTROY_MATCH)
     end
 
 end

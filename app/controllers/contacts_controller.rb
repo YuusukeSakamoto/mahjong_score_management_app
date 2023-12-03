@@ -7,7 +7,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
     if @contact.save
       ContactMailer.contact_mail(@contact, current_user).deliver
-      redirect_to root_path, notice: 'お問い合わせ内容を送信しました'
+      redirect_to root_path, notice: FlashMessages::CONTACT_SENT
     else
       render :new
     end

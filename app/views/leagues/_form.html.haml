@@ -14,7 +14,7 @@
           = f.label :'三麻/四麻', class: 'title-p text-main mb-1'
           %span.p_required 必須
           .d-flex.align-items-end.w-100
-            = f.select :play_type, 
+            = f.select :play_type,
               [ ["四人麻雀",4], ["三人麻雀", 3]], {},
               {class: 'form-control w-50 py-md-1 rounded bg-white box-shadow'}
       - else
@@ -22,7 +22,7 @@
           = f.label :'三麻/四麻', class: 'title-p text-main mb-1'
           %span.p_warning ※変更不可
           .d-flex.align-items-end.w-100
-            = f.select :play_type, 
+            = f.select :play_type,
               [ ["四人麻雀",4], ["三人麻雀", 3]], {},
               {class: 'form-control w-50 py-md-1 rounded bg-gray box-shadow', tabindex: -1, style: "pointer-events: none;"}
 
@@ -34,7 +34,7 @@
               %span.p_required 必須
             .right-content
               = link_to 'ルール新規登録', new_player_rule_path(current_player, previous_url: request.original_url), class: 'text-pink fs-sm pt-1'
-          = f.collection_select(:rule_id, current_player.rules, 
+          = f.collection_select(:rule_id, current_player.rules,
                                 :id, :name, {},
                                 class: 'form-control py-md-1 rounded bg-white box-shadow text-center' )
         - else
@@ -42,7 +42,7 @@
             .left-content
               = f.label :ルール, class: 'title-p text-main'
               %span.p_warning ※変更不可
-          = f.collection_select(:rule_id, current_player.rules, 
+          = f.collection_select(:rule_id, current_player.rules,
                                 :id, :name, {},
                                 class: 'form-control py-md-1 rounded bg-gray box-shadow text-center',
                                 tabindex: -1, style: "pointer-events: none;" )
@@ -51,10 +51,10 @@
           %span.ps-1 詳細
         .js-rule-details{ style: "display: none;" }
           .js-rule.mb-2
-   
+
       .div-title.mb-2.mb-sm-3
         = f.label :'リーグ説明', class: 'title-p text-main mb-md-1'
-        = f.text_area :description, autofocus: true, 
+        = f.text_area :description, autofocus: true,
           class: 'form-control py-md-1 rounded bg-white box-shadow'
 
       .col-8.col-md-6.m-auto.mb-3
@@ -65,7 +65,7 @@
 
       - if controller.action_name == "edit"
         .col-8.col-md-6.m-auto
-          = link_to league_path(@league), method: :delete, 
+          = link_to league_path(@league), method: :delete,
             data: { confirm: "本当に削除しますか？（リーグの全記録が削除されます）"},
             class: "main-btn--white-red mb-3" do
             .btn-text

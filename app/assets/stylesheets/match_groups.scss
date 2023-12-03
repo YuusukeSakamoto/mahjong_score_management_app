@@ -41,6 +41,7 @@
     }
   }
   .center {
+    flex-basis: 15ch; // 固定幅を設定
     border-left: 1px solid #ddd;
     padding-left: 0.5rem;
     margin-bottom: 0;
@@ -64,7 +65,7 @@
     text-align: center;
     padding-left: 0.5rem;
     @include desktop {
-      padding-left: 2rem;
+      padding-left: 0.8rem;
     }
     text-align: left;
     flex-grow: 1; // 可変幅を設定

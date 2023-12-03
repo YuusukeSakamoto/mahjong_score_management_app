@@ -7,11 +7,12 @@
           %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0
             成績表
         .right-content
-          = link_to match_group_path(@match_group),
-              data: { confirm: "対局成績表を削除しますか？" },
-              method: :delete,
-              class: 'px-1 pb-0 text-main' do
-            %i.fa-regular.fa-trash-can.me-2
+          - if @match_group.created_by?(current_player)
+            = link_to match_group_path(@match_group),
+                data: { confirm: "対局成績表を削除しますか？" },
+                method: :delete,
+                class: 'px-1 pb-0 text-main' do
+              %i.fa-regular.fa-trash-can.me-2
 
 .row.justify-content-center
   .col-12.col-md-9.m-auto
@@ -22,7 +23,7 @@
           %p.mb-0.text-nowrap.fs-sm.score-card-top-rule=@rule.name
         .score-card-top-center
           %p.score-card-top-title 成績表
-          = image_tag 'result_record.png', class: ""
+          = image_tag 'result_record.png'
         .score-card-top-right
           %p.mb-0.ms-2.text-nowrap.fs-sm.score-card-top-day="#{@create_day}"
           %p.mb-0.text-nowrap.fs-sm=@rule.name
@@ -45,19 +46,21 @@
                 - points.each do |point|
                   %td= show_pt(point, @match_group.rule_id)
                 %td.p-0
-                  - if links[i][:idx] == MatchGroup::CHIP
-                    = link_to edit_match_group_chip_results_path(@match_group.id), class: 'px-1 pb-0 text-main' do
-                      %i.fa-regular.fa-pen-to-square{style: "padding-top: 1px;"}
-                  - else
-                    = link_to edit_match_path(links[i][:id]), class: 'px-1 pb-0 text-main' do
-                      %i.fa-regular.fa-pen-to-square{style: "padding-top: 1px;"}
+                  - if @match_group.created_by?(current_player)
+                    - if links[i][:idx] == MatchGroup::CHIP
+                      = link_to edit_match_group_chip_results_path(@match_group.id), class: 'px-1 pb-0 text-main' do
+                        %i.fa-regular.fa-pen-to-square{style: "padding-top: 1px;"}
+                    - else
+                      = link_to edit_match_path(links[i][:id]), class: 'px-1 pb-0 text-main' do
+                        %i.fa-regular.fa-pen-to-square{style: "padding-top: 1px;"}
                 %td.p-0
-                  - unless links[i][:idx] == MatchGroup::CHIP
-                    = link_to match_path(links[i][:id], { pre_url: request.referer, btn: 'mg' }),
-                        data: { confirm: delete_confirm_message(@match_group) },
-                        method: :delete,
-                        class: 'px-1 pb-0 text-main' do
-                      %i.fa-regular.fa-trash-can
+                  - if @match_group.created_by?(current_player)
+                    - unless links[i][:idx] == MatchGroup::CHIP
+                      = link_to match_path(links[i][:id], { pre_url: request.referer, btn: 'mg' }),
+                          data: { confirm: delete_confirm_message(@match_group) },
+                          method: :delete,
+                          class: 'px-1 pb-0 text-main' do
+                        %i.fa-regular.fa-trash-can
             %tr.fw-bold.sum
               %td 計
               - total_points.each do |point|
