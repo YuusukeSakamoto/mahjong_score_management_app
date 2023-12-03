@@ -40,11 +40,11 @@ class League < ApplicationRecord
   
   #************************************
   # リーグ順位表
-  #************************************ 
+  #************************************
   # 順位表データを返す
-  def rank_table(id)
+  def rank_table
     rank_table_data = []
-    @l_matches = Match.where(league_id: id)  
+    @l_matches = Match.where(league_id: id)
     @l_match_ids = @l_matches.pluck(:id)
     league_players.each.with_index do |l_player, i|
       data = {}
@@ -57,18 +57,17 @@ class League < ApplicationRecord
     rank_table_data.sort_by! { |a| a[:total_pt].to_i }
     rank_table_data.reverse!
   end
-  
+
   # playerの各順位回数を取得する
   def rank_times(p_id)
-    Result::RANK_NUM.map do |rank|
+    play_type == 4 ? rank_num = Result::RANK_NUM : rank_num = Result::RANK_NUM[0..2]
+    rank_num.map do |rank|
       Result.where(player_id: p_id).where(match_id: @l_match_ids).where(rank: rank).count
     end
   end
-  
-  
   #************************************
   # 総合pt推移グラフ
-  #************************************ 
+  #************************************
   # グラフデータ(各プレイヤーの名前/pt推移/色)を返す
   def graph_data
     graph_datasets = []

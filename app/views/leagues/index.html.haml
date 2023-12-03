@@ -25,37 +25,34 @@
                     - else
                       %span -
                 .col-3.col-md-2.league_itme-center.px-2
-                  - if (league.player_id == current_player.id) && league.league_players.present?
-                    = link_to new_match_path(league: league.id),
-                      class: "main-btn--white-orange-sm p-2 my-1" do
-                      .btn-text
-                        %i.fa-solid.fa-pen
-                        %span 記録
-                    = link_to league_path(league),
-                      class: "main-btn--white-green-sm p-2 my-1" do
-                      .btn-text
-                        %i.fa-solid.fa-chart-simple
-                        %span 成績
-                  - else
-                    = link_to new_match_path(league: league.id),
-                      class: "main-btn--white-orange-sm p-2 my-1 inactive-link" do
-                      .btn-text
-                        %i.fa-solid.fa-pen
-                        %span 記録
-                    = link_to league_path(league),
-                      class: "main-btn--white-green-sm p-2 my-1 inactive-link" do
-                      .btn-text
-                        %i.fa-solid.fa-chart-simple
-                        %span 成績
+                  - record_active = league.league_players.present? && league.player_id == current_player.id
+                  - result_active = league.league_players.present?
+                  = link_to new_match_path(league: league.id),
+                    class: "main-btn--white-orange-sm p-2 my-1 #{'inactive-link' unless record_active}" do
+                    .btn-text
+                      %i.fa-solid.fa-pen
+                      %span 記録
+                  = link_to league_path(league),
+                    class: "main-btn--white-green-sm p-2 my-1 #{'inactive-link' unless result_active}" do
+                    .btn-text
+                      %i.fa-solid.fa-chart-simple
+                      %span 成績
                 .col-4.col-md-5.league_itme-right.ps-2.ps-md-4.my-1
                   .players.fs-sm
                     .players-head
-                    - if league.league_players.blank?
+                    - if league.league_players.blank? && league.player_id == current_player.id
                       .d-flex.align-items-center
                         %i.fa-solid.fa-user-plus.text-pink.fs-sm.pe-1
                         = link_to new_player_path(play_type: league.play_type, league: league.id),
                           class: "text-pink fs-sm",data: { "turbolinks" => false } do
                           %p.mb-0.text-start.fw-bold プレイヤー選択へ
+                      .d-flex.align-items-center
+                        %i.fa-solid.fa-trash-can.fs-sm.pe-2
+                        = link_to league_path(league),
+                          class: "fs-sm my-1",
+                          data: { confirm: "リーグを削除しますか？" },
+                          method: :delete do
+                          %p.mb-0.text-start.fw-bold 削除
                     -else
                       - league.league_players.each do |l_player|
                         .d-flex.align-items-center

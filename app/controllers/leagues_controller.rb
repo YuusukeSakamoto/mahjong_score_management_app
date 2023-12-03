@@ -14,7 +14,7 @@ class LeaguesController < ApplicationController
     @l_matches = Match.where(league_id: params[:id])
     @graph_datasets, @y_max, @y_min = @league.graph_data # 成績推移グラフのデータ
     @graph_labels =  @league.graph_label # 成績推移グラフの日付ラベル
-    @rank_table_data = @league.rank_table(params[:id])  # 順位表のデータ
+    @rank_table_data = @league.rank_table # 順位表のデータ
     @l_players = LeaguePlayer.where(league_id: params[:id]).order(:player_id)
   end
 
