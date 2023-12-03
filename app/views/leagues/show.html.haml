@@ -29,10 +29,8 @@
               %th.w-date{scope: "col"} 順位
               %th.w-mochi{scope: "col"} プレイヤー
               %th.w-uma{scope: "col"} 総合pt
-              %th.w-uma{scope: "col"} 1位
-              %th.w-uma{scope: "col"} 2位
-              %th.w-uma{scope: "col"} 3位
-              %th.w-uma{scope: "col"} 4位
+              - @league.play_type.times do |i|
+                %th.w-uma{scope: "col"} #{i + 1}位
             - @rank_table_data.each.with_index(1) do |data, i|
               %tr
                 %td= i
@@ -61,7 +59,7 @@
                 %th.w-players-name{scope: "col"}= l_player.player.name
               %th.w-icon{scope: "col"}
           - k = 1
-          -  @l_matches.each.with_index do |match, i| 
+          -  @l_matches.each.with_index do |match, i|
             %tr
               %td= k
               %td= match.match_on.to_s(:yeardate)
