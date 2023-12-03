@@ -13,8 +13,7 @@ class MatchesController < ApplicationController
     if params[:league].present?
       @league = League.find_by(id: params[:league])
       redirect_to root_path, alert: FlashMessages::ACCESS_DENIED and return unless @league
-      # リーグ主催者でなければ成績登録不可
-      set_alert_redirect_root(FlashMessages::CANNOT_RECORD_LEAGUE) unless current_player.id == League.find_by(id: params[:league]).player_id
+      set_alert_redirect_root(FlashMessages::CANNOT_RECORD_LEAGUE) unless current_player.id == League.find_by(id: params[:league]).player_id # リーグ主催者でなければ成績登録不可
     end
     # 他の成績を記録中の場合、新規登録不可
     set_alert_redirect_root(FlashMessages::RECORDING_NOW) if session[:mg].present? && params[:league].present? && (session[:league] != params[:league])

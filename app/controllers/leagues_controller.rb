@@ -3,7 +3,9 @@ class LeaguesController < ApplicationController
   before_action :set_league, only: [:show, :edit, :update, :destroy]
 
   def index
-    l_ids = LeaguePlayer.where(player_id: current_player.id).pluck(:league_id)
+    league_player_ids = LeaguePlayer.where(player_id: current_player.id).pluck(:league_id) # current_playerが主催者でないが参加しているリーグ
+    league_ids = League.where(player_id: current_player.id).pluck(:id) # current_playerが主催者のリーグ(league_player未選択の場合も抽出される)
+    l_ids = (league_player_ids + league_ids).uniq
     @leagues = League.where(id: l_ids).order(created_at: :desc)
   end
 
