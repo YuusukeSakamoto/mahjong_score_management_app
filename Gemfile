@@ -55,6 +55,7 @@ group :development do
   gem 'rack-mini-profiler', '2.3.3'
   gem 'listen', '3.7.1'
   gem 'spring', '3.1.1'
+  gem 'bullet' # N+1問題を検出するgem
 end
 
 group :test do
