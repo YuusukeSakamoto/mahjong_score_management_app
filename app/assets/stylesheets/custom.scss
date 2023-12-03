@@ -67,6 +67,13 @@ button, input[type="submit"] {
   background-color: gray;
 }
 
+// 非アクティブリンク
+.inactive-link {
+  opacity: 0.5; /* 薄くするために不透明度を設定 */
+  pointer-events: none; /* クリックイベントを無効化 */
+  cursor: not-allowed; /* カーソルを禁止マークに変更 */
+}
+
 // ===============================
 // ボタン
 // ===============================

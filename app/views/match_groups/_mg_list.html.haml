@@ -1,8 +1,8 @@
 - @match_groups.each_with_index do |mg, index|
   = link_to match_group_path(mg), class: 'match-groups-list' do
     .left-side
-      = image_tag 'result_record.png', class: ""
-      %p.match-date= mg.matches.last.created_at.to_date.to_s(:yeardate)
+      = image_tag 'result_record.png'
+      %p.match-date= mg.matches.last.created_at.to_date.to_s(:yeardate_with_zero)
       %p.match_number= "#{mg.matches.count}局"
     .center
       - Player.get_players_name(mg.matches.first.results).each do |p|
@@ -22,3 +22,5 @@
           %span= league_name(mg.league_id)
     .arrow
       %i.fa.fa-chevron-right
+-if @match_groups.blank?
+  %p.mt-3.text-center 対局成績なし

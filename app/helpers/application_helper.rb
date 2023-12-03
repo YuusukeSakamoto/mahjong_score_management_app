@@ -36,15 +36,16 @@ module ApplicationHelper
 
   # ポイントの表示形式を編集して返す
   def show_pt(point, rule_id)
-    # 小数点有効 # 小数点なしルールの場合、小数点を削除する
-    point = point.to_i unless Rule.find(rule_id).score_decimal_point_calc == 1
+    is_decimal_point_valid = (Rule.find(rule_id).score_decimal_point_calc == 1)
+    # 小数点なしルールの場合、小数点を削除する
+    point = point.to_i unless is_decimal_point_valid
 
     if point.positive?
       "+#{point}" # 正の値の場合はプラス記号を付ける
     elsif point.negative?
       point.to_s # 負の値の場合はそのまま文字列として返す
     else
-      decimal_point_no_calc ? "0.0" : "0" # ゼロの場合は小数点なしルールかどうかで表示形式を変える
+      is_decimal_point_valid ? "0.0" : "0" # ゼロの場合は小数点なしルールかどうかで表示形式を変える
     end
   end
 

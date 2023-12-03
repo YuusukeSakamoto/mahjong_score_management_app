@@ -6,31 +6,37 @@
         .header-right-item.fs-sm
           %i.fa-solid.fa-user-pen
           %span : 主催者
-          
       - if @leagues.blank?
         .col-8.col-md-5.m-auto
           %p.fs-bold.text-center.mt-4 リーグが登録されていません
       - else
         .row.justify-content-center
           .col-12
-            - @leagues.each do |league| 
+            - @leagues.each do |league|
               .league_item.d-flex.justify-content-start.align-items-center.my-2.pt-1.pb-2.border-bottom
                 .col-5.league_item-left.align-items-center
                   %h5.fw-bold.mt-2.mb-2= league.name
                   .fs-sm
                     .d-flex.justify-content-center
-                      %p.mb-0 総対局数 : 
+                      %p.mb-0 総対局数 :
                       %span.ps-1= league.match_count
                     - if league.match_count != 0
                       %span #{league.first_record_day} ~ #{league.last_record_day}
                     - else
                       %span -
                 .col-3.col-md-2.league_itme-center.px-2
-                  = link_to new_match_path(league: league.id),
-                    class: "main-btn--white-orange-sm p-2 my-1" do
-                    .btn-text
-                      %i.fa-solid.fa-pen
-                      %span 記録
+                  - if league.player_id == current_player.id
+                    = link_to new_match_path(league: league.id),
+                      class: "main-btn--white-orange-sm p-2 my-1" do
+                      .btn-text
+                        %i.fa-solid.fa-pen
+                        %span 記録
+                  - else
+                    = link_to new_match_path(league: league.id),
+                      class: "main-btn--white-orange-sm p-2 my-1 inactive-link" do
+                      .btn-text
+                        %i.fa-solid.fa-pen
+                        %span 記録
                   = link_to league_path(league),
                     class: "main-btn--white-green-sm p-2 my-1" do
                     .btn-text
@@ -46,7 +52,7 @@
                           %i.fa-solid.fa-user-pen.ps-1
       .row.my-3
         .col-8.col-md-4.m-auto
-          = link_to new_league_path(p_id: current_player.id), 
+          = link_to new_league_path,
             class: "main-btn--orange w-100" do
             .btn-text
               %i.fa-solid.fa-trophy.pe-1
