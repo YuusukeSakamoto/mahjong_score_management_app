@@ -25,12 +25,12 @@
         = f.email_field :email, autofocus: true, autocomplete: "email", 
           class: 'form-control py-md-1 rounded bg-white box-shadow'
 
-      .div-title.mb-3
-        = f.label :アイコン画像, class: 'title-p text-main'
-        %br
-        .custom-file-upload
-          = f.file_field :avatar, id: 'user_avatar', class: 'form-control custom-file-input', data: { existing_avatar: @user.avatar.url }
-          %label.custom-file-label.mt-2{ for: 'user_avatar' } 画像を選択
+      -# .div-title.mb-3
+      -#   = f.label :アイコン画像, class: 'title-p text-main'
+      -#   %br
+      -#   .custom-file-upload
+      -#     = f.file_field :avatar, id: 'user_avatar', class: 'form-control custom-file-input', data: { existing_avatar: @user.avatar.url }
+      -#     %label.custom-file-label.mt-2{ for: 'user_avatar' } 画像を選択
           
       .div-title.mb-3
         - if @user.persisted?

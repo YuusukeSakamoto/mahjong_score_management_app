@@ -9,8 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def new
     super and return unless params_exist?
     unless invitaion_valid?
-      flash[:alert] = "無効なリンクです。リンク発行者に再発行をお願いしてください。"
-      redirect_to root_path and return
+      redirect_to root_path ,alert: FlashMessages::INVALID_LINK and return
     end
     @invited_player = Player.find(params[:p])
     super
@@ -28,13 +27,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
         set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
         # 招待されたプレイヤーがユーザー登録した場合
-        if params[:p_id].present?  
+        if params[:p_id].present?
           save_user_id_to_invited_player
         else
           @user.build_player(name: @user.name)
           @user.save
         end
-        
         respond_with resource, location: after_sign_up_path_for(resource)
       else
         set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
@@ -58,6 +56,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT /resource
   def update
     super
+    @player = @user.player
+    @player.name = @user.name
+    @player.save
   end
 
   # DELETE /resource

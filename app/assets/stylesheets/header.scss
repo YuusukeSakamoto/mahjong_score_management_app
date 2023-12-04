@@ -7,6 +7,21 @@
 }
 
 /*==================================================
+　header
+===================================================*/
+.upper-contents {
+  .right-contents {
+    .logout {
+      i {
+        font-size: 1rem;
+      }
+      span {
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+/*==================================================
 　ハンバーガーメニュー（3本線が回転して×になる）
 ===================================================*/
 
@@ -82,7 +97,7 @@
   background: $green;
   opacity: 0.95;
   /*動き*/
-  transition: all 0.8s;
+  transition: all 0.6s;
   
   /*アクティブクラスがついたら位置を0に*/
   &.panelactive{
@@ -113,7 +128,7 @@
       text-decoration: none;
       padding:13px;
       display: block;
-      text-transform: uppercase;
+      // text-transform: uppercase;
       letter-spacing: 0.1em;
       font-weight: bold;
     }
