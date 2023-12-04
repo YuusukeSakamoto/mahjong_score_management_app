@@ -7,12 +7,12 @@
           
   .row.justify-content-center
     .col-11.col-md-7.text-center.pb-2.mt-2
-      .body-icon.m-auto.my-2
-        - if @user.avatar.nil?
-          = image_tag 'default_icon.png', alt: 'プレイヤー画像', class: 'rounded-circle'
-        - else 
-          = image_tag "#{@user.avatar}", alt: 'ユーザー画像', class: 'rounded-circle'
-      %p.mt-1.mb-0.text-main.fw-bold= "#{@user.name}"
+      -# .body-icon.m-auto.my-2
+      -#   - if @user.avatar.nil?
+      -#     = image_tag 'default_icon.png', alt: 'プレイヤー画像', class: 'rounded-circle'
+      -#   - else 
+      -#     = image_tag "#{@user.avatar}", alt: 'ユーザー画像', class: 'rounded-circle'
+      %h3.mt-1.mb-0.text-main.fw-bold= "#{@user.name}"
       %p.mb-2.text-main.fs-sm= "(ID : #{@user.player.id})"
           
       .user-info.text-main.mb-3

@@ -44,6 +44,9 @@ module FlashMessages
   # players/authentications
   INVALID_OR_EXPIRED_URL = "URLが無効または有効期限切れです。"
 
+  # users/registrations
+  INVALID_LINK = "無効なリンクです。リンク発行者に再発行をお願いしてください"
+
 
   def self.rule_flash(rule_name, action)
     case action

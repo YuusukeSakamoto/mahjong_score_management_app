@@ -10,13 +10,10 @@
             // ログイン時
             .right-contents
               .d-flex.align-items-center
-                = link_to current_user.name, user_path(current_user.id), class: 'fs-sm pe-2 text-green hover-underline'
-                .header-icon
-                  - if current_user.avatar.present?
-                    = image_tag current_user.avatar.url, class: 'rounded-circle border', alt: 'icon'
-                  - else
-                    = image_tag 'default_icon.png', class: 'rounded-circle', alt: 'icon'
-                = link_to 'ログアウト', destroy_user_session_path, class: 'fs-sm ms-2 text-main hover-underline'
+                = link_to current_user.name, user_path(current_user.id), class: 'fs-sm pe-2 text-green hover-underline fw-bold'
+                = link_to destroy_user_session_path, class: 'logout ms-2 text-main d-flex flex-column align-items-center hover-underline' do
+                  %i.fa-solid.fa-arrow-right-from-bracket.text-main
+                  %span.hover-underline ログアウト
                 / ログインしてるユーザーが管理者の場合のみ
                 - if current_user.try(:admin?)
                   .fs-sm.text-main.ms-2.hover-underline= link_to '管理画面', rails_admin_path
@@ -25,7 +22,7 @@
             .right-contents
               .d-flex.align-items-center
                 = link_to 'ログイン', new_user_session_path, class: "me-2 text-main fs-sm hover-underline"
-                = link_to 'アカウント登録', new_user_registration_path, 
+                = link_to 'アカウント登録', new_user_registration_path,
                   class: "btn rounded-pill text-white bg-green me-2 px-2 py-1 fs-sm"
 
     // header下部 
@@ -74,9 +71,8 @@
                   #g-nav-list
                     %ul
                       %li
-                        .nav-icon
-                          = image_tag current_user.avatar.url, class: 'rounded-circle', alt: 'icon'
-                        %span ID : #{current_player.id}
+                        -# .nav-icon
+                        -#   = image_tag current_user.avatar.url, class: 'rounded-circle', alt: 'icon'
                         =link_to "#{current_user.name}", user_path(current_user.id), class: "border-b"
                       %li= link_to 'TOP', root_path, class: "border-b"
                       %li= link_to '個人成績', player_path(current_player)

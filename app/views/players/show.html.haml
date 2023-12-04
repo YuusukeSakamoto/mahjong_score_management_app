@@ -1,12 +1,12 @@
 .container
   .row.d-flex.justify-content-center
     .col-11.col-md-7.text-center.pb-2.mt-4
-      .body-icon.m-auto
-        - if @player.user.nil?
-          = image_tag 'default_icon.png', alt: 'プレイヤー画像', class: 'rounded-circle'
-        - else 
-          = image_tag "#{@player.user.avatar}", alt: 'ユーザー画像', class: 'rounded-circle'
-      %p.mt-1.mb-0.text-main.fw-bold= "#{@player.name}"
+      -# .body-icon.m-auto
+      -#   - if @player.user.nil?
+      -#     = image_tag 'default_icon.png', alt: 'プレイヤー画像', class: 'rounded-circle'
+      -#   - else
+      -#     = image_tag "#{@player.user.avatar}", alt: 'ユーザー画像', class: 'rounded-circle'
+      %h5.mt-1.mb-0.text-main.fw-bold= "#{@player.name}"
       %p.mb-2.text-main.fs-sm= "(ID : #{@player.id})"
       .mb-3.m-auto
         - if @player.user == current_user
