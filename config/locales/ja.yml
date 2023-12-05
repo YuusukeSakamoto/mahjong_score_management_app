@@ -13,10 +13,10 @@ ja:
         name: ルール名
         mochi: 持ち
         kaeshi: 返し
-        uma_1: ウマ１位
-        uma_2: ウマ２位
-        uma_3: ウマ３位
-        uma_4: ウマ４位
+        uma_one: ウマ１位
+        uma_two: ウマ２位
+        uma_three: ウマ３位
+        uma_four: ウマ４位
         score_decimal_point_calc: Pt小数点計算方法
         is_chip: チップ有無
         chip_rate: チップpt / 枚

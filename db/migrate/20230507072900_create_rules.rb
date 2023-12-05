@@ -6,10 +6,10 @@ class CreateRules < ActiveRecord::Migration[6.1]
       t.integer :play_type, null: false
       t.integer :mochi, null: false
       t.integer :kaeshi, null: false
-      t.integer :uma_1, null: false
-      t.integer :uma_2, null: false
-      t.integer :uma_3, null: false
-      t.integer :uma_4, null: false
+      t.integer :uma_one, null: false
+      t.integer :uma_two, null: false
+      t.integer :uma_three, null: false
+      t.integer :uma_four, null: false
       t.integer :score_decimal_point_calc, null: false
       t.boolean :is_chip, default: false, null: false
       t.integer :chip_rate

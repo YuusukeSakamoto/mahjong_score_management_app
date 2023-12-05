@@ -4,19 +4,10 @@ class Users::SessionsController < Devise::SessionsController
   before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
-  def new
-    super
-  end
 
   # POST /resource/sign_in
-  def create
-    super
-  end
 
   # DELETE /resource/sign_out
-  def destroy
-    super
-  end
 
   protected
 
@@ -24,7 +15,7 @@ class Users::SessionsController < Devise::SessionsController
   def configure_sign_in_params
     devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   end
-  
+
   # ログイン後のリダイレクト先を指定
   # プレイヤー選択時のユーザー認証時 → 認証完了ページ
   # 通常ログイン時　→ トップページ
@@ -35,12 +26,11 @@ class Users::SessionsController < Devise::SessionsController
         tk = user.player_select_token
         players_authentications_path(tk: tk)
       else
-        flash[:alert] = "認証に失敗しました"
+        flash[:alert] = '認証に失敗しました'
         root_path
       end
     else
       root_path
     end
   end
-  
 end

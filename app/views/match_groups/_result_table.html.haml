@@ -31,11 +31,11 @@
         %thead
           %tr.w-100.fw-bold
             %th.w-no{scope: "col"} No
-            - Player.get_players_name(@match_group.matches.first.results).each do |p|
+            - Player.players_name(@match_group.matches.first.results).each do |p|
               %th.w-name{scope: "col"}= p.name
             %th.w-edit{scope: "col"}
             %th.w-delete{scope: "col"}
-            - each_points, total_points, links = @match_group.get_table_element
+            - each_points, total_points, links = @match_group.table_element
             - each_points.each.with_index(0) do |points, i|
               %tr
                 %td{scope: "row"}

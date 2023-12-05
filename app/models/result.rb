@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Result < ApplicationRecord
   belongs_to :player
   belongs_to :match
@@ -6,12 +8,11 @@ class Result < ApplicationRecord
   validates :point, presence: true
   validates :ie, presence: true
 
-  scope :match_ids, -> (p_id){ where(player_id: p_id).pluck(:match_id) } #プレイヤーが参加したすべてのmatch_idを配列で格納
+  scope :match_ids, ->(p_id) { where(player_id: p_id).pluck(:match_id) } # プレイヤーが参加したすべてのmatch_idを配列で格納
 
-  IE = [["東",1], ["南", 2], ["西",3], ["北", 4]]
-  IE_NUM = [1, 2, 3, 4]
-  RANK_NUM = [1, 2, 3, 4]
+  IE = [['東', 1], ['南', 2], ['西', 3], ['北', 4]].freeze
+  IE_NUM = [1, 2, 3, 4].freeze
+  RANK_NUM = [1, 2, 3, 4].freeze
   YONMA_TIMES = 4
   SANMA_TIMES = 3
-
 end

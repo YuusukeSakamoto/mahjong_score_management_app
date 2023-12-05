@@ -1,31 +1,33 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.5'
 
-gem 'rails', '~> 6.1.3', '>= 6.1.3.1'
-gem 'mysql2', '0.5.3'
-gem 'puma', '5.5.2'
-gem 'sass-rails', '6.0.0'
-gem 'webpacker', '5.4.3'
-gem 'turbolinks', '5.2.1'
-gem 'jbuilder', '2.11.5'
 gem 'bootsnap', '1.10.1', require: false
+gem 'bootstrap-sass', '3.4.1'
+gem 'hirb' # 出力結果を表として出力するgem
+gem 'jbuilder', '2.11.5'
+gem 'mysql2', '0.5.3'
 gem 'net-http'
-gem "bootstrap-sass",  "3.4.1" # 
-gem "sassc-rails",     "2.1.2"
-gem 'hirb'         # 出力結果を表として出力するgem
-gem 'hirb-unicode'  # マルチバイト文字の表示を補正するgem
-gem 'rails-i18n' # errorメッセージ日本語化
-gem 'chart-js-rails', '~> 0.1.4' #chart.js
-gem 'pry-rails'
+gem 'puma', '5.5.2'
+gem 'rails', '~> 6.1.3', '>= 6.1.3.1'
+gem 'sassc-rails', '2.1.2'
+gem 'sass-rails', '6.0.0'
+gem 'turbolinks', '5.2.1'
+gem 'webpacker', '5.4.3'
+# gem 'hirb-unicode', '>= 0.0.5' # マルチバイト文字の表示を補正するgem
+gem 'chart-js-rails', '~> 0.1.4' # chart.js
 gem 'pry-byebug'
+gem 'pry-rails'
+gem 'rails-i18n' # errorメッセージ日本語化
 
 # Front
 gem 'font-awesome-sass'
 gem 'haml-rails'
 
-#ユーザー認証
+# ユーザー認証
 gem 'devise'
 gem 'devise-i18n'
 
@@ -36,13 +38,13 @@ gem 'carrierwave', '~> 2.0'
 gem 'gon'
 
 # 管理画面
-gem 'rails_admin'
 gem 'cancancan'
+gem 'rails_admin'
 
-#enum日本語化
+# enum日本語化
 gem 'enum_help'
 
-#　環境変数
+# 　環境変数
 gem 'dotenv-rails'
 
 group :development, :test do
@@ -51,11 +53,12 @@ group :development, :test do
 end
 
 group :development do
-  gem 'web-console', '4.2.0'
-  gem 'rack-mini-profiler', '2.3.3'
-  gem 'listen', '3.7.1'
-  gem 'spring', '3.1.1'
   gem 'bullet' # N+1問題を検出するgem
+  gem 'listen', '3.7.1'
+  gem 'rack-mini-profiler', '2.3.3'
+  gem 'rubocop', '~> 1.22', require: false
+  gem 'spring', '3.1.1'
+  gem 'web-console', '4.2.0'
 end
 
 group :test do
@@ -65,7 +68,7 @@ group :test do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 group :production do
   gem 'pg', '1.2.3'

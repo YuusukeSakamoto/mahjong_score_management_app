@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ContactsController < ApplicationController
   def new
     @contact = Contact.new
@@ -13,10 +15,9 @@ class ContactsController < ApplicationController
     end
   end
 
-
   private
 
-    def contact_params
-      params.require(:contact).permit(:name, :content, :user_id)
-    end
+  def contact_params
+    params.require(:contact).permit(:name, :content, :user_id)
+  end
 end
