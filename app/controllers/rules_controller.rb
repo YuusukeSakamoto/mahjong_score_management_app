@@ -17,6 +17,10 @@ class RulesController < ApplicationController
   end
 
   def new
+    if recording?
+      redirect_to(root_path,
+                  alert: FlashMessages::CANNOT_CREATE_RULE_RECORDING)
+    end
     unless current_player.id == params[:player_id].to_i
       redirect_to(root_path,
                   alert: FlashMessages::ACCESS_DENIED) && return

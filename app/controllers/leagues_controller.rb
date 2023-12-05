@@ -27,6 +27,10 @@ class LeaguesController < ApplicationController
   end
 
   def new
+    if recording?
+      redirect_to(root_path,
+                  alert: FlashMessages::CANNOT_CREATE_LEAGUE_RECORDING)
+    end
     set_player
     @league = League.new(player_id: @player.id)
   end

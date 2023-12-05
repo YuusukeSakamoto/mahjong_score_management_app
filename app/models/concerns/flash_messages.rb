@@ -12,6 +12,7 @@ module FlashMessages
   # rule
   DELETION_PREVENTED_DUE_TO_ASSOCIATED_RECORDS = '指定したルールで記録した成績が存在するため、削除できません。'
   CANNOT_DESTROY = '削除できませんでした'
+  CANNOT_CREATE_RULE_RECORDING = '記録中はルール作成できません'
 
   # match
   CREATE_MATCH = '対局成績を登録しました'
@@ -38,6 +39,7 @@ module FlashMessages
   CANNOT_EDIT_LEAGUE = 'リーグ主催者でないため、編集できません'
   CANNOT_UPDATE_LEAGUE = 'リーグ主催者でないため、更新できません'
   CANNOT_DESTROT_LEAGUE = 'リーグ主催者でないため、削除できません'
+  CANNOT_CREATE_LEAGUE_RECORDING = '記録中はリーグ作成できません'
 
   # contact
   CONTACT_SENT = 'お問い合わせを送信しました'
