@@ -11,8 +11,8 @@ class Match < ApplicationRecord
   validates :match_on, presence: true
   validates :rule_id, presence: true
 
-  scope :desc, -> { order(match_on: :desc) } # 対局日付の降順
-  scope :asc, -> { order(match_on: :asc) } # 対局日付の降順
+  scope :desc, -> { order(match_on: :desc, created_at: :desc) } # 対局日付の降順
+  scope :asc, -> { order(match_on: :asc, created_at: :desc) } # 対局日付の降順
   scope :match_ids, lambda { |match_ids, play_type|
                       where(id: match_ids).where(play_type: play_type)
                     } # play_typeに応じたmatch_idを配列で格納

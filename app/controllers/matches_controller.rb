@@ -19,17 +19,15 @@ class MatchesController < ApplicationController
       unless current_player.id == League.find_by(id: params[:league]).player_id
         alert_redirect_root(FlashMessages::CANNOT_RECORD_LEAGUE)
       end
+      set_league_data # リーグ戦の場合、セッションにリーグ情報を格納する
     end
     # 他の成績を記録中の場合、新規登録不可
     if session[:mg].present? && params[:league].present? && (session[:league] != params[:league])
       alert_redirect_root(FlashMessages::RECORDING_NOW)
     end
-    # プレイヤーが選択されていない場合、新規登録不可
-    alert_redirect_root(FlashMessages::PLAYER_NOT_SELECTED) if session[:players].nil? && params[:league].nil?
-
     @players = session[:players]
-    set_league_data if params[:league].present?
-    set_league if session[:league].present?
+    # プレイヤーが選択されていない場合、新規登録不可
+    alert_redirect_root(alert: FlashMessages::PLAYER_NOT_SELECTED) && return unless @players
 
     initialize_match
   end
@@ -87,15 +85,6 @@ class MatchesController < ApplicationController
 
     get_redirect_to(@match)
   end
-  # def destroy
-  #   redirect_to(root_path, alert: FlashMessages::DESTROY_DENIED) && return unless current_player == @match.player
-
-  #   if @match.destroy
-  #     get_redirect_to(@match)
-  #   else
-  #     redirect_to(root_path, alert: FlashMessages::CANNOT_DESTROY) && return
-  #   end
-  # end
 
   # jsに渡す変数をセットする
   def gon_setter(action)
@@ -114,13 +103,9 @@ class MatchesController < ApplicationController
     redirect_to(root_path, alert: FlashMessages::ACCESS_DENIED) && return unless @match
   end
 
-  # セッションからleagueをセット
-  def set_league
-    @league = League.find(session[:league])
-  end
-
   # リーグに関するデータをセッション等にセットする
   def set_league_data
+    @league = League.find(params[:league])
     session[:league] = params[:league]
     session[:rule] = @league.rule.id
     @players = @league.league_players.map(&:player)
@@ -177,8 +162,6 @@ class MatchesController < ApplicationController
   # ***************** destroyアクション ************************ #
 
   # リダイレクト先を判定する
-  # q: リダイレクト先を判定するのメソッド名は？
-  # a
   def get_redirect_to(match)
     mg = MatchGroup.find_by(id: match.match_group_id)
     match_count = mg.matches.count

@@ -36,7 +36,6 @@
               %td= "#{result[0]}位"
               %td= "#{result[1]}"
               %td= "#{result[2]}pt"
-              
 .row
   .d-flex.flex-wrap.justify-content-evenly
     .col-11.col-lg-5.py-3.px-4.mb-2
@@ -48,5 +47,5 @@
             - if (id_time[0] == Player::HYPHEN) && (id_time[1] == 0)
               %td #{Player::HYPHEN}
             - else
-              %td.w-name= link_to "#{Player.find(id_time[0]).name}", "/players/#{id_time[0]}"
+              %td.w-name= Player.find(id_time[0]).name
             %td.px-2.w-time #{id_time[1]}回

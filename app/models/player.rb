@@ -236,11 +236,6 @@ class Player < ApplicationRecord
   # 登録したルール
   # ************************************
 
-  # プレイヤーが登録したルール数を取得する
-  def rules_num
-    rules.where(play_type: session_players_num).count
-  end
-
   # 登録した四人麻雀or三人麻雀ルールをすべて取得する
   def rule_list(play_type)
     rules.where(play_type: play_type)
