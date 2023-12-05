@@ -1,0 +1,23 @@
+@import 'variable';
+
+// プライバシーポリシーと利用規約
+.document-styles {
+  max-width: 800px;
+  margin: 0px auto;
+  padding: 5px;
+
+  .title  {
+    border-bottom: 1px solid $gray;
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 0px 0px 2px 3px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  ol {
+    padding-left: 1.5rem;
+  }
+
+}
