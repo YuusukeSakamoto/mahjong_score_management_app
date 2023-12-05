@@ -1,0 +1,47 @@
+AllCops:
+  TargetRubyVersion: 2.7
+  Exclude:
+    - 'config.ru'
+    - 'bin/**'
+    - 'lib/**'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+
+# その他の特定のルールや設定...
+# 日本語でのコメントを許可
+AsciiComments:
+  Enabled: false
+
+# クラスのコメント必須を無視
+Documentation:
+  Enabled: false
+
+# モジュール名::クラス名の定義を許可
+ClassAndModuleChildren:
+  Enabled: false
+
+# メソッド名の長さを無視
+Metrics/MethodLength:
+  Max: 200
+
+# メソッドの複雑さを無視
+Metrics/AbcSize:
+  Enabled: false
+
+# メソッドの引数の名前
+Naming/MethodParameterName:
+  MinNameLength: 3
+  AllowedNames: ['mg'] # 例外としてmgを許可
+
+# クラスの長さを無視
+Metrics/ClassLength:
+  Enabled: false
+
+# メソッドの複雑さを無視
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+# メソッドの長さを無視
+Metrics/CyclomaticComplexity:
+  Enabled: false

@@ -1,46 +1,48 @@
+# frozen_string_literal: true
+
 class League < ApplicationRecord
   belongs_to :player
   belongs_to :rule
-  has_many :league_players, dependent: :destroy #leagueに紐づいたleague_playersも削除される
-  has_many :match_groups, dependent: :destroy #leagueに紐づいたmatch_groupsも削除される
-  has_many :matches, dependent: :destroy #leagueに紐づいたmatchesも削除される
-  
+  has_many :league_players, dependent: :destroy # leagueに紐づいたleague_playersも削除される
+  has_many :match_groups, dependent: :destroy # leagueに紐づいたmatch_groupsも削除される
+  has_many :matches, dependent: :destroy # leagueに紐づいたmatchesも削除される
+
   validates :name, presence: true, length: { maximum: 15 }
   validates :play_type, presence: true
   validates :rule_id, presence: true
-  
+
   attr_accessor :mg_ids, :l_match_ids
-  
-  
-  #************************************
+
+  # ************************************
   # リーグ情報
-  #************************************ 
+  # ************************************
   # リーグにおける最初に記録した日
   def first_record_day
-    return nil if matches.count == 0
+    return nil if matches.count.zero?
+
     @first_record_day ||= matches.first.match_on.to_s(:yeardate)
   end
-  
+
   # リーグにおける最後に記録した日
   def last_record_day
-    return nil if matches.count == 0
+    return nil if matches.count.zero?
+
     @last_record_day ||= matches.last.match_on.to_s(:yeardate)
   end
-  
+
   # リーグにおける総対局数
   def match_count
     @match_count ||= matches.count
   end
-  
+
   # リーグルールがチップ有か
   def rule_is_tip?
     Rule.find(rule_id).is_chip
   end
 
-  
-  #************************************
+  # ************************************
   # リーグ順位表
-  #************************************
+  # ************************************
   # 順位表データを返す
   def rank_table
     rank_table_data = []
@@ -60,22 +62,23 @@ class League < ApplicationRecord
 
   # playerの各順位回数を取得する
   def rank_times(p_id)
-    play_type == 4 ? rank_num = Result::RANK_NUM : rank_num = Result::RANK_NUM[0..2]
+    rank_num = play_type == 4 ? Result::RANK_NUM : Result::RANK_NUM[0..2]
     rank_num.map do |rank|
       Result.where(player_id: p_id).where(match_id: @l_match_ids).where(rank: rank).count
     end
   end
-  #************************************
+
+  # ************************************
   # 総合pt推移グラフ
-  #************************************
+  # ************************************
   # グラフデータ(各プレイヤーの名前/pt推移/色)を返す
   def graph_data
     graph_datasets = []
     ary = []
-    ary << get_players_name
-    ary << get_point_histories
-    ary << get_player_color
-    ary << get_player_bgcolor
+    ary << players_name
+    ary << point_histories
+    ary << player_color
+    ary << player_bgcolor
     graph_data = ary.transpose
     graph_data.each do |data|
       data_h = {}
@@ -85,34 +88,35 @@ class League < ApplicationRecord
       data_h[:backgroundColor] = data[3]
       graph_datasets << data_h
     end
-    max = @point_histories.map(&:max).max 
-    y_max = max.to_i + 100 - (max.to_i % 100) #グラフの最大値を100単位とする
-    min = @point_histories.map(&:min).min #グラフの最小値
-    y_min = min.to_i - (min.to_i % 100) #グラフの最大値を100単位とする
-    return graph_datasets, y_max, y_min
+    max = @point_histories.map(&:max).max
+    y_max = max.to_i + 100 - (max.to_i % 100) # グラフの最大値を100単位とする
+    min = @point_histories.map(&:min).min # グラフの最小値
+    y_min = min.to_i - (min.to_i % 100) # グラフの最大値を100単位とする
+    [graph_datasets, y_max, y_min]
   end
-  
+
   # グラフのx軸ラベルを返す
   def graph_label
-    mgs = self.match_groups
+    mgs = match_groups
     days = matches.pluck(:match_on)
     if rule_is_tip?
       mgs.each do |mg|
-        tip_day = mg.matches.last.match_on 
+        tip_day = mg.matches.last.match_on
         idx = days.rindex { |day| day == tip_day }
         days.insert(idx, tip_day) # match_group分だけ対局日を追加する(チップpt分レコードが増えるため)
       end
     end
-    days.unshift('') #グラフの最初のデータは0ptのため、''を先頭に追加する
+    days.unshift('') # グラフの最初のデータは0ptのため、''を先頭に追加する
     # 同じ日が複数ある場合は最初の日付だけグラフ上に出力するよう配列を編集
     days.map.with_index do |day, i|
-      next day if i == 0
+      next day if i.zero?
+
       day == days[i - 1] ? '' : day.to_date.to_s(:date)
     end
   end
-  
+
   # プレイヤー分の成績推移グラフ用のデータを取得する
-  def get_point_histories
+  def point_histories
     @l_match_ids = matches.pluck(:id)
     @point_histories = []
 
@@ -120,15 +124,18 @@ class League < ApplicationRecord
     league_players.each do |l_player|
       points = []
       point_history = [0]
-      
+
       if rule_is_tip?
         # リーグルールがチップ=有の場合
-        mgs = self.match_groups
+        mgs = match_groups
         mgs.each do |mg|
           # 対局pt → チップptの順番に配列に格納する
           mg_match_ids = mg.matches.pluck(:id)
-          match_tip_pt = Result.where(player_id: l_player.player_id).where(match_id: mg_match_ids).pluck(:point)
-          match_tip_pt << ChipResult.find_by(player_id: l_player.player_id, match_group_id: mg.id).point # 該当プレイヤーのチップptを取得
+          match_tip_pt = Result.where(player_id: l_player.player_id)
+                               .where(match_id: mg_match_ids)
+                               .pluck(:point)
+          match_tip_pt << ChipResult.find_by(player_id: l_player.player_id,
+                                             match_group_id: mg.id).point # 該当プレイヤーのチップptを取得
           points.concat(match_tip_pt) # 配列の各要素を整数として配列に追加する
         end
       else
@@ -143,20 +150,19 @@ class League < ApplicationRecord
     end
     @point_histories
   end
-  
+
   # リーグに属する全プレイヤーの名前を配列で返す
-  def get_players_name
-    league_players.map{ |l_player| l_player.player.name}
+  def players_name
+    league_players.map { |l_player| l_player.player.name }
   end
-  
+
   # グラフに表示するプレイヤーの色を返す
-  def get_player_color
-    ["#FF4B00", "#005AFF", "#F6AA00", "#52bb93"][0..(play_type - 1)] # 赤,青,オレンジ,緑
+  def player_color
+    ['#FF4B00', '#005AFF', '#F6AA00', '#52bb93'][0..(play_type - 1)] # 赤,青,オレンジ,緑
   end
-  
+
   # グラフに表示するプレイヤーの色を返す
-  def get_player_bgcolor
-    ["#FFFFFF", "#FFFFFF", "#FFFFFF","#FFFFFF"][0..(play_type - 1)] # 全部白
+  def player_bgcolor
+    ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF'][0..(play_type - 1)] # 全部白
   end
-  
 end

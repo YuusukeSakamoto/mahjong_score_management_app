@@ -69,9 +69,9 @@ $(document).on('turbolinks:load', function () {
     	
     	let umas = []
     	if (data.play_type === 3) {
-    	  umas = [data.uma_1, data.uma_2, data.uma_3].join(',');
+    	  umas = [data.uma_one, data.uma_two, data.uma_three].join(',');
     	} else if (data.play_type === 4) {
-    	  umas = [data.uma_1, data.uma_2, data.uma_3, data.uma_4].join(',');
+    	  umas = [data.uma_one, data.uma_two, data.uma_three, data.uma_four].join(',');
       }
       
       $('.js-rule').append(

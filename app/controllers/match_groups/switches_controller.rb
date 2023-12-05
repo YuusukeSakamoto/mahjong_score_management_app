@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/controllers/matche_groups/switches_controller.rb
 module MatchGroups
   class SwitchesController < ApplicationController
@@ -8,9 +10,7 @@ module MatchGroups
       @match_groups = MatchGroup.includes(:matches).where(id: mg_ids, play_type: play_type).desc
       @first_match_results_p_ids = @match_groups.map { |mg| mg.matches.first.results.pluck(:player_id) }
       @first_match_player_ids = @match_groups.map { |mg| mg.matches.first.player_id }
-      respond_to do |format|
-        format.js
-      end
+      respond_to(&:js)
     end
   end
 end

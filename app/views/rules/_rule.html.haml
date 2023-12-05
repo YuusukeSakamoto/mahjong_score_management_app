@@ -21,9 +21,9 @@
                 .rule-card-text
                   %span ウマ : 
                   - if play_type == 4
-                    %p= "#{rule.uma_1}.#{rule.uma_2}.#{rule.uma_3}.#{rule.uma_4}"
+                    %p= "#{rule.uma_one}.#{rule.uma_two}.#{rule.uma_three}.#{rule.uma_four}"
                   - else
-                    %p= "#{rule.uma_1}.#{rule.uma_2}.#{rule.uma_3}"
+                    %p= "#{rule.uma_one}.#{rule.uma_two}.#{rule.uma_three}"
                 .rule-card-text
                   %span チップ : 
                   %p= Rule.get_value_is_chip(rule.is_chip)
