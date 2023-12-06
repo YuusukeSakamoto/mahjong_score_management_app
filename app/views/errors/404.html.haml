@@ -1,0 +1,18 @@
+.container
+  .row.d-flex.justify-content-center
+    .col-11.col-md-7.pb-2.mt-4
+      .error-contents
+        = image_tag 'error.png', alt: 'エラー画像', class: 'img-fluid'
+        .d-flex.flex-column.align-items-center
+          %h5 指定されたページが見つかりませんでした
+          %ul
+            %li 申し訳ありませんが、お探しのページは存在しないか、移動した可能性があります。
+            %li URLが正しいかどうかを確認してください。
+            %li 間違いがない場合は、ページが削除されたか、URLが変更された可能性があります。
+  .row
+    .col-7.col-md-4.col-lg-3.m-auto.my-2
+      = link_to root_path,
+        class: "main-btn--orange w-100" ,data: { "turbolinks" => false } do
+        .btn-text
+          %i.fa-solid.fa-house.pe-1.fw-bold
+          %span TOPへ戻る

@@ -1,0 +1,13 @@
+!!!
+%html{ lang: 'ja' }
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Error
+    = csrf_meta_tags
+    = csp_meta_tag
+    = render 'layouts/head'
+  %body
+    = render 'layouts/header'
+    = render 'layouts/flash'
+    = yield
+    = render 'layouts/footer'
