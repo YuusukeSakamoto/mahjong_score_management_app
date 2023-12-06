@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'privacies/show'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   namespace :players do
     resources :searches, only: :index, defaults: { format: :json }
@@ -52,4 +51,7 @@ Rails.application.routes.draw do
   resources :privacies, only: [:index]
   root to: 'tops#show'
 
+  # エラーハンドリング（本番環境用）
+  get '*not_found' => 'application#routing_error'
+  post '*not_found' => 'application#routing_error'
 end
