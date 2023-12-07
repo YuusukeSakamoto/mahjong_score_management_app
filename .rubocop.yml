@@ -45,3 +45,7 @@ Metrics/PerceivedComplexity:
 # メソッドの長さを無視
 Metrics/CyclomaticComplexity:
   Enabled: false
+
+# 変数名に数字を許可
+Naming/VariableNumber:
+  Enabled: false

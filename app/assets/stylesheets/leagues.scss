@@ -1,7 +1,16 @@
+@import 'variable';
+
+
 // ===============================
 // リーグ対局一覧画面
 // ===============================
 #league_match_list {
+  tr {
+    &:hover {
+      background-color: $green-5;
+    }
+    cursor: pointer;
+  }
   .w {
     &-no {
       width: 8%;
