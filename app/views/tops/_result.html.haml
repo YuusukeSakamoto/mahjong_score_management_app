@@ -31,9 +31,6 @@
       .col-10.col-md-5.pe-md-3.px-md-3
         .d-flex.justify-content-between.align-items-center.mb-2
           %p.border-green-left.fw-bold.py-1.ps-2.mb-0 直近の対局
-          .d-flex.align-items-center.h-100
-            %i.bx.bx-chevrons-right.h-50
-            .px-0= link_to '対局一覧', matches_path, class: 'text-gray text-nowrap'
         %table.table.text-center.text-main
           - @player.get_sanyon_matches(play_type).each do |match|
             %tr
@@ -45,7 +42,7 @@
               %td.p-025
                 = link_to match_path(match),
                   class: "m-auto" do
-                  %i.fa-solid.fa-list-ul
+                  %i.bx.bx-chevrons-right.bx-size.text-main
           - if @player.get_sanyon_matches(play_type).blank?
             %p.mt-4.text-main.text-center= "対局成績なし"
 
