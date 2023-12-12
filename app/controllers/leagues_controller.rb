@@ -32,7 +32,7 @@ class LeaguesController < ApplicationController
                   alert: FlashMessages::CANNOT_CREATE_LEAGUE_RECORDING)
     end
     set_player
-    @league = League.new(player_id: @player.id)
+    @league = League.new(player_id: @player.id, rule_id: params[:rule].to_i, play_type: params[:play_type].to_i)
   end
 
   def create

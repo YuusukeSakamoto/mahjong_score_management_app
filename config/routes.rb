@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  require 'letter_opener_web'
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   namespace :players do
@@ -54,4 +58,5 @@ Rails.application.routes.draw do
   # エラーハンドリング（本番環境用）
   get '*not_found' => 'application#routing_error'
   post '*not_found' => 'application#routing_error'
+
 end

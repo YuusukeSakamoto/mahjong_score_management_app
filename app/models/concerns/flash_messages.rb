@@ -49,6 +49,7 @@ module FlashMessages
 
   # users/registrations
   INVALID_LINK = '無効なリンクです。リンク発行者に再発行をお願いしてください'
+  EXPIRED_LINK = '期限切れです。リンク発行者に再発行をお願いしてください'
 
   def self.rule_flash(rule_name, action)
     case action

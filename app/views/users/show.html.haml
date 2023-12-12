@@ -10,10 +10,9 @@
       -# .body-icon.m-auto.my-2
       -#   - if @user.avatar.nil?
       -#     = image_tag 'default_icon.png', alt: 'プレイヤー画像', class: 'rounded-circle'
-      -#   - else 
+      -#   - else
       -#     = image_tag "#{@user.avatar}", alt: 'ユーザー画像', class: 'rounded-circle'
-      %h3.mt-1.mb-0.text-main.fw-bold= "#{@user.name}"
-      %p.mb-2.text-main.fs-sm= "(ID : #{@user.player.id})"
+      %h3.mt-1.mb-0.text-main.fw-bold.mb-3= "#{@user.name}"
           
       .user-info.text-main.mb-3
         .d-flex.justify-content-center.align-items-center

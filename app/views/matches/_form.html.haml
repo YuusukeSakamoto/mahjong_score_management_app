@@ -21,8 +21,6 @@
           %span.p_required 必須
           - if recording? || ["edit", "update"].include?(controller.action_name)
             %span.p_warning ※変更不可
-        - unless recording?
-          = link_to 'ルール一覧', player_rules_path(current_player), class: 'text-pink fs-sm pt-1'
       = f.collection_select(:rule_id, current_player.rule_list(@match.play_type),
                             :id, :name,
                             { selected: session[:rule] },

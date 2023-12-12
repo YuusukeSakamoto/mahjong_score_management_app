@@ -25,7 +25,7 @@
             %i.bx.bx-trash.player-delete-1
             .p_id{style: "display: none"}= user.player.id
     .text-center.my-3
-      = button_to players_path, method: :post, 
+      = button_to players_path, method: :post, params: { play_type: @play_type},
         class: "col-8 col-md-6 main-btn--orange m-auto d-flex justify-content-center align-items-center", 
         id: "create_btn" do
         %i.fa-regular.fa-circle-check.fs-sm.pe-2
@@ -64,7 +64,7 @@
         %p.fs-sm.mb-0.ps-4 <手順>
         %p.fs-sm.mb-0.ps-4 1. 参加するプレイヤーは下記URLからログインする
         %p.fs-sm.mb-0.ps-4 2. このページを更新する
-        %p.fs-sm.mb-0.ps-4 ※ URLは発行から15分間有効です
+        %p.fs-sm.mb-0.ps-4 ※ URLは発行から10分間有効です
 
       = text_area_tag '#', @authentication_url, class: "form-control ms-1 py-md-1 box-shadow rounded bg-white"
         

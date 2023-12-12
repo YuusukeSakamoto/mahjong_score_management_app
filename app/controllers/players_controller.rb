@@ -42,6 +42,7 @@ class PlayersController < ApplicationController
     redirect_to root_path, alert: FlashMessages::ACCESS_DENIED and return unless @player
   end
 
+  # 現在のプレイヤーがこれまでに遊んだプレイヤーのIDと名前を、最新のマッチから順に取得する
   def played_player
     match_ids = Result.where(player_id: current_player.id).pluck(:match_id)
     # current_playerがこれまで遊んだプレイヤーidと記録時間のhashを取得する (最近遊んだ順)
@@ -64,6 +65,10 @@ class PlayersController < ApplicationController
   end
 
   def create_or_find_players
+    unless params[:p_ids]
+      redirect_to new_player_path(play_type: params[:play_type]),
+                  alert: FlashMessages::FAIED_TO_SELECT_PLAYERS
+    end
     session_players = []
     p_ids_names = params[:p_ids].map(&:to_i).zip(params[:p_names])
 
@@ -94,7 +99,9 @@ class PlayersController < ApplicationController
   end
 
   def redirect_to_new_player_rule
-    redirect_to new_player_rule_path(current_player.id, previous_url: request.referer)
+    redirect_to new_player_rule_path(current_player.id,
+                                     previous_url: request.referer,
+                                     play_type: session_players_num)
   end
 
   def handle_league_play

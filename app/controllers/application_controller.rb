@@ -3,7 +3,7 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
 
-  TOKEN_ENABLED_TIME = 15 # プレイヤー選択におけるトークンの有効期限（分）
+  TOKEN_ENABLED_TIME = 10 # プレイヤー選択におけるトークンの有効期限（分）
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :current_player # ApplicationHelperに記載

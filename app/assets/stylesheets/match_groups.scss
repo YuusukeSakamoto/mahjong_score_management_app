@@ -41,7 +41,7 @@
     }
   }
   .center {
-    flex-basis: 15ch; // 固定幅を設定
+    flex-basis: 16ch; // 固定幅を設定
     border-left: 1px solid #ddd;
     padding-left: 0.5rem;
     margin-bottom: 0;
@@ -63,15 +63,19 @@
   }
   .right-side {
     text-align: center;
-    padding-left: 0.5rem;
-    @include desktop {
-      padding-left: 0.8rem;
-    }
     text-align: left;
     flex-grow: 1; // 可変幅を設定
+    flex-basis: 16ch; // 固定幅を設定
     .rule-info,
     .league-info {
+      display: flex;
+      align-items: center;
       font-size: 0.7rem;
+      p {
+        padding-left: 0.3rem;
+        margin-bottom: 0;
+        word-break: break-all;
+      }
       .fa-solid {
         opacity: 0.8!important;
       }
@@ -96,7 +100,7 @@
 // 対局成績表 - 詳細
 // ===============================
 
-$bg: #ebf7f3;
+$bg: $lightgray;
 $border: #52bb93;
 
 .result_table {
@@ -107,6 +111,12 @@ $border: #52bb93;
     th {
       background-color: $bg;
     }
+  }
+  tr {
+    &:hover {
+      background-color: $green-5;
+    }
+    cursor: pointer;
   }
 
   .w {
@@ -119,12 +129,12 @@ $border: #52bb93;
     }
     &-name{
       @extend .w;
-      width: 21%;
+      width: 20%;
       font-weight: bold;
     }
     &-edit , &-delete{
       @extend .w;
-      width: 6%;
+      width: 8%;
     }
   }
 

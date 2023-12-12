@@ -13,5 +13,6 @@
           = f.email_field :email, autofocus: true, placeholder: "sample@example.com", 
             class: "form-control py-md-1 rounded bg-white box-shadow"
         .actions.mt-3
-          = button_tag(type: 'submit', class: "btn btn-secondary translatable-text") do
-            パスワード再設定用リンクを送信
+          = button_tag(type: 'submit', class: "main-btn--white-orange") do
+            %i.fa-regular.fa-paper-plane.pe-1
+            パスワード再設定メールを送信
