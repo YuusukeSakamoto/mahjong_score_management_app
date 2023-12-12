@@ -16,7 +16,7 @@
           = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10,
             class: 'form-control py-md-1 rounded bg-white box-shadow'
         - else
-          = f.text_field :name, autofocus: true, autocomplete: "name", value: @invited_player.name,
+          = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10, value: @invited_player.name,
             class: 'form-control py-md-1 rounded bg-white box-shadow'
             
       .div-title.mb-3

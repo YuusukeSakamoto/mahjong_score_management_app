@@ -4,13 +4,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
 
-  INVITATIOM_TOKEN_ENABLED_TIME = 12 # 招待トークン有効時間
+  INVITATIOM_TOKEN_ENABLED_TIME = 10 # 招待トークン有効時間(分)
   # GET /resource/sign_up
   def new
     super && return unless params_exist?
-    redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return unless invitaion_valid?
 
-    @invited_player = Player.find(params[:p])
+    @invited_player = Player.find_by(id: params[:p])
+    redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return unless invitaion_correct?(@invited_player)
+    redirect_to(root_path, alert: FlashMessages::EXPIRED_LINK) && return unless invitaion_not_expired?(@invited_player)
+
     super
   end
 
@@ -64,6 +66,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       resource.destroy
       # 追加開始
       resource.player.name = '削除済プレイヤー'
+      resource.player.deleted = true
       resource.player.user_id = nil
       resource.player.save
       # 追加終了
@@ -94,12 +97,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # 招待トークンが正しいかつ期限切れでない場合にtrueを返す
-  def invitaion_valid?
-    invited_player = Player.find_by(id: params[:p])
+  def invitaion_correct?(invited_player)
     return false if invited_player.nil?
 
-    Player.find_by(invite_token: params[:tk]) == invited_player &&
-      invited_player.invite_create_at > INVITATIOM_TOKEN_ENABLED_TIME.hours.ago
+    Player.find_by(invite_token: params[:tk]) == invited_player
+  end
+
+  # 招待トークンが有効期限内の場合にtrueを返す
+  def invitaion_not_expired?(invited_player)
+    invited_player.invite_create_at > INVITATIOM_TOKEN_ENABLED_TIME.minutes.ago
   end
 
   # 招待されたplayerに新規登録したuser_idを保存する

@@ -24,7 +24,7 @@
                       %span #{league.first_record_day} ~ #{league.last_record_day}
                     - else
                       %span -
-                .col-3.col-md-2.league_itme-center.px-2
+                .col-3.league_itme-center.px-2
                   - record_active = league.league_players.present? && league.player_id == current_player.id
                   - result_active = league.league_players.present?
                   = link_to new_match_path(league: league.id),
@@ -60,7 +60,7 @@
                           - if league.player_id == l_player.player.id
                             %i.fa-solid.fa-user-pen.ps-1
       .row.my-3
-        .col-8.col-md-4.m-auto
+        .col-8.col-md-5.m-auto
           = link_to new_league_path,
             class: "main-btn--orange w-100" do
             .btn-text

@@ -38,7 +38,7 @@
               %nav#dropdown-nav.d-none.d-md-block
                 %ul
                   %li
-                    = link_to 'TOP', root_path ,class: "text-nowrap current"
+                    = link_to 'HOME', root_path ,class: "text-nowrap current"
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} 対局成績
                     %ul
@@ -53,7 +53,7 @@
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} ルール
                     %ul
-                      %li.child= link_to 'ルール登録', new_player_rule_path(current_player)
+                      %li.child= link_to 'ルール登録', new_player_rule_path(current_player, btn: 'header')
                       %li.child= link_to 'ルール一覧', player_rules_path(current_player)
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} その他
@@ -74,13 +74,13 @@
                         -# .nav-icon
                         -#   = image_tag current_user.avatar.url, class: 'rounded-circle', alt: 'icon'
                         =link_to "#{current_user.name}", user_path(current_user.id), class: "border-b"
-                      %li= link_to 'TOP', root_path, class: "border-b"
+                      %li= link_to 'HOME', root_path, class: "border-b"
                       %li= link_to '個人成績', player_path(current_player)
                       %li= link_to '成績表一覧', match_groups_path
                       %li= link_to '対局一覧', matches_path, class: "border-b"
                       %li= link_to 'リーグ作成', new_league_path
                       %li= link_to 'リーグ一覧', leagues_path, class: "border-b",data: { "turbolinks" => false }
-                      %li= link_to 'ルール登録', new_player_rule_path(current_player)
+                      %li= link_to 'ルール登録', new_player_rule_path(current_player, btn: 'header')
                       %li= link_to 'ルール一覧', player_rules_path(current_player), class: "border-b"
                       %li= link_to 'アカウント招待', players_invitations_path
                       %li= link_to '問い合わせ', new_contact_path
@@ -96,7 +96,7 @@
               %nav#dropdown-nav.d-none.d-md-block
                 %ul
                   %li
-                    = link_to 'TOP', root_path , class: "text-nowrap current"
+                    = link_to 'HOME', root_path , class: "text-nowrap current"
                   %li.has-child.d-flex.flex-column.align-items-center
                     %a.text-nowrap.current{href: "#"} 対局成績
                     %ul
@@ -128,6 +128,6 @@
                 %nav#g-nav
                   #g-nav-list
                     %ul
-                      %li= link_to 'TOP', root_path
+                      %li= link_to 'HOME', root_path
                       %li= link_to 'アカウント登録', new_user_registration_path
                       %li= link_to 'ログイン', new_user_session_path

@@ -11,6 +11,17 @@ footer{
   margin-top: auto;
 }
 
+.container {
+  .row {
+    margin: 0 auto;
+    max-width: 850px;
+  }
+  form {
+    margin: 0 auto;
+    max-width: 400px;
+  }
+}
+
 ::placeholder {
    color: #d3d3d3!important;
 }

@@ -10,7 +10,7 @@
       = render partial: 'rule', locals: { play_type: 3 }
   .row
     .col-8.col-md-5.col-lg-3.m-auto
-      = link_to new_player_rule_path, class: "main-btn--orange mb-3" do
+      = link_to new_player_rule_path(btn: 'index'), class: "main-btn--orange mb-3" do
         .btn-text
           %i.fa-solid.fa-pen.pe-1.fw-bold
           %span ルール登録

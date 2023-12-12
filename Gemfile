@@ -54,6 +54,7 @@ end
 
 group :development do
   gem 'bullet' # N+1問題を検出するgem
+  gem 'letter_opener_web' # メール送信確認用
   gem 'listen', '3.7.1'
   gem 'rack-mini-profiler', '2.3.3'
   gem 'rubocop', '~> 1.22', require: false

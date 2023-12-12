@@ -15,10 +15,10 @@
             %span.fw-bold.text-main (#{@minimum_password_length}文字以上)
           = f.password_field :password, autofocus: true,
             class: "form-control py-md-1 rounded bg-white box-shadow w-50 m-auto"
-        .field.mt-3
-          = f.label :新しいパスワード（確認用）, class: "fw-bold text-main pb-2"
-          = f.password_field :password_confirmation,
-            class: "form-control py-md-1 rounded bg-white box-shadow w-50 m-auto"
-        .actions.mt-3
-          = button_tag(type: 'submit', class: "btn btn-success translatable-text") do
+          .field.mt-3
+            = f.password_field :password_confirmation,
+              class: "form-control py-md-1 rounded bg-white box-shadow w-50 m-auto",
+              placeholder: "再入力"
+          .actions.mt-3
+          = button_tag(type: 'submit', class: "main-btn--white-orange") do
             パスワード変更

@@ -83,7 +83,7 @@ $(document).on('turbolinks:load', function () {
       </ul>`
       );
       $('.js-remaining_score').append(
-       `<span class="js-remaining_score_value">${all_score}</span>
+        `<span class="js-remaining_score_value">${all_score}</span>
         <span class="js-remaining_score_hidden_value" style="display:none">${all_score}</span>`
       );
       updateRemainingScore(); // ajaxが完了したら残得点の計算
@@ -92,13 +92,13 @@ $(document).on('turbolinks:load', function () {
       //通信に失敗した際の処理
       $('.js-rule ul').remove();
       $('.js-remaining_score span').remove();
-    })      
+    })
   }
-  
+
   // ● 家・得点・ptがすべて埋まっていたらボタン状態更新
   function checkFormCompletion() {
     let isComplete = true;
-    
+
     // IE, Score, Point フィールドのチェック
     $('[id$="_ie"], [id$="_score"], [id$="_point"]').each(function() {
       let value = $(this).val();
@@ -115,7 +115,56 @@ $(document).on('turbolinks:load', function () {
       $('#match_create_btn').prop('disabled', true).addClass('inactive');
     }
   }
-  
+
+  // ● ポイント・順位の計算
+  function calculate_point_rank() {
+    let is_full = true;
+    $('[id$="_score"], #match_rule_id').each(function(index) {
+      if ($('[id$="_score"], #match_rule_id').eq(index).val() === "") {
+        is_full = false; //scoreが空白の場合falseをセット
+      }
+    });
+    // 全プレイヤーのscoreが入力された場合
+    if (is_full) {
+      let scores_rules_ies = [];
+      let rule_id = [];
+      let scores = [];
+      let ies = [];
+      $('[id$="_score"]').each(function(){
+        let score = parseInt($(this).val());
+        scores.push(score)
+      });
+      $('[id$="_ie"]').each(function(){
+        let ie = parseInt($(this).val());
+        ies.push(ie)
+      });
+      rule_id.push(parseInt($('#match_rule_id').val()))
+      scores_rules_ies.push(rule_id)
+      scores_rules_ies.push(scores)
+      scores_rules_ies.push(ies)
+      $.ajax({
+        type: 'GET', // リクエストのタイプ
+        url: '/matches/calculates', // リクエストを送信するURL
+        data:  { scores_rules_ies: scores_rules_ies }, // サーバーに送信するデータ
+        dataType: 'json' // サーバーから返却される型
+      })
+      // 正常にデータを受け取れた際の処理
+      .done(function(data) {
+        $('[id$="_point"]').each(function(i){
+          $(this).val(Math.round(data[0][0][i] * 10) / 10);
+        });
+        $('[id$="_rank"]').each(function(i){
+          $(this).val(data[0][1][i]);
+        });
+        checkFormCompletion(); // ボタン状態更新
+        updateRemainingScore(); // 残得点更新
+      })
+      .fail(function(){
+        //通信に失敗した際の処理
+      })
+    }
+  }
+
   // ● <leagueフォーム>ルール選択肢を更新する関数
   function updateRuleList(playType) {
     $.ajax({
@@ -132,7 +181,14 @@ $(document).on('turbolinks:load', function () {
       }
     });
   }
-  
+
+  // ● <leagueフォーム>ルール新規登録リンクをクリックしたらplay_typeをパラメータに付与する
+  function updateRuleLink(initialPlayType) {
+    var originalUrl = document.getElementById('rule_link').getAttribute('href');
+    var newUrl = new URL(originalUrl, window.location.origin);
+    newUrl.searchParams.set('play_type', initialPlayType);
+    document.getElementById('rule_link').setAttribute('href', newUrl.toString());
+  }
 
   // *********************************************************************
   // match関連ページのとき、ルール検索実行
@@ -153,21 +209,22 @@ $(document).on('turbolinks:load', function () {
       $('#match_rule_id').attr('tabindex', '-1');
     }
   }
-  // league関連ページのとき、ルール検索実行
-  if (/^\/leagues\//.test(window.location.pathname)) {
+  // league作成ページのとき実行
+  if (window.location.pathname === '/leagues/new') {
     let selector = '#league_rule_id';
     $(document).ready(rule_detail(selector));
     $('body').on('change', selector, function() {
       rule_detail(selector);
     });
-    // ページ読み込み時にルールリストを更新
+    // ページ読み込み時にルールリストとルール登録リンクを更新
     var initialPlayType = $('#league_play_type').val();
     updateRuleList(initialPlayType);
-  
-    // play_type セレクトボックスの値が変更されたときにルールリストを更新
+    updateRuleLink(initialPlayType);
+    // play_type セレクトボックスの値が変更されたときにルールリストとルール登録リンクを更新
     $('#league_play_type').on('change', function() {
       var selectedPlayType = $(this).val();
       updateRuleList(selectedPlayType);
+      updateRuleLink(selectedPlayType);
     });
   }
   // ページロード時に関数実行
@@ -177,60 +234,9 @@ $(document).on('turbolinks:load', function () {
   $('[id$="_ie"], [id$="_score"], [id$="_point"]').change(checkFormCompletion);
   // 得点に変化があったとき、残得点の更新
   $('[id$="_score"]').change(updateRemainingScore);
-
-  $(function () {
-    $('[id$="_score"], #match_rule_id, [id$="_ie"]').change(function () {
-      let is_full = true;
-      $('[id$="_score"], #match_rule_id').each(function(index) {
-        if ($('[id$="_score"], #match_rule_id').eq(index).val() === "") {
-          is_full = false; //scoreが空白の場合falseをセット
-        }
-      });
-      // 全プレイヤーのscoreが入力された場合
-      if (is_full) {
-          let scores_rules_ies = [];
-          let rule_id = [];
-          let scores = [];
-          let ies = [];
-          
-          $('[id$="_score"]').each(function(){
-            let score = parseInt($(this).val());
-            scores.push(score)
-          });
-          $('[id$="_ie"]').each(function(){
-            let ie = parseInt($(this).val());
-            ies.push(ie)
-          });
-          rule_id.push(parseInt($('#match_rule_id').val()))
-          
-          scores_rules_ies.push(rule_id)
-          scores_rules_ies.push(scores)
-          scores_rules_ies.push(ies)
-
-          $.ajax({
-            type: 'GET', // リクエストのタイプ
-            url: '/matches/calculates', // リクエストを送信するURL
-            data:  { scores_rules_ies: scores_rules_ies }, // サーバーに送信するデータ
-            dataType: 'json' // サーバーから返却される型
-          })
-          // 正常にデータを受け取れた際の処理
-          .done(function(data) {
-            $('[id$="_point"]').each(function(i){
-              $(this).val(Math.round(data[0][0][i] * 10) / 10);
-            });
-            $('[id$="_rank"]').each(function(i){
-              $(this).val(data[0][1][i]);
-            });
-            checkFormCompletion(); //　ボタン状態更新
-            updateRemainingScore(); // 残得点更新
-          })
-          .fail(function(){
-            //通信に失敗した際の処理
-          })
-      }
-    })
-  });
-}); 
+  // 得点・ルール・家に変化があったとき、ポイント・順位を計算して表示
+  $('[id$="_score"], #match_rule_id, [id$="_ie"]').change(calculate_point_rank);
+});
 
 // ルール選択に応じた詳細情報の表示
 $(document).on('click', '.js-rule-dropdown', function() {

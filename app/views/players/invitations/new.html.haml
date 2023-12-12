@@ -7,11 +7,10 @@
           
     .col-10.col-md-8.text-center.pb-2
       %p.mt-1.mb-0.text-main.fw-bold= "#{@invited_player.name}"
-      %p.mb-2.text-main.fs-sm= "(ID : #{@invited_player.id})"
       = text_area_tag '#', @invite_url, class: 'form-control', id: 'copy-target'
       .px-2.py-2.m-2.text-gray.fs-sm.text-center
         %p.mb-0.text-minus.fw-bold 上記リンクを招待する方へ送ってください。
-        %p.mb-0 ※リンクは12時間有効です。
+        %p.mb-0 ※リンクは10分有効です。
       .line-it-button{"data-color" => "default", "data-count" => "false", 
         "data-env" => "REAL", "data-lang" => "ja", "data-size" => "large", 
         "data-type" => "share-a", "data-url" => "https://developers.line.biz/ja/docs/line-social-plugins/install-guide/using-line-share-buttons/", 

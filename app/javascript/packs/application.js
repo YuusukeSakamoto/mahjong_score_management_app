@@ -19,6 +19,7 @@ require("user_form.js")
 require("questions.js")
 require("switch_play_type.js")
 require("league.js")
+require("match_group.js")
 
 Rails.start()
 Turbolinks.start()

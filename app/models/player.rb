@@ -10,7 +10,7 @@ class Player < ApplicationRecord
   has_many :results
   has_many :leagues
 
-  attr_accessor :invite_token, :match_ids, :cr, :l_points_history
+  attr_accessor :invite_token, :match_ids, :cp, :l_points_history
 
   HYPHEN = ' - '
   HYPHEN_COUNT = 4
@@ -200,7 +200,7 @@ class Player < ApplicationRecord
 
   # current_playerから該当プレイヤーが招待可能か真偽値を返す
   def can_invite?(current_player)
-    self.cr = current_player
+    self.cp = current_player
     recorded_by_current_player? && user_id.nil?
   end
 
@@ -217,18 +217,18 @@ class Player < ApplicationRecord
 
   # current_playerが招待可能な全プレイヤーを取得する
   def invitation_players
-    self.cr = self
-    Player.where(id: cr.recorded_players).where(user_id: nil)
+    self.cp = self
+    Player.where(id: cp.recorded_players).where(user_id: nil).where(deleted: false)
   end
 
   # current_playerが記録した対局idを配列で取得
   def recorded_match_ids
-    cr.matches.pluck(:id)
+    cp.matches.pluck(:id)
   end
 
   # current_playerが成績記録したプレイヤーを配列で取得
   def recorded_players
-    Result.where(match_id: recorded_match_ids).where.not(player_id: cr.id)
+    Result.where(match_id: recorded_match_ids).where.not(player_id: cp.id)
           .select(:player_id).distinct.pluck(:player_id)
   end
 

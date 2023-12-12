@@ -33,9 +33,9 @@
               = f.label :ルール, class: 'title-p text-main'
               %span.p_required 必須
             .right-content
-              = link_to 'ルール新規登録', new_player_rule_path(current_player, previous_url: request.original_url), class: 'text-pink fs-sm pt-1'
+              = link_to 'ルール新規登録', new_player_rule_path(current_player, previous_url: request.original_url), id: 'rule_link', class: 'text-pink fs-sm pt-1'
           = f.collection_select(:rule_id, current_player.rules,
-                                :id, :name, {},
+                                :id, :name, { selected: @league.rule_id },
                                 class: 'form-control py-md-1 rounded bg-white box-shadow text-center' )
         - else
           .d-flex.justify-content-between

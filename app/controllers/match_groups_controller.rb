@@ -10,7 +10,7 @@ class MatchGroupsController < ApplicationController
     mg_ids = Match.where(id: match_ids).distinct.pluck(:match_group_id)
     @match_groups = MatchGroup.includes(:matches).where(id: mg_ids, play_type: 4).desc # デフォルトは四麻
     @first_match_results_p_ids = @match_groups.map { |mg| mg.matches.first.results.pluck(:player_id) }
-    @first_match_player_ids = @match_groups.map { |mg| mg.matches.first.player_id }
+    @first_match_recorded_player_ids = @match_groups.map { |mg| mg.matches.first.player_id }
   end
 
   def show
@@ -26,6 +26,7 @@ class MatchGroupsController < ApplicationController
     end
     @rule = Rule.find_by(id: @match_group.rule_id)
     @create_day = @match_group.matches.last.created_at.to_date.to_s(:yeardate)
+    @matches = @match_group.matches
   end
 
   def destroy

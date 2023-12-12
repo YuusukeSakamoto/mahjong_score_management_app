@@ -7,7 +7,6 @@
       -#   - else
       -#     = image_tag "#{@player.user.avatar}", alt: 'ユーザー画像', class: 'rounded-circle'
       %h5.mt-1.mb-0.text-main.fw-bold= "#{@player.name}"
-      %p.mb-2.text-main.fs-sm= "(ID : #{@player.id})"
       .mb-3.m-auto
         - if @player.user == current_user
           = link_to edit_user_registration_path,

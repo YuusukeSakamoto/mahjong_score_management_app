@@ -10,6 +10,7 @@ class Rule < ApplicationRecord
   validates :is_chip, inclusion: [true, false] # boolean型のpresenceチェック
   validates :chip_rate, presence: true, if: :is_chip # チップ有のときchip_rateが空でないか
   validates :chip_rate, absence: true, unless: :is_chip # チップ無のときchip_rateが空であるか
+  validate :mochi_kaeshi_check
 
   scope :sanma, ->(p_id) { where(player_id: p_id).where(play_type: 3) }
   scope :yonma, ->(p_id) { where(player_id: p_id).where(play_type: 4) }
@@ -38,5 +39,13 @@ class Rule < ApplicationRecord
   # チップpt/枚のコード値を返す
   def self.get_value_chip_rate(chip_rate)
     chip_rate.nil? ? '-' : "#{chip_rate}pt"
+  end
+
+  # ----------------------
+  # カスタムバリデーション
+  # ----------------------
+  # 持ち点>返し点の場合、エラー
+  def mochi_kaeshi_check
+    errors.add(:kaeshi, '点が持ち点より少ないです') if mochi > kaeshi
   end
 end

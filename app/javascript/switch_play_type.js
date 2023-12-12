@@ -55,5 +55,4 @@ function updateMatches(playType, url) {
 
 $(document).on('turbolinks:load', function () {
   bindToggleButtons(); // ページロード時にボタンにイベントリスナーを設定
-  console.log('read')
 });

@@ -1,10 +1,10 @@
 .row.d-flex.justify-content-center.text-main
-  .col-12.col-md-10.col-lg-7.text-center.pb-2
+  .col-12.col-md-10.col-lg-8.text-center.pb-2
     .page-title
       .d-flex.align-items-end
         %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0 対局一覧
       %p.fw-bold.mb-0= "総対局数 : #{@matches.count} 局"
-  .col-12.col-md-8.col-lg-6.m-auto
+  .col-12.col-md-8.col-lg-7.m-auto
     #toggle-buttons
       %button.mb-2#toggle-to-four-m{ type: "button", class: "active" } 四人麻雀
       %button.mb-2#toggle-to-three-m{ type: "button" } 三人麻雀
@@ -28,7 +28,7 @@
               %p.player-name= Player.find(result.player_id).name
               - if match.player_id == result.player_id
                 %i.fa-solid.fa-user-pen.ps-1
-              %p.player-pt= "(#{show_pt(result.point, rule.score_decimal_point_calc)})"
+              %p.player-pt= "(#{show_pt(result.point, rule.id)})"
         .right-side
           %i.fa.fa-chevron-right
 

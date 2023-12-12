@@ -7,19 +7,22 @@
     .center
       - @first_match_results_p_ids[i].each do |p_id|
         .player-item
-          %p.player-name= Player.find_by(id: p_id).name
-          - if @first_match_player_ids.include?(p_id)
+          - if current_player == Player.find_by(id: p_id)
+            %p.player-name.text-green= Player.find_by(id: p_id).name
+          - else
+            %p.player-name= Player.find_by(id: p_id).name
+          - if @first_match_recorded_player_ids[i] == p_id
             %i.fa-solid.fa-user-pen.ps-1
     .right-side
       .rule-info
         %i.fa-solid.fa-file-pen
-        %span= rule_name(mg.rule_id)
+        %p= rule_name(mg.rule_id)
       .league-info
         %i.fa-solid.fa-trophy
         - if mg.league_id.nil?
           %span.ps-1 -
         - else
-          %span= league_name(mg.league_id)
+          %p= league_name(mg.league_id)
     .arrow
       %i.fa.fa-chevron-right
 -if @match_groups.blank?

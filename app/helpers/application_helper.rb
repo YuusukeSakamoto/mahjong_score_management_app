@@ -38,7 +38,8 @@ module ApplicationHelper
 
   # ポイントの表示形式を編集して返す
   def show_pt(point, rule_id)
-    is_decimal_point_valid = (Rule.find(rule_id).score_decimal_point_calc == 1)
+    rule = Rule.find(rule_id)
+    is_decimal_point_valid = (rule.score_decimal_point_calc == 1)
     # 小数点なしルールの場合、小数点を削除する
     point = point.to_i unless is_decimal_point_valid
 
@@ -46,9 +47,13 @@ module ApplicationHelper
       "+#{point}" # 正の値の場合はプラス記号を付ける
     elsif point.negative?
       point.to_s # 負の値の場合はそのまま文字列として返す
-    else
-      is_decimal_point_valid ? '0.0' : '0' # ゼロの場合は小数点なしルールかどうかで表示形式を変える
     end
+
+    if point == '0.0'
+      point = is_decimal_point_valid ? '0.0' : '0' # ゼロの場合は小数点なしルールかどうかで表示形式を変える
+    end
+
+    point
   end
 
   # 対局の削除ボタンクリック時の確認メッセージ
