@@ -44,7 +44,7 @@ gem 'rails_admin'
 # enum日本語化
 gem 'enum_help'
 
-# 　環境変数
+# 環境変数
 gem 'dotenv-rails'
 
 group :development, :test do
@@ -66,6 +66,11 @@ group :test do
   gem 'capybara', '3.36.0'
   gem 'selenium-webdriver', '4.1.0'
   gem 'webdrivers', '5.0.0'
+end
+
+group :development, :test do
+  gem "rspec-rails" # テストフレームワーク
+  gem "factory_bot_rails" # テストデータ作成
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
