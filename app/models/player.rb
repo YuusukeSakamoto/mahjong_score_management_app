@@ -20,18 +20,8 @@ class Player < ApplicationRecord
   SANMA = 3
   RANK_DATA_NUM = 10 # 順位グラフに表示する数
 
-  def self.get_name(p_id)
-    Player.find(p_id).name
-  end
-
-  # resultsからプレイヤー名の配列を返す
-  # サンマの場合四人目にハイフン埋めがいらない場合は第二引数にfalseを指定
-  def self.players_name(results, _hyphen: true)
-    player_ids = results.map(&:player_id)
-    Player.where(id: player_ids).includes(:results)
-  end
-
-  def self.get_players(results)
+  # resultsからプレイヤーを取得する
+  def self.find_by_results(results)
     player_ids = results.map(&:player_id)
     Player.where(id: player_ids).includes(:results)
   end
@@ -76,6 +66,7 @@ class Player < ApplicationRecord
 
   # match存在確認
   def matches_present?
+    binding.pry
     results_for_matches.count.positive?
   end
 
