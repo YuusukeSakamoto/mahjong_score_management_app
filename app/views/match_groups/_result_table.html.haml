@@ -32,7 +32,7 @@
         %thead
           %tr.w-100.fw-bold
             %th.w-no{scope: "col"} No
-            - Player.players_name(@match_group.matches.first.results).each do |p|
+            - Player.find_by_results(@match_group.matches.first.results).each do |p|
               %th.w-name{scope: "col"}= p.name
             - if @match_group.created_by?(current_player)
               %th.w-edit{scope: "col"}
