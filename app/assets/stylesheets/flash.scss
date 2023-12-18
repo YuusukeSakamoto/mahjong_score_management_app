@@ -10,7 +10,7 @@
   left: 0;
   right: 0;
   width: 60%;
-  margin: 0 auto; 
+  margin: 0 auto;
   padding: 10px 8px;
   font-size: 14px;
   font-weight: bold;
@@ -24,9 +24,10 @@
   word-wrap: break-word; /* 長い単語を折り返す */
   /* スマホレイアウト */
   @media (max-width: 480px) {
-    padding: 8px 4px;
+    padding: 12px 4px;
     font-size: 12px;
-    max-width: 380px; /* 最大幅を設定 */
+    max-width: 460px; /* 最大幅を設定 */
+    width: 80%;
   }
 }
 
