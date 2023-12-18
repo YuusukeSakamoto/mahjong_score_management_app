@@ -66,7 +66,6 @@ class Player < ApplicationRecord
 
   # match存在確認
   def matches_present?
-    binding.pry
     results_for_matches.count.positive?
   end
 

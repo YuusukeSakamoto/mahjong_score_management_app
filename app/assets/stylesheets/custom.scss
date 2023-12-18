@@ -45,6 +45,7 @@ a {
   color:inherit!important;
   &:hover {
     opacity: 0.8;
+    // color: $white;
     @extend %transition;
   }
 }
@@ -57,13 +58,13 @@ a {
   }
 }
 
-.btn {
-  &:hover {
-    opacity: 0.8;
-    color: $white!important;
-    @extend %transition;
-  }
-}
+// .btn {
+//   &:hover {
+//     opacity: 0.8;
+//     color: $white!important;
+//     @extend %transition;
+//   }
+// }
 
 button, input[type="submit"] {
   @extend %transition;
@@ -110,7 +111,7 @@ input:focus, textarea:focus, select:focus {
   @include smartphone {
     padding: 0.5rem 1.2rem;
   }
-  
+
   &--orange {
     @extend .main-btn;
     color: $white!important;
@@ -158,9 +159,40 @@ input:focus, textarea:focus, select:focus {
       border: 2px solid $red;
       color: $white!important;
     }
-
   }
-  
+}
+
+.top-btn {
+  cursor: pointer;
+  transition: .2s cubic-bezier(0.45, 0, 0.55, 1);
+  text-decoration: none;
+  border-radius: 60px;
+  color: $white!important;
+  display: block;
+  font-weight: bold;
+  max-width: 300px;
+  padding: 15px 40px;
+  text-align: center;
+  &--green {
+    @extend .top-btn;
+    background: $green;
+    border: 2px solid $green;
+    &:hover {
+      background: #fff;
+      color: $green!important;
+      opacity: 1;
+    }
+  }
+  &--orange {
+    @extend .top-btn;
+    background: $orange;
+    border: 2px solid $orange;
+    &:hover {
+      background: #fff;
+      color: $orange!important;
+      opacity: 1;
+    }
+  }
 }
 
 .inactive {
@@ -384,7 +416,7 @@ input:focus, textarea:focus, select:focus {
     color: $orange!important;
   }
   &-pink {
-    color: #FC6C85!important;
+    color: $pink!important;
   }
   &-gray {
     color: #808080!important;
