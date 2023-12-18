@@ -1,6 +1,41 @@
 @import 'mixin';
 @import 'variable';
 
+.section-heading {
+  text-align: center;
+  margin: 0px auto 1.8rem auto;
+  padding-top: 1.5rem;
+  font-weight: bold;
+  width: 80%!important;
+  border-bottom: 1px solid #C0C0C0;
+
+  p {
+    margin-bottom: 2px;
+    color: $pink;
+    font-size: 0.8rem;
+  }
+  .title {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.8rem;
+
+    &__feature {
+      @extend .title;
+      letter-spacing: 0.5rem;
+      text-indent: 0.5rem; // letter-spacingの分だけ左にずれてしまうので、その分を戻す
+    }
+    &__howto {
+      @extend .title;
+      letter-spacing: 0.2rem;
+      text-indent: 0.2rem; // letter-spacingの分だけ左にずれてしまうので、その分を戻す
+    }
+  }
+
+}
+
+
 #home, #home-end{
   background-image: url('/assets/bg-image.jpg');
   /* 背景画像のサイズを調整する場合 */
@@ -11,6 +46,7 @@
   background-attachment: fixed;
   /* 背景画像を繰り返し表示しない場合 */
   background-repeat: no-repeat;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   position: relative;
   &::before {
     content: "";
@@ -24,19 +60,24 @@
   .container {
     position: relative;
     z-index: 1;
+
+    .home-text {
+      width: fit-content;
+      background-color: white;
+      padding: 7px;
+      margin-bottom: 4px;
+      font-weight: bold;
+      box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    }
   }
 }
 
-.home-text {
-  width: fit-content;
-  background-color: white;
-  padding: 7px;
-  margin-bottom: 4px;
-  font-weight: bold;
-}
 
 
 #feature {
+  background-color: #f7fffc7a;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  padding-bottom: 1rem;
   .card {
     border: $green 2px solid;
     border-radius: 20px;
@@ -50,13 +91,10 @@
   }
 }
 
-.step-title {
-  font-weight: bold;
-}
-
 .feature_card {
   text-align: center;
   margin: 0 auto;
+
   img {
     width: 80px;
     height: 80px;
@@ -71,4 +109,135 @@
     font-size: 1.3rem;
     margin-bottom: 6px;
   }
+}
+
+// *****************************
+// スライダー
+// *****************************
+.slider {
+  position: relative;
+  max-width: 600px; // このサイズは調整可能です
+  overflow: hidden;
+  margin: auto;
+
+  .slides {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 25px 0px;
+
+    .slide {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 0 0 auto;
+      margin: 0px 10px; // スライド間のマージン
+      flex-shrink: 0;
+
+      width: 500px; // 各スライドの幅
+      @include smartphone {
+        width: 380px; // 各スライドの幅
+      }
+
+      .slide-title {
+        display: flex;
+        align-items: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: $dark-green;
+
+        i {
+          font-size : 0.7rem;
+        }
+        span {
+          margin-bottom: 0px;
+          padding-left: 3px;
+          text-shadow: 0 2px 2px rgb(225, 225, 225);
+        }
+      }
+
+      img {
+        width: 500px;
+        border-radius: 20px;
+        box-shadow: 0 8px 18px -2px rgba(0,16,14,.08),0 8px 36px 16px rgba(0,16,14,.03);
+        @include smartphone {
+          width: 380px; // 各スライドの幅
+        }
+      }
+    }
+  }
+}
+
+// *****************************
+//  使い方
+// *****************************
+#steps {
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  padding-bottom: 1rem;
+  .container {
+    max-width: 500px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #95C800;
+    border-radius: 5px;
+    @include smartphone {
+      height: 60px;
+      padding: 5px 15px;
+    }
+
+
+    h3 {
+      font-size: 1.2rem;
+      color: #1f5943;
+      margin-bottom: 0px;
+      padding-right: 1.5rem;
+      border-right: 1px solid #95C800;
+    }
+
+    .step-content {
+      display: flex;
+      @include smartphone {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      align-items: center;
+      justify-content: center;
+      padding-left: 1.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 0px;
+      color: #1f5943;
+    }
+    span {
+      font-size: 0.8rem;
+      padding-left: 0.4rem;
+      color: #1f5943;
+      opacity: 0.8;
+      @include smartphone {
+        padding-left: 0px;
+      }
+    }
+
+  }
+
+  i {
+    font-size: 1.5rem;
+    color: #1f5943;
+    padding-bottom: 5px!important;
+  }
+}
+
+
+.step-title {
+  font-weight: bold;
 }

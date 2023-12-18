@@ -112,7 +112,6 @@ RSpec.describe Player, type: :model do
           end
       end
       it 'trueを返すこと' do
-        binding.pry
         expect(players[0].matches_present?).to be true
       end
     end

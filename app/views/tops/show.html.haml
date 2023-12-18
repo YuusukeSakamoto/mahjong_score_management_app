@@ -46,56 +46,105 @@
 - else
   %section#home
     .container
-      %h1.display-4.mt-5
-        .d-flex.flex-column
-          .home-text 麻雀は記録すれば
-          .home-text もっと楽しくなる！
-      .col-5.col-md-4.col-lg-3.pt-3.mb-5.text-center
-        = link_to '無料アカウント登録', new_user_registration_path,
-          class: "btn d-block rounded-pill fw-bold text-white px-2 py-3 mt-3 bg-green"
-        = link_to 'ログイン', new_user_session_path,
-          class: "btn d-block rounded-pill fw-bold text-white px-2 py-3 mt-2 bg-orange"
+      .row
+        %h1.display-4.mt-5
+          .d-flex.flex-column
+            .home-text 麻雀は記録すれば
+            .home-text もっと楽しくなる！
+        .col-7.col-md-4.col-lg-4.pt-3.mb-5.text-center
+          = link_to 'アカウント登録', new_user_registration_path,
+            class: "top-btn--green"
+          = link_to 'ログイン', new_user_session_path,
+            class: "top-btn--orange mt-2"
 
-  %section#feature01
+  %section#feature
     .container
-      %h3.border-green-left.fw-bold.ps-2.mt-4 特徴
-      .d-md-flex.justify-content-center
-        .feature_card.col-8.col-md-4
-          = image_tag 'result_record.png', class: "feature_card__image01"
-          %p.feature_card__title 成績記録
-          %p.card_text 
-            ルールを登録して成績を記録しよう<br>
-            (三麻/四麻対応)
-        .feature_card.col-8.col-md-4
-          = image_tag 'data_analysis.png', class: "feature_card__image02"
-          %p.feature_card__title 成績の振り返り
-          %p.card_text 
-            平均順位や累計ptなどの<br>
-            成績を確認できる
-        .feature_card.col-8.col-md-4
-          = image_tag 'league.png', class: "feature_card__image03"
-          %p.feature_card__title リーグ対局
-          %p.card_text 
-            順位表・成績グラフで<br>
-            自分たちだけのリーグ戦を楽しめる
+      .row
+        .section-heading
+          %p FEATURE
+          %h2.title__feature 特徴
+        .d-md-flex.justify-content-center
+          .feature_card.col-8.col-md-4
+            = image_tag 'result_record.png', class: "feature_card__image01"
+            %p.feature_card__title 成績記録
+            %p.card_text
+              ルールを登録して成績を記録しよう<br>
+              (三麻/四麻対応)
+          .feature_card.col-8.col-md-4
+            = image_tag 'data_analysis.png', class: "feature_card__image02"
+            %p.feature_card__title 成績の振り返り
+            %p.card_text
+              平均順位や累計ptなどの<br>
+              成績を確認できる
+          .feature_card.col-8.col-md-4
+            = image_tag 'league.png', class: "feature_card__image03"
+            %p.feature_card__title リーグ戦
+            %p.card_text
+              順位表・成績グラフで<br>
+              自分たちだけのリーグ戦を楽しめる
 
-  %section#step
-    .container
-      %h3.border-green-left.fw-bold.ps-2.mt-4 成績記録のステップ
-      %p.fw-bold.mt-1.mb-1.text-green Step01 
-      %h2.step-title 代表者1人がアカウント登録！
-      %p.fw-bold.mt-1.mb-1.text-green Step02
-      %h2.step-title 持ち点・ウマなどのルールを登録！
-      %p.fw-bold.mt-1.mb-1.text-green Step03 
-      %h2.step-title 点数を入れるだけ！ポイントも自動計算！
+  %section#feature_images
+    .row
+      .slider
+        .slides
+          .slide
+            .slide-title
+              %i.fa-solid.fa-diamond
+              %span.slide-title-content 成績登録
+            = image_tag 'toppage_match_create.jpeg'
+          .slide
+            .slide-title
+              %i.fa-solid.fa-diamond
+              %span.slide-title 成績表
+            = image_tag 'toppage_results_table.jpeg'
+          .slide
+            .slide-title
+              %i.fa-solid.fa-diamond
+              %span.slide-title リーグ戦
+            = image_tag 'toppage_league.jpeg'
+          .slide
+            .slide-title
+              %i.fa-solid.fa-diamond
+              %span.slide-title ルール登録
+            = image_tag 'toppage_rule_create.jpeg'
 
-  %section#home-end.text-center.mt-3
+
+  %section#steps
     .container
-      %h2.display-5.mt-5.fw-bold.text-white
-        %span.d-block 麻雀は記録すれば
-        %span.d-block.ps-1 もっと楽しくなる！
-      .col-5.col-md-4.col-lg-3.pt-3.mb-5.text-center.m-auto
-        = link_to '無料アカウント登録', new_user_registration_path,
-          class: "btn d-block rounded-pill fw-bold text-white px-2 py-3 mt-3 bg-green"
-        = link_to 'ログイン', new_user_session_path,
-          class: "btn d-block rounded-pill fw-bold text-white px-2 py-3 mt-3 bg-orange"
+      .row
+        .section-heading
+          %p HOW TO USE
+          %h2.title__howto 使い方
+        .step
+          %h3 Step 1
+          .step-content
+            %p 記録者がアカウント登録
+        %i.fa-solid.fa-caret-down
+        .step
+          %h3 Step 2
+          .step-content
+            %p ルールを登録
+        %i.fa-solid.fa-caret-down
+        .step
+          %h3 Step 3
+          .step-content
+            %p 点数を入力
+            %span ※ptはルールに応じて自動計算
+        %i.fa-solid.fa-caret-down
+        .step
+          %h3 Step 4
+          .step-content
+            %p 成績を確認
+
+
+  %section#home-end.text-center
+    .container
+      .row
+        %h2.display-5.mt-5.fw-bold.text-white
+          %span.d-block 麻雀は記録すれば
+          %span.d-block.ps-1 もっと楽しくなる！
+        .col-7.col-md-4.col-lg-4.pt-3.mb-5.text-center.m-auto
+          = link_to 'アカウント登録', new_user_registration_path,
+            class: "top-btn--green"
+          = link_to 'ログイン', new_user_session_path,
+            class: "top-btn--orange mt-2"
