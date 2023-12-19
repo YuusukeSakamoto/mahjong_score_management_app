@@ -8,7 +8,7 @@
       - @first_match_results_p_ids[i].each do |p_id|
         .player-item
           - if current_player == Player.find_by(id: p_id)
-            %p.player-name.text-green= Player.find_by(id: p_id).name
+            %p.player-name.text-navyblue= Player.find_by(id: p_id).name
           - else
             %p.player-name= Player.find_by(id: p_id).name
           - if @first_match_recorded_player_ids[i] == p_id

@@ -11,7 +11,7 @@
         .mail
           = f.label :ご登録のメールアドレス, class: "fw-bold text-main pb-2"
           = f.email_field :email, autofocus: true, placeholder: "sample@example.com", 
-            class: "form-control py-md-1 rounded bg-white box-shadow"
+            class: "form-control py-md-1 rounded bg-white"
         .actions.mt-3
           = button_tag(type: 'submit', class: "main-btn--white-orange") do
             %i.fa-regular.fa-paper-plane.pe-1

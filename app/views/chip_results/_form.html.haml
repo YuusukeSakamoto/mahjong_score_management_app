@@ -15,7 +15,7 @@
             = @players[i]["name"]
           .d-flex.align-items-end.w-25
             = f.number_field :number, autofocus: true,
-              class: 'form-control py-md-1 rounded bg-white box-shadow'
+              class: 'form-control py-md-1 rounded bg-white'
             %span.text-main.mb-0.mx-1.mx-md-2 枚
           = f.hidden_field :match_group_id, value: @match_group.id
           = f.hidden_field :player_id, value: @players[i]["id"]

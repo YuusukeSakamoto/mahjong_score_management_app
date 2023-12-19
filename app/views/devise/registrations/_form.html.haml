@@ -14,16 +14,16 @@
         %span.p_required 必須
         - if @invited_player.nil?
           = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10,
-            class: 'form-control py-md-1 rounded bg-white box-shadow'
+            class: 'form-control py-md-1 rounded bg-white'
         - else
           = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10, value: @invited_player.name,
-            class: 'form-control py-md-1 rounded bg-white box-shadow'
+            class: 'form-control py-md-1 rounded bg-white'
             
       .div-title.mb-3
         = f.label :メールアドレス, class: 'title-p text-main'
         %span.p_required 必須
         = f.email_field :email, autofocus: true, autocomplete: "email", 
-          class: 'form-control py-md-1 rounded bg-white box-shadow'
+          class: 'form-control py-md-1 rounded bg-white'
 
       -# .div-title.mb-3
       -#   = f.label :アイコン画像, class: 'title-p text-main'
@@ -40,7 +40,7 @@
           %span.p_required 必須
         %span.fs-sm.text-main (8文字以上)
         = f.password_field :password, autofocus: true, autocomplete: "password", 
-          class: 'form-control py-md-1 rounded bg-white box-shadow mb-3'
+          class: 'form-control py-md-1 rounded bg-white mb-3'
           
       .div-title.mb-3
         - if @user.persisted?
@@ -49,14 +49,14 @@
           = f.label :パスワード確認, class: 'title-p text-main'
           %span.p_required 必須
         = f.password_field :password_confirmation, autofocus: true, autocomplete: "password", 
-          class: 'form-control py-md-1 rounded bg-white box-shadow mb-3'
+          class: 'form-control py-md-1 rounded bg-white mb-3'
           
       - if @user.persisted?
         .div-title.mb-3
           = f.label :current_password, "現在のパスワード", class: 'title-p text-main'
           %span.p_required 必須
           = f.password_field :current_password, autofocus: true, autocomplete: "current-password",
-            class: 'form-control py-md-1 rounded bg-white box-shadow mb-3'
+            class: 'form-control py-md-1 rounded bg-white mb-3'
         
       - if @invited_player.present?
         = text_field_tag(:p_id, @invited_player.id, type: "hidden")

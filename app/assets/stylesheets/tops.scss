@@ -32,9 +32,7 @@
       text-indent: 0.2rem; // letter-spacingの分だけ左にずれてしまうので、その分を戻す
     }
   }
-
 }
-
 
 #home, #home-end{
   background-image: url('/assets/bg-image.jpg');
@@ -48,6 +46,7 @@
   background-repeat: no-repeat;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   position: relative;
+
   &::before {
     content: "";
     position: absolute;

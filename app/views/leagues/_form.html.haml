@@ -8,7 +8,7 @@
         %span.p_required 必須
         %span.fs-sm.text-main (15文字以内)
         = f.text_field :name, autofocus: true, placeholder: "Mリーグ",
-          class: 'form-control py-md-1 rounded bg-white box-shadow js-rule_name', maxlength: 15
+          class: 'form-control py-md-1 rounded bg-white js-rule_name', maxlength: 15
       - if @league.matches.count == 0
         .div-title.mb-2.mb-sm-3
           = f.label :'三麻/四麻', class: 'title-p text-main mb-1'
@@ -16,7 +16,7 @@
           .d-flex.align-items-end.w-100
             = f.select :play_type,
               [ ["四人麻雀",4], ["三人麻雀", 3]], {},
-              {class: 'form-control w-50 py-md-1 rounded bg-white box-shadow'}
+              {class: 'form-control w-50 py-md-1 rounded bg-white'}
       - else
         .div-title.mb-2.mb-sm-3
           = f.label :'三麻/四麻', class: 'title-p text-main mb-1'
@@ -24,7 +24,7 @@
           .d-flex.align-items-end.w-100
             = f.select :play_type,
               [ ["四人麻雀",4], ["三人麻雀", 3]], {},
-              {class: 'form-control w-50 py-md-1 rounded bg-gray box-shadow', tabindex: -1, style: "pointer-events: none;"}
+              {class: 'form-control w-50 py-md-1 rounded bg-gray', tabindex: -1, style: "pointer-events: none;"}
 
       .div-title.mb-2.mb-sm-3
         - if @league.matches.count == 0
@@ -36,7 +36,7 @@
               = link_to 'ルール新規登録', new_player_rule_path(current_player, previous_url: request.original_url), id: 'rule_link', class: 'text-pink fs-sm pt-1'
           = f.collection_select(:rule_id, current_player.rules,
                                 :id, :name, { selected: @league.rule_id },
-                                class: 'form-control py-md-1 rounded bg-white box-shadow text-center' )
+                                class: 'form-control py-md-1 rounded bg-white text-center' )
         - else
           .d-flex.justify-content-between
             .left-content
@@ -44,7 +44,7 @@
               %span.p_warning ※変更不可
           = f.collection_select(:rule_id, current_player.rules,
                                 :id, :name, {},
-                                class: 'form-control py-md-1 rounded bg-gray box-shadow text-center',
+                                class: 'form-control py-md-1 rounded bg-gray text-center',
                                 tabindex: -1, style: "pointer-events: none;" )
         %button.js-rule-dropdown.mb-1.fs-sm.text-main{ type: 'button' }
           %i.fa-solid.fa-caret-right
@@ -55,7 +55,7 @@
       .div-title.mb-2.mb-sm-3
         = f.label :'リーグ説明', class: 'title-p text-main mb-md-1'
         = f.text_area :description, autofocus: true,
-          class: 'form-control py-md-1 rounded bg-white box-shadow'
+          class: 'form-control py-md-1 rounded bg-white'
 
       .col-8.col-md-6.m-auto.mb-3
         = f.button type: 'submit', class: 'main-btn--orange w-100' do

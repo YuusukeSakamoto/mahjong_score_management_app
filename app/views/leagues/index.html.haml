@@ -1,6 +1,6 @@
 .container
   .row.d-flex.justify-content-center.text-main
-    .col-11.col-md-9.text-center.pb-2
+    .col-11.col-md-9.text-center.pb-2.px-0
       .page-title
         %h4.text-center.text-md-start.fw-bold.mb-0 リーグ一覧
         .header-right-item.fs-sm
@@ -11,7 +11,7 @@
           %p.fs-bold.text-center.mt-4 リーグが登録されていません
       - else
         .row.justify-content-center
-          .col-12
+          .col-12.px-0
             - @leagues.each do |league|
               .league_item.d-flex.justify-content-start.align-items-center.my-2.pt-1.pb-2.border-bottom
                 .col-5.league_item-left.align-items-center
@@ -24,7 +24,7 @@
                       %span #{league.first_record_day} ~ #{league.last_record_day}
                     - else
                       %span -
-                .col-3.league_itme-center.px-2
+                .col-3.league_item-center.px-1
                   - record_active = league.league_players.present? && league.player_id == current_player.id
                   - result_active = league.league_players.present?
                   = link_to new_match_path(league: league.id),

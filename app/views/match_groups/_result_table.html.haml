@@ -23,7 +23,6 @@
           %p.mb-0.text-nowrap.fs-sm.score-card-top-rule=@rule.name
         .score-card-top-center
           %p.score-card-top-title 成績表
-          = image_tag 'result_record.png'
         .score-card-top-right
           %p.mb-0.ms-2.text-nowrap.fs-sm.score-card-top-day="#{@create_day}"
           %p.mb-0.text-nowrap.fs-sm=@rule.name
@@ -76,9 +75,10 @@
               - if @match_group.created_by?(current_player)
                 %td
                 %td
-.row
-  .col-6.col-md-5.col-lg-4.m-auto.mt-2.mb-1
-    - if recording? && (request.path != match_group_path(@match_group))
+
+- if recording? && (request.path != match_group_path(@match_group))
+  .row
+    .col-9.col-md-5.col-lg-4.m-auto.mt-2.mb-1
       - if @match_group.rule.is_chip
         = link_to edit_match_group_chip_results_path(session[:mg]), class: "main-btn--white-orange mb-1" do
           .btn-text
@@ -93,8 +93,10 @@
       .d-flex.justify-content-center.align-items-center
         %i.fa-solid.fa-circle-info.text-pink.fs-sm.pe-1
         %p.fs-sm.text-main.fw-bold.mb-0.text-nowrap この成績表には新たに成績を追加できなくなります
-    - else
-      - if @match_group.league_id.present?
+- else
+  - if @match_group.league_id.present?
+    .row
+      .col-9.col-md-5.col-lg-4.m-auto.mt-2.mb-1
         = link_to league_path(@match_group.league_id), class: "main-btn--white-orange",
           data: { "turbolinks" => false } do
           .btn-text
