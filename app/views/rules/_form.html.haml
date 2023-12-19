@@ -8,14 +8,14 @@
         .d-flex.align-items-end.w-100
           = f.select :play_type,
             [ ["四人麻雀",4], ["三人麻雀", 3]], {},
-            {class: 'form-control w-50 py-md-1 rounded bg-white box-shadow'}
+            {class: 'form-control w-50 py-md-1 rounded bg-white'}
           %p.fw-bold.text-main.text-nowrap.mb-0.mx-2 用ルール
       .div-title.mb-2.mb-sm-3
         = f.label :ルール名, class: 'title-p text-main'
         %span.p_required 必須
         %span.fs-sm.text-main (15文字以内)
         = f.text_field :name, autofocus: true, placeholder: "Mリーグルール",
-          class: 'form-control py-md-1 rounded bg-white box-shadow js-rule_name', maxlength: 15
+          class: 'form-control py-md-1 rounded bg-white js-rule_name', maxlength: 15
 
       .d-flex.justify-content-start
         .div-title.col-5.mb-2.mb-sm-3
@@ -23,7 +23,7 @@
           %span.p_required 必須
           .d-flex.align-items-end
             = f.number_field :mochi, autofocus: true, placeholder: "25000",
-              class: 'form-control py-2 py-md-1 rounded bg-white box-shadow'
+              class: 'form-control py-2 py-md-1 rounded bg-white'
             %p.fw-bold.text-main.mb-0.mx-2 点 
 
         .div-title.col-5.mb-2.mb-sm-3
@@ -31,7 +31,7 @@
           %span.p_required 必須
           .d-flex.align-items-end
             = f.number_field :kaeshi, autofocus: true, placeholder: "30000",
-              class: 'form-control py-2 py-md-1 rounded bg-white box-shadow'
+              class: 'form-control py-2 py-md-1 rounded bg-white'
             %p.fw-bold.text-main.mb-0.mx-2 点 
 
       .div-title.mb-2.mb-sm-3
@@ -41,19 +41,19 @@
           .div-title.px-1
             = f.label :'1位', class: 'fw-bold text-main mb-md-1'
             = f.number_field :uma_one, autofocus: true, placeholder: "+20",
-              class: 'form-control py-md-1 rounded bg-white box-shadow'
+              class: 'form-control py-md-1 rounded bg-white'
           .div-title.px-1
             = f.label :'2位', class: 'fw-bold text-main  mb-md-1'
             = f.number_field :uma_two, autofocus: true, placeholder: "+10",
-              class: 'form-control py-md-1 rounded bg-white box-shadow'
+              class: 'form-control py-md-1 rounded bg-white'
           .div-title.px-1
             = f.label :'3位', class: 'fw-bold  text-main mb-md-1'
             = f.number_field :uma_three, autofocus: true, placeholder: "-10",
-              class: 'form-control py-md-1 rounded bg-white box-shadow'
+              class: 'form-control py-md-1 rounded bg-white'
           .div-title.px-1.js-uma_four
             = f.label :'4位', class: 'fw-bold  text-main mb-md-1'
             = f.number_field :uma_four, autofocus: true, placeholder: "-20",
-              class: 'form-control py-md-1 rounded bg-white box-shadow'
+              class: 'form-control py-md-1 rounded bg-white'
 
       .div-title.mb-2.mb-sm-3
         = f.label :'点数計算', class: 'title-p text-main mb-md-1'
@@ -61,7 +61,7 @@
         = f.select :score_decimal_point_calc, 
           [ ["小数点有効",1], ["五捨六入", 2], ["四捨五入", 3 ] ,["切り捨て", 4], ["切り上げ", 5] ],
           {},
-          {class: 'form-control py-md-1 rounded bg-white box-shadow w-50'}
+          {class: 'form-control py-md-1 rounded bg-white w-50'}
 
       .d-flex.justify-content-start
         .div-title.col-6.mb-2.mb-sm-3
@@ -71,19 +71,19 @@
           = f.select :is_chip, 
             [ ["なし", false],["あり", true] ], 
             {},
-            {class: 'form-control py-md-1 rounded bg-white box-shadow'}
+            {class: 'form-control py-md-1 rounded bg-white'}
 
         .div-title.col-6.mb-2.mb-sm-3.ps-3
           = f.label :'チップpt / 枚', class: 'title-p text-main mb-md-1'
           .d-flex.align-items-end
             = f.number_field :chip_rate, autofocus: true, 
-              class: 'form-control py-md-1 rounded bg-white box-shadow w-50'
+              class: 'form-control py-md-1 rounded bg-white w-50'
             %p.fw-bold.text-main.mb-0.mx-2 pt
 
       .div-title.mb-2.mb-sm-3
         = f.label :'ルール説明', class: 'title-p text-main mb-md-1'
         = f.text_area :description, autofocus: true, 
-          class: 'form-control py-md-1 rounded bg-white box-shadow'
+          class: 'form-control py-md-1 rounded bg-white'
 
       .col-8.col-md-5.m-auto.mt-3
         = f.button type: 'submit', class: 'main-btn--orange w-100' do

@@ -10,10 +10,10 @@
         = render 'layouts/validation_error', instance: resource
         %div
           = f.label :メールアドレス, class: "text-start text-main fw-bold mb-2 "
-          = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control py-md-1 rounded bg-white box-shadow mb-3"
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control py-md-1 rounded bg-white mb-3"
         %div
           = f.label :パスワード, class: "text-start text-main fw-bold mb-2"
-          = f.password_field :password, autocomplete: "current-password", class: "form-control py-md-1 rounded bg-white box-shadow mb-1"
+          = f.password_field :password, autocomplete: "current-password", class: "form-control py-md-1 rounded bg-white mb-1"
           = f.hidden_field :u_id, value: params[:u_id]
         .password-reset
           = link_to "パスワードを忘れた方はこちら", new_user_password_path, class: "text-main fs-sm mb-3"

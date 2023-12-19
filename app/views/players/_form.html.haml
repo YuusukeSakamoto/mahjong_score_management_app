@@ -53,7 +53,7 @@
         %p.mb-0.ps-1.fw-bold 2. プレイヤーを新規作成する
         %span.fs-sm (10文字以内)
       .d-flex.align-items-center.mb-3
-        %input{ autofocus: true, maxlength: 10, class: "form-control ms-1 py-md-1 box-shadow rounded bg-white w-75" }
+        %input{ autofocus: true, maxlength: 10, class: "form-control ms-1 py-md-1 rounded bg-white w-75" }
         %button.ms-2.py-md-1.main-btn--white-orange-sm 作成
               
     .invite_users
@@ -66,7 +66,7 @@
         %p.fs-sm.mb-0.ps-4 2. このページを更新する
         %p.fs-sm.mb-0.ps-4 ※ URLは発行から10分間有効です
 
-      = text_area_tag '#', @authentication_url, class: "form-control ms-1 py-md-1 box-shadow rounded bg-white"
+      = text_area_tag '#', @authentication_url, class: "form-control ms-1 py-md-1 rounded bg-white"
         
     .text-center.mt-3.mb-5
       = button_to request.path, method: :get, params: { play_type: @play_type}, 

@@ -24,7 +24,7 @@
       = f.collection_select(:rule_id, current_player.rule_list(@match.play_type),
                             :id, :name,
                             { selected: session[:rule] },
-                            class: 'form-control py-md-1 rounded bg-white box-shadow mb-1 text-center' )
+                            class: 'form-control py-md-1 rounded bg-white mb-1 text-center' )
       %button.js-rule-dropdown.mb-1.fs-sm.text-main{ type: 'button' }
         %i.fa-solid.fa-caret-right
         %span.ps-1 詳細
@@ -36,10 +36,10 @@
         %span.p_required 必須
         - if controller.action_name == "edit"
           = f.date_field :match_on, value: @match.match_on, autofocus: true, 
-            class: 'form-control py-md-1 rounded bg-white box-shadow mb-1 text-center'
+            class: 'form-control py-md-1 rounded bg-white mb-1 text-center'
         - else 
           = f.date_field :match_on, value: Date.today, autofocus: true, 
-            class: 'form-control py-md-1 rounded bg-white box-shadow mb-1 text-center'
+            class: 'form-control py-md-1 rounded bg-white mb-1 text-center'
       .d-flex.align-items-end.mb-2
         %span.title-p.text-main.mb-0 得点
         %span.p_required 必須
@@ -57,19 +57,19 @@
             - if @match.results[i].ie.nil?
               = result.select :ie, 
                 Result::IE , { selected: i + 1 }, 
-                {class: 'form-control px-0 py-1 py-md-1 rounded bg-white box-shadow w-25 text-center'}    
+                {class: 'form-control px-0 py-1 py-md-1 rounded bg-white w-25 text-center'}    
             - else
               = result.select :ie, 
                 Result::IE , { selected: @match.results[i].ie }, 
-                {class: 'form-control px-0 py-1 py-md-1 rounded bg-white box-shadow w-25 text-center'}    
+                {class: 'form-control px-0 py-1 py-md-1 rounded bg-white w-25 text-center'}    
             %p.text-main.mb-0.mx-1.mx-md-2 家
 
             = result.number_field :score, autofocus: true, step: "100",
-              class: "form-control py-1 py-md-1 rounded bg-white box-shadow text-center"
+              class: "form-control py-1 py-md-1 rounded bg-white text-center"
             %p.text-main.mb-0.mx-1.mx-md-2 点
 
             = result.number_field :point, autofocus: true, step: "0.1",
-              class: 'form-control py-1 py-md-1 rounded box-shadow w-50 text-center'
+              class: 'form-control py-1 py-md-1 rounded w-50 text-center'
             %p.text-main.mb-0.mx-1.mx-md-2 pt
 
             = result.hidden_field :player_id, value: @players[i]['id']
@@ -83,7 +83,7 @@
           %i.fa-regular.fa-pen-to-square.text-green
         .js-memo-details{ style: "display: none;" }
           = f.text_area :memo, autofocus: true, 
-            class: 'form-control py-md-1 rounded bg-white box-shadow mb-1'
+            class: 'form-control py-md-1 rounded bg-white mb-1'
 
       .col-8.col-md-5.m-auto
         - if ["edit", "update"].include?(controller.action_name)
