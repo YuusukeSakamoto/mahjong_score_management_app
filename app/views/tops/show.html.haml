@@ -20,20 +20,20 @@
             %p.mb-0.fw-bold.text-main なにを記録しますか？
         .col-lg-10.text-center.text-white.px-5.mb-3.mx-auto.d-flex.flex-column.flex-md-row.align-items-center.justify-content-md-center
           = link_to new_player_path(play_type: 4), data: {"turbolinks" => false},
-            class: "col-10 col-md-3 main-btn--white-green mt-2 mt-md-0 mx-md-2 py-md-3" do
+            class: "col-12 col-md-3 main-btn--white-green mt-2 mt-md-0 mx-md-2 py-md-3" do
             .top-btn_text
               %span 四人麻雀
               %i.fa-solid.fa-user-pen
 
           = link_to new_player_path(play_type: 3), data: {"turbolinks" => false},
-            class: "col-10 col-md-3 main-btn--white-green mt-2 mt-md-0 mx-md-2 py-md-3" do
+            class: "col-12 col-md-3 main-btn--white-green mt-2 mt-md-0 mx-md-2 py-md-3" do
             .top-btn_text
               %span 三人麻雀
               %i.fa-solid.fa-user-pen
 
           - if @player.leagues_registered?
             = link_to leagues_path, 
-              class: "col-10 col-md-3 main-btn--white-green mt-2 mt-md-0 mx-md-2 py-md-3" do
+              class: "col-12 col-md-3 main-btn--white-green mt-2 mt-md-0 mx-md-2 py-md-3" do
               .btn_text
                 %span リーグ戦
                 %i.fa-solid.fa-trophy
@@ -51,7 +51,7 @@
           .d-flex.flex-column
             .home-text 麻雀は記録すれば
             .home-text もっと楽しくなる！
-        .col-7.col-md-4.col-lg-4.pt-3.mb-5.text-center
+        .col-8.col-md-4.col-lg-4.pt-3.mb-5.text-center
           = link_to 'アカウント登録', new_user_registration_path,
             class: "top-btn--green"
           = link_to 'ログイン', new_user_session_path,
@@ -143,7 +143,7 @@
         %h2.display-5.mt-5.fw-bold.text-white
           %span.d-block 麻雀は記録すれば
           %span.d-block.ps-1 もっと楽しくなる！
-        .col-7.col-md-4.col-lg-4.pt-3.mb-5.text-center.m-auto
+        .col-8.col-md-4.col-lg-4.pt-3.mb-5.text-center.m-auto
           = link_to 'アカウント登録', new_user_registration_path,
             class: "top-btn--green"
           = link_to 'ログイン', new_user_session_path,

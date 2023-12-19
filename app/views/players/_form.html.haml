@@ -1,13 +1,13 @@
 .row.d-flex.justify-content-center
-  .col-10.col-md-8.text-main
+  .col-10.col-md-8.text-main.px-0
     
-    .info.px-2.py-2.mb-1.mx-1.text-center
+    .info.py-2.mb-1.mx-1.text-center
       .d-flex.align-items-center.justify-content-center
-        %i.bx.bxs-info-circle.pe-2.text-pink{style: "padding-top: 1px;"}
+        %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
         - if @league.present?
           %p.mb-0.fw-bold リーグの参加プレイヤーを選択しましょう！
         - else
-          %p.mb-0.fw-bold まずはプレイヤーを選択・追加しましょう！
+          %p.mb-0.fw-bold プレイヤーを選択・追加しましょう！
     
     .selected_players
       %h5.border-green-left-table.fw-bold.mb-3
@@ -59,7 +59,7 @@
     .invite_users
       .d-flex.align-items-center
         %i.bx.bxs-down-arrow.text-green
-        %p.mb-0.ps-1.fw-bold 3. アカウント登録済みプレイヤーを参加させる
+        %p.mb-0.ps-1.fw-bold 3. アカウント登録済みプレイヤーを参加
       .process.mb-2
         %p.fs-sm.mb-0.ps-4 <手順>
         %p.fs-sm.mb-0.ps-4 1. 参加するプレイヤーは下記URLからログインする

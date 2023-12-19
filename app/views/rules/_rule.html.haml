@@ -2,17 +2,18 @@
   .d-flex.justify-content-center.align-items-center.text-main
     %i.fa-solid.fa-file-pen.pe-2
     %p.mb-0.fw-bold #{conversion_kanji_num(play_type)}人麻雀用ルール
-  .mt-3
+  .mt-3.px-0
     - if @sanyon_rules[play_type].blank?
       %p.text-main 登録されていません
     - else
       - @sanyon_rules[play_type].each do |rule| 
         .rule-card.mb-3
           .rule-card-body
-            .rule-card-top
-              %h5.rule-card-title= rule.name
+            .rule-card-edit
               = link_to  edit_player_rule_path(current_player, rule) do
                 %i.bx.bxs-edit-alt.text-main.ps-2
+            .rule-card-top
+              %h5.rule-card-title= rule.name
             .rule-card-body-detail
               .rule-card-body-left
                 .rule-card-text

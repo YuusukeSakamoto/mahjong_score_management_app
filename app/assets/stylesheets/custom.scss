@@ -35,7 +35,7 @@ td {
 // スマホレイアウト
 @include smartphone {
   body, a {
-    font-size: 0.8rem!important;
+    font-size: 0.9rem!important;
   }
 }
 
@@ -161,9 +161,10 @@ input:focus, textarea:focus, select:focus {
   color: $white!important;
   display: block;
   font-weight: bold;
-  max-width: 300px;
+  max-width: 280px;
   padding: 15px 40px;
   text-align: center;
+  margin: 0 auto;
   &--green {
     @extend .top-btn;
     background: $green;

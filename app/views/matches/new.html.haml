@@ -3,7 +3,7 @@
     .col-11.col-md-9.text-center.pb-2
       .page-title
         .d-flex.align-items-end.text-main
-          %h4.text-center.text-md-start.fw-bold.mb-0 対局成績登録
+          %h4.text-center.text-md-start.fw-bold.mb-0.text-nowrap 対局成績登録
           - if @league.present?
             %p.text-main.fw-bold.ps-2.mb-0="#{@league.name}"
           - else

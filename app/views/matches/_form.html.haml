@@ -57,17 +57,17 @@
             - if @match.results[i].ie.nil?
               = result.select :ie, 
                 Result::IE , { selected: i + 1 }, 
-                {class: 'form-control py-1 py-md-1 rounded bg-white box-shadow w-25 text-center'}    
+                {class: 'form-control px-0 py-1 py-md-1 rounded bg-white box-shadow w-25 text-center'}    
             - else
               = result.select :ie, 
                 Result::IE , { selected: @match.results[i].ie }, 
-                {class: 'form-control py-1 py-md-1 rounded bg-white box-shadow w-25 text-center'}    
+                {class: 'form-control px-0 py-1 py-md-1 rounded bg-white box-shadow w-25 text-center'}    
             %p.text-main.mb-0.mx-1.mx-md-2 家
-            
+
             = result.number_field :score, autofocus: true, step: "100",
               class: "form-control py-1 py-md-1 rounded bg-white box-shadow text-center"
             %p.text-main.mb-0.mx-1.mx-md-2 点
-            
+
             = result.number_field :point, autofocus: true, step: "0.1",
               class: 'form-control py-1 py-md-1 rounded box-shadow w-50 text-center'
             %p.text-main.mb-0.mx-1.mx-md-2 pt

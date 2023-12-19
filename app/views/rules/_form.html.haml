@@ -22,37 +22,37 @@
           = f.label :持ち, class: 'title-p text-main'
           %span.p_required 必須
           .d-flex.align-items-end
-            = f.text_field :mochi, autofocus: true, placeholder: "25000",
+            = f.number_field :mochi, autofocus: true, placeholder: "25000",
               class: 'form-control py-2 py-md-1 rounded bg-white box-shadow'
             %p.fw-bold.text-main.mb-0.mx-2 点 
-            
+
         .div-title.col-5.mb-2.mb-sm-3
           = f.label :返し, class: 'title-p text-main'
           %span.p_required 必須
           .d-flex.align-items-end
-            = f.text_field :kaeshi, autofocus: true, placeholder: "30000",
+            = f.number_field :kaeshi, autofocus: true, placeholder: "30000",
               class: 'form-control py-2 py-md-1 rounded bg-white box-shadow'
             %p.fw-bold.text-main.mb-0.mx-2 点 
-          
+
       .div-title.mb-2.mb-sm-3
         = f.label :'ウマ(pt)', class: 'title-p text-main'
         %span.p_required 必須
         .d-flex.justify-content-between.mb-1
           .div-title.px-1
             = f.label :'1位', class: 'fw-bold text-main mb-md-1'
-            = f.text_field :uma_one, autofocus: true, placeholder: "+20",
+            = f.number_field :uma_one, autofocus: true, placeholder: "+20",
               class: 'form-control py-md-1 rounded bg-white box-shadow'
           .div-title.px-1
             = f.label :'2位', class: 'fw-bold text-main  mb-md-1'
-            = f.text_field :uma_two, autofocus: true, placeholder: "+10",
+            = f.number_field :uma_two, autofocus: true, placeholder: "+10",
               class: 'form-control py-md-1 rounded bg-white box-shadow'
           .div-title.px-1
             = f.label :'3位', class: 'fw-bold  text-main mb-md-1'
-            = f.text_field :uma_three, autofocus: true, placeholder: "-10",
+            = f.number_field :uma_three, autofocus: true, placeholder: "-10",
               class: 'form-control py-md-1 rounded bg-white box-shadow'
           .div-title.px-1.js-uma_four
             = f.label :'4位', class: 'fw-bold  text-main mb-md-1'
-            = f.text_field :uma_four, autofocus: true, placeholder: "-20",
+            = f.number_field :uma_four, autofocus: true, placeholder: "-20",
               class: 'form-control py-md-1 rounded bg-white box-shadow'
 
       .div-title.mb-2.mb-sm-3
@@ -72,14 +72,14 @@
             [ ["なし", false],["あり", true] ], 
             {},
             {class: 'form-control py-md-1 rounded bg-white box-shadow'}
-  
+
         .div-title.col-6.mb-2.mb-sm-3.ps-3
           = f.label :'チップpt / 枚', class: 'title-p text-main mb-md-1'
           .d-flex.align-items-end
-            = f.text_field :chip_rate, autofocus: true, 
+            = f.number_field :chip_rate, autofocus: true, 
               class: 'form-control py-md-1 rounded bg-white box-shadow w-50'
-            %p.fw-bold.text-main.mb-0.mx-2 pt  
-            
+            %p.fw-bold.text-main.mb-0.mx-2 pt
+
       .div-title.mb-2.mb-sm-3
         = f.label :'ルール説明', class: 'title-p text-main mb-md-1'
         = f.text_area :description, autofocus: true, 
@@ -90,7 +90,7 @@
           .btn-text
             %i.fa-solid.fa-pen.pe-1.fw-bold
             %span #{action}
-            
+
     - if controller.action_name == "edit"
       - unless @is_match || @is_league
         .col-8.col-md-5.m-auto.mt-2.mb-3
@@ -100,7 +100,7 @@
             .btn-text
               %i.fa-regular.fa-trash-can.pe-1
               %span 削除
-          
+
       - else
         .col-8.col-md-5.m-auto.mt-2.mb-1
           = link_to "#", class: "main-btn--white-red mb-1", style: "opacity: 0.5; pointer-events: none;" do
