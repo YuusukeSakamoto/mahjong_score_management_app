@@ -6,7 +6,7 @@
           %h5.text-center.text-md-start.fw-bold.mb-0 FAQ
 
   .row
-    .col-10.col-md-8.m-auto.text-main
+    .col-10.col-md-8.m-auto.px-0.text-main
       #faq
         .faq-category
           %h5
@@ -16,23 +16,23 @@
             %li.faq-item
               .faq-question
                 .qa-flex
-                  %span Q. 
-                  .q-text 質問内容がここに入ります
+                  %span Q.
+                  .q-text 既に記録があるプレイヤーをアカウント登録できますか
                 %span.fa.fa-chevron-down
               .faq-answer
                 .qa-flex
                   %span A.
-                  .a-text 回答内容がここに入ります
+                  .a-text 「その他」→「アカウント招待」より登録したいプレイヤーを招待してください
 
         .faq-category
-          %h5 
+          %h5
             %i.fa-solid.fa-circle-question.fs-sm
             プレイヤー
           %ul.faq-list
             %li.faq-item
               .faq-question
                 .qa-flex
-                  %span Q. 
+                  %span Q.
                   .q-text 同じプレイヤー名で登録しても良いですか
                 %span.fa.fa-chevron-down
               .faq-answer
@@ -54,24 +54,33 @@
         .faq-category
           %h5 
             %i.fa-solid.fa-circle-question.fs-sm
-            対局成績の記録
+            対局成績
           %ul.faq-list
             %li.faq-item
               .faq-question
                 .qa-flex
-                  %span Q. 
+                  %span Q.
                   .q-text 得点が同点の場合、ポイント(pt)はどう計算されますか
                 %span.fa.fa-chevron-down
               .faq-answer
                 .qa-flex
                   %span A.
-                  .a-text 入力されている「家」に応じて順位点が付与されポイントが表示されます。
-
+                  .a-text 入力されている「家」に応じて順位点が付与されポイントが計算されます。
             %li.faq-item
               .faq-question
                 .qa-flex
-                  %span Q. 
-                  .q-text 成績の編集・削除の権限について
+                  %span Q.
+                  .q-text 飛び賞は計算されますか
+                %span.fa.fa-chevron-down
+              .faq-answer
+                .qa-flex
+                  %span A.
+                  .a-text 計算されません。ptを手動で入力してください。
+            %li.faq-item
+              .faq-question
+                .qa-flex
+                  %span Q.
+                  .q-text 成績の編集・削除はどのプレイヤーができますか
                 %span.fa.fa-chevron-down
               .faq-answer
                 .qa-flex
@@ -79,7 +88,7 @@
                   .a-text 成績を編集・削除できるのは記録者のみです。
 
         .faq-category
-          %h5 
+          %h5
             %i.fa-solid.fa-circle-question.fs-sm
             リーグ戦
           %ul.faq-list
