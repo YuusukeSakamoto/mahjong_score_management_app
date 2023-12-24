@@ -7,14 +7,14 @@
 
 // タブレットレイアウト
 @mixin tablet {
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
     @content;
   }
 }
 
 // デスクトップレイアウト
 @mixin desktop {
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     @content;
   }
 }
