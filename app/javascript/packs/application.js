@@ -21,6 +21,7 @@ require("switch_play_type.js")
 require("league.js")
 require("match_group.js")
 require("slide.js")
+require("player_results.js")
 
 Rails.start()
 Turbolinks.start()

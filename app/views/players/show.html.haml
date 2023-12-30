@@ -6,15 +6,17 @@
       -#     = image_tag 'default_icon.png', alt: 'プレイヤー画像', class: 'rounded-circle'
       -#   - else
       -#     = image_tag "#{@player.user.avatar}", alt: 'ユーザー画像', class: 'rounded-circle'
-      %h5.mt-1.mb-2.text-main.fw-bold= "#{@player.name}"
-      .mb-3.m-auto
+      .d-flex.justify-content-center.align-items-end.mb-2
+        %h3.text-center.fw-bold.mb-0= @player.name
         - if @player.user == current_user
           = link_to edit_user_registration_path,
-            class: "main-btn--white-green-sm p-1 m-auto d-inline-block" do
-            .btn-text.fs-sm
-              %i.fa-solid.fa-pen
-              %span 編集
-    .yonma_results.mb-3.text-main
+            class: "" do
+            %i.bx.bxs-edit-alt.text-main.ps-2
+    #toggle-buttons
+      %button.mb-2#toggle-to-four-player{ type: "button", class: "active" } 四人麻雀
+      %button.mb-2#toggle-to-three-player{ type: "button" } 三人麻雀
+
+    #result-4.yonma_results.mb-3.text-main
       = render partial: 'result', locals: { play_type: 4 }
-    .sanma_results.mb-3.text-main
+    #result-3.sanma_results.mb-3.text-main
       = render partial: 'result', locals: { play_type: 3 }

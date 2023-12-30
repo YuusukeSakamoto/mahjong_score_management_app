@@ -3,6 +3,8 @@
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
 @import 'variable';
+@import 'mixin';
+
 // ===============================
 // プレイヤー詳細画面
 // ===============================
@@ -19,6 +21,40 @@
   }
   &-time {
     width: 30%;
+  }
+}
+
+// 総対局数・総合pt・平均順位・連対率
+.main-results {
+  &__line {
+    position: relative;
+  }
+  &__item{
+    @include tablet {
+      position: absolute;
+    }
+
+    &-1, &-3 {
+      @extend .main-results__item;
+      @include tablet {
+        left: 20%;
+      }
+      @include smartphone {
+        left: 15%;
+      }
+    }
+    &-2, &-4 {
+      @extend .main-results__item;
+      @include tablet {
+        left: 50%;
+      }
+    }
+  }
+  &__hide {
+    opacity: 0;
+    @include desktop {
+      display: none;
+    }
   }
 }
 

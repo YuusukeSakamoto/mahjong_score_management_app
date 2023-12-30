@@ -126,9 +126,8 @@
   margin-bottom: 1rem;
 }
 
-#toggle-to-four-m, #toggle-to-three-m,
-#toggle-to-four-mg, #toggle-to-three-mg {
-  border: 2px solid $orange-2; // 枠線の色はお好みで
+#toggle-to-four, #toggle-to-three {
+  border: 2px solid;
   background-color: white; // ボタンの背景色
   color: $gray; // テキスト色
   padding: 10px 20px;
@@ -137,15 +136,28 @@
   display: inline-block;
   margin: 4px 2px;
   cursor: pointer;
-  border-radius: 20px; // 楕円形のためのボーダー半径
+  border-radius: 20px;
   font-size: 0.7em;
   font-weight: bold;
   letter-spacing: 0.1em;
   box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 2px;
+  &-m, &-mg, &-player {
+    @extend #toggle-to-four;
+    border-color: $orange-2;
+  }
+  &-top {
+    @extend #toggle-to-four;
+    border-color: $green-2;
+  }
 }
 
-#toggle-to-four-m.active, #toggle-to-three-m.active,
-#toggle-to-four-mg.active, #toggle-to-three-mg.active {
-  background-color: $orange-2; // アクティブなボタンの背景色
-  color: white; // アクティブなボタンのテキスト色
+#toggle-to-four, #toggle-to-three {
+  &-m.active, &-mg.active, &-player.active {
+    color: white; // アクティブなボタンのテキスト色
+    background-color: $orange-2;
+  }
+  &-top.active {
+    color: white; // アクティブなボタンのテキスト色
+    background-color: $green;
+  }
 }
