@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  require 'letter_opener_web'
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
