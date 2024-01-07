@@ -118,5 +118,7 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  config.hosts << 'janreco.com' # 本番環境のホスト名
+  # Rails.application.config.hosts << 'janreco.com' # 本番環境のホスト名
+  Rails.application.config.hosts << "mahjong-score-management-app.onrender.com"
+
 end
