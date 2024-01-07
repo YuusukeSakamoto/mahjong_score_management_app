@@ -12,7 +12,6 @@ $(document).on('turbolinks:load', function () {
 // <leagueフォーム> ルール新規登録ボタンをクリックしたら入力されているリーグ名をセッションへ格納
 $(document).on('click', '#rule_link', function() {
   var leagueName = document.querySelector('#league_name').value;
-  console.log(leagueName);
   window.sessionStorage.setItem(['league_name'],[leagueName]);
 });
 
