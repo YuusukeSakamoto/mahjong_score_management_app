@@ -2,6 +2,7 @@
 
 class ImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
+  include CarrierWave::MiniMagick # store_dirの下に画像を保存するため
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
 
@@ -12,7 +13,11 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    if model.present?
+      "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    else
+      'uploads/content_image/' # モデルがない場合はこちらに保存
+    end
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
