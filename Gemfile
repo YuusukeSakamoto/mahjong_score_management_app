@@ -24,7 +24,7 @@ gem 'pry-rails'
 gem 'rails-i18n' # errorメッセージ日本語化
 
 # Front
-gem 'font-awesome-sass'
+gem 'font-awesome-sass', '~> 5.15.1'
 gem 'haml-rails'
 
 # ユーザー認証
