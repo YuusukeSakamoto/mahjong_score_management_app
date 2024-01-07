@@ -33,6 +33,8 @@ gem 'devise-i18n'
 
 # Image uploader
 gem 'carrierwave', '~> 2.0'
+# S3へのアップロード
+gem 'fog-aws'
 
 # jsでrailsで定義した処理を使用
 gem 'gon'
