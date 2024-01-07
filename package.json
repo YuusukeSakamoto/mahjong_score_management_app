@@ -24,6 +24,6 @@
     "webpack-dev-server": "^3"
   },
   "resolutions": {
-    "rails_admin/@fortawesome/fontawesome-free": "^5.15.0"
+    "@fortawesome/fontawesome-free": "git+https://github.com/mshibuya/Font-Awesome#postcss-workaround"
   }
 }
