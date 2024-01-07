@@ -47,7 +47,7 @@ gem 'rails_admin'
 gem 'enum_help'
 
 # 環境変数
-gem 'dotenv-rails'
+gem 'dotenv-rails', groups: [:development, :test]
 
 group :development, :test do
   gem 'byebug', '11.1.3'
