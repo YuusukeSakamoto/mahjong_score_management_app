@@ -118,7 +118,7 @@
                     %ul
                       %li.child= link_to 'アカウント招待', '#'
                       %li.child= link_to '問い合わせ', '#'
-                      %li.child= link_to 'FAQ', "#"
+                      %li.child= link_to 'FAQ', questions_path
               // ≦ 768px
               #hamburger_menu.d-md-none
                 .openbtn.d-md-none
@@ -131,3 +131,4 @@
                       %li= link_to 'HOME', root_path
                       %li= link_to 'アカウント登録', new_user_registration_path
                       %li= link_to 'ログイン', new_user_session_path
+                      %li= link_to 'FAQ', questions_path
