@@ -98,21 +98,31 @@ class League < ApplicationRecord
   # グラフのx軸ラベルを返す
   def graph_label
     mgs = match_groups
-    days = matches.pluck(:match_on)
+    x_label = []
     if rule_is_tip?
-      mgs.each do |mg|
-        tip_day = mg.matches.last.match_on
-        idx = days.rindex { |day| day == tip_day }
-        days.insert(idx, tip_day) # match_group分だけ対局日を追加する(チップpt分レコードが増えるため)
+      x_label = (1..(matches.count + mgs.count)).to_a #チップ有ルールの場合、チップ分ラベルを追加する
+    else
+      x_label = (1..(matches.count)).to_a
+    end
+
+    if x_label.count >= 20
+      x_label.map! do |x|
+        if x % 5 == 0
+          x  # 5の倍数の場合、そのまま
+        else
+          ''  # それ以外の場合、空文字列
+        end
+      end
+    elsif x_label.count >= 50
+      x_label.map! do |x|
+        if x % 10 == 0
+          x  # 10の倍数の場合、そのまま
+        else
+          ''  # それ以外の場合、空文字列
+        end
       end
     end
-    days.unshift('') # グラフの最初のデータは0ptのため、''を先頭に追加する
-    # 同じ日が複数ある場合は最初の日付だけグラフ上に出力するよう配列を編集
-    days.map.with_index do |day, i|
-      next day if i.zero?
-
-      day == days[i - 1] ? '' : day.to_date.to_s(:date)
-    end
+    x_label.unshift('') # グラフの最初のデータは0ptのため、''を先頭に追加する
   end
 
   # プレイヤー分の成績推移グラフ用のデータを取得する
@@ -132,10 +142,10 @@ class League < ApplicationRecord
           # 対局pt → チップptの順番に配列に格納する
           mg_match_ids = mg.matches.pluck(:id)
           match_tip_pt = Result.where(player_id: l_player.player_id)
-                               .where(match_id: mg_match_ids)
-                               .pluck(:point)
+                                .where(match_id: mg_match_ids)
+                                .pluck(:point)
           match_tip_pt << ChipResult.find_by(player_id: l_player.player_id,
-                                             match_group_id: mg.id).point # 該当プレイヤーのチップptを取得
+                                              match_group_id: mg.id).point # 該当プレイヤーのチップptを取得
           points.concat(match_tip_pt) # 配列の各要素を整数として配列に追加する
         end
       else
