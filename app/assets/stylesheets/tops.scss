@@ -38,14 +38,18 @@
   background-image: url('https://janreco-s3.s3.ap-northeast-1.amazonaws.com/bg-image.jpg');
   /* 背景画像のサイズを調整する場合 */
   background-size: cover;
-  /* 背景画像を中央に配置する場合 */
-  background-position: center center;
   /* 背景画像を固定する場合（スクロールしても背景が動かない） */
   background-attachment: fixed;
   /* 背景画像を繰り返し表示しない場合 */
   background-repeat: no-repeat;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   position: relative;
+
+  @include smartphone {
+    background-image: url('https://janreco-s3.s3.ap-northeast-1.amazonaws.com/bg-image-sp.jpg');
+    background-size: 100% auto;
+      background-attachment: scroll;
+    }
 
   &::before {
     content: "";
@@ -239,4 +243,10 @@
 
 .step-title {
   font-weight: bold;
+}
+
+#home-end {
+  .home-end-text {
+    text-shadow: 0px 5px 15px rgba(0, 0, 0, 0.80);
+  }
 }
