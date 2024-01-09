@@ -3,9 +3,10 @@
     .col-11.col-md-7.text-center.pb-2.mt-4
       .d-flex.justify-content-center.align-items-end.mb-2
         %h2.text-center.fw-bold.mb-0= @league.name
-        = link_to  edit_league_path(league: @league.id),
-          class: "" do
-          %i.bx.bxs-edit-alt.text-main.ps-2
+        - if @league.player_id == current_player.id
+          = link_to  edit_league_path(league: @league.id),
+            class: "" do
+            %i.bx.bxs-edit-alt.text-main.ps-2
       - if @l_matches.present?
         %p.text-main.fs-sm.mb-0 #{@league.first_record_day} ~ #{@league.last_record_day}
       %p.text-main.fs-sm.mb-0= @league.rule.name
