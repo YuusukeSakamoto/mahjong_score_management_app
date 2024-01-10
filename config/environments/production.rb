@@ -121,4 +121,5 @@ Rails.application.configure do
 
   Rails.application.config.hosts << 'mahjong-score-management-app.onrender.com' # 本番環境のホスト名
 
+  Rails.application.routes.default_url_options[:host] = 'mahjong-score-management-app.onrender.com' # デフォルトURL
 end
