@@ -7,7 +7,7 @@
   .row
     .col-12.pb-2.text-main
       = form_with(model: @contact, local: true) do |f|
-        .col-8.mx-auto
+        .col-11.mx-auto
           = render 'layouts/validation_error', instance: @contact
           .d-flex.flex-column.mb-2
             .contact-label.mb-1
