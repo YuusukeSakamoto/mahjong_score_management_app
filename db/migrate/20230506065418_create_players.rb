@@ -5,7 +5,6 @@ class CreatePlayers < ActiveRecord::Migration[6.1]
       t.references :user
       t.string :invite_token, index: { unique: true }
       t.datetime :invite_create_at
-      t.boolean :deleted, default: false, null: false
       t.timestamps
     end
   end
