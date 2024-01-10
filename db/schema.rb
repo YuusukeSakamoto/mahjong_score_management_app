@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_12_12_150724) do
+ActiveRecord::Schema.define(version: 2024_01_10_124732) do
 
   create_table "chip_results", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "match_group_id", null: false
@@ -60,11 +60,11 @@ ActiveRecord::Schema.define(version: 2023_12_12_150724) do
   end
 
   create_table "match_groups", charset: "utf8mb4", force: :cascade do |t|
-    t.bigint "rule_id", null: false
+    t.integer "play_type", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "rule_id", null: false
     t.bigint "league_id"
-    t.integer "play_type"
     t.index ["league_id"], name: "index_match_groups_on_league_id"
     t.index ["rule_id"], name: "index_match_groups_on_rule_id"
   end
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 2023_12_12_150724) do
     t.datetime "invite_create_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "deleted", default: false
+    t.boolean "deleted", default: false, null: false
     t.index ["invite_token"], name: "index_players_on_invite_token", unique: true
     t.index ["user_id"], name: "index_players_on_user_id"
   end
