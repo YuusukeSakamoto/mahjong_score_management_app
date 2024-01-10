@@ -71,7 +71,8 @@ class Player < ApplicationRecord
 
   # playerの総合ptを取得する
   def total_point(play_type)
-    format('%+.1f', results_for_matches(play_type).sum(:point))
+    total = results_for_matches(play_type).sum(:point)
+    total.zero? ? format('%.1f', total) : format('%+.1f', total)
   end
 
   # playerの平均順位を取得する
