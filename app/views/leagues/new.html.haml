@@ -1,12 +1,26 @@
 .container
   .row.justify-content-center
     .col-11.col-md-9.text-center.pb-2
-      .page-title
-        .d-flex.align-items-end.text-main
-          %h4.text-center.text-md-start.fw-bold.mb-0 リーグ作成
+      .page-title.d-flex.justfy-content-between.align-items-end.text-main
+        %h4.text-center.text-md-start.fw-bold.mb-0 リーグ作成
+        #modal-icon-league.d-flex.align-items-center.fs-sm
+          %i.fa-regular.fa-circle-question.text-gray{data: {toggle: "modal", target: "#modal-icon-league"}}
+          %span リーグ戦について
     .col-10.col-md-8
       .info.px-2.py-2.mb-1.mx-1.text-center.fs-sm.text-main
         .d-flex.align-items-center.justify-content-center
           %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
           %p.mb-0.fw-bold リーグ基本情報を登録してください
   = render 'form', action: '作成'
+  -# モーダル
+  .row.justify-content-center
+    #league-modal.modal.fade
+      .modal-dialog
+        .modal-content
+          .modal-header
+            %h5.modal-title.fw-bold リーグ戦とは
+          .modal-body
+            %p 同じプレイヤーとの対局を記録し、順位表や各プレイヤーの成績推移を楽しむことができる機能です。
+            = image_tag 'league_modal.jpeg'
+          .modal-footer
+            %button.btn.btn-secondary{"data-bs-dismiss" => "modal", type: "button"} 閉じる
