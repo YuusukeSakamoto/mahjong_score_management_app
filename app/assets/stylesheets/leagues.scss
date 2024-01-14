@@ -25,15 +25,25 @@
     }
     &-date{
       width: 10%;
-    } 
+    }
     &-players{
       width: 74%;
       &-name {
         width: 18%;
       }
-    }  
+    }
     &-icon{
       width: 8%;
-    }  
+    }
+  }
+}
+
+// ===============================
+// リーグ作成画面
+// ===============================
+#modal-icon-league {
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
   }
 }

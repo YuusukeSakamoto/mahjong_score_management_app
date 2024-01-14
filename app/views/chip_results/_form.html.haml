@@ -3,17 +3,17 @@
     .info.mb-3.mx-2.fs-sm.text-main.text-center
       .info-content.text-center
         %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
-        %span.mb-0.fw-bold 獲得したチップ枚数を入力してください(#{@rule.chip_rate}pt / 枚)
-    
+        %span.mb-0.fw-bold 増減したチップ枚数を入力してください(#{@rule.chip_rate}pt / 枚)
+
     = form_with model: @form, url: match_group_chip_results_path ,method: :patch, local: true do |form|
       = render 'layouts/validation_error', instance: @form
       = form.hidden_field :rule_id, value: @match_group.rule_id
       - i = 0
       = form.fields_for :chip_results do |f|
         .d-flex.justify-content-center.align-items-center.mb-2
-          %p.fw-bold.text-main.text-center.mb-0.w-50
+          %p.col-6.fw-bold.text-main.text-center.mb-0.mx-1
             = @players[i]["name"]
-          .d-flex.align-items-end.w-25
+          .d-flex.align-items-end.col-4
             = f.number_field :number, autofocus: true,
               class: 'form-control py-md-1 rounded bg-white'
             %span.text-main.mb-0.mx-1.mx-md-2 枚
