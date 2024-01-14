@@ -30,18 +30,16 @@
       .col-10.col-md-5.pe-md-3.px-md-3
         .d-flex.justify-content-between.align-items-center.mb-2
           %p.border-green-left.fw-bold.py-1.ps-2.mb-0 直近の対局
-        %table.table.text-center.text-main
+        %table#last_matches_table.table.text-center.text-main
           - @player.get_sanyon_matches(play_type).each do |match|
-            %tr
+            %tr{data: { href: match_path(match) }}
               %td.p-025.px-0= match.match_on.to_s(:date)
               - if match.current_player_point(current_player.id) >= 0
                 %td.p-025.text-plus= sprintf("%+.1f", match.current_player_point(current_player.id))
               - else
                 %td.p-025.text-minus= sprintf("%+.1f", match.current_player_point(current_player.id))
               %td.p-025
-                = link_to match_path(match),
-                  class: "m-auto" do
-                  %i.bx.bx-chevrons-right.bx-size.text-main
+                %i.bx.bx-chevrons-right.bx-size.text-main.m-auto{ style: "padding-top: 5px;"}
           - if @player.get_sanyon_matches(play_type).blank?
             %p.mt-4.text-main.text-center= "対局成績なし"
 
