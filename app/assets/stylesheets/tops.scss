@@ -255,7 +255,10 @@
 //  成績サマリー
 // *****************************
 #last_matches_table {
-  td {
+  tr {
     cursor: pointer;
+    &:hover {
+      background-color: $green-5;
+    }
   }
 }
