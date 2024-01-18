@@ -1,15 +1,21 @@
 # frozen_string_literal: true
 
 class ChipResultsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:update]
   before_action :set_match_group, :set_rule, only: %i[edit update]
 
   def edit
-    unless @match_group.players.include?(current_player)
-      redirect_to(root_path,
-                  alert: FlashMessages::EDIT_DENIED) && return
+    if params[:tk] && !user_signed_in? #トークン有かつログオフ状態の場合
+      share_link_valid?
+    else
+      redirect_to(user_session_path,
+                  alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
+      unless @match_group.players.include?(current_player)
+        redirect_to(root_path,
+                    alert: FlashMessages::EDIT_DENIED) && return
+      end
+      redirect_to(root_path, alert: FlashMessages::CHIP_EDIT_DENIED) && return unless @match_group.rule.is_chip
     end
-    redirect_to(root_path, alert: FlashMessages::CHIP_EDIT_DENIED) && return unless @match_group.rule.is_chip
 
     @players = @match_group.players
     mg_chip_results = @match_group.chip_results.select(:match_group_id, :player_id, :number)
@@ -60,4 +66,15 @@ class ChipResultsController < ApplicationController
   def calculate_point(chip_result)
     chip_result.number * @rule.chip_rate
   end
+
+  # 参照トークンが有効か判定する
+  def share_link_valid?
+    @share_link = ShareLink.find_by(token: params[:tk], resource_id: @match_group.id)
+    if @share_link
+      true
+    else
+      redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
+    end
+  end
+
 end

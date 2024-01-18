@@ -2,7 +2,7 @@
 
 class MatchGroupsController < ApplicationController
   before_action :set_match_group, only: %i[show destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show]
 
   # 記録したor記録された成績表一覧を表示する
   def index
@@ -14,10 +14,17 @@ class MatchGroupsController < ApplicationController
   end
 
   def show
-    # match_groupのmatchにcurrent_playerが含まれていない場合、アクセス不可
-    unless @match_group.players.include?(current_player)
-      redirect_to(root_path,
-                  alert: FlashMessages::ACCESS_DENIED) && return
+    if params[:tk] && !user_signed_in? #トーク有かつログオフ状態の場合
+      share_link_valid?
+    else
+      redirect_to(user_session_path,
+                  alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
+      unless @match_group.players.include?(current_player) # match_groupにcurrent_playerが含まれていない場合、アクセス不可
+        redirect_to(root_path,
+                    alert: FlashMessages::ACCESS_DENIED) && return
+      end
+      @share_link = ShareLink.find_by(user_id: current_user.id, resource_id: params[:id], resource_type: 1)
+      @share_link.generate_reference_url
     end
 
     if params[:fix] == 'true' # 対局成績を確定ボタンから遷移した場合
@@ -43,8 +50,26 @@ class MatchGroupsController < ApplicationController
 
   private
 
+  # showアクション用の認証ユーザー検証
+  def authenticate_user_for_show
+    redirect_to(user_session_path, alert: FlashMessages::UNAUTHENTICATED) && return unless current_user
+  end
+
   def set_match_group
     @match_group = MatchGroup.find_by(id: params[:id])
     redirect_to(root_path, alert: FlashMessages::ACCESS_DENIED) && return unless @match_group
   end
+
+  # トークンが有効か判定する
+  def share_link_valid?
+    @share_link = ShareLink.find_by(token: params[:tk], resource_id: params[:id])
+    return true if share_link_valid_for_resource?(params[:id])
+    redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
+  end
+
+  # match_groupの適切なtokenか判定
+  def share_link_valid_for_resource?(resource_id)
+    @share_link && @share_link.match_group? && @share_link.resource_id.to_s == resource_id
+  end
+
 end

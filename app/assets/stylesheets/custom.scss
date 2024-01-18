@@ -116,7 +116,7 @@ input:focus, textarea:focus, select:focus {
   &--white {
     @extend .main-btn;
     background-color: $white;
-    &-orange { 
+    &-orange {
       @extend .main-btn--white;
       border: 2px solid $orange;
       color: $orange-2!important;
@@ -140,6 +140,11 @@ input:focus, textarea:focus, select:focus {
       @extend .main-btn--white;
       border: 2px solid $red;
       color: $red!important;
+    }
+    &-gray {
+      @extend .main-btn--white;
+      border: 2px solid $gray;
+      color: $gray!important;
     }
   }
   &--red {
@@ -425,7 +430,6 @@ input:focus, textarea:focus, select:focus {
   &-warning {
     color: $warning;
   }
-  
 }
 
 // ===============================
@@ -520,4 +524,21 @@ input:focus, textarea:focus, select:focus {
 .modal-body img {
   width: 100%;
   height: auto;
+}
+
+// ===============================
+// 共有リンク
+// ===============================
+#share-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  :hover {
+    opacity: 0.8;
+  }
+
+  span {
+    padding-left: 5px;
+  }
 }

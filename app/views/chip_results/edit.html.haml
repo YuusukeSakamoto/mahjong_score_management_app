@@ -3,5 +3,11 @@
     .col-11.col-md-9.text-center.pb-2
       .page-title
         .d-flex.align-items-end.text-main
-          %h4.text-center.text-md-start.fw-bold.mb-0 チップ集計
-  = render 'form', action: '登録'
+          - if user_signed_in?
+            %h4.text-center.text-md-start.fw-bold.mb-0 チップ集計
+          - else
+            %h4.text-center.text-md-start.fw-bold.mb-0 チップ結果
+  - if user_signed_in?
+    = render 'form', action: '登録'
+  - else
+    = render 'show'

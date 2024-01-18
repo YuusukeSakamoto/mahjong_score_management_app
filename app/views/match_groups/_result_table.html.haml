@@ -40,18 +40,34 @@
             - each_points.zip(@matches).each.with_index(0) do |(points, match), i|
               %tr
                 - if @match_group.chip_record?(i)
-                  %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id) }}
-                    %i.bx.bxs-coin.bx-size.text-main
+                  - if user_signed_in?
+                    %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id) }}
+                      %i.bx.bxs-coin.bx-size.text-main
+                  - else
+                    %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id, tk: @share_link.token) }}
+                      %i.bx.bxs-coin.bx-size.text-main
                 - else
-                  %td{scope: "row", data: { href: match_path(match) }}
-                    = i + 1
+                  - if user_signed_in?
+                    %td{scope: "row", data: { href: match_path(match) }}
+                      = i + 1
+                  - else
+                    %td{scope: "row", data: { href: match_path(match, tk: @share_link.token) }}
+                      = i + 1
                 - points.each do |point|
                   - if @match_group.chip_record?(i)
-                    %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id) }}
-                      = show_pt(point, @match_group.rule_id)
+                    - if user_signed_in?
+                      %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id) }}
+                        = show_pt(point, @match_group.rule_id)
+                    - else
+                      %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id, tk: @share_link.token) }}
+                        = show_pt(point, @match_group.rule_id)
                   - else
-                    %td{scope: "row", data: { href: match_path(match) }}
-                      = show_pt(point, @match_group.rule_id)
+                    - if user_signed_in?
+                      %td{scope: "row", data: { href: match_path(match) }}
+                        = show_pt(point, @match_group.rule_id)
+                    - else
+                      %td{scope: "row", data: { href: match_path(match, tk: @share_link.token) }}
+                        = show_pt(point, @match_group.rule_id)
                 - if @match_group.created_by?(current_player)
                   %td.p-0
                     - if @match_group.chip_record?(i)
@@ -90,7 +106,7 @@
           .btn-text
             %i.fa-regular.fa-circle-check.pe-1
             %span 記録終了する
-      .d-flex.justify-content-center.align-items-center
+      .d-flex.justify-content-center.align-items-center.mb-2
         %i.fa-solid.fa-circle-info.text-pink.fs-sm.pe-1
         %p.fs-sm.text-main.fw-bold.mb-0.text-nowrap この成績表には新たに成績を追加できなくなります
 - else

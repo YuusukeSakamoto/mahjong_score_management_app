@@ -45,6 +45,7 @@ class MatchGroup < ApplicationRecord
 
   # 作成者かどうか
   def created_by?(current_player)
+    return false unless current_player
     matches.first.player_id == current_player.id
   end
 

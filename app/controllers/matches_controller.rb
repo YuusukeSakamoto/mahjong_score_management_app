@@ -2,7 +2,7 @@
 
 class MatchesController < ApplicationController
   before_action :set_match, only: %i[show edit update destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show]
 
   attr_accessor :mg
 
@@ -33,10 +33,16 @@ class MatchesController < ApplicationController
   end
 
   def show
-    # matchにcurrent_playerが含まれていない場合、アクセス不可
-    unless @match.results.pluck(:player_id).include?(current_player.id)
-      redirect_to(root_path,
-                  alert: FlashMessages::ACCESS_DENIED) && return
+    if params[:tk] && !user_signed_in? #トークン有かつログオフ状態の場合
+      share_link_valid?
+    else
+      redirect_to(user_session_path,
+                  alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
+      # matchにcurrent_playerが含まれていない場合、アクセス不可
+      unless @match.results.pluck(:player_id).include?(current_player.id)
+        redirect_to(root_path,
+                    alert: FlashMessages::ACCESS_DENIED) && return
+      end
     end
 
     @match_group = MatchGroup.find_by(id: @match.match_group_id)
@@ -44,6 +50,12 @@ class MatchesController < ApplicationController
     @rule = Rule.find_by(id: @match_group.rule_id)
     @create_day = @match_group.matches.last.created_at.to_date.to_s(:yeardate)
     session[:previous_url] = request.referer unless request.referer.include?(edit_match_path)
+
+    #トークン無かつログイン状態の場合、match_groupに紐づく共有リンクが未作成であれば作成する
+    if params[:tk].nil? && user_signed_in?
+      @share_link = ShareLink.find_or_create(current_user, @match_group.id, 1)
+      @share_link.generate_reference_url
+    end
   end
 
   def create
@@ -81,9 +93,7 @@ class MatchesController < ApplicationController
 
   def destroy
     redirect_to(root_path, alert: FlashMessages::DESTROY_DENIED) && return unless current_player == @match.player
-
     redirect_to(root_path, alert: FlashMessages::CANNOT_DESTROY) && return unless @match.destroy
-
     get_redirect_to(@match)
   end
 
@@ -159,7 +169,13 @@ class MatchesController < ApplicationController
     session_players_num.times { @match.results.build }
     gon_setter('new')
   end
-
+  # ***************** 参照リンク関連 ************************ #
+  # 参照トークンが有効か判定する
+  def share_link_valid?
+    @share_link = ShareLink.find_by(token: params[:tk], resource_id: @match.match_group_id)
+    return true if @share_link
+    redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
+  end
   # ***************** destroyアクション ************************ #
 
   # リダイレクト先を判定する
