@@ -132,7 +132,7 @@ ActiveRecord::Schema.define(version: 2024_01_14_032941) do
   create_table "share_links", charset: "utf8mb4", force: :cascade do |t|
     t.string "token", null: false
     t.bigint "user_id"
-    t.integer "resource_type", null: false
+    t.string "resource_type", null: false
     t.integer "resource_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
