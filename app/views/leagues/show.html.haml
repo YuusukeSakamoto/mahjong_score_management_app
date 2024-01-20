@@ -3,22 +3,32 @@
     .col-11.col-md-7.text-center.pb-2.mt-4
       .d-flex.justify-content-center.align-items-end.mb-2
         %h2.text-center.fw-bold.mb-0= @league.name
-        - if @league.player_id == current_player.id
-          = link_to  edit_league_path(league: @league.id),
-            class: "" do
-            %i.bx.bxs-edit-alt.text-main.ps-2
+        - if user_signed_in?
+          - if @league.player_id == current_player.id
+            = link_to  edit_league_path(league: @league.id),
+              class: "" do
+              %i.bx.bxs-edit-alt.text-main.ps-2
       - if @l_matches.present?
         %p.text-main.fs-sm.mb-0 #{@league.first_record_day} ~ #{@league.last_record_day}
       %p.text-main.fs-sm.mb-0= @league.rule.name
       %p.text-main.fs-sm.mb-0= "対局数 : #{@league.match_count}"
       %p.text-main.fs-sm.mb-0= @league.description
       .d-flex.justify-content-center.mt-1
-        - if @league.player_id == current_player.id
-          = link_to new_match_path(league: @league.id),
-            class: "main-btn--white-orange-sm px-1 py-0 m-auto" do
-            .btn-text
-              %i.fa-solid.fa-pen
-              %span 記録
+        - if user_signed_in?
+          - if @league.player_id == current_player.id
+            = link_to new_match_path(league: @league.id),
+              class: "main-btn--white-orange-sm mx-1 py-0" do
+              .btn-text
+                %i.fa-solid.fa-pen
+                %span 記録
+          #share-link.main-btn--white-lightgray-sm.mx-1.py-0{ data: { url: @share_link.url }, style: "padding: 0px 5px 0px 5px"  }
+            %i.share-link.fa-solid.fa-link
+            %span.share-link{style: "padding-left: 3px;"}  共有
+        - else
+          = button_to request.path, method: :get, params: { tk: @share_link.token},
+            class: "main-btn--white-orange-sm px-1 py-0 m-auto", id: "update_btn" do
+            %i.bx.bx-revision.text-orange.fw-bold{style: "padding-top: 0px;"}
+            更新
 
   .row
     .col-md-10.m-auto
@@ -83,10 +93,11 @@
 
       -if @l_matches.blank?
         %p.text-center.text-main.fs-sm 対局成績なし
-  - if @league.player_id == current_player.id
-    .col-8.col-md-5.m-auto.my-2
-      = link_to new_match_path(league: @league.id),
-        class: "main-btn--orange w-100" do
-        .btn-text
-          %i.fa-solid.fa-pen.pe-1.fw-bold
-          %span リーグ戦を記録する
+  - if user_signed_in?
+    - if @league.player_id == current_player.id
+      .col-8.col-md-5.m-auto.my-2
+        = link_to new_match_path(league: @league.id),
+          class: "main-btn--orange w-100" do
+          .btn-text
+            %i.fa-solid.fa-pen.pe-1.fw-bold
+            %span リーグ戦を記録する

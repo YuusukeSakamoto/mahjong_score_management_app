@@ -24,7 +24,7 @@ class MatchGroupsController < ApplicationController
                     alert: FlashMessages::ACCESS_DENIED) && return
       end
       @share_link = ShareLink.find_or_create(current_user, params[:id].to_i, 'MatchGroup')
-      @share_link.generate_reference_url
+      @share_link.generate_reference_url('MatchGroup')
     end
 
     if params[:fix] == 'true' # 対局成績を確定ボタンから遷移した場合
@@ -63,13 +63,13 @@ class MatchGroupsController < ApplicationController
   # トークンが有効か判定する
   def share_link_valid?
     @share_link = ShareLink.find_by(token: params[:tk], resource_id: params[:id])
-    return true if share_link_valid_for_resource?(params[:id])
+    return true if share_link_valid_for_resource?(params[:id].to_i)
     redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
   end
 
   # match_groupの適切なtokenか判定
   def share_link_valid_for_resource?(resource_id)
-    @share_link && @share_link.resource_type == 'MatchGroup' && @share_link.resource_id.to_s == resource_id
+    @share_link && @share_link.resource_type == 'MatchGroup' && @share_link.resource_id == resource_id
   end
 
 end

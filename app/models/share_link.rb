@@ -14,10 +14,20 @@ class ShareLink < ApplicationRecord
   end
 
   # 参照URLを発行する
-  def generate_reference_url
-    @url = Rails.application.routes.url_helpers.
-            match_group_url(id: self.resource_id,
-                            tk: self.token,
-                            host: Rails.application.routes.default_url_options[:host])
+  def generate_reference_url(resource_type)
+    case resource_type
+    when 'MatchGroup' then
+      @url = Rails.application.routes.
+                              url_helpers.
+                              match_group_url(id: self.resource_id,
+                                              tk: self.token,
+                                              host: Rails.application.routes.default_url_options[:host])
+    when 'League' then
+      @url = Rails.application.routes.
+                              url_helpers.
+                              league_url(id: self.resource_id,
+                                              tk: self.token,
+                                              host: Rails.application.routes.default_url_options[:host])
+    end
   end
 end

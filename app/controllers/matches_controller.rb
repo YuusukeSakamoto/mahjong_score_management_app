@@ -33,7 +33,7 @@ class MatchesController < ApplicationController
   end
 
   def show
-    if params[:tk] && !user_signed_in? #トークン有かつログオフ状態の場合
+    if params[:tk] && !user_signed_in? #トークン有かつログアウト状態の場合
       share_link_valid?
     else
       redirect_to(user_session_path,
@@ -54,7 +54,7 @@ class MatchesController < ApplicationController
     #トークン無かつログイン状態の場合、match_groupに紐づく共有リンクが未作成であれば作成する
     if params[:tk].nil? && user_signed_in?
       @share_link = ShareLink.find_or_create(current_user, @match_group.id, 'MatchGroup')
-      @share_link.generate_reference_url
+      @share_link.generate_reference_url('MatchGroup')
     end
   end
 
