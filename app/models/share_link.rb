@@ -2,8 +2,6 @@ class ShareLink < ApplicationRecord
   belongs_to :user
   belongs_to :resource, polymorphic: true # 複数モデルに関連付け
 
-  enum resource_type: { match_group: 'MatchGroup', league: 'League'}
-
   attr_reader :url
 
   # トークン発行済みであればインスタンス返却、

@@ -158,6 +158,27 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
+.round-btn {
+  border: 1px solid;
+  background-color: white; // ボタンの背景色
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50px;
+  font-size: 0.9em;
+  font-weight: bold;
+  &--light-gray{
+    @extend .round-btn;
+    border-color: $light-gray;
+    color: $gray;
+  }
+}
+
+
+
 .top-btn {
   cursor: pointer;
   transition: .2s cubic-bezier(0.45, 0, 0.55, 1);

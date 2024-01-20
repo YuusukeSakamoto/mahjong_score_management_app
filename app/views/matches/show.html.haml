@@ -57,9 +57,9 @@
               %i.fa-solid.fa-angles-right
               %span #{@match_group.matches.count + 1}局目の成績を登録
     = render partial: 'match_groups/result_table'
-    #share-link.main-btn--white-gray.mb-2{ data: { url: @share_link.url } }
-      %i.share-link.fa-regular.fa-clipboard
-      %span.share-link 共有リンクをコピー
+    .row
+      .col-8.col-md-4.col-lg-4.text-center.m-auto.mb-2
+        = render partial: 'layouts/share_link'
   - else
     .row
       .col-9.col-md-5.col-lg-3.m-auto.mb-3

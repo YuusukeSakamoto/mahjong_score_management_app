@@ -53,7 +53,7 @@ class MatchesController < ApplicationController
 
     #トークン無かつログイン状態の場合、match_groupに紐づく共有リンクが未作成であれば作成する
     if params[:tk].nil? && user_signed_in?
-      @share_link = ShareLink.find_or_create(current_user, @match_group.id, 1)
+      @share_link = ShareLink.find_or_create(current_user, @match_group.id, 'MatchGroup')
       @share_link.generate_reference_url
     end
   end

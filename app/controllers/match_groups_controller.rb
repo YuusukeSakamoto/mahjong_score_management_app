@@ -23,7 +23,7 @@ class MatchGroupsController < ApplicationController
         redirect_to(root_path,
                     alert: FlashMessages::ACCESS_DENIED) && return
       end
-      @share_link = ShareLink.find_by(user_id: current_user.id, resource_id: params[:id], resource_type: 1)
+      @share_link = ShareLink.find_or_create(current_user, params[:id].to_i, 'MatchGroup')
       @share_link.generate_reference_url
     end
 
@@ -69,7 +69,7 @@ class MatchGroupsController < ApplicationController
 
   # match_groupの適切なtokenか判定
   def share_link_valid_for_resource?(resource_id)
-    @share_link && @share_link.match_group? && @share_link.resource_id.to_s == resource_id
+    @share_link && @share_link.resource_type == 'MatchGroup' && @share_link.resource_id.to_s == resource_id
   end
 
 end
