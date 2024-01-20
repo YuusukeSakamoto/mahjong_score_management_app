@@ -33,7 +33,8 @@ class MatchesController < ApplicationController
   end
 
   def show
-    if params[:tk] && !user_signed_in? #トークン有かつログアウト状態の場合
+    if params[:tk] #トークン有の場合
+      @share_link = ShareLink.find_by(token: params[:tk], resource_id: @match.match_group_id)
       share_link_valid?
     else
       redirect_to(user_session_path,
@@ -172,7 +173,6 @@ class MatchesController < ApplicationController
   # ***************** 参照リンク関連 ************************ #
   # 参照トークンが有効か判定する
   def share_link_valid?
-    @share_link = ShareLink.find_by(token: params[:tk], resource_id: @match.match_group_id)
     return true if @share_link
     redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
   end

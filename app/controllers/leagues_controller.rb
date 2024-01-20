@@ -14,7 +14,8 @@ class LeaguesController < ApplicationController
   end
 
   def show
-    if params[:tk] && !user_signed_in? #トークン有かつログオフ状態の場合
+    if params[:tk] #トークン有の場合
+      @share_link = ShareLink.find_by(token: params[:tk], resource_id: params[:id])
       share_link_valid?
     else
       redirect_to(user_session_path,
@@ -129,7 +130,6 @@ class LeaguesController < ApplicationController
 
   # 共有リンクが有効か判定する
   def share_link_valid?
-    @share_link = ShareLink.find_by(token: params[:tk], resource_id: params[:id])
     return true if share_link_valid_for_resource?(params[:id].to_i)
     redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
   end
