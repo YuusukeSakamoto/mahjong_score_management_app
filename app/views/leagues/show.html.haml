@@ -13,22 +13,24 @@
       %p.text-main.fs-sm.mb-0= @league.rule.name
       %p.text-main.fs-sm.mb-0= "対局数 : #{@league.match_count}"
       %p.text-main.fs-sm.mb-0= @league.description
-      .d-flex.justify-content-center.mt-1
+      .d-flex.justify-content-center.my-2
         - if user_signed_in?
           - if @league.player_id == current_player.id
             = link_to new_match_path(league: @league.id),
               class: "main-btn--white-orange-sm mx-1 py-0" do
               .btn-text
                 %i.fa-solid.fa-pen
-                %span 記録
-          #share-link.main-btn--white-lightgray-sm.mx-1.py-0{ data: { url: @share_link.url }, style: "padding: 0px 5px 0px 5px; text-decoration: none;"  }
-            %i.share-link.fa-solid.fa-link
-            %span.share-link{style: "padding-left: 3px;"}  共有
+                %span 記録する
         - else
           = button_to request.path, method: :get, params: { tk: @share_token.token, resource_type: @share_token.resource_type},
             class: "main-btn--white-orange-sm px-1 py-0 m-auto", id: "update_btn" do
             %i.bx.bx-revision.text-orange.fw-bold{style: "padding-top: 0px;"}
             更新
+      - if user_signed_in?
+        #share-link.mx-1.fs-sm{ data: { url: @share_link.url }, style: "padding: 0px 5px 0px 5px;"  }
+          %i.share-link.fa-solid.fa-link
+          %i.share-link.fa-solid.fa-check.text-green.hidden
+          %span.share-link{style: "padding-left: 3px;"}  共有リンクをコピー
 
   .row
     .col-md-10.m-auto

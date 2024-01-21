@@ -7,6 +7,12 @@ $(document).on('turbolinks:load', function () {
     tempInput.select();
     document.execCommand('copy');
     document.body.removeChild(tempInput);
-    alert('リンクをコピーしました！');
+
+    // リンクアイコンを非表示にする
+    var linkIcon = document.querySelector('.fa-link');
+    linkIcon.classList.add('hidden');
+    // チェックマークアイコンを表示する
+    var checkIcon = document.querySelector('.fa-check');
+    checkIcon.classList.remove('hidden');
   });
 })

@@ -86,6 +86,11 @@ input:focus, textarea:focus, select:focus {
   cursor: not-allowed; /* カーソルを禁止マークに変更 */
 }
 
+// 非表示要素
+.hidden {
+  display: none!important;
+}
+
 // ===============================
 // ボタン
 // ===============================
@@ -466,7 +471,7 @@ input:focus, textarea:focus, select:focus {
   &-sm {
     font-size: 0.8rem!important;
     @include smartphone {
-      font-size: 0.6rem!important;
+      font-size: 0.7rem!important;
     }
   }
   &-table {
@@ -560,11 +565,13 @@ input:focus, textarea:focus, select:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  text-decoration: underline;
   color: $gray;
   cursor: pointer;
   :hover {
     opacity: 0.8;
   }
-
+  span {
+    padding-left: 4px;
+    text-decoration: underline;
+  }
 }
