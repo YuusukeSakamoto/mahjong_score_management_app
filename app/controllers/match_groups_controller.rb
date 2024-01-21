@@ -15,7 +15,10 @@ class MatchGroupsController < ApplicationController
 
   def show
     if params[:tk] && params[:resource_type]
-      share_token_valid? # トークンが有効か判定
+      @share_token = validate_share_token(params[:tk],
+                                          params[:resource_type],
+                                          'match_groups_controller',
+                                          @match_group) # トークンが有効か判定
       set_league_link if @match_group.league_id.present?
       set_share_link if user_signed_in?
     else
@@ -64,32 +67,6 @@ class MatchGroupsController < ApplicationController
   #===================================
   # 共有リンク関連
   #===================================
-  # 共有トークンが有効か判定する
-  def share_token_valid?
-    @share_token = ShareLink.find_by(token: params[:tk], resource_type: params[:resource_type])
-
-    unless @share_token
-      redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
-      return false
-    end
-
-    case params[:resource_type]
-    when 'MatchGroup'
-      unless @match_group == MatchGroup.find_by(id: @share_token.resource_id)
-        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
-        return false
-      end
-    when 'League'
-      league = League.find_by(id: @share_token.resource_id)
-      unless league.match_groups.include?(@match_group)
-        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
-        return false
-      end
-    end
-
-    true
-  end
-
   # share_tokenが有効かつmatchgroupにリーグ情報がある場合、リーグ情報を取得する
   def set_league_link
     league = League.find_by(id: @match_group.league_id)

@@ -34,7 +34,10 @@ class MatchesController < ApplicationController
 
   def show
     if params[:tk] && params[:resource_type]
-      share_token_valid?
+      @share_token = validate_share_token(params[:tk],
+                                          params[:resource_type],
+                                          'matches_controller',
+                                          @match) # トークンが有効か判定
     else
       redirect_to(user_session_path,
                   alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログアウトユーザーはアクセス拒否
@@ -171,32 +174,8 @@ class MatchesController < ApplicationController
     session_players_num.times { @match.results.build }
     gon_setter('new')
   end
-  # ***************** 参照リンク関連 ************************ #
-  # 共有トークンが有効か判定する
-  def share_token_valid?
-    @share_token = ShareLink.find_by(token: params[:tk], resource_type: params[:resource_type])
 
-    unless @share_token
-      redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
-      return false
-    end
-    case params[:resource_type]
-    when 'MatchGroup'
-      mg_by_token = MatchGroup.find_by(id: @share_token.resource_id)
-      unless mg_by_token.matches.include?(@match)
-        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
-        return false
-      end
-    when 'League'
-      league = League.find_by(id: @share_token.resource_id)
-      unless league.match_groups.include?(@match_group)
-        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
-        return false
-      end
-    end
-  end
   # ***************** destroyアクション ************************ #
-
   # リダイレクト先を判定する
   def get_redirect_to(match)
     mg = MatchGroup.find_by(id: match.match_group_id)

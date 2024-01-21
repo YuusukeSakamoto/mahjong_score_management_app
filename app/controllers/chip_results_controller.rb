@@ -6,7 +6,10 @@ class ChipResultsController < ApplicationController
 
   def edit
     if params[:tk] && params[:resource_type]
-      share_token_valid?
+      @share_token = validate_share_token(params[:tk],
+                                          params[:resource_type],
+                                          'chip_results_controller',
+                                          @match_group) # トークンが有効か判定
     else
       redirect_to(user_session_path,
                   alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
@@ -66,40 +69,5 @@ class ChipResultsController < ApplicationController
   def calculate_point(chip_result)
     chip_result.number * @rule.chip_rate
   end
-
-  # 共有トークンが有効か判定する
-  # def share_token_valid?
-  #   @share_link = ShareLink.find_by(token: params[:tk], resource_id: @match_group.id)
-  #   if @share_link
-  #     true
-  #   else
-  #     redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
-  #   end
-  # end
-
-  # 共有トークンが有効か判定する
-  def share_token_valid?
-    @share_token = ShareLink.find_by(token: params[:tk], resource_type: params[:resource_type])
-
-    unless @share_token
-      redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
-      return false
-    end
-
-    case params[:resource_type]
-    when 'MatchGroup'
-      unless @match_group == MatchGroup.find_by(id: @share_token.resource_id)
-        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
-        return false
-      end
-    when 'League'
-      league = League.find_by(id: @share_token.resource_id)
-      unless league.match_groups.include?(@match_group)
-        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
-        return false
-      end
-    end
-  end
-
 
 end
