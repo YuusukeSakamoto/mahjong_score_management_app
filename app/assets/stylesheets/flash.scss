@@ -33,13 +33,13 @@
 
 // 成功時とエラー時のスタイル
 .f-notice {
-  border: 2px solid #91d8b0; /* light-green */
+  border: 2px solid $flash-green; /* light-green */
   border-radius: 15px;
   color: #17bc5f!important; /* green */
 }
 
 .f-alert {
-  border: 2px solid #ff7587!important; /* light-red */
+  border: 2px solid $flash-red!important; /* light-red */
   border-radius: 15px;
   color: #ee5266!important; /* red */
 }
