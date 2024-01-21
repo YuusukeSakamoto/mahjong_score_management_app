@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 module FlashMessages
+  # 全般
   ACCESS_DENIED = 'アクセス権限がありません'
   EDIT_DENIED = '編集権限がありません'
   UPDATE_DENIED = '更新権限がありません'
   DESTROY_DENIED = '削除権限がありません'
   ERROR = 'エラーが発生しました'
+  UNAUTHENTICATED = 'ログインもしくはアカウント登録してください'
 
   # player
   FAIED_TO_SELECT_PLAYERS = 'プレイヤー選択でエラーが発生しました'

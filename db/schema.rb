@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_10_124732) do
+ActiveRecord::Schema.define(version: 2024_01_14_032941) do
 
   create_table "chip_results", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "match_group_id", null: false
@@ -129,6 +129,18 @@ ActiveRecord::Schema.define(version: 2024_01_10_124732) do
     t.index ["player_id"], name: "index_rules_on_player_id"
   end
 
+  create_table "share_links", charset: "utf8mb4", force: :cascade do |t|
+    t.string "token", null: false
+    t.bigint "user_id"
+    t.string "resource_type", null: false
+    t.integer "resource_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["resource_type", "resource_id"], name: "index_share_links_on_resource_type_and_resource_id"
+    t.index ["token"], name: "index_share_links_on_token", unique: true
+    t.index ["user_id"], name: "index_share_links_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.string "avatar"
@@ -164,4 +176,5 @@ ActiveRecord::Schema.define(version: 2024_01_10_124732) do
   add_foreign_key "results", "matches"
   add_foreign_key "results", "players"
   add_foreign_key "rules", "players"
+  add_foreign_key "share_links", "users"
 end

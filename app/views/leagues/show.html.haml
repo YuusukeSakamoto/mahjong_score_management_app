@@ -1,24 +1,36 @@
-.container
+.container.mb-5
   .row.d-flex.justify-content-center
     .col-11.col-md-7.text-center.pb-2.mt-4
       .d-flex.justify-content-center.align-items-end.mb-2
         %h2.text-center.fw-bold.mb-0= @league.name
-        - if @league.player_id == current_player.id
-          = link_to  edit_league_path(league: @league.id),
-            class: "" do
-            %i.bx.bxs-edit-alt.text-main.ps-2
+        - if user_signed_in?
+          - if @league.player_id == current_player.id
+            = link_to  edit_league_path(league: @league.id),
+              class: "" do
+              %i.bx.bxs-edit-alt.text-main.ps-2
       - if @l_matches.present?
         %p.text-main.fs-sm.mb-0 #{@league.first_record_day} ~ #{@league.last_record_day}
       %p.text-main.fs-sm.mb-0= @league.rule.name
       %p.text-main.fs-sm.mb-0= "対局数 : #{@league.match_count}"
       %p.text-main.fs-sm.mb-0= @league.description
-      .d-flex.justify-content-center.mt-1
-        - if @league.player_id == current_player.id
-          = link_to new_match_path(league: @league.id),
-            class: "main-btn--white-orange-sm px-1 py-0 m-auto" do
-            .btn-text
-              %i.fa-solid.fa-pen
-              %span 記録
+      .d-flex.justify-content-center.my-2
+        - if user_signed_in?
+          - if @league.player_id == current_player.id
+            = link_to new_match_path(league: @league.id),
+              class: "main-btn--white-orange-sm mx-1 py-0" do
+              .btn-text
+                %i.fa-solid.fa-pen
+                %span 記録する
+        - else
+          = button_to request.path, method: :get, params: { tk: @share_token.token, resource_type: @share_token.resource_type},
+            class: "main-btn--white-orange-sm px-1 py-0 m-auto", id: "update_btn" do
+            %i.bx.bx-revision.text-orange.fw-bold{style: "padding-top: 0px;"}
+            更新
+      - if user_signed_in?
+        #share-link.mx-1.fs-sm{ data: { url: @share_link.url }, style: "padding: 0px 5px 0px 5px;"  }
+          %i.share-link.fa-solid.fa-link
+          %i.share-link.fa-solid.fa-check.text-green.hidden
+          %span.share-link{style: "padding-left: 3px;"}  共有リンクをコピー
 
   .row
     .col-md-10.m-auto
@@ -62,31 +74,61 @@
               %th.w-icon{scope: "col"}
           - k = 1
           - @l_matches.each.with_index do |match, i|
-            %tr{data: { href: match_path(match) }}
-              %td= k
-              %td= match.match_on.to_s(:yeardate)
-              - match.results.order(:player_id).each do |r|
-                %td.w-players-name= show_pt(r.point, @league.rule_id)
-              %td.p-0
-                %i.bx.bx-chevrons-right.bx-size.text-main{style: "padding-top: 1px;"}
-              - k += 1
-            // チップ有ルールの場合、チップptを挿入する
-            - if @league.rule_is_tip? && (MatchGroup.find(match.match_group_id).matches.last == match)
-              %tr{data: { href: edit_match_group_chip_results_path(match.match_group_id) }}
+            - if @share_token.present?
+              %tr{data: { href: match_path(match, tk: @share_token.token, resource_type: @share_token.resource_type) }}
                 %td= k
                 %td= match.match_on.to_s(:yeardate)
-                - ChipResult.where(match_group_id: match.match_group_id).order(:player_id).each do |cr|
-                  %td.w-players-name= cr.point
+                - match.results.order(:player_id).each do |r|
+                  %td.w-players-name= show_pt(r.point, @league.rule_id)
                 %td.p-0
-                  %i.bx.bxs-coin.bx-size.text-main{style: "padding-top: 1px;"}
+                  %i.bx.bx-chevrons-right.bx-size.text-main{style: "padding-top: 1px;"}
                 - k += 1
+            - else
+              %tr{data: { href: match_path(match) }}
+                %td= k
+                %td= match.match_on.to_s(:yeardate)
+                - match.results.order(:player_id).each do |r|
+                  %td.w-players-name= show_pt(r.point, @league.rule_id)
+                %td.p-0
+                  %i.bx.bx-chevrons-right.bx-size.text-main{style: "padding-top: 1px;"}
+                - k += 1
+            // チップ有ルールの場合、チップptを挿入する
+            - if @league.rule_is_tip? && (MatchGroup.find(match.match_group_id).matches.last == match)
+              - if @share_token.present?
+                %tr{data: { href: edit_match_group_chip_results_path(match.match_group_id,
+                                                                      tk: @share_token.token,
+                                                                      resource_type: @share_token.resource_type) }}
+                  %td= k
+                  %td= match.match_on.to_s(:yeardate)
+                  - ChipResult.where(match_group_id: match.match_group_id).order(:player_id).each do |cr|
+                    %td.w-players-name= cr.point
+                  %td.p-0
+                    %i.bx.bxs-coin.bx-size.text-main{style: "padding-top: 1px;"}
+                  - k += 1
+              - else
+                %tr{data: { href: edit_match_group_chip_results_path(match.match_group_id) }}
+                  %td= k
+                  %td= match.match_on.to_s(:yeardate)
+                  - ChipResult.where(match_group_id: match.match_group_id).order(:player_id).each do |cr|
+                    %td.w-players-name= cr.point
+                  %td.p-0
+                    %i.bx.bxs-coin.bx-size.text-main{style: "padding-top: 1px;"}
+                  - k += 1
 
       -if @l_matches.blank?
         %p.text-center.text-main.fs-sm 対局成績なし
-  - if @league.player_id == current_player.id
+  - if user_signed_in?
+    - if @league.player_id == current_player.id
+      .col-8.col-md-5.m-auto.my-2
+        = link_to new_match_path(league: @league.id),
+          class: "main-btn--orange w-100" do
+          .btn-text
+            %i.fa-solid.fa-pen.pe-1.fw-bold
+            %span リーグ戦を記録する
+  - if @share_token.present?
     .col-8.col-md-5.m-auto.my-2
-      = link_to new_match_path(league: @league.id),
-        class: "main-btn--orange w-100" do
+      = link_to url_for(request.path_parameters.merge(tk: @share_token.token, resource_type: @share_token.resource_type)),
+        class: "main-btn--white-orange w-100" do
         .btn-text
-          %i.fa-solid.fa-pen.pe-1.fw-bold
-          %span リーグ戦を記録する
+          %i.bx.bx-revision.pe-1.fw-bold
+          %span 更新する

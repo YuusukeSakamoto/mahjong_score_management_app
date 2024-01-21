@@ -1,9 +1,16 @@
-.container
+.container.mb-5
   = render partial: 'result_table'
   .row
-    .col-9.col-md-5.col-lg-4.m-auto.my-2
-      = link_to root_path,
-        class: "main-btn--orange w-100" ,data: { "turbolinks" => false } do
-        .btn-text
-          %i.fa-solid.fa-house.pe-1.fw-bold
-          %span HOME
+    .col-9.col-md-5.col-lg-4.m-auto.mt-2.text-center
+      - if user_signed_in?
+        = link_to root_path,
+          class: "main-btn--orange w-100 mb-3" ,data: { "turbolinks" => false } do
+          .btn-text
+            %i.fa-solid.fa-house.pe-1.fw-bold
+            %span HOME
+        = render partial: 'layouts/share_link'
+      - else
+        = link_to url_for(request.path_parameters.merge(tk: @share_token.token, resource_type: @share_token.resource_type)),
+          class: "main-btn--white-lightgray", id: "update_btn" do
+          %i.bx.bx-revision.pe-1.text-lightgray.fw-bold{style: "padding-top: 1px;"}
+          更新

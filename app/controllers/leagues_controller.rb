@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LeaguesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show]
   before_action :set_league, only: %i[show edit update destroy]
 
   def index
@@ -14,9 +14,18 @@ class LeaguesController < ApplicationController
   end
 
   def show
-    unless @league.league_players.exists?(player_id: current_player.id)
-      redirect_to(root_path,
-                  alert: FlashMessages::ACCESS_DENIED) && return
+    if params[:tk] && params[:resource_type]
+      @share_token = validate_share_token(params[:tk],
+                                          params[:resource_type],
+                                          'leagues_controller',
+                                          @league) # トークンが有効か判定
+    else
+      redirect_to(user_session_path,
+                  alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
+      unless @league.league_players.exists?(player_id: current_player.id)
+        redirect_to(root_path,
+                    alert: FlashMessages::ACCESS_DENIED) && return
+      end
     end
 
     @l_matches = Match.includes(:results).where(league_id: params[:id])
@@ -24,6 +33,7 @@ class LeaguesController < ApplicationController
     @graph_labels =  @league.graph_label # 成績推移グラフの日付ラベル
     @rank_table_data = @league.rank_table # 順位表のデータ
     @l_players = LeaguePlayer.includes(:player).where(league_id: params[:id]).order(:player_id)
+    find_share_link
   end
 
   def new
@@ -44,6 +54,7 @@ class LeaguesController < ApplicationController
 
     if @league.save
       set_session_league
+      create_share_link
       redirect_to(new_player_path(play_type: @league.play_type, league: @league.id),
                   notice: FlashMessages.league_flash(@league.name, 'create')) && return
     else
@@ -103,4 +114,22 @@ class LeaguesController < ApplicationController
     params.require(:league).permit(:name, :play_type, :rule_id, :description)
           .merge(player_id: current_player.id)
   end
+
+#==============================
+# 共有リンク関連
+#==============================
+  # 共有リンクを発行する
+  def create_share_link
+    ShareLink.create(user_id: current_user.id,
+                    token: SecureRandom.hex(10),
+                    resource_type: 'League',
+                    resource_id: @league.id)
+  end
+
+  # 共有リンクを取得する
+  def find_share_link
+    @share_link = ShareLink.find_or_create(current_user, @league.id, 'League')
+    @share_link.generate_reference_url('League')
+  end
+
 end

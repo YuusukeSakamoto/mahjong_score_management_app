@@ -6,6 +6,7 @@ class League < ApplicationRecord
   has_many :league_players, dependent: :destroy # leagueに紐づいたleague_playersも削除される
   has_many :match_groups, dependent: :destroy # leagueに紐づいたmatch_groupsも削除される
   has_many :matches, dependent: :destroy # leagueに紐づいたmatchesも削除される
+  has_many :share_links, as: :resource, dependent: :destroy # leagueに紐づいたshare_linksも削除される
 
   validates :name, presence: true, length: { maximum: 15 }
   validates :play_type, presence: true

@@ -4,6 +4,7 @@ class MatchGroup < ApplicationRecord
   has_many :matches, dependent: :destroy # match_groupに紐づいたmatchesも削除される
   belongs_to :rule
   has_many :chip_results, dependent: :destroy # match_groupに紐づいたchip_resultsも削除される
+  has_many :share_links, as: :resource, dependent: :destroy # match_groupに紐づいたshare_linksも削除される
   belongs_to :league, optional: true # optional:trueで外部キーがnilでもDB登録できる
 
   scope :desc, -> { order(created_at: :desc) } # 作成の降順
@@ -45,6 +46,7 @@ class MatchGroup < ApplicationRecord
 
   # 作成者かどうか
   def created_by?(current_player)
+    return false unless current_player
     matches.first.player_id == current_player.id
   end
 

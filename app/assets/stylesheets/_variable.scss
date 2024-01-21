@@ -8,6 +8,7 @@ $orange: #F8B978; //サブカラー
 $pink: #FC6C85; //アクセントカラー
 $navyblue: #393944;
 $gray: #707070;
+$light-gray: #b9b9b9;
 $white: #ffffff;
 $lightgray: #f7f7f7;
 $red: #ee5266;
@@ -22,7 +23,6 @@ $light-green: #EEF7F5; // 薄い緑、詳細データの背景など
 $green-2: #65c39f; // メインカラーより2つ薄い
 $orange-2: #f7ac60; // サブカラーより少し濃い
 $border-green: #89D0B4; // light-greenよりは濃い緑、borderで使用
-// $border-orange: #; // light-greenよりは濃い緑、borderで使用
 
 // プラス・マイナス
 $plus-blue: #4572A7; // プラス表記の青
@@ -30,5 +30,9 @@ $minus-red: #AA4643; // マイナス表記の赤
 
 // アラート系
 $warning: #FFD723; // ワーニング、黄色
+
+// flash
+$flash-green: #91d8b0; //フラッシュメッセージの成功時の色
+$flash-red: #ff7587; //フラッシュメッセージの失敗時の色
 
 $disabled: #C0C0C0; // 利用不可項目、グレー

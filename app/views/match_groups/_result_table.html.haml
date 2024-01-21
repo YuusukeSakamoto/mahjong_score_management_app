@@ -20,12 +20,12 @@
       .score-card-top
         .score-card-top-left
           %p.mb-0.ms-2.text-nowrap.fs-sm="#{@create_day}"
-          %p.mb-0.text-nowrap.fs-sm.score-card-top-rule=@rule.name
+          %p.mb-0.fs-sm.score-card-top-rule=@rule.name
         .score-card-top-center
           %p.score-card-top-title 成績表
         .score-card-top-right
-          %p.mb-0.ms-2.text-nowrap.fs-sm.score-card-top-day="#{@create_day}"
-          %p.mb-0.text-nowrap.fs-sm=@rule.name
+          %p.mb-0.ms-2.fs-sm.score-card-top-day="#{@create_day}"
+          %p.mb-0.fs-sm=@rule.name
 
       %table.table.col-10.col-md-6.text-main.text-center.px-2.result_table.w-100
         %thead
@@ -40,18 +40,42 @@
             - each_points.zip(@matches).each.with_index(0) do |(points, match), i|
               %tr
                 - if @match_group.chip_record?(i)
-                  %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id) }}
-                    %i.bx.bxs-coin.bx-size.text-main
-                - else
-                  %td{scope: "row", data: { href: match_path(match) }}
-                    = i + 1
-                - points.each do |point|
-                  - if @match_group.chip_record?(i)
+                  - if @share_token.present?
+                    %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id,
+                                                                                      tk: @share_token.token,
+                                                                                      resource_type: @share_token.resource_type) }}
+                      %i.bx.bxs-coin.bx-size.text-main
+                  - else
                     %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id) }}
-                      = show_pt(point, @match_group.rule_id)
+                      %i.bx.bxs-coin.bx-size.text-main
+                - else
+                  - if @share_token.present?
+                    %td{scope: "row", data: { href: match_path(match,
+                                                              tk: @share_token.token,
+                                                              resource_type: @share_token.resource_type) }}
+                      = i + 1
                   - else
                     %td{scope: "row", data: { href: match_path(match) }}
-                      = show_pt(point, @match_group.rule_id)
+                      = i + 1
+                - points.each do |point|
+                  - if @match_group.chip_record?(i)
+                    - if @share_token.present?
+                      %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id,
+                                                                                          tk: @share_token.token,
+                                                                                          resource_type: @share_token.resource_type) }}
+                        = show_pt(point, @match_group.rule_id)
+                    - else
+                      %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id) }}
+                        = show_pt(point, @match_group.rule_id)
+                  - else
+                    - if @share_token.present?
+                      %td{scope: "row", data: { href: match_path(match,
+                                                                  tk: @share_token.token,
+                                                                  resource_type: @share_token.resource_type) }}
+                        = show_pt(point, @match_group.rule_id)
+                    - else
+                      %td{scope: "row", data: { href: match_path(match) }}
+                        = show_pt(point, @match_group.rule_id)
                 - if @match_group.created_by?(current_player)
                   %td.p-0
                     - if @match_group.chip_record?(i)
@@ -90,15 +114,26 @@
           .btn-text
             %i.fa-regular.fa-circle-check.pe-1
             %span 記録終了する
-      .d-flex.justify-content-center.align-items-center
+      .d-flex.justify-content-center.align-items-center.mb-2
         %i.fa-solid.fa-circle-info.text-pink.fs-sm.pe-1
         %p.fs-sm.text-main.fw-bold.mb-0.text-nowrap この成績表には新たに成績を追加できなくなります
 - else
   - if @match_group.league_id.present?
-    .row
-      .col-9.col-md-5.col-lg-4.m-auto.mt-2.mb-1
-        = link_to league_path(@match_group.league_id), class: "main-btn--white-orange",
-          data: { "turbolinks" => false } do
-          .btn-text
-            %i.fa-solid.fa-chart-simple.pe-1
-            %span リーグ成績を見る
+    - if @share_token.present?
+      .row
+        .col-9.col-md-5.col-lg-4.m-auto.mt-2.mb-1
+          = link_to league_path(@match_group.league_id,
+                                tk: @league_link.token,
+                                resource_type: @league_link.resource_type), class: "main-btn--white-orange",
+                                data: { "turbolinks" => false } do
+            .btn-text
+              %i.fa-solid.fa-chart-simple.pe-1
+              %span リーグ成績を見る
+    - else
+      .row
+        .col-9.col-md-5.col-lg-4.m-auto.mt-2.mb-1
+          = link_to league_path(@match_group.league_id), class: "main-btn--white-orange",
+            data: { "turbolinks" => false } do
+            .btn-text
+              %i.fa-solid.fa-chart-simple.pe-1
+              %span リーグ成績を見る

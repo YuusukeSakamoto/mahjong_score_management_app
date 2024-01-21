@@ -2,7 +2,7 @@
 
 class MatchesController < ApplicationController
   before_action :set_match, only: %i[show edit update destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show]
 
   attr_accessor :mg
 
@@ -33,13 +33,24 @@ class MatchesController < ApplicationController
   end
 
   def show
-    # matchにcurrent_playerが含まれていない場合、アクセス不可
-    unless @match.results.pluck(:player_id).include?(current_player.id)
-      redirect_to(root_path,
-                  alert: FlashMessages::ACCESS_DENIED) && return
+    if params[:tk] && params[:resource_type]
+      @share_token = validate_share_token(params[:tk],
+                                          params[:resource_type],
+                                          'matches_controller',
+                                          @match) # トークンが有効か判定
+    else
+      redirect_to(user_session_path,
+                  alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログアウトユーザーはアクセス拒否
+      # matchにcurrent_playerが含まれていない場合、アクセス不可
+      unless @match.results.pluck(:player_id).include?(current_player.id)
+        redirect_to(root_path,
+                    alert: FlashMessages::ACCESS_DENIED) && return
+      end
+      #トークン無かつログイン状態の場合、match_groupに紐づく共有リンクが未作成であれば作成する
+      @share_link = ShareLink.find_or_create(current_user, @match_group.id, 'MatchGroup')
+      @share_link.generate_reference_url('MatchGroup')
     end
 
-    @match_group = MatchGroup.find_by(id: @match.match_group_id)
     @matches = @match_group.matches
     @rule = Rule.find_by(id: @match_group.rule_id)
     @create_day = @match_group.matches.last.created_at.to_date.to_s(:yeardate)
@@ -81,9 +92,7 @@ class MatchesController < ApplicationController
 
   def destroy
     redirect_to(root_path, alert: FlashMessages::DESTROY_DENIED) && return unless current_player == @match.player
-
     redirect_to(root_path, alert: FlashMessages::CANNOT_DESTROY) && return unless @match.destroy
-
     get_redirect_to(@match)
   end
 
@@ -102,6 +111,12 @@ class MatchesController < ApplicationController
   def set_match
     @match = Match.find_by(id: params[:id])
     redirect_to(root_path, alert: FlashMessages::ACCESS_DENIED) && return unless @match
+    set_match_group
+  end
+
+  def set_match_group
+    @match_group = MatchGroup.find_by(id: @match.match_group_id)
+    redirect_to(root_path, alert: FlashMessages::ACCESS_DENIED) && return unless @match_group
   end
 
   # リーグに関するデータをセッション等にセットする
@@ -161,7 +176,6 @@ class MatchesController < ApplicationController
   end
 
   # ***************** destroyアクション ************************ #
-
   # リダイレクト先を判定する
   def get_redirect_to(match)
     mg = MatchGroup.find_by(id: match.match_group_id)

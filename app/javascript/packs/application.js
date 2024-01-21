@@ -23,6 +23,7 @@ require("match_group.js")
 require("slide.js")
 require("player_results.js")
 require("show_modal.js")
+require("clipboard.js")
 
 Rails.start()
 Turbolinks.start()

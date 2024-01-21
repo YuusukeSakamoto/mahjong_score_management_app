@@ -1,4 +1,4 @@
-.container
+.container.mb-5
   .row.mt-4
     .col-12.col-md-9.m-auto
       .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.text-main
@@ -10,7 +10,7 @@
             - else
               %p.mb-0.ms-2="#{@match.match_on.to_s(:yeardate)}"
               %p.mb-0.ms-2="#{Rule.find(@match.rule_id).name}"
-        - if @match.player_id == current_player.id
+        - if user_signed_in? && @match.player_id == current_player.id
           .d-flex
             = link_to edit_match_path(@match) do
               %i.fa-regular.fa-pen-to-square.text-main.pe-3
@@ -57,11 +57,24 @@
               %i.fa-solid.fa-angles-right
               %span #{@match_group.matches.count + 1}局目の成績を登録
     = render partial: 'match_groups/result_table'
+    .row
+      .col-8.col-md-4.col-lg-4.text-center.m-auto.mb-2
+        = render partial: 'layouts/share_link'
   - else
     .row
       .col-9.col-md-5.col-lg-3.m-auto.mb-3
-        = link_to match_group_path(@match_group), class: "main-btn--white-orange mb-3",
-          data: { "turbolinks" => false } do
-          .btn-text
-            %i.ph.ph-notepad.pe-1
-            %span 成績表を見る
+        - if @share_token.present?
+          = link_to match_group_path(@match_group,
+                                      tk: @share_token.token,
+                                      resource_type: @share_token.resource_type),
+                                      class: "main-btn--white-orange mb-3",
+                                      data: { "turbolinks" => false } do
+            .btn-text
+              %i.ph.ph-notepad.pe-1
+              %span 成績表を見る
+        - else
+          = link_to match_group_path(@match_group), class: "main-btn--white-orange mb-3",
+            data: { "turbolinks" => false } do
+            .btn-text
+              %i.ph.ph-notepad.pe-1
+              %span 成績表を見る

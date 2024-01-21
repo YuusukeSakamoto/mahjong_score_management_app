@@ -32,6 +32,72 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError, params[:path]
   end
 
+  # URLに含まれる共有トークンが正しいか検証する
+  def validate_share_token(tk, resource_type, controller, instance)
+    share_token = ShareLink.find_by(token: params[:tk], resource_type: params[:resource_type])
+
+    unless share_token
+      redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+      return
+    end
+
+    case params[:resource_type]
+      when 'MatchGroup'
+        case controller
+          when 'match_groups_controller'
+            unless instance == MatchGroup.find_by(id: share_token.resource_id)
+              redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+              return
+            end
+          when 'matches_controller'
+            mg_by_token = MatchGroup.find_by(id: share_token.resource_id)
+            unless mg_by_token.matches.include?(instance)
+              redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+              return false
+            end
+          when 'chip_results_controller'
+            unless instance == MatchGroup.find_by(id: share_token.resource_id)
+              redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+              return false
+            end
+          when 'leagues_controller'
+            unless instance.match_groups.include?(MatchGroup.find_by(id: share_token.resource_id))
+              redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+              return false
+            end
+        end
+        when 'League'
+          case controller
+            when 'match_groups_controller'
+              league = League.find_by(id: share_token.resource_id)
+              unless league.match_groups.include?(instance)
+                redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+                return
+              end
+            when 'matches_controller'
+              league = League.find_by(id: share_token.resource_id)
+              mg = MatchGroup.find_by(id: instance.match_group_id)
+              unless league.match_groups.include?(mg)
+                redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+                return false
+              end
+            when 'chip_results_controller'
+              league = League.find_by(id: share_token.resource_id)
+              unless league.match_groups.include?(instance)
+                redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+                return false
+              end
+            when 'leagues_controller'
+              league_by_token = League.find_by(id: share_token.resource_id)
+              unless instance == league_by_token
+                redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+                return false
+              end
+          end
+      end
+    return share_token
+  end
+
   private
 
   def render_404(error = nil)

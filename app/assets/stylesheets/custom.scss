@@ -86,6 +86,11 @@ input:focus, textarea:focus, select:focus {
   cursor: not-allowed; /* カーソルを禁止マークに変更 */
 }
 
+// 非表示要素
+.hidden {
+  display: none!important;
+}
+
 // ===============================
 // ボタン
 // ===============================
@@ -95,7 +100,7 @@ input:focus, textarea:focus, select:focus {
   font-weight: bold;
   padding: 0.5rem 1.5rem;
   margin: 0 auto;
-  box-shadow: 0px 0px 5px #d6d8f5;
+  box-shadow: 0px 0px 3px #d6d8f5;
   text-decoration: none;
   text-align: center;
   max-width: 300px;
@@ -116,7 +121,7 @@ input:focus, textarea:focus, select:focus {
   &--white {
     @extend .main-btn;
     background-color: $white;
-    &-orange { 
+    &-orange {
       @extend .main-btn--white;
       border: 2px solid $orange;
       color: $orange-2!important;
@@ -141,6 +146,16 @@ input:focus, textarea:focus, select:focus {
       border: 2px solid $red;
       color: $red!important;
     }
+    &-lightgray {
+      @extend .main-btn--white;
+      border: 2px solid $light-gray;
+      color: $light-gray!important;
+      &-sm {
+        @extend .main-btn--white-lightgray;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+    }
   }
   &--red {
     @extend .main-btn;
@@ -150,6 +165,25 @@ input:focus, textarea:focus, select:focus {
       border: 2px solid $red;
       color: $white!important;
     }
+  }
+}
+
+.round-btn {
+  border: 1px solid;
+  background-color: white; // ボタンの背景色
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50px;
+  font-size: 0.9em;
+  font-weight: bold;
+  &--light-gray{
+    @extend .round-btn;
+    border-color: $light-gray;
+    color: $gray;
   }
 }
 
@@ -411,7 +445,10 @@ input:focus, textarea:focus, select:focus {
     color: $pink!important;
   }
   &-gray {
-    color: #808080!important;
+    color: $gray!important;
+  }
+  &-lightgray {
+    color: $light-gray!important;
   }
   &-navyblue {
     color: $navyblue;
@@ -425,7 +462,6 @@ input:focus, textarea:focus, select:focus {
   &-warning {
     color: $warning;
   }
-  
 }
 
 // ===============================
@@ -435,7 +471,7 @@ input:focus, textarea:focus, select:focus {
   &-sm {
     font-size: 0.8rem!important;
     @include smartphone {
-      font-size: 0.6rem!important;
+      font-size: 0.7rem!important;
     }
   }
   &-table {
@@ -520,4 +556,22 @@ input:focus, textarea:focus, select:focus {
 .modal-body img {
   width: 100%;
   height: auto;
+}
+
+// ===============================
+// 共有リンク
+// ===============================
+#share-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $gray;
+  cursor: pointer;
+  :hover {
+    opacity: 0.8;
+  }
+  span {
+    padding-left: 4px;
+    text-decoration: underline;
+  }
 }
