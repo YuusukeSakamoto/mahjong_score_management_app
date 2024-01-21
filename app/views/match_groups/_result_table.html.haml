@@ -40,33 +40,41 @@
             - each_points.zip(@matches).each.with_index(0) do |(points, match), i|
               %tr
                 - if @match_group.chip_record?(i)
-                  - if user_signed_in?
+                  - if @share_token.present?
+                    %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id,
+                                                                                      tk: @share_token.token,
+                                                                                      resource_type: @share_token.resource_type) }}
+                      %i.bx.bxs-coin.bx-size.text-main
+                  - else
                     %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id) }}
                       %i.bx.bxs-coin.bx-size.text-main
-                  - else
-                    %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id, tk: @share_link.token) }}
-                      %i.bx.bxs-coin.bx-size.text-main
                 - else
-                  - if user_signed_in?
-                    %td{scope: "row", data: { href: match_path(match) }}
+                  - if @share_token.present?
+                    %td{scope: "row", data: { href: match_path(match,
+                                                              tk: @share_token.token,
+                                                              resource_type: @share_token.resource_type) }}
                       = i + 1
                   - else
-                    %td{scope: "row", data: { href: match_path(match, tk: @share_link.token) }}
+                    %td{scope: "row", data: { href: match_path(match) }}
                       = i + 1
                 - points.each do |point|
                   - if @match_group.chip_record?(i)
-                    - if user_signed_in?
+                    - if @share_token.present?
+                      %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id,
+                                                                                          tk: @share_token.token,
+                                                                                          resource_type: @share_token.resource_type) }}
+                        = show_pt(point, @match_group.rule_id)
+                    - else
                       %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id) }}
                         = show_pt(point, @match_group.rule_id)
-                    - else
-                      %td{scope: "row", data: { href: edit_match_group_chip_results_path(@match_group.id, tk: @share_link.token) }}
-                        = show_pt(point, @match_group.rule_id)
                   - else
-                    - if user_signed_in?
-                      %td{scope: "row", data: { href: match_path(match) }}
+                    - if @share_token.present?
+                      %td{scope: "row", data: { href: match_path(match,
+                                                                  tk: @share_token.token,
+                                                                  resource_type: @share_token.resource_type) }}
                         = show_pt(point, @match_group.rule_id)
                     - else
-                      %td{scope: "row", data: { href: match_path(match, tk: @share_link.token) }}
+                      %td{scope: "row", data: { href: match_path(match) }}
                         = show_pt(point, @match_group.rule_id)
                 - if @match_group.created_by?(current_player)
                   %td.p-0
@@ -111,10 +119,21 @@
         %p.fs-sm.text-main.fw-bold.mb-0.text-nowrap この成績表には新たに成績を追加できなくなります
 - else
   - if @match_group.league_id.present?
-    .row
-      .col-9.col-md-5.col-lg-4.m-auto.mt-2.mb-1
-        = link_to league_path(@match_group.league_id), class: "main-btn--white-orange",
-          data: { "turbolinks" => false } do
-          .btn-text
-            %i.fa-solid.fa-chart-simple.pe-1
-            %span リーグ成績を見る
+    - if @share_token.present?
+      .row
+        .col-9.col-md-5.col-lg-4.m-auto.mt-2.mb-1
+          = link_to league_path(@match_group.league_id,
+                                tk: @league_link.token,
+                                resource_type: @league_link.resource_type), class: "main-btn--white-orange",
+                                data: { "turbolinks" => false } do
+            .btn-text
+              %i.fa-solid.fa-chart-simple.pe-1
+              %span リーグ成績を見る
+    - else
+      .row
+        .col-9.col-md-5.col-lg-4.m-auto.mt-2.mb-1
+          = link_to league_path(@match_group.league_id), class: "main-btn--white-orange",
+            data: { "turbolinks" => false } do
+            .btn-text
+              %i.fa-solid.fa-chart-simple.pe-1
+              %span リーグ成績を見る

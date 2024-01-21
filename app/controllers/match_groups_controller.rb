@@ -14,9 +14,9 @@ class MatchGroupsController < ApplicationController
   end
 
   def show
-    if params[:tk] #トークン有の場合
-      @share_link = ShareLink.find_by(token: params[:tk], resource_id: params[:id])
-      share_link_valid?
+    if params[:tk] && params[:resource_type]
+      share_token_valid? # トークンが有効か判定
+      set_league_link if @match_group.league_id.present?
     else
       redirect_to(user_session_path,
                   alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
@@ -61,15 +61,37 @@ class MatchGroupsController < ApplicationController
     redirect_to(root_path, alert: FlashMessages::ACCESS_DENIED) && return unless @match_group
   end
 
-  # トークンが有効か判定する
-  def share_link_valid?
-    return true if share_link_valid_for_resource?(params[:id].to_i)
-    redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
+  # 共有トークンが有効か判定する
+  def share_token_valid?
+    @share_token = ShareLink.find_by(token: params[:tk], resource_type: params[:resource_type])
+
+    unless @share_token
+      redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+      return false
+    end
+
+    case params[:resource_type]
+    when 'MatchGroup'
+      unless @match_group == MatchGroup.find_by(id: @share_token.resource_id)
+        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+        return false
+      end
+    when 'League'
+      league = League.find_by(id: @share_token.resource_id)
+      unless league.match_groups.include?(@match_group)
+        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+        return false
+      end
+    end
+
+    true
   end
 
-  # match_groupの適切なtokenか判定
-  def share_link_valid_for_resource?(resource_id)
-    @share_link && @share_link.resource_type == 'MatchGroup' && @share_link.resource_id == resource_id
+  # share_tokenが有効かつmatchgroupにリーグ情報がある場合、リーグ情報を取得する
+  def set_league_link
+    league = League.find_by(id: @match_group.league_id)
+    @league_link = ShareLink.find_by(resource_id: league.id, resource_type: 'League')
+    redirect_to(root_path, alert: FlashMessages::ERROR) && return unless @league_link
   end
 
 end

@@ -25,7 +25,7 @@
             %i.share-link.fa-solid.fa-link
             %span.share-link{style: "padding-left: 3px;"}  共有
         - else
-          = button_to request.path, method: :get, params: { tk: @share_link.token},
+          = button_to request.path, method: :get, params: { tk: @share_token.token, resource_type: @share_token.resource_type},
             class: "main-btn--white-orange-sm px-1 py-0 m-auto", id: "update_btn" do
             %i.bx.bx-revision.text-orange.fw-bold{style: "padding-top: 0px;"}
             更新
@@ -72,24 +72,46 @@
               %th.w-icon{scope: "col"}
           - k = 1
           - @l_matches.each.with_index do |match, i|
-            %tr{data: { href: match_path(match) }}
-              %td= k
-              %td= match.match_on.to_s(:yeardate)
-              - match.results.order(:player_id).each do |r|
-                %td.w-players-name= show_pt(r.point, @league.rule_id)
-              %td.p-0
-                %i.bx.bx-chevrons-right.bx-size.text-main{style: "padding-top: 1px;"}
-              - k += 1
-            // チップ有ルールの場合、チップptを挿入する
-            - if @league.rule_is_tip? && (MatchGroup.find(match.match_group_id).matches.last == match)
-              %tr{data: { href: edit_match_group_chip_results_path(match.match_group_id) }}
+            - if @share_token.present?
+              %tr{data: { href: match_path(match, tk: @share_token.token, resource_type: @share_token.resource_type) }}
                 %td= k
                 %td= match.match_on.to_s(:yeardate)
-                - ChipResult.where(match_group_id: match.match_group_id).order(:player_id).each do |cr|
-                  %td.w-players-name= cr.point
+                - match.results.order(:player_id).each do |r|
+                  %td.w-players-name= show_pt(r.point, @league.rule_id)
                 %td.p-0
-                  %i.bx.bxs-coin.bx-size.text-main{style: "padding-top: 1px;"}
+                  %i.bx.bx-chevrons-right.bx-size.text-main{style: "padding-top: 1px;"}
                 - k += 1
+            - else
+              %tr{data: { href: match_path(match) }}
+                %td= k
+                %td= match.match_on.to_s(:yeardate)
+                - match.results.order(:player_id).each do |r|
+                  %td.w-players-name= show_pt(r.point, @league.rule_id)
+                %td.p-0
+                  %i.bx.bx-chevrons-right.bx-size.text-main{style: "padding-top: 1px;"}
+                - k += 1
+            // チップ有ルールの場合、チップptを挿入する
+            - if @league.rule_is_tip? && (MatchGroup.find(match.match_group_id).matches.last == match)
+              - if @share_token.present?
+                %tr{data: { href: edit_match_group_chip_results_path(match.match_group_id,
+                                                                      tk: @share_token.token,
+                                                                      resource_type: @share_token.resource_type) }}
+                  %td= k
+                  %td= match.match_on.to_s(:yeardate)
+                  - ChipResult.where(match_group_id: match.match_group_id).order(:player_id).each do |cr|
+                    %td.w-players-name= cr.point
+                  %td.p-0
+                    %i.bx.bxs-coin.bx-size.text-main{style: "padding-top: 1px;"}
+                  - k += 1
+              - else
+                %tr{data: { href: edit_match_group_chip_results_path(match.match_group_id) }}
+                  %td= k
+                  %td= match.match_on.to_s(:yeardate)
+                  - ChipResult.where(match_group_id: match.match_group_id).order(:player_id).each do |cr|
+                    %td.w-players-name= cr.point
+                  %td.p-0
+                    %i.bx.bxs-coin.bx-size.text-main{style: "padding-top: 1px;"}
+                  - k += 1
 
       -if @l_matches.blank?
         %p.text-center.text-main.fs-sm 対局成績なし

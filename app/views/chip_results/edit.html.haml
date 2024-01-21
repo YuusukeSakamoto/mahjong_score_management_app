@@ -7,7 +7,7 @@
             %h4.text-center.text-md-start.fw-bold.mb-0 チップ集計
           - else
             %h4.text-center.text-md-start.fw-bold.mb-0 チップ結果
-  - if user_signed_in?
-    = render 'form', action: '登録'
-  - else
+  - if @share_token.present?
     = render 'show'
+  - else
+    = render 'form', action: '登録'

@@ -9,7 +9,7 @@
           %span HOME
       = render partial: 'layouts/share_link'
     - else
-      = button_to request.path, method: :get, params: { tk: @share_link.token},
+      = button_to request.path, method: :get, params: { tk: @share_token.token, resource_type: @share_token.resource_type},
         class: "col-8 col-md-5 mb-1 main-btn--white-orange", id: "update_btn" do
         %i.bx.bx-revision.pe-1.text-orange.fw-bold{style: "padding-top: 1px;"}
         更新

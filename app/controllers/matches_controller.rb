@@ -33,30 +33,25 @@ class MatchesController < ApplicationController
   end
 
   def show
-    if params[:tk] #トークン有の場合
-      @share_link = ShareLink.find_by(token: params[:tk], resource_id: @match.match_group_id)
-      share_link_valid?
+    if params[:tk] && params[:resource_type]
+      share_token_valid?
     else
       redirect_to(user_session_path,
-                  alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
+                  alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログアウトユーザーはアクセス拒否
       # matchにcurrent_playerが含まれていない場合、アクセス不可
       unless @match.results.pluck(:player_id).include?(current_player.id)
         redirect_to(root_path,
                     alert: FlashMessages::ACCESS_DENIED) && return
       end
+      #トークン無かつログイン状態の場合、match_groupに紐づく共有リンクが未作成であれば作成する
+      @share_link = ShareLink.find_or_create(current_user, @match_group.id, 'MatchGroup')
+      @share_link.generate_reference_url('MatchGroup')
     end
 
-    @match_group = MatchGroup.find_by(id: @match.match_group_id)
     @matches = @match_group.matches
     @rule = Rule.find_by(id: @match_group.rule_id)
     @create_day = @match_group.matches.last.created_at.to_date.to_s(:yeardate)
     session[:previous_url] = request.referer unless request.referer.include?(edit_match_path)
-
-    #トークン無かつログイン状態の場合、match_groupに紐づく共有リンクが未作成であれば作成する
-    if params[:tk].nil? && user_signed_in?
-      @share_link = ShareLink.find_or_create(current_user, @match_group.id, 'MatchGroup')
-      @share_link.generate_reference_url('MatchGroup')
-    end
   end
 
   def create
@@ -113,6 +108,12 @@ class MatchesController < ApplicationController
   def set_match
     @match = Match.find_by(id: params[:id])
     redirect_to(root_path, alert: FlashMessages::ACCESS_DENIED) && return unless @match
+    set_match_group
+  end
+
+  def set_match_group
+    @match_group = MatchGroup.find_by(id: @match.match_group_id)
+    redirect_to(root_path, alert: FlashMessages::ACCESS_DENIED) && return unless @match_group
   end
 
   # リーグに関するデータをセッション等にセットする
@@ -171,10 +172,28 @@ class MatchesController < ApplicationController
     gon_setter('new')
   end
   # ***************** 参照リンク関連 ************************ #
-  # 参照トークンが有効か判定する
-  def share_link_valid?
-    return true if @share_link
-    redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
+  # 共有トークンが有効か判定する
+  def share_token_valid?
+    @share_token = ShareLink.find_by(token: params[:tk], resource_type: params[:resource_type])
+
+    unless @share_token
+      redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+      return false
+    end
+    case params[:resource_type]
+    when 'MatchGroup'
+      mg_by_token = MatchGroup.find_by(id: @share_token.resource_id)
+      unless mg_by_token.matches.include?(@match)
+        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+        return false
+      end
+    when 'League'
+      league = League.find_by(id: @share_token.resource_id)
+      unless league.match_groups.include?(@match_group)
+        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+        return false
+      end
+    end
   end
   # ***************** destroyアクション ************************ #
 

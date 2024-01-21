@@ -63,14 +63,17 @@
   - else
     .row
       .col-9.col-md-5.col-lg-3.m-auto.mb-3
-        - if user_signed_in?
-          = link_to match_group_path(@match_group), class: "main-btn--white-orange mb-3",
-            data: { "turbolinks" => false } do
+        - if @share_token.present?
+          = link_to match_group_path(@match_group,
+                                      tk: @share_token.token,
+                                      resource_type: @share_token.resource_type),
+                                      class: "main-btn--white-orange mb-3",
+                                      data: { "turbolinks" => false } do
             .btn-text
               %i.ph.ph-notepad.pe-1
               %span 成績表を見る
         - else
-          = link_to match_group_path(@match_group, tk: @share_link.token), class: "main-btn--white-orange mb-3",
+          = link_to match_group_path(@match_group), class: "main-btn--white-orange mb-3",
             data: { "turbolinks" => false } do
             .btn-text
               %i.ph.ph-notepad.pe-1

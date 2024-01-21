@@ -12,8 +12,11 @@
             %span.text-main.mb-0.mx-1.mx-md-2 枚
           - i += 1
       .col-8.col-md-5.m-auto.my-3
-        = link_to match_group_path(@match_group, tk: @share_link.token), class: "main-btn--white-orange mb-3",
-          data: { "turbolinks" => false } do
+        = link_to match_group_path(@match_group,
+                                  tk: @share_token.token,
+                                  resource_type: @share_token.resource_type),
+                                  class: "main-btn--white-orange mb-3",
+                                  data: { "turbolinks" => false } do
           .btn-text
             %i.ph.ph-notepad.pe-1
             %span 成績表を見る

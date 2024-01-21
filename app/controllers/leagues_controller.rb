@@ -14,9 +14,8 @@ class LeaguesController < ApplicationController
   end
 
   def show
-    if params[:tk] #トークン有の場合
-      @share_link = ShareLink.find_by(token: params[:tk], resource_id: params[:id])
-      share_link_valid?
+    if params[:tk] && params[:resource_type]
+      share_token_valid? # トークンが有効か判定
     else
       redirect_to(user_session_path,
                   alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
@@ -128,16 +127,38 @@ class LeaguesController < ApplicationController
     @share_link.generate_reference_url('League')
   end
 
-  # 共有リンクが有効か判定する
-  def share_link_valid?
-    return true if share_link_valid_for_resource?(params[:id].to_i)
-    redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
+  # # 共有リンクが有効か判定する
+  # def share_token_valid?
+  #   if @share_link && @share_link.resource_type == 'League' && @share_link.resource_id == params[:id].to_i
+  #     return true
+  #   else
+  #     redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
+  #   end
+  # end
+
+  # 共有トークンが有効か判定する
+  def share_token_valid?
+    @share_token = ShareLink.find_by(token: params[:tk], resource_type: params[:resource_type])
+
+    unless @share_token
+      redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+      return false
+    end
+
+    case params[:resource_type]
+    when 'MatchGroup'
+      unless @league.match_groups.include?(MatchGroup.find_by(id: @share_token.resource_id))
+        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+        return false
+      end
+    when 'League'
+      league_by_token = League.find_by(id: @share_token.resource_id)
+      unless @league == league_by_token
+        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+        return false
+      end
+    end
+
+    true
   end
-
-  # leagueの適切なtokenか判定
-  def share_link_valid_for_resource?(resource_id)
-    @share_link && @share_link.resource_type == 'League' && @share_link.resource_id == resource_id
-  end
-
-
 end

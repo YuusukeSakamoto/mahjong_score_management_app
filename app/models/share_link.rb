@@ -21,12 +21,14 @@ class ShareLink < ApplicationRecord
                               url_helpers.
                               match_group_url(id: self.resource_id,
                                               tk: self.token,
+                                              resource_type: self.resource_type,
                                               host: Rails.application.routes.default_url_options[:host])
     when 'League' then
       @url = Rails.application.routes.
                               url_helpers.
                               league_url(id: self.resource_id,
                                               tk: self.token,
+                                              resource_type: self.resource_type,
                                               host: Rails.application.routes.default_url_options[:host])
     end
   end

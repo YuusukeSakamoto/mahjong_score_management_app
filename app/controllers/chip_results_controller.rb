@@ -5,8 +5,8 @@ class ChipResultsController < ApplicationController
   before_action :set_match_group, :set_rule, only: %i[edit update]
 
   def edit
-    if params[:tk] && !user_signed_in? #トークン有かつログオフ状態の場合
-      share_link_valid?
+    if params[:tk] && params[:resource_type]
+      share_token_valid?
     else
       redirect_to(user_session_path,
                   alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
@@ -67,14 +67,39 @@ class ChipResultsController < ApplicationController
     chip_result.number * @rule.chip_rate
   end
 
-  # 参照トークンが有効か判定する
-  def share_link_valid?
-    @share_link = ShareLink.find_by(token: params[:tk], resource_id: @match_group.id)
-    if @share_link
-      true
-    else
-      redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
+  # 共有トークンが有効か判定する
+  # def share_token_valid?
+  #   @share_link = ShareLink.find_by(token: params[:tk], resource_id: @match_group.id)
+  #   if @share_link
+  #     true
+  #   else
+  #     redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
+  #   end
+  # end
+
+  # 共有トークンが有効か判定する
+  def share_token_valid?
+    @share_token = ShareLink.find_by(token: params[:tk], resource_type: params[:resource_type])
+
+    unless @share_token
+      redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+      return false
+    end
+
+    case params[:resource_type]
+    when 'MatchGroup'
+      unless @match_group == MatchGroup.find_by(id: @share_token.resource_id)
+        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+        return false
+      end
+    when 'League'
+      league = League.find_by(id: @share_token.resource_id)
+      unless league.match_groups.include?(@match_group)
+        redirect_to(root_path, alert: FlashMessages::INVALID_LINK)
+        return false
+      end
     end
   end
+
 
 end
