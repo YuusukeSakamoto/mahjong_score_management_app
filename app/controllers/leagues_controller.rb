@@ -25,7 +25,6 @@ class LeaguesController < ApplicationController
       end
     end
 
-
     @l_matches = Match.includes(:results).where(league_id: params[:id])
     @graph_datasets, @y_max, @y_min = @league.graph_data # 成績推移グラフのデータ
     @graph_labels =  @league.graph_label # 成績推移グラフの日付ラベル
@@ -113,6 +112,9 @@ class LeaguesController < ApplicationController
           .merge(player_id: current_player.id)
   end
 
+#==============================
+# 共有リンク関連
+#==============================
   # 共有リンクを発行する
   def create_share_link
     ShareLink.create(user_id: current_user.id,
@@ -126,15 +128,6 @@ class LeaguesController < ApplicationController
     @share_link = ShareLink.find_or_create(current_user, @league.id, 'League')
     @share_link.generate_reference_url('League')
   end
-
-  # # 共有リンクが有効か判定する
-  # def share_token_valid?
-  #   if @share_link && @share_link.resource_type == 'League' && @share_link.resource_id == params[:id].to_i
-  #     return true
-  #   else
-  #     redirect_to(root_path, alert: FlashMessages::INVALID_LINK) && return
-  #   end
-  # end
 
   # 共有トークンが有効か判定する
   def share_token_valid?

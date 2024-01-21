@@ -440,7 +440,10 @@ input:focus, textarea:focus, select:focus {
     color: $pink!important;
   }
   &-gray {
-    color: #808080!important;
+    color: $gray!important;
+  }
+  &-lightgray {
+    color: $light-gray!important;
   }
   &-navyblue {
     color: $navyblue;
@@ -557,12 +560,11 @@ input:focus, textarea:focus, select:focus {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-decoration: underline;
+  color: $gray;
   cursor: pointer;
   :hover {
     opacity: 0.8;
   }
 
-  span {
-    padding-left: 4px;
-  }
 }

@@ -17,6 +17,7 @@ class MatchGroupsController < ApplicationController
     if params[:tk] && params[:resource_type]
       share_token_valid? # トークンが有効か判定
       set_league_link if @match_group.league_id.present?
+      set_share_link if user_signed_in?
     else
       redirect_to(user_session_path,
                   alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
@@ -24,8 +25,7 @@ class MatchGroupsController < ApplicationController
         redirect_to(root_path,
                     alert: FlashMessages::ACCESS_DENIED) && return
       end
-      @share_link = ShareLink.find_or_create(current_user, params[:id].to_i, 'MatchGroup')
-      @share_link.generate_reference_url('MatchGroup')
+      set_share_link
     end
 
     if params[:fix] == 'true' # 対局成績を確定ボタンから遷移した場合
@@ -61,6 +61,9 @@ class MatchGroupsController < ApplicationController
     redirect_to(root_path, alert: FlashMessages::ACCESS_DENIED) && return unless @match_group
   end
 
+  #===================================
+  # 共有リンク関連
+  #===================================
   # 共有トークンが有効か判定する
   def share_token_valid?
     @share_token = ShareLink.find_by(token: params[:tk], resource_type: params[:resource_type])
@@ -94,4 +97,9 @@ class MatchGroupsController < ApplicationController
     redirect_to(root_path, alert: FlashMessages::ERROR) && return unless @league_link
   end
 
+  # 共有リンクを発行する
+  def set_share_link
+    @share_link = ShareLink.find_or_create(current_user, @match_group.id, 'MatchGroup')
+    @share_link.generate_reference_url('MatchGroup')
+  end
 end

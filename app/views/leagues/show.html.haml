@@ -1,4 +1,4 @@
-.container
+.container.mb-5
   .row.d-flex.justify-content-center
     .col-11.col-md-7.text-center.pb-2.mt-4
       .d-flex.justify-content-center.align-items-end.mb-2
@@ -21,7 +21,7 @@
               .btn-text
                 %i.fa-solid.fa-pen
                 %span 記録
-          #share-link.main-btn--white-lightgray-sm.mx-1.py-0{ data: { url: @share_link.url }, style: "padding: 0px 5px 0px 5px"  }
+          #share-link.main-btn--white-lightgray-sm.mx-1.py-0{ data: { url: @share_link.url }, style: "padding: 0px 5px 0px 5px; text-decoration: none;"  }
             %i.share-link.fa-solid.fa-link
             %span.share-link{style: "padding-left: 3px;"}  共有
         - else
@@ -123,3 +123,10 @@
           .btn-text
             %i.fa-solid.fa-pen.pe-1.fw-bold
             %span リーグ戦を記録する
+  - if @share_token.present?
+    .col-8.col-md-5.m-auto.my-2
+      = link_to url_for(request.path_parameters.merge(tk: @share_token.token, resource_type: @share_token.resource_type)),
+        class: "main-btn--white-orange w-100" do
+        .btn-text
+          %i.bx.bx-revision.pe-1.fw-bold
+          %span 更新する
