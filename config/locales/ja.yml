@@ -20,6 +20,7 @@ ja:
         score_decimal_point_calc: Pt小数点計算方法
         is_chip: チップ有無
         chip_rate: チップpt / 枚
+        description: ルール説明
       match:
         rule: ルール
         match_on: 対局日付

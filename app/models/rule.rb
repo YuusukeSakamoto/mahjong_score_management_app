@@ -10,7 +10,9 @@ class Rule < ApplicationRecord
   validates :is_chip, inclusion: [true, false] # boolean型のpresenceチェック
   validates :chip_rate, presence: true, if: :is_chip # チップ有のときchip_rateが空でないか
   validates :chip_rate, absence: true, unless: :is_chip # チップ無のときchip_rateが空であるか
+  validates :description, presence: true, length: { maximum: 50 }
   validate :mochi_kaeshi_check
+
 
   scope :sanma, ->(p_id) { where(player_id: p_id).where(play_type: 3) }
   scope :yonma, ->(p_id) { where(player_id: p_id).where(play_type: 4) }
