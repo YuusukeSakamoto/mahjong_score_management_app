@@ -68,7 +68,13 @@ class Matches::CalculatesController < ApplicationController
     when 3 # 四捨五入
       soten.map(&:round)
     when 4 # 切り捨て
-      soten.map(&:truncate) # truncate : 0に近い数字に切り捨てる
+      soten.map do |n|
+        if 0 > n && n > (rule.kaeshi / -1000.to_f) # 得点がマイナスの場合
+          n.floor # 得点が0~返し点の間の場合のみ、小数点以下を切り上げる
+        else
+          n.truncate # truncate : 0に近い数字に切り捨てる
+        end
+      end
     when 5 # 切り上げ
       soten.map(&:ceil)
     end

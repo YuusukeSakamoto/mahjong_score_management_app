@@ -161,3 +161,11 @@
     background-color: $green;
   }
 }
+
+// ===============================
+// 対局成績詳細
+// ===============================
+#match-memo {
+  margin-bottom: 0px;
+  overflow-wrap: break-word;
+}

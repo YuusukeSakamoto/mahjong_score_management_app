@@ -1,9 +1,10 @@
 .row.d-flex.justify-content-center
   .col-10.col-md-8
     .info.mb-3.mx-2.fs-sm.text-main.text-center
-      .info-content.text-center
-        %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
-        %span.mb-0.fw-bold 増減したチップ枚数を入力してください(#{@rule.chip_rate}pt / 枚)
+      - if @match_group.created_by?(current_player)
+        .info-content.text-center
+          %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
+          %span.mb-0.fw-bold 増減したチップ枚数を入力してください(#{@rule.chip_rate}pt / 枚)
 
     = form_with model: @form, url: match_group_chip_results_path ,method: :patch, local: true do |form|
       = render 'layouts/validation_error', instance: @form
@@ -22,7 +23,14 @@
           = f.hidden_field :is_temporary, value: false
           - i += 1
       .col-8.col-md-5.m-auto.my-3
-        = form.button type: 'submit', class: 'main-btn--orange w-100' do
-          .btn-text
-            %i.fa-solid.fa-pen.pe-1.fw-bold
-            %span #{action}
+        - if @match_group.created_by?(current_player)
+          = form.button type: 'submit', class: 'main-btn--orange w-100' do
+            .btn-text
+              %i.fa-solid.fa-pen.pe-1.fw-bold
+              %span #{action}
+        - else
+          = link_to match_group_path(@match_group), class: "main-btn--white-orange mb-3",
+            data: { "turbolinks" => false } do
+            .btn-text
+              %i.ph.ph-notepad.pe-1
+              %span 成績表へ戻る

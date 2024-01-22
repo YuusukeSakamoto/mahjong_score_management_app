@@ -42,7 +42,7 @@
           .col-12.pb-2.text-main
             %p.border-green-left-table.fw-bold  対局メモ
             .mx-0.px-2.py-1
-              %p.mb-0= @match.memo
+              %p#match-memo= @match.memo
   - if recording? && @match_group.id == session[:mg]
     .row
       .col-9.col-md-5.col-lg-4.m-auto
