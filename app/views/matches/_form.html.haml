@@ -78,12 +78,13 @@
 
       .my-4
         = f.label :'対局メモ', class: 'title-p text-main'
+        %span.fs-sm.text-main (50文字以内)
         %button.js-memo-dropdown.mb-1.text-main{ type: 'button' }
           %i.fa-solid.fa-caret-right.text-green
           %i.fa-regular.fa-pen-to-square.text-green
         .js-memo-details{ style: "display: none;" }
-          = f.text_area :memo, autofocus: true, 
-            class: 'form-control py-md-1 rounded bg-white mb-1'
+          = f.text_area :memo, autofocus: true,
+            class: 'form-control py-md-1 rounded bg-white mb-1', maxlength: 50
 
       .col-8.col-md-5.m-auto
         - if ["edit", "update"].include?(controller.action_name)

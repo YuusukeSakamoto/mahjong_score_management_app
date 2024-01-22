@@ -24,6 +24,7 @@ ja:
         rule: ルール
         match_on: 対局日付
         ie: 家
+        memo: 対局メモ
       results:
         score: 得点
         point: pt
