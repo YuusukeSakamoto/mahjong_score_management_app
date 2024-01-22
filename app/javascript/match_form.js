@@ -192,7 +192,7 @@ $(document).on('turbolinks:load', function () {
 
   // *********************************************************************
   // match関連ページのとき、ルール検索実行
-  if (window.location.pathname === '/matches/new') {
+  if (/^\/matches\/[^/]+\/edit$/.test(window.location.pathname) || window.location.pathname === '/matches/new') {
     let selecter = '#match_rule_id';
     $(document).ready(rule_detail(selecter));
     $(selecter).change(function () {
