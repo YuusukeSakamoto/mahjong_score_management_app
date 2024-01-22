@@ -27,11 +27,12 @@ ja:
       results:
         score: 得点
         point: pt
-        ie: 家      
+        ie: 家
       league:
         name: リーグ名
         rule_id: ルール
         play_type: 三麻/四麻
+        description: リーグ説明
   enums:
     user:
       role:
