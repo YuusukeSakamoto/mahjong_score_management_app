@@ -9,6 +9,9 @@ module FlashMessages
   ERROR = 'エラーが発生しました'
   UNAUTHENTICATED = 'ログインもしくはアカウント登録してください'
 
+  # user
+  FAIED_TO_CREATE_USER = 'アカウント登録に失敗しました'
+
   # player
   FAIED_TO_SELECT_PLAYERS = 'プレイヤー選択でエラーが発生しました'
   # rule
