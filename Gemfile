@@ -17,7 +17,6 @@ gem 'sassc-rails', '2.1.2'
 gem 'sass-rails', '6.0.0'
 gem 'turbolinks', '5.2.1'
 gem 'webpacker', '5.4.3'
-# gem 'hirb-unicode', '>= 0.0.5' # マルチバイト文字の表示を補正するgem
 gem 'chart-js-rails', '~> 0.1.4' # chart.js
 gem 'pry-byebug'
 gem 'pry-rails'
