@@ -3,61 +3,58 @@
     .page-title
       .d-flex.align-items-end.text-main
         %h4.text-center.text-md-start.fw-bold.mb-0 アカウント#{action}
-        
+
 .row.d-flex.justify-content-center
   .col-10.col-md-8
     = form_with model: @user, url: user_registration_path, class: 'mb-2', local: true do |f|
-      = render 'layouts/validation_error', instance: @user
+      - if session[:errors].present?
+        = render 'invited_player_validation_error', errors_full_messages: session[:errors]
+      - else
+        = render 'layouts/validation_error', instance: @user
       .div-title.mb-3
         = f.label :ユーザー名, class: 'title-p text-main'
         %span.fs-sm.text-main (10文字以内)
         %span.p_required 必須
-        - if @invited_player.nil?
-          = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10,
+        - if session[:input_name].present?
+          = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10, value: session[:input_name],
             class: 'form-control py-md-1 rounded bg-white'
         - else
-          = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10, value: @invited_player.name,
-            class: 'form-control py-md-1 rounded bg-white'
-            
+          - if @invited_player.nil?
+            = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10,
+              class: 'form-control py-md-1 rounded bg-white'
+          - else
+            = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10, value: @invited_player.name,
+              class: 'form-control py-md-1 rounded bg-white'
+
       .div-title.mb-3
         = f.label :メールアドレス, class: 'title-p text-main'
         %span.p_required 必須
-        = f.email_field :email, autofocus: true, autocomplete: "email", 
-          class: 'form-control py-md-1 rounded bg-white'
+        - if session[:input_email].present?
+          = f.email_field :email, autofocus: true, autocomplete: "email", value: session[:input_email],
+            class: 'form-control py-md-1 rounded bg-white'
+        - else
+          = f.email_field :email, autofocus: true, autocomplete: "email", 
+            class: 'form-control py-md-1 rounded bg-white'
 
-      -# .div-title.mb-3
-      -#   = f.label :アイコン画像, class: 'title-p text-main'
-      -#   %br
-      -#   .custom-file-upload
-      -#     = f.file_field :avatar, id: 'user_avatar', class: 'form-control custom-file-input', data: { existing_avatar: @user.avatar.url }
-      -#     %label.custom-file-label.mt-2{ for: 'user_avatar' } 画像を選択
-          
-      .div-title.mb-3
+      .div-title.mb-1
         - if @user.persisted?
           = f.label :'変更後パスワード', class: 'title-p text-main'
         - else
           = f.label :パスワード, class: 'title-p text-main'
           %span.p_required 必須
         %span.fs-sm.text-main (8文字以上)
-        = f.password_field :password, autofocus: true, autocomplete: "password", 
+        = f.password_field :password, autofocus: true, autocomplete: "password", minlength: 8,
+          class: 'form-control py-md-1 rounded bg-white mb-1'
+        = f.password_field :password_confirmation, placeholder: "確認用", autofocus: true, autocomplete: "password", minlength: 8,
           class: 'form-control py-md-1 rounded bg-white mb-3'
-          
-      .div-title.mb-3
-        - if @user.persisted?
-          = f.label :'変更後パスワード確認', class: 'title-p text-main'
-        - else
-          = f.label :パスワード確認, class: 'title-p text-main'
-          %span.p_required 必須
-        = f.password_field :password_confirmation, autofocus: true, autocomplete: "password", 
-          class: 'form-control py-md-1 rounded bg-white mb-3'
-          
+
       - if @user.persisted?
         .div-title.mb-3
           = f.label :current_password, "現在のパスワード", class: 'title-p text-main'
           %span.p_required 必須
           = f.password_field :current_password, autofocus: true, autocomplete: "current-password",
             class: 'form-control py-md-1 rounded bg-white mb-3'
-        
+
       - if @invited_player.present?
         = text_field_tag(:p_id, @invited_player.id, type: "hidden")
 
@@ -68,7 +65,7 @@
             %span #{action}
       - if @user.persisted?
         .m-auto.fs-sm
-          = link_to unsubscribes_path, 
+          = link_to unsubscribes_path,
             class: "text-center text-main my-3" do
             .btn-text
               %i.fa-regular.fa-trash-can.pe-1

@@ -33,7 +33,7 @@ Rails.application.routes.draw do
     :sessions => 'users/sessions',
     :passwords => 'users/passwords' # passwordリセット
   }
-  resources :users, only: [:show]
+  get '/me', to: 'users#show'
   resources :unsubscribes, only: [:index, :destroy]
 
   namespace :match_groups do

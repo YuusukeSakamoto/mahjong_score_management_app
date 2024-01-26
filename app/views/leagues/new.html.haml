@@ -20,7 +20,12 @@
           .modal-header
             %h5.modal-title.fw-bold リーグ戦とは
           .modal-body
-            %p 同じプレイヤーとの対局を記録し、順位表や各プレイヤーの成績推移を楽しむことができる機能です。
+            %p.fw-bold 同じプレイヤーとの対局を記録し、順位表や各プレイヤーの成績推移を見ることができる機能です。
+            %span 手順
+            %ul
+              %li リーグ名とルールを設定
+              %li リーグに参加するプレイヤーを選択
+              %li リーグの対局を記録(繰り返し)
             = image_tag 'league_modal.jpeg'
           .modal-footer
             %button.btn.btn-secondary{"data-bs-dismiss" => "modal", type: "button"} 閉じる

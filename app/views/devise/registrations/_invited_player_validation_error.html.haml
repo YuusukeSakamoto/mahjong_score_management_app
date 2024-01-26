@@ -1,0 +1,7 @@
+%ul.validation-alert.text-center
+  %h3
+  - errors_full_messages.each do |msg|
+    .d-flex.align-items-center
+      %i.bx.bx-error-alt.pe-1
+      %li.list-unstyled
+        = msg

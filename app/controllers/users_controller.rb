@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @user = User.find_by(id: params[:id])
+    @user = User.find_by(id: current_user.id)
     redirect_to(root_path, alert: FlashMessages::ACCESS_DENIED) && return unless @user
   end
 end

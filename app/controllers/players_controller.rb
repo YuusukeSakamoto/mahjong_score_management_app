@@ -77,7 +77,7 @@ class PlayersController < ApplicationController
         new_player = Player.create(name: name)
         session_players << new_player
       else
-        searched_player = Player.find_by(id: id)
+        searched_player = Player.find_by(id: id, name: name)
         if searched_player.nil?
           redirect_to_new_player(p_ids_names.count)
           break

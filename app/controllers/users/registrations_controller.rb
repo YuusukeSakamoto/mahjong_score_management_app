@@ -24,6 +24,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     resource.save
     yield resource if block_given?
     if resource.persisted?
+      reset_session_input_data # セッションに保存したデータを削除
       if resource.active_for_authentication?
         set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
@@ -43,7 +44,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       set_minimum_password_length
-      respond_with resource
+      set_session_input_data # ユーザーが入力したデータをセッションに保存
+      redirect_to request.referer # p_idとtkを含んだURLにリダイレクトする
     end
     # devise元コードから転記----ここまで-------------------------------
   end
@@ -110,8 +112,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # 招待されたplayerに新規登録したuser_idを保存する
   def save_user_id_to_invited_player
-    player = Player.find(params[:p_id])
+    player = Player.find_by(id: params[:p_id])
+    redirect_to(root_path, alert: FlashMessages::FAIED_TO_CREATE_USER) && return unless player
     player.update_columns(name: params[:user][:name], user_id: @user.id)
+  end
+
+  # ユーザーが入力したデータをセッションに保存（バリデーションエラーのフォームセットのために使用）
+  def set_session_input_data
+    session[:errors] = resource.errors.full_messages
+    session[:input_name] = sign_up_params[:name]
+    session[:input_email] = sign_up_params[:email]
+  end
+
+  # セッションに保存したデータを削除
+  def reset_session_input_data
+    session[:errors] = nil
+    session[:input_name] = nil
+    session[:input_email] = nil
   end
 
   # If you have extra params to permit, append them to the sanitizer.

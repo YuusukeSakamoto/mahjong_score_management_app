@@ -10,6 +10,7 @@ class Match < ApplicationRecord
   validates :play_type, presence: true, numericality: { in: 3..4 }
   validates :match_on, presence: true
   validates :rule_id, presence: true
+  validates :memo, presence: true, length: { maximum: 50 }
 
   scope :desc, -> { order(match_on: :desc, created_at: :desc) } # 対局日付の降順
   scope :asc, -> { order(match_on: :asc, created_at: :desc) } # 対局日付の降順
