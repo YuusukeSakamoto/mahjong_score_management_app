@@ -13,17 +13,17 @@
         = render 'layouts/validation_error', instance: @user
       .div-title.mb-3
         = f.label :ユーザー名, class: 'title-p text-main'
-        %span.fs-sm.text-main (10文字以内)
+        %span.fs-sm.text-main (8文字以内)
         %span.p_required 必須
         - if session[:input_name].present?
-          = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10, value: session[:input_name],
+          = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 8, value: session[:input_name],
             class: 'form-control py-md-1 rounded bg-white'
         - else
           - if @invited_player.nil?
-            = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10,
+            = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 8,
               class: 'form-control py-md-1 rounded bg-white'
           - else
-            = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 10, value: @invited_player.name,
+            = f.text_field :name, autofocus: true, autocomplete: "name", maxlength: 8, value: @invited_player.name,
               class: 'form-control py-md-1 rounded bg-white'
 
       .div-title.mb-3
