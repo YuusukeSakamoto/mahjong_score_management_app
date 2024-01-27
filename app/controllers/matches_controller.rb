@@ -53,7 +53,7 @@ class MatchesController < ApplicationController
 
     @matches = @match_group.matches
     @rule = Rule.find_by(id: @match_group.rule_id)
-    @create_day = @match_group.matches.last.created_at.to_date.to_s(:yeardate)
+    @last_match_day = @match_group.last_match_day
     session[:previous_url] = request.referer unless request.referer.include?(edit_match_path)
   end
 

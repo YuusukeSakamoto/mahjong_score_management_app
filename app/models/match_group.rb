@@ -65,6 +65,11 @@ class MatchGroup < ApplicationRecord
     chip_rule? && matches.count < idx + 1
   end
 
+  # match_groupに紐づく最後のmatchの日付を取得
+  def last_match_day
+    matches.last.match_on.to_date.to_s(:yeardate)
+  end
+
   private
 
   # チップデータはユーザーによって登録されたデータか(=仮データでないか)
