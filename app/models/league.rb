@@ -11,7 +11,7 @@ class League < ApplicationRecord
   validates :name, presence: true, length: { maximum: 15 }
   validates :play_type, presence: true
   validates :rule_id, presence: true
-  validates :description, presence: true, length: { maximum: 50 }
+  validates :description, length: { maximum: 50 }
 
   attr_accessor :mg_ids, :l_match_ids
 
