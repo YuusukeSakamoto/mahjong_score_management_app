@@ -1,13 +1,13 @@
 .row.d-flex.justify-content-center
   .col-10.col-md-8.text-main.px-0
 
-    .info.py-2.mb-1.mx-1.text-center
+    .info.pb-2.mb-1.mx-1.text-center
       .d-flex.align-items-center.justify-content-center
         %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
         - if @league.present?
-          %p.mb-0.fw-bold リーグの参加プレイヤーを選択しましょう！
+          %p.mb-0.fw-bold リーグに参加するプレイヤーを選択しましょう！
         - else
-          %p.mb-0.fw-bold プレイヤーを選択・追加しましょう！
+          %p.mb-0.fw-bold 記録するプレイヤーを選択しましょう！
 
     .selected_players
       %h5.border-green-left-table.fw-bold.mb-3
@@ -44,7 +44,7 @@
       - else
         %ul.players_list
           - @played_players.each do |p|
-            %li.players_list-item 
+            %li.players_list-item
               .p_name #{p[1]}
               .p_id{style: "display: none"}= p[0]
 
@@ -60,17 +60,21 @@
     .invite_users
       .d-flex.align-items-center
         %i.bx.bxs-down-arrow.text-green
-        %p.mb-0.ps-1.fw-bold 3. アカウント登録済みプレイヤーを参加
-      .process.mb-2
+        %p.mb-0.ps-1.fw-bold 3. アカウント登録済みプレイヤーを参加させる
+      .process.my-2
         %p.fs-sm.mb-0.ps-4 <手順>
-        %p.fs-sm.mb-0.ps-4 1. 参加するプレイヤーは下記URLからログインする
+        %p.fs-sm.mb-0.ps-4 1. 参加するプレイヤーへ下記リンクからログインしてもらう
         %p.fs-sm.mb-0.ps-4 2. このページを更新する
         %p.fs-sm.mb-0.ps-4 ※ URLは発行から10分間有効です
 
-      = text_area_tag '#', @authentication_url, class: "form-control ms-1 py-md-1 rounded bg-white"
+      .invite_users_btns.col-10.col-md-8.m-auto
+        #share-link.main-btn--white-orange-sm{ data: { url: @authentication_url } }
+          %span.share-link{style: "text-decoration: none;"}  1. ログインリンクをコピー
+          %i.share-link.fa-solid.fa-link.ps-1
+          %i.share-link.fa-solid.fa-check.text-green.hidden.ps-1
 
-    .text-center.mt-3.mb-5
-      = button_to request.path, method: :get, params: { play_type: @play_type}, 
-        class: "col-8 col-md-5 mb-3 main-btn--white-orange", id: "update_btn" do
-        %i.bx.bx-revision.pe-1.text-orange.fw-bold{style: "padding-top: 1px;"}
-        ページ更新
+        .text-center.mt-2
+          = button_to request.path, method: :get, params: { play_type: @play_type},
+            class: "main-btn--white-orange-sm w-100", id: "update_btn" do
+            2. ページ更新
+            %i.bx.bx-revision.ps-1.text-orange.fw-bold{style: "padding-top: 1px;"}
