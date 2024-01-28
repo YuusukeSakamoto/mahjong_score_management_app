@@ -74,4 +74,36 @@ module ApplicationHelper
   def league_name(league_id)
     League.find_by(id: league_id).name
   end
+
+  # metaタグ定義
+  def default_meta_tags
+    {
+      site: 'Janreco',
+      title: 'Janreco - 簡単に麻雀成績を記録できる！(三麻/四麻対応)',
+      reverse: true,
+      charset: 'utf-8',
+      description: 'Janreco(じゃんれこ)は、簡単に麻雀の対局成績を記録することができるサービスです。（四人/三人麻雀対応、チップ対応）成績を記録する人がユーザー登録すれば、プレイヤー全員分の対局成績を記録することができます。またリンクを共有することで対局成績を共有しながら麻雀を楽しむことができます。',
+      keywords: '麻雀,成績記録,リーグ戦',
+      canonical: request.original_url,
+      separator: '|',
+      icon: [
+        { href: image_url('favicon.ico') },
+        { href: image_url('apple-touch-icon.png'), rel: 'apple-touch-icon', sizes: '180x180', type: 'image/png' },
+      ],
+      og: {
+        site_name: :site,
+        title: :title,
+        description: :description,
+        type: 'website',
+        url: request.original_url,
+        image: image_url('apple-touch-icon.png'),
+        local: 'ja-JP',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        site: '@',
+        image: image_url('apple-touch-icon.png'),
+      }
+    }
+  end
 end
