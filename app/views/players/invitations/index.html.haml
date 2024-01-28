@@ -1,4 +1,4 @@
-.container
+.container.mb-5
   .row.justify-content-center
     .col-11.col-md-9.text-center.pb-2
       .page-title
@@ -20,11 +20,11 @@
       .col-10.col-md-6.my-3.table-responsive.text-center
         %table.table.text-main.text-nowrap.col-10.col-md-6
           - @invited_players.each do |player|
-            %tr
+            %tr.invite_list
               %td.fw-bold= player.name
               %td
                 = link_to new_players_invitation_path(player_id: player.id),
-                  class: "main-btn--white-orange-sm px-1 py-1 m-auto" do
+                  class: "main-btn--white-orange-sm px-1 py-1 m-auto" ,data: { "turbolinks" => false } do
                   .btn-text
                     %i.fa-solid.fa-user-plus
                     %span 招待

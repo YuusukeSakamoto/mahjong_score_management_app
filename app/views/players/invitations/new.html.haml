@@ -1,17 +1,18 @@
-.container
+.container.mb-5
   .row.justify-content-center
     .col-11.col-md-9.text-center.pb-2
       .page-title
         .d-flex.align-items-end.text-main
-          %h4.text-center.text-md-start.fw-bold.mb-0 招待する
-          
+          %h4.text-center.text-md-start.fw-bold.mb-0 Janrecoに招待する
+
     .col-10.col-md-8.text-center.pb-2
-      %p.mt-1.mb-0.text-main.fw-bold= "#{@invited_player.name}"
-      = text_area_tag '#', @invite_url, class: 'form-control', id: 'copy-target'
+      %p.mt-1.mb-1.text-main.fw-bold= "招待するプレイヤー : #{@invited_player.name}"
+      .col-8.col-md-6.col-lg-4.m-auto
+        #share-link.main-btn--white-orange-sm.mt-3{ data: { url: @invite_url } }
+          %span.share-link{style: "text-decoration: none;"}  招待リンクをコピー
+          %i.share-link.fa-solid.fa-link.ps-1
+          %i.share-link.fa-solid.fa-check.text-green.hidden.ps-1
+
       .px-2.py-2.m-2.text-gray.fs-sm.text-center
         %p.mb-0.text-minus.fw-bold 上記リンクを招待する方へ送ってください。
         %p.mb-0 ※リンクは10分有効です。
-      .line-it-button{"data-color" => "default", "data-count" => "false", 
-        "data-env" => "REAL", "data-lang" => "ja", "data-size" => "large", 
-        "data-type" => "share-a", "data-url" => "https://developers.line.biz/ja/docs/line-social-plugins/install-guide/using-line-share-buttons/", 
-        "data-ver" => "3", style: "display: none;"}
