@@ -1,6 +1,6 @@
 .row.d-flex.justify-content-center
   .col-10.col-md-8.text-main.px-0
-    
+
     .info.py-2.mb-1.mx-1.text-center
       .d-flex.align-items-center.justify-content-center
         %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
@@ -8,19 +8,19 @@
           %p.mb-0.fw-bold リーグの参加プレイヤーを選択しましょう！
         - else
           %p.mb-0.fw-bold プレイヤーを選択・追加しましょう！
-    
+
     .selected_players
       %h5.border-green-left-table.fw-bold.mb-3
         参加プレイヤー (
         %span.player-count= @play_type
         )
-      .selected_players-item 
+      .selected_players-item
         %span #{current_player.name}
         .p_id{style: "display: none"}= current_player.id
-      
+
       - if @authenticated_users.present?
         - @authenticated_users.each do |user|
-          .selected_players-item 
+          .selected_players-item
             %span #{user.player.name}
             %i.bx.bx-trash.player-delete-1
             .p_id{style: "display: none"}= user.player.id
@@ -31,9 +31,10 @@
         %i.fa-regular.fa-circle-check.fs-sm.pe-2
         %span プレイヤー決定
 
+    #delimiter
     .adding_method
-      %h5.border-green-left-table.fw-bold 追加方法
-        
+      %h5.border-green-left-table.fw-bold 選択方法
+
     .played_players
       .d-flex.align-items-center.mb-1
         %i.bx.bxs-down-arrow.text-green
@@ -46,7 +47,7 @@
             %li.players_list-item 
               .p_name #{p[1]}
               .p_id{style: "display: none"}= p[0]
-              
+
     .create_players
       .d-flex.align-items-center.mb-1
         %i.bx.bxs-down-arrow.text-green
@@ -55,7 +56,7 @@
       .d-flex.align-items-center.mb-3
         %input{ autofocus: true, maxlength: 8, class: "form-control ms-1 py-md-1 rounded bg-white w-75" }
         %button.ms-2.py-md-1.main-btn--white-orange-sm 作成
-              
+
     .invite_users
       .d-flex.align-items-center
         %i.bx.bxs-down-arrow.text-green
@@ -67,7 +68,7 @@
         %p.fs-sm.mb-0.ps-4 ※ URLは発行から10分間有効です
 
       = text_area_tag '#', @authentication_url, class: "form-control ms-1 py-md-1 rounded bg-white"
-        
+
     .text-center.mt-3.mb-5
       = button_to request.path, method: :get, params: { play_type: @play_type}, 
         class: "col-8 col-md-5 mb-3 main-btn--white-orange", id: "update_btn" do

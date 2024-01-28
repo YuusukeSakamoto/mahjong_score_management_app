@@ -575,3 +575,10 @@ input:focus, textarea:focus, select:focus {
     text-decoration: underline;
   }
 }
+// ===============================
+// 区切り線
+// ===============================
+#delimiter {
+  border-bottom: 2px solid $lightgray;
+  margin: 1.2rem 0rem;
+}
