@@ -8,7 +8,7 @@ class User < ApplicationRecord
 
   has_one :player
 
-  validates :name, presence: true, length: { maximum: 10 }
+  validates :name, presence: true, length: { maximum: 8 }
 
   enum role: { general: 0, admin: 1 }
 

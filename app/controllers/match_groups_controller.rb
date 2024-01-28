@@ -36,7 +36,7 @@ class MatchGroupsController < ApplicationController
       flash.now[:notice] = FlashMessages::END_RECORD
     end
     @rule = Rule.find_by(id: @match_group.rule_id)
-    @create_day = @match_group.matches.last.created_at.to_date.to_s(:yeardate)
+    @last_match_day = @match_group.last_match_day
     @matches = @match_group.matches
   end
 

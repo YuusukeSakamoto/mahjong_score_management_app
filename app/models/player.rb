@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Player < ApplicationRecord
-  validates :name, presence: true, length: { maximum: 10 }
+  validates :name, presence: true, length: { maximum: 8 }
   validates :invite_token, uniqueness: true, allow_nil: true
 
   belongs_to :user, optional: true # optional:trueで外部キーがnilでもDB登録できる
