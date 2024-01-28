@@ -49,7 +49,7 @@ class Matches::CalculatesController < ApplicationController
 
   # 素点を取得する(得点-返し)
   def get_soten(score, rule)
-    (BigDecimal(format('%.1f', score / 1000.to_f)) - BigDecimal(format('%.1f', rule.kaeshi / 1000.to_f))).to_f
+    (BigDecimal(format('%.1f', score / 10.to_f)) - BigDecimal(format('%.1f', rule.kaeshi / 1000.to_f))).to_f
   end
 
   # ポイントの小数点計算をする

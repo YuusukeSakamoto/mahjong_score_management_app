@@ -78,7 +78,6 @@
 
 
 #feature {
-  background-color: #f7fffc7a;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   padding-bottom: 1rem;
   .card {
@@ -119,7 +118,7 @@
 // *****************************
 .slider {
   position: relative;
-  max-width: 600px; // このサイズは調整可能です
+  max-width: 600px;
   overflow: hidden;
   margin: auto;
 
@@ -128,6 +127,12 @@
     overflow-x: auto;
     scroll-behavior: smooth;
     padding: 25px 0px;
+    margin: 0 auto;
+    justify-content: flex-start; /* 既定では左揃え */
+
+    @media (min-width: 1200px) { /* 画面幅が1200px以上の場合 = 画像4枚 * スライド幅300px */
+      justify-content: center; /* 中央揃えに変更 */
+    }
 
     .slide {
       display: flex;
@@ -137,9 +142,9 @@
       margin: 0px 10px; // スライド間のマージン
       flex-shrink: 0;
 
-      width: 500px; // 各スライドの幅
+      width: 300px; // 各スライドの幅
       @include smartphone {
-        width: 380px; // 各スライドの幅
+        width: 200px; // 各スライドの幅
       }
 
       .slide-title {
@@ -161,11 +166,11 @@
       }
 
       img {
-        width: 500px;
-        border-radius: 20px;
+        width: 250px;
+        border-radius: 40px;
         box-shadow: 0 8px 18px -2px rgba(0,16,14,.08),0 8px 36px 16px rgba(0,16,14,.03);
         @include smartphone {
-          width: 380px; // 各スライドの幅
+          width: 200px; // 各スライドの幅
         }
       }
     }

@@ -1,4 +1,4 @@
-.container
+.container.mb-5
   .row.justify-content-center
     .col-11.col-md-9.text-center.pb-2
       .page-title
@@ -9,18 +9,18 @@
       = form_with model: @user, url: session_path(@user), class: 'p-form__input', local: true do |f|
         = render 'layouts/validation_error', instance: resource
         %div
-          = f.label :メールアドレス, class: "text-start text-main fw-bold mb-2 "
-          = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control py-md-1 rounded bg-white mb-3"
+          = f.label :メールアドレス, class: "title-p text-main"
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control py-md-1 rounded bg-white mb-2"
         %div
-          = f.label :パスワード, class: "text-start text-main fw-bold mb-2"
+          = f.label :パスワード, class: "title-p text-main"
           = f.password_field :password, autocomplete: "current-password", class: "form-control py-md-1 rounded bg-white mb-1"
           = f.hidden_field :u_id, value: params[:u_id]
-        .password-reset
-          = link_to "パスワードを忘れた方はこちら", new_user_password_path, class: "text-main fs-sm mb-3"
 
 
-        .col-8.col-md-5.m-auto
+        .col-8.col-md-6.m-auto.mt-3
           = f.button type: 'submit', class: 'main-btn--orange w-100' do
             .btn-text
               %i.fa-solid.fa-arrow-right-to-bracket.pe-1.fw-bold
               %span ログイン
+        .password-reset
+          = link_to "パスワードを忘れた方はこちら", new_user_password_path, class: "text-main text-center fs-sm mt-2 "

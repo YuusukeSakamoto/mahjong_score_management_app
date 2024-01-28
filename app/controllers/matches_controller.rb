@@ -72,6 +72,7 @@ class MatchesController < ApplicationController
   end
 
   def edit
+    score_in_hundred
     redirect_to(root_path, alert: FlashMessages::EDIT_DENIED) && return unless current_player == @match.player
 
     set_player_league
@@ -145,10 +146,26 @@ class MatchesController < ApplicationController
   end
 
   def match_params
+    score_multiplied_by_hundred
     params.require(:match)
           .permit(:rule_id, :player_id, :match_on, :memo, :play_type, :league_id,
                   results_attributes: %i[id score point ie player_id rank])
   end
+
+  # scoreは十の位以下なしでフォームから送信されるため、×100する
+  def score_multiplied_by_hundred
+    params[:match][:results_attributes].each do |result|
+      result[1][:score] = result[1][:score].to_i * 100
+    end
+  end
+
+  # 編集時表示するscoreは十の位以下なしにするため、÷100する
+  def score_in_hundred
+    @match.results.each do |result|
+      result.score = result.score / 100
+    end
+  end
+
 
   # 入力された家に重複がないか
   def ie_uniq?(match)

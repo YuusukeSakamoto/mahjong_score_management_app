@@ -16,7 +16,7 @@ $(document).on('turbolinks:load', function () {
 
     let remainingScoreText = $('.js-remaining_score_hidden_value').text().trim();
     let remainingScore = parseInt(remainingScoreText, 10);
-    let calculatedRemainingScore = remainingScore - total_score;
+    let calculatedRemainingScore = remainingScore - (total_score * 100)
     $('.js-remaining_score_value').text(calculatedRemainingScore);
 
     if (calculatedRemainingScore < 0) {

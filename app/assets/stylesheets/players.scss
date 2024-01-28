@@ -75,6 +75,7 @@
     margin: 0.1rem 0.1rem 0.1rem 0.25rem;
     text-align: center;
     list-style: none;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px;
     cursor: pointer;
     &:hover {
       background-color: $green-5;
@@ -92,12 +93,24 @@
     border-radius: 5px;
     padding: 0.4rem 0.9rem;
     margin-bottom: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px;
   }
   i {
     font-size: 1.2rem;
     cursor: pointer;
     &:hover {
       color: $orange;
+    }
+  }
+}
+
+// ===============================
+// 招待一覧画面
+// ===============================
+.invite_list {
+  td {
+    a {
+      max-width: 100px;
     }
   }
 }

@@ -7,9 +7,9 @@
       .info-content.text-start
         %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
         %span.mb-0.fw-bold ptを手動で変更することも可能です
-      
+
   .col-10.col-md-8
-    = form_with model: @match, class: 'mb-4', local: true do |f|
+    = form_with model: @match, class: 'mb-4', id: 'match_form', local: true do |f|
       = render 'layouts/validation_error', instance: @match
       = f.hidden_field :player_id, value: current_player.id
       = f.hidden_field :play_type
@@ -35,38 +35,36 @@
         = f.label :対局日, class: 'title-p text-main'
         %span.p_required 必須
         - if controller.action_name == "edit"
-          = f.date_field :match_on, value: @match.match_on, autofocus: true, 
+          = f.date_field :match_on, value: @match.match_on, autofocus: true,
             class: 'form-control py-md-1 rounded bg-white mb-1 text-center'
-        - else 
-          = f.date_field :match_on, value: Date.today, autofocus: true, 
+        - else
+          = f.date_field :match_on, value: Date.today, autofocus: true,
             class: 'form-control py-md-1 rounded bg-white mb-1 text-center'
       .d-flex.align-items-end.mb-2
         %span.title-p.text-main.mb-0 得点
         %span.p_required 必須
-        .d-flex.align-items-center
-          %i.fa-solid.fa-circle-info.text-pink.fs-sm.ps-4.pe-1
-          .js-remaining_score.text-main.fw-bold 残得点：
-      // 選択されたプレイヤー分だけフォーム表示   
+      // 選択されたプレイヤー分だけフォーム表示
       - i = 0
       = f.fields_for :results do |result|
         .mb-2
           // 大文字変換対策
-          - player_name = @players[i]['name']  
+          - player_name = @players[i]['name']
           = result.label :name, player_name, class: 'text-main fw-bold'
           .d-flex.align-items-end.justify-content-between
             - if @match.results[i].ie.nil?
-              = result.select :ie, 
-                Result::IE , { selected: i + 1 }, 
-                {class: 'form-control px-0 py-1 py-md-1 rounded bg-white w-25 text-center'}    
+              = result.select :ie,
+                Result::IE , { selected: i + 1 },
+                {class: 'form-control px-0 py-1 py-md-1 rounded bg-white w-25 text-center'}
             - else
-              = result.select :ie, 
-                Result::IE , { selected: @match.results[i].ie }, 
-                {class: 'form-control px-0 py-1 py-md-1 rounded bg-white w-25 text-center'}    
-            %p.text-main.mb-0.mx-1.mx-md-2 家
+              = result.select :ie,
+                Result::IE , { selected: @match.results[i].ie },
+                {class: 'form-control px-0 py-1 py-md-1 rounded bg-white w-25 text-center'}
+            %p.text-main.mb-0.ms-1.me-2 家
 
-            = result.number_field :score, autofocus: true, step: "100",
-              class: "form-control py-1 py-md-1 rounded bg-white text-center"
-            %p.text-main.mb-0.mx-1.mx-md-2 点
+            = result.number_field :score, autofocus: true, step: "1",
+              class: "form-control py-1 py-md-1 rounded bg-white text-center w-50"
+            %p.text-main.mb-0.ms-1 00
+            %p.text-main.mb-0.me-2 点
 
             = result.number_field :point, autofocus: true, step: "0.1",
               class: 'form-control py-1 py-md-1 rounded w-50 text-center'
@@ -76,7 +74,11 @@
             = result.hidden_field :rank, value: @match.results[i].rank
         - i += 1
 
-      .my-4
+      .d-flex.align-items-center.justify-content-center
+        %i.fa-solid.fa-circle-info.text-pink.fs-sm
+        .js-remaining_score.text-main.fw-bold.ps-1 残得点：
+
+      .mt-2.mb-4
         = f.label :'対局メモ', class: 'title-p text-main'
         %span.fs-sm.text-main (50文字以内)
         %button.js-memo-dropdown.mb-1.text-main{ type: 'button' }
@@ -93,7 +95,7 @@
               .btn-text
                 %i.fa-regular.fa-circle-check.pe-1.fw-bold
                 %span 更新
-        - else 
+        - else
           .d-flex.justify-content-center
             = f.button type: 'submit', class: 'main-btn--orange w-100' , id: "match_create_btn" do
               .btn-text
