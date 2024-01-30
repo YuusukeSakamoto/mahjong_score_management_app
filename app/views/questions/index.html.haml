@@ -1,4 +1,4 @@
-.container
+.container.mb-5
   .row
     .col-11.col-md-9.text-center.pb-2.m-auto
       .page-title
@@ -11,13 +11,13 @@
         .faq-category
           %h5
             %i.fa-solid.fa-circle-question.fs-sm
-            アカウント登録
+            アカウント登録について
           %ul.faq-list
             %li.faq-item
               .faq-question
                 .qa-flex
                   %span Q.
-                  .q-text 既に記録があるプレイヤーをアカウント登録できますか
+                  .q-text 成績を記録済みのプレイヤーがアカウント登録する場合、成績を引き継いでアカウント登録する方法はありますか
                 %span.fa.fa-chevron-down
               .faq-answer
                 .qa-flex
@@ -27,7 +27,7 @@
         .faq-category
           %h5
             %i.fa-solid.fa-circle-question.fs-sm
-            プレイヤー
+            プレイヤーについて
           %ul.faq-list
             %li.faq-item
               .faq-question
@@ -38,13 +38,23 @@
               .faq-answer
                 .qa-flex
                   %span A.
-                  .a-text 問題ございません。ただプレイヤー選択にて混同しないよう異なるプレイヤー名とすることを推奨します。
+                  .a-text 問題ございません。ただプレイヤー選択にて混同しないように異なるプレイヤー名とすることを推奨します。
 
             %li.faq-item
               .faq-question
                 .qa-flex
-                  %span Q. 
-                  .q-text 自分が作成したプレイヤーの削除は可能ですか
+                  %span Q.
+                  .q-text 作成したプレイヤーの削除は可能ですか
+                %span.fa.fa-chevron-down
+              .faq-answer
+                .qa-flex
+                  %span A.
+                  .a-text できません。
+            %li.faq-item
+              .faq-question
+                .qa-flex
+                  %span Q.
+                  .q-text 作成したプレイヤーの名前の変更は可能ですか
                 %span.fa.fa-chevron-down
               .faq-answer
                 .qa-flex
@@ -52,20 +62,48 @@
                   .a-text できません。
 
         .faq-category
-          %h5 
+          %h5
             %i.fa-solid.fa-circle-question.fs-sm
-            対局成績
+            ポイント計算について
           %ul.faq-list
             %li.faq-item
               .faq-question
                 .qa-flex
                   %span Q.
-                  .q-text 得点が同点の場合、ポイント(pt)はどう計算されますか
+                  .q-text 点数計算(小数点有効・五捨六入・四捨五入・切り捨て・切り上げ)の詳しい計算方法について教えてください
                 %span.fa.fa-chevron-down
               .faq-answer
                 .qa-flex
                   %span A.
-                  .a-text 入力されている「家」に応じて順位点が付与されポイントが計算されます。
+                  .a-text
+                    .span.subtitle < 小数点有効 >
+                    .span ・小数点はそのままで計算しません
+                    .span.subtitle < 五捨六入 >
+                    .span ・5以下切り捨て、6以上切り上げ
+                    .span   (ex: 25500 → 25000として計算、-1500 → -1000として計算)
+                    .span.subtitle < 四捨五入 >
+                    .span ・4以下切り捨て、5以上切り上げ
+                    .span   (ex: 25500 → 26000として計算、-1500 → -2000として計算)
+                    .span.subtitle < 切り捨て >
+                    .span ・小数点は切り捨てます
+                    .span   (ex: 25500 → 25000として計算、-1500 → -1000として計算)
+                    .span.subtitle < 切り上げ >
+                    .span ・小数点は切り上げます
+                    .span   (ex: 25500 → 26000として計算、-1500 → -2000として計算)
+
+
+            %li.faq-item
+              .faq-question
+                .qa-flex
+                  %span Q.
+                  .q-text 得点が同点の場合、ポイント(pt)はどのように計算されますか
+                %span.fa.fa-chevron-down
+              .faq-answer
+                .qa-flex
+                  %span A.
+                  .a-text
+                    同点の場合、入力されている「家」が上家であるプレイヤーの方が順位が上と判定してポイントを計算します。
+                    （例えば南家と西家のプレイヤーが同点であれば、南家のプレイヤーが上位です）
             %li.faq-item
               .faq-question
                 .qa-flex
@@ -75,45 +113,30 @@
               .faq-answer
                 .qa-flex
                   %span A.
-                  .a-text 計算されません。ptを手動で入力してください。
-            %li.faq-item
-              .faq-question
-                .qa-flex
-                  %span Q.
-                  .q-text 成績の編集・削除はどのプレイヤーができますか
-                %span.fa.fa-chevron-down
-              .faq-answer
-                .qa-flex
-                  %span A.
-                  .a-text 成績を編集・削除できるのは記録者のみです。
+                  .a-text 計算されません。ptを手動で修正してください。
 
         .faq-category
           %h5
             %i.fa-solid.fa-circle-question.fs-sm
-            ルール
+            リーグ戦について
           %ul.faq-list
             %li.faq-item
               .faq-question
                 .qa-flex
                   %span Q.
-                  .q-text ルールを削除するには、どうすればいいですか
+                  .q-text リーグ作成後にプレイヤー・ルールを変更したい
                 %span.fa.fa-chevron-down
               .faq-answer
                 .qa-flex
                   %span A.
-                  .a-text ルール編集画面から削除できます。削除したいルールで記録をつけている場合、またはリーグを作成している場合、ルールを削除することはできません。
-        .faq-category
-          %h5
-            %i.fa-solid.fa-circle-question.fs-sm
-            リーグ戦
-          %ul.faq-list
+                  .a-text リーグ作成後のプレイヤー・ルール変更はできません。新しくリーグを作成して正しいプレイヤーとルールを選択してください。
             %li.faq-item
               .faq-question
                 .qa-flex
-                  %span Q. 
-                  .q-text リーグ戦のプレイヤーを変更・追加したい
+                  %span Q. 5人以上のリーグを作成したい
+                  .q-text
                 %span.fa.fa-chevron-down
               .faq-answer
                 .qa-flex
                   %span A.
-                  .a-text リーグ戦のプレイヤーは対局形式（三麻・四麻）に応じて3~4人となっています。リーグ作成後のプレイヤー変更はできません。
+                  .a-text 5人以上のリーグは作成できない仕様です。（今後実装するかも）
