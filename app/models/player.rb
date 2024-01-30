@@ -30,7 +30,7 @@ class Player < ApplicationRecord
   # メインデータ
   # ************************************
 
-  # playerの総対局数を取得する
+  # playerの総対戦数を取得する
   def total_match_count(play_type = @play_type)
     @play_type = play_type
     @total_match_count ||= {}
@@ -147,7 +147,7 @@ class Player < ApplicationRecord
     end
   end
 
-  # 家別の対局数を取得する
+  # 家別の対戦数を取得する
   def ie_times
     Result::IE_NUM.map do |ie|
       results_for_matches.where(ie: ie).count

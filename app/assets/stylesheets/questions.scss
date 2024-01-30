@@ -2,14 +2,13 @@
 
 #faq {
   .faq-category {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 
     h5 {
       display: flex;
-      align-items: center; 
+      align-items: center;
       justify-content: center;
       font-weight: bold;
-    
       .fa-circle-question {
         color: $orange;
         margin-right: 5px;
@@ -45,17 +44,21 @@
         .faq-answer {
           display: none;
           padding: 10px;
+          color: $navyblue;
 
           .a-text {
-            font-weight: bold;
+            .subtitle {
+              font-weight: bold;
+              padding-top: 5px;
+            }
           }
         }
-        
+
         .qa-flex {
           display: flex;
           justify-content: start;
           align-items: center;
-            
+
           span {
             padding-right: 5px;
           }

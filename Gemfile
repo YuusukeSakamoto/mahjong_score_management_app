@@ -48,6 +48,9 @@ gem 'enum_help'
 # 環境変数
 gem 'dotenv-rails', groups: [:development, :test]
 
+# metaタグ定義
+gem 'meta-tags'
+
 group :development, :test do
   gem 'byebug', '11.1.3'
   gem 'faker'

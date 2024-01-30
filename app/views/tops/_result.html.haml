@@ -4,7 +4,7 @@
       .d-flex.flex-column.align-items-center.flex-md-row
         .d-flex.justify-content-evenly.w-100.main-results__line
           %span.my-1.my-md-2.mx-2.main-results__hide a
-          %p.my-1.my-md-2.mx-2.text-nowrap.main-results__item-1= "総対局数  #{@player.total_match_count(play_type)}局"
+          %p.my-1.my-md-2.mx-2.text-nowrap.main-results__item-1= "総対戦数  #{@player.total_match_count(play_type)}戦"
           %p.my-1.my-md-2.mx-2.text-nowrap.main-results__item-2= "総合pt  #{@player.total_point(play_type)}pt"
         .d-flex.justify-content-evenly.w-100.main-results__line
           %span.my-1.my-md-2.mx-2.main-results__hide a
@@ -14,7 +14,7 @@
     .col-10.ps-md-3.mx-auto
       .d-flex.align-items-end.justify-content-between
         %p.border-green-left.fw-bold.py-1.ps-2.mb-2 順位推移
-        %span.ps-1.py-1.mb-2.fs-sm ※直近10局
+        %span.ps-1.py-1.mb-2.fs-sm ※直近10戦
       - @rank_data = @player.graph_rank_data(play_type)
       = render partial: 'graphs/rank', locals: { play_type: play_type }
 

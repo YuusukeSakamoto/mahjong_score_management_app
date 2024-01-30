@@ -54,11 +54,11 @@
             - if @match.results[i].ie.nil?
               = result.select :ie,
                 Result::IE , { selected: i + 1 },
-                {class: 'form-control px-0 py-1 py-md-1 rounded bg-white w-25 text-center'}
+                {class: 'form-control px-1 py-1 rounded bg-white w-25 text-center'}
             - else
               = result.select :ie,
                 Result::IE , { selected: @match.results[i].ie },
-                {class: 'form-control px-0 py-1 py-md-1 rounded bg-white w-25 text-center'}
+                {class: 'form-control px-1 py-1 rounded bg-white w-25 text-center'}
             %p.text-main.mb-0.ms-1.me-2 家
 
             = result.number_field :score, autofocus: true, step: "1",

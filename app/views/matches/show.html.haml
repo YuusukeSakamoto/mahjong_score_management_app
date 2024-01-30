@@ -6,7 +6,7 @@
           %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0.text-nowrap 対局成績
           .d-flex.fs-sm
             - if recording?
-              %p.mb-0.ms-2="#{@match_group.get_index(params[:id].to_i)}局目"
+              %p.mb-0.ms-2="#{@match_group.get_index(params[:id].to_i)}戦目"
             - else
               %p.mb-0.ms-2="#{@match.match_on.to_s(:yeardate)}"
               %p.mb-0.ms-2="#{Rule.find(@match.rule_id).name}"
@@ -50,12 +50,12 @@
           = link_to new_match_path(league: session[:league]), class: "main-btn--white-green mb-3" do
             .btn-text
               %i.fa-solid.fa-angles-right
-              %span #{@match_group.matches.count + 1}局目の成績を登録
+              %span #{@match_group.matches.count + 1}戦目の成績を登録
         - else
           = link_to new_match_path, class: "main-btn--white-green mb-3" do
             .btn-text
               %i.fa-solid.fa-angles-right
-              %span #{@match_group.matches.count + 1}局目の成績を登録
+              %span #{@match_group.matches.count + 1}戦目の成績を登録
     = render partial: 'match_groups/result_table'
     .row
       .col-8.col-md-4.col-lg-4.text-center.m-auto.mb-2

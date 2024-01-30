@@ -11,7 +11,7 @@
       - if @l_matches.present?
         %p.text-main.fs-sm.mb-0 #{@league.first_record_day} ~ #{@league.last_record_day}
       %p.text-main.fs-sm.mb-0= @league.rule.name
-      %p.text-main.fs-sm.mb-0= "対局数 : #{@league.match_count}"
+      %p.text-main.fs-sm.mb-0= "対数数 : #{@league.match_count}"
       %p.text-main.fs-sm.mb-0= @league.description
       .d-flex.justify-content-center.my-2
         - if user_signed_in?
