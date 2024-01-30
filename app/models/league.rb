@@ -32,7 +32,7 @@ class League < ApplicationRecord
     @last_record_day ||= matches.last.match_on.to_s(:yeardate)
   end
 
-  # リーグにおける総対局数
+  # リーグにおける総対戦数
   def match_count
     @match_count ||= matches.count
   end

@@ -53,7 +53,7 @@ RSpec.describe Player, type: :model do
   end
 
   describe 'Player#total_match_count' do
-    it 'playerの総対局数を取得できること' do
+    it 'playerの総対戦数を取得できること' do
       expect(players_4[0].total_match_count(3)).to eq(0)
       expect(players_4[0].total_match_count(4)).to eq(1)
       expect(players_3[0].total_match_count(3)).to eq(1)

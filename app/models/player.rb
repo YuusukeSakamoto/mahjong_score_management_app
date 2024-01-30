@@ -30,7 +30,7 @@ class Player < ApplicationRecord
   # メインデータ
   # ************************************
 
-  # playerの総対局数を取得する
+  # playerの総対戦数を取得する
   def total_match_count(play_type = @play_type)
     @play_type = play_type
     @total_match_count ||= {}

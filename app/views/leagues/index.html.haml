@@ -18,7 +18,7 @@
                   %h5.fw-bold.mt-2.mb-2= league.name
                   .fs-sm
                     .d-flex.justify-content-center
-                      %p.mb-0 総対局数 :
+                      %p.mb-0 総対戦数 :
                       %span.ps-1= league.match_count
                     - if league.match_count != 0
                       %span #{league.first_record_day} ~ #{league.last_record_day}
