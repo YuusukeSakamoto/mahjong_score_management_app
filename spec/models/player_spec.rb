@@ -103,7 +103,7 @@ RSpec.describe Player, type: :model do
 
   describe 'Player#matches_present?' do
     let(:players) { create_list(:player, 4) }
-    context '対局数が1以上の場合' do
+    context '対戦数が1以上の場合' do
       before do
         rule_4 = create(:rule, player: players.first)
         match_4 = create(:match, player: players.first, rule: rule_4, play_type: 4)
@@ -116,7 +116,7 @@ RSpec.describe Player, type: :model do
       end
     end
 
-    context '対局数が0の場合' do
+    context '対戦数が0の場合' do
       it 'falseを返すこと' do
         expect(players[0].matches_present?).to be false
       end

@@ -10,7 +10,7 @@ class PlayersController < ApplicationController
 
   def new
     @play_type = params[:play_type]
-    end_record if session[:league].present? && session[:mg].nil? # リーグ戦1局目登録中にプレイヤー選択に遷移した場合、セッションを解放する
+    end_record if session[:league].present? && session[:mg].nil? # リーグ戦1戦目登録中にプレイヤー選択に遷移した場合、セッションを解放する
     if params[:league].present?
       @league = League.find_by(id: params[:league])
       session[:league] = @league.id

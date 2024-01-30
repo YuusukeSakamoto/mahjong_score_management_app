@@ -14,7 +14,7 @@
     .col-10.ps-md-3.mx-auto
       .d-flex.align-items-end.justify-content-between
         %p.border-green-left.fw-bold.py-1.ps-2.mb-2 順位推移
-        %span.ps-1.py-1.mb-2.fs-sm ※直近10局
+        %span.ps-1.py-1.mb-2.fs-sm ※直近10戦
       - @rank_data = @player.graph_rank_data(play_type)
       = render partial: 'graphs/rank', locals: { play_type: play_type }
 
