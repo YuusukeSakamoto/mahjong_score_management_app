@@ -8,7 +8,6 @@
     = render 'layouts/flash'
     = yield
     = render 'layouts/footer'
-    = debug(params) if Rails.env.development?
     = debug(session[:players]) if Rails.env.development?
     %p.mb-0= "session[:mg] #{session[:mg]}" if Rails.env.development?
     %p.mb-0= "session[:rule] #{session[:rule]}" if Rails.env.development?

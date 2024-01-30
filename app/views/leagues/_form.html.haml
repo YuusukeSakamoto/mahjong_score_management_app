@@ -52,6 +52,22 @@
         .js-rule-details{ style: "display: none;" }
           .js-rule.mb-2
 
+      .div-title.mb-2.mb-sm-3#is_tip_valid
+        - if @league.matches.count == 0
+          = f.label :リーグ成績にチップptを含めるか, class: 'title-p text-main'
+          %span.p_required 必須
+          = f.select :is_tip_valid,
+            [ ["含めない", false],["含める", true] ],
+            {},
+            {class: 'form-control py-md-1 rounded bg-white w-50'}
+        - else
+          = f.label :リーグ成績にチップptを含めるか, class: 'title-p text-main'
+          %span.p_warning ※変更不可
+          = f.select :is_tip_valid,
+            [["含めない", false],["含める", true]],
+            {},
+            {class: 'form-control py-md-1 rounded bg-gray w-50', tabindex: -1, style: "pointer-events: none;"}
+
       .div-title.mb-2.mb-sm-3
         = f.label :'リーグ説明', class: 'title-p text-main mb-md-1'
         %span.fs-sm.text-main (50文字以内)
