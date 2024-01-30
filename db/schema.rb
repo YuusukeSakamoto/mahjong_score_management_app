@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_14_032941) do
+ActiveRecord::Schema.define(version: 2024_01_30_123946) do
 
   create_table "chip_results", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "match_group_id", null: false
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2024_01_14_032941) do
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_tip_valid", default: false, null: false
     t.index ["player_id"], name: "index_leagues_on_player_id"
     t.index ["rule_id"], name: "index_leagues_on_rule_id"
   end
