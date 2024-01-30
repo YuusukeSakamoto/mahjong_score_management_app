@@ -24,17 +24,17 @@ $(document).on('turbolinks:load', function () {
     } else {
       $('.js-remaining_score_value').css('color', '');
     }
-    
+
     if (calculatedRemainingScore === 0) {
       $('#match_create_warning').css('visibility', 'hidden');
     } else {
       $('#match_create_warning').css('visibility', 'visible');
     }
   }
-  
-  // ● ルール詳細の取得
-  function rule_detail(selecter) {
-    
+
+  // ● ルール選択肢で選択された時のjs
+  function selectRule(selecter) {
+
     let id = $(selecter).val();
     $.ajax({
       type: 'GET', // リクエストのタイプ
@@ -50,30 +50,35 @@ $(document).on('turbolinks:load', function () {
       let value = data.score_decimal_point_calc
       let is_chip = '無'
       let pt_calc = ''
-      
-    	if (value === 1) {
-    		pt_calc = "小数点有効"
-    	} else if (value === 2) {
-    		pt_calc = "五捨六入"
-    	} else if (value === 3) {
-    		pt_calc = "四捨五入"
-    	} else if (value === 4) {
-    		pt_calc = "切り捨て"
-    	} else if (value === 5) {
-    		pt_calc = "切り上げ"
-    	} 
-    	
-    	if (data.is_chip) {
-    	  is_chip = '有'
-    	}
-    	
-    	let umas = []
-    	if (data.play_type === 3) {
-    	  umas = [data.uma_one, data.uma_two, data.uma_three].join(',');
-    	} else if (data.play_type === 4) {
-    	  umas = [data.uma_one, data.uma_two, data.uma_three, data.uma_four].join(',');
+
+      // league作成・編集ページのとき
+      if (/^\/leagues\/[^/]+\/edit$/.test(window.location.pathname) ||window.location.pathname === '/leagues/new') {
+        updateIsTipValid(data.is_chip); //「リーグ成績にチップptを含めるか」項目を表示・非表示にする
       }
-      
+
+      if (value === 1) {
+        pt_calc = "小数点有効"
+      } else if (value === 2) {
+        pt_calc = "五捨六入"
+      } else if (value === 3) {
+        pt_calc = "四捨五入"
+      } else if (value === 4) {
+        pt_calc = "切り捨て"
+      } else if (value === 5) {
+        pt_calc = "切り上げ"
+      }
+
+      if (data.is_chip) {
+        is_chip = '有'
+      }
+
+      let umas = []
+      if (data.play_type === 3) {
+        umas = [data.uma_one, data.uma_two, data.uma_three].join(',');
+      } else if (data.play_type === 4) {
+        umas = [data.uma_one, data.uma_two, data.uma_three, data.uma_four].join(',');
+      }
+
       $('.js-rule').append(
       `<ul class="rounded border-green-thin px-1 py-1 text-gray fs-sm text-center">
       <li style="list-style:none">${data.mochi}点持ち / ${data.kaeshi}点返し</li>
@@ -177,7 +182,7 @@ $(document).on('turbolinks:load', function () {
           return '<option value="' + rule.id + '">' + rule.name + '</option>';
         });
         $('#league_rule_id').html(options.join(''));
-        rule_detail('#league_rule_id');
+        selectRule('#league_rule_id');
       }
     });
   }
@@ -190,13 +195,22 @@ $(document).on('turbolinks:load', function () {
     document.getElementById('rule_link').setAttribute('href', newUrl.toString());
   }
 
+  // ● <leagueフォーム>選択されているルールのチップ有無によって「リーグ成績にチップptを含めるか」項目を表示・非表示にする
+  function updateIsTipValid(is_tip) {
+    if (is_tip) {
+      $('#is_tip_valid').show();
+    } else {
+      $('#is_tip_valid').hide();
+    }
+  }
+
   // *********************************************************************
-  // match関連ページのとき、ルール検索実行
+  // match作成・編集ページのとき、ルール検索実行
   if (/^\/matches\/[^/]+\/edit$/.test(window.location.pathname) || window.location.pathname === '/matches/new') {
     let selecter = '#match_rule_id';
-    $(document).ready(rule_detail(selecter));
+    $(document).ready(selectRule(selecter));
     $(selecter).change(function () {
-      rule_detail(selecter);
+      selectRule(selecter);
     });
     let is_recording = gon.is_recording
     let is_league_recording = gon.is_league_recording
@@ -209,17 +223,20 @@ $(document).on('turbolinks:load', function () {
       $('#match_rule_id').attr('tabindex', '-1');
     }
   }
-  // league作成ページのとき実行
-  if (window.location.pathname === '/leagues/new') {
+  // league作成・編集ページのとき実行
+  if (/^\/leagues\/[^/]+\/edit$/.test(window.location.pathname) || window.location.pathname === '/leagues/new') {
+    // リーグ作成時のみページ読み込み時にルールリストとルール登録リンクを更新
+    if (window.location.pathname === '/leagues/new') {
+      var initialPlayType = $('#league_play_type').val();
+      updateRuleList(initialPlayType);
+      updateRuleLink(initialPlayType);
+    }
+    // 選択されたルールに対応する詳細を表示
     let selector = '#league_rule_id';
-    $(document).ready(rule_detail(selector));
+    selectRule(selector);
     $('body').on('change', selector, function() {
-      rule_detail(selector);
+      selectRule(selector);
     });
-    // ページ読み込み時にルールリストとルール登録リンクを更新
-    var initialPlayType = $('#league_play_type').val();
-    updateRuleList(initialPlayType);
-    updateRuleLink(initialPlayType);
     // play_type セレクトボックスの値が変更されたときにルールリストとルール登録リンクを更新
     $('#league_play_type').on('change', function() {
       var selectedPlayType = $(this).val();
@@ -238,11 +255,11 @@ $(document).on('turbolinks:load', function () {
   $('[id$="_score"], #match_rule_id, [id$="_ie"]').change(calculate_point_rank);
 });
 
-// ルール選択に応じた詳細情報の表示
+// ルール詳細情報の表示・非表示
 $(document).on('click', '.js-rule-dropdown', function() {
   // ルール詳細の表示・非表示を切り替える前に現在の表示状態をチェック
   var isCurrentlyVisible = $('.js-rule-details').is(':visible');
-  
+
   $('.js-rule-details').toggle(); // ルール詳細の表示・非表示を切り替える
 
   // アイコンのクラスを切り替える

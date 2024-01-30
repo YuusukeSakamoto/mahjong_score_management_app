@@ -11,6 +11,8 @@ class League < ApplicationRecord
   validates :name, presence: true, length: { maximum: 15 }
   validates :play_type, presence: true
   validates :rule_id, presence: true
+  validates :is_tip_valid, inclusion: [true, false] # boolean型のpresenceチェック
+
   validates :description, length: { maximum: 50 }
 
   attr_accessor :mg_ids, :l_match_ids
@@ -37,9 +39,9 @@ class League < ApplicationRecord
     @match_count ||= matches.count
   end
 
-  # リーグルールがチップ有か
-  def rule_is_tip?
-    Rule.find(rule_id).is_chip
+  # リーグルールがチップ有かつリーグ成績にチップptを含めるか
+  def is_tip_valid?
+    Rule.find(rule_id).is_chip && is_tip_valid
   end
 
   # ************************************
@@ -101,7 +103,7 @@ class League < ApplicationRecord
   def graph_label
     mgs = match_groups
     x_label = []
-    if rule_is_tip?
+    if is_tip_valid?
       x_label = (1..(matches.count + mgs.count)).to_a #チップ有ルールの場合、チップ分ラベルを追加する
     else
       x_label = (1..(matches.count)).to_a
@@ -137,8 +139,8 @@ class League < ApplicationRecord
       points = []
       point_history = [0]
 
-      if rule_is_tip?
-        # リーグルールがチップ=有の場合
+      if is_tip_valid?
+        # リーグルールがチップ=有かつチップptをリーグ成績に含めるの場合
         mgs = match_groups
         mgs.each do |mg|
           # 対局pt → チップptの順番に配列に格納する

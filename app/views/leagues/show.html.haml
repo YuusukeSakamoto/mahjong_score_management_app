@@ -93,7 +93,7 @@
                   %i.bx.bx-chevrons-right.bx-size.text-main{style: "padding-top: 1px;"}
                 - k += 1
             // チップ有ルールの場合、チップptを挿入する
-            - if @league.rule_is_tip? && (MatchGroup.find(match.match_group_id).matches.last == match)
+            - if @league.is_tip_valid? && (MatchGroup.find(match.match_group_id).matches.last == match)
               - if @share_token.present?
                 %tr{data: { href: edit_match_group_chip_results_path(match.match_group_id,
                                                                       tk: @share_token.token,

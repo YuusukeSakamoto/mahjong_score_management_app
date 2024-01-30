@@ -8,7 +8,7 @@ class LeaguesController < ApplicationController
     league_player_ids = LeaguePlayer.where(player_id: current_player.id)
                                     .pluck(:league_id) # current_playerが主催者でないが参加しているリーグ
     league_ids = League.where(player_id: current_player.id)
-                       .pluck(:id) # current_playerが主催者のリーグ(league_player未選択の場合も抽出される)
+                        .pluck(:id) # current_playerが主催者のリーグ(league_player未選択の場合も抽出される)
     l_ids = (league_player_ids + league_ids).uniq
     @leagues = League.includes(league_players: :player).where(id: l_ids).order(created_at: :desc)
   end
@@ -111,7 +111,7 @@ class LeaguesController < ApplicationController
   end
 
   def league_params
-    params.require(:league).permit(:name, :play_type, :rule_id, :description)
+    params.require(:league).permit(:name, :play_type, :rule_id, :is_tip_valid ,:description)
           .merge(player_id: current_player.id)
   end
 

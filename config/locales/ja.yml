@@ -34,6 +34,7 @@ ja:
         name: リーグ名
         rule_id: ルール
         play_type: 三麻/四麻
+        is_tip_valid: リーグ成績にチップptを含めるか
         description: リーグ説明
   enums:
     user:
