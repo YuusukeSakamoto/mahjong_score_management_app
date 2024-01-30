@@ -220,7 +220,12 @@ class MatchesController < ApplicationController
   def non_recording_flow(mg, match_count)
     case params[:btn]
     when 'match'
-      redirect_with_notice(session[:previous_url])
+      if match_count.zero?
+        mg.destroy
+        redirect_with_notice(match_groups_path)
+      else
+        redirect_with_notice(session[:previous_url])
+      end
     when 'mg'
       handle_match_group_flow(mg, match_count)
     end
