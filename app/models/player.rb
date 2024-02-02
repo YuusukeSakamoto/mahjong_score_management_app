@@ -20,10 +20,12 @@ class Player < ApplicationRecord
   SANMA = 3
   RANK_DATA_NUM = 10 # 順位グラフに表示する数
 
-  # resultsからプレイヤーを取得する
+  # resultsからプレイヤー名を取得する
   def self.find_by_results(results)
     player_ids = results.map(&:player_id)
-    Player.where(id: player_ids).includes(:results)
+    player_ids.map do |p_id|
+      Player.find(p_id).name
+    end
   end
 
   # ************************************
