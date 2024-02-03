@@ -4,7 +4,9 @@
       - if @match_group.created_by?(current_player)
         .info-content.text-center
           %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
-          %span.mb-0.fw-bold 増減したチップ枚数を入力してください(#{@rule.chip_rate}pt / 枚)
+          %span.mb-0.fw-bold 増減したチップ枚数を入力してください
+        .info-content.text-center
+          %span.mb-0 (例) 20枚スタートで15枚で終えた場合: -5枚で入力する
 
     = form_with model: @form, url: match_group_chip_results_path ,method: :patch, local: true do |form|
       = render 'layouts/validation_error', instance: @form
@@ -15,20 +17,25 @@
           %p.col-6.fw-bold.text-main.text-center.mb-0.mx-1
             = @players[i]["name"]
           .d-flex.align-items-end.col-4
-            = f.number_field :number, autofocus: true,
+            = f.number_field :number, id: "tip_number_#{i}", autofocus: true,
               class: 'form-control py-md-1 rounded bg-white'
             %span.text-main.mb-0.mx-1.mx-md-2 枚
           = f.hidden_field :match_group_id, value: @match_group.id
           = f.hidden_field :player_id, value: @players[i]["id"]
           = f.hidden_field :is_temporary, value: false
           - i += 1
-      .col-8.col-md-5.m-auto.my-3
-        - if @match_group.created_by?(current_player)
-          = form.button type: 'submit', class: 'main-btn--orange w-100' do
+      - if @match_group.created_by?(current_player)
+        .col-8.col-md-5.m-auto.mt-3
+          = form.button type: 'submit', id: "tip_create_btn", class: 'main-btn--orange w-100' do
             .btn-text
               %i.fa-solid.fa-pen.pe-1.fw-bold
               %span #{action}
-        - else
+        .col-10.m-auto.mt-1
+          #tip_total_warning.d-flex.justify-content-center.align-items-center
+            %i.fa-solid.fa-triangle-exclamation.text-warning.fs-sm.pe-1
+            %p.fs-sm.text-main.fw-bold.mb-0 合計枚数が0ではありません
+      - else
+        .col-8.col-md-5.m-auto.my-3
           = link_to match_group_path(@match_group), class: "main-btn--white-orange mb-3",
             data: { "turbolinks" => false } do
             .btn-text

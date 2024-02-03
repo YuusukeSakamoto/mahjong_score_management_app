@@ -24,6 +24,7 @@ require("slide.js")
 require("player_results.js")
 require("show_modal.js")
 require("clipboard.js")
+require("tip_form.js")
 
 Rails.start()
 Turbolinks.start()
