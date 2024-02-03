@@ -2,7 +2,8 @@
 
 class ChipResultsController < ApplicationController
   before_action :authenticate_user!, only: [:update]
-  before_action :set_match_group, :set_rule, only: %i[edit update]
+  before_action :set_match_group, only: %i[edit update]
+  before_action :set_rule, only: %i[update]
 
   def edit
     if params[:tk] && params[:resource_type]
