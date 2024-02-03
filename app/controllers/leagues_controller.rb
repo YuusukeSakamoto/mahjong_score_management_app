@@ -27,8 +27,7 @@ class LeaguesController < ApplicationController
                     alert: FlashMessages::ACCESS_DENIED) && return
       end
     end
-
-    @l_matches = Match.includes(:results).where(league_id: params[:id])
+    @l_matches = Match.includes(:results).where(league_id: params[:id]).asc
     @graph_datasets, @y_max, @y_min = @league.graph_data # 成績推移グラフのデータ
     @graph_labels =  @league.graph_label # 成績推移グラフの日付ラベル
     @rank_table_data = @league.rank_table # 順位表のデータ

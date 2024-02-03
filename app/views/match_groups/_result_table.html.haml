@@ -1,18 +1,18 @@
-// 今回の対局成績表
-- if request.path == match_group_path(@match_group)
+- if request.path != root_path
   .row.justify-content-center.mt-4
-    .col-12.col-md-10.text-center
+    .col-12.col-md-9.text-center.px-0
       .d-flex.justify-content-between.align-items-end.border-green-bottom-title_main.text-main
         .left-content.d-flex.align-items-end
           %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0
             成績表
-        .right-content
-          - if @match_group.created_by?(current_player)
-            = link_to match_group_path(@match_group),
-                data: { confirm: "対局成績表を削除しますか？" },
-                method: :delete,
-                class: 'px-1 pb-0 text-main' do
-              %i.fa-regular.fa-trash-can.me-2
+        - if request.path == match_group_path(@match_group)
+          .right-content
+            - if @match_group.created_by?(current_player)
+              = link_to match_group_path(@match_group),
+                  data: { confirm: "対局成績表を削除しますか？" },
+                  method: :delete,
+                  class: 'px-1 pb-0 text-main' do
+                %i.fa-regular.fa-trash-can.me-2
 
 .row.justify-content-center
   .col-12.col-md-9.m-auto
@@ -31,8 +31,8 @@
         %thead
           %tr.w-100.fw-bold
             %th.w-no{scope: "col"} No
-            - Player.find_by_results(@match_group.matches.first.results).each do |p|
-              %th.w-name{scope: "col"}= p.name
+            - Player.find_by_results(@match_group.matches.first.results).each do |p_name|
+              %th.w-name{scope: "col"}= p_name
             - if @match_group.created_by?(current_player)
               %th.w-edit{scope: "col"}
               %th.w-delete{scope: "col"}
@@ -104,13 +104,17 @@
   .row
     .col-9.col-md-5.col-lg-4.m-auto.mt-2.mb-1
       - if @match_group.rule.is_chip
-        = link_to edit_match_group_chip_results_path(session[:mg]), class: "main-btn--white-orange mb-1" do
+        = link_to edit_match_group_chip_results_path(session[:mg]),
+          data: { confirm: "チップ集計しますか？(この成績表に対局成績を追加できなくなります)"},
+          class: "main-btn--white-orange mb-1" do
           .btn-text
             %i.fa-regular.fa-circle-check.pe-1
             %span チップ集計する
 
       - else
-        = link_to match_group_path(session[:mg], fix: true), class: "main-btn--white-orange mb-1" do
+        = link_to match_group_path(session[:mg], fix: true),
+          data: { confirm: "記録終了しますか？（この成績表に対局成績を追加できなくなります）"},
+          class: "main-btn--white-orange mb-1" do
           .btn-text
             %i.fa-regular.fa-circle-check.pe-1
             %span 記録終了する

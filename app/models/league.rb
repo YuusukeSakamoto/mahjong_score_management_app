@@ -24,14 +24,14 @@ class League < ApplicationRecord
   def first_record_day
     return nil if matches.count.zero?
 
-    @first_record_day ||= matches.first.match_on.to_s(:yeardate)
+    @first_record_day ||= matches.min_by(&:match_on).match_on.to_s(:yeardate)
   end
 
   # リーグにおける最後に記録した日
   def last_record_day
     return nil if matches.count.zero?
 
-    @last_record_day ||= matches.last.match_on.to_s(:yeardate)
+    @last_record_day ||= matches.max_by(&:match_on).match_on.to_s(:yeardate)
   end
 
   # リーグにおける総対戦数

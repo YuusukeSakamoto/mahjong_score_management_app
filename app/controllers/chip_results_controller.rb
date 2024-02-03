@@ -2,7 +2,8 @@
 
 class ChipResultsController < ApplicationController
   before_action :authenticate_user!, only: [:update]
-  before_action :set_match_group, :set_rule, only: %i[edit update]
+  before_action :set_match_group, only: %i[edit update]
+  before_action :set_rule, only: %i[update]
 
   def edit
     if params[:tk] && params[:resource_type]
@@ -20,7 +21,8 @@ class ChipResultsController < ApplicationController
       redirect_to(root_path, alert: FlashMessages::CHIP_EDIT_DENIED) && return unless @match_group.rule.is_chip
     end
 
-    @players = @match_group.players
+    player_ids = @match_group.chip_results.pluck(:player_id)
+    @players = Player.find(player_ids)
     mg_chip_results = @match_group.chip_results.select(:match_group_id, :player_id, :number)
     chip_results_ary = mg_chip_results.map do |cr|
       cr.attributes.delete('id') # idは除いてハッシュ化

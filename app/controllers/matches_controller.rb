@@ -180,7 +180,7 @@ class MatchesController < ApplicationController
 
   def set_player_league
     player_ids = @match.results.pluck(:player_id)
-    @players = Player.where(id: player_ids)
+    @players = Player.find(player_ids)
     @league = League.find_by(id: @match.league_id)
   end
 
