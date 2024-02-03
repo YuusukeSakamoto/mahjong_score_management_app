@@ -56,7 +56,8 @@
             .btn-text
               %i.fa-solid.fa-angles-right
               %span #{@match_group.matches.count + 1}戦目の成績を登録
-    = render partial: 'match_groups/result_table'
+    .row
+      = render partial: 'match_groups/result_table'
     .row
       .col-8.col-md-4.col-lg-4.text-center.m-auto.mb-2
         = render partial: 'layouts/share_link'
