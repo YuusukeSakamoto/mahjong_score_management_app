@@ -104,13 +104,17 @@
   .row
     .col-9.col-md-5.col-lg-4.m-auto.mt-2.mb-1
       - if @match_group.rule.is_chip
-        = link_to edit_match_group_chip_results_path(session[:mg]), class: "main-btn--white-orange mb-1" do
+        = link_to edit_match_group_chip_results_path(session[:mg]),
+          data: { confirm: "チップ集計しますか？(この成績表に対局成績を追加できなくなります)"},
+          class: "main-btn--white-orange mb-1" do
           .btn-text
             %i.fa-regular.fa-circle-check.pe-1
             %span チップ集計する
 
       - else
-        = link_to match_group_path(session[:mg], fix: true), class: "main-btn--white-orange mb-1" do
+        = link_to match_group_path(session[:mg], fix: true),
+          data: { confirm: "記録終了しますか？（この成績表に対局成績を追加できなくなります）"},
+          class: "main-btn--white-orange mb-1" do
           .btn-text
             %i.fa-regular.fa-circle-check.pe-1
             %span 記録終了する
