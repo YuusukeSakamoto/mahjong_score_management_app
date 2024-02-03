@@ -222,6 +222,14 @@ $(document).on('turbolinks:load', function () {
       $('#match_rule_id').css('pointer-events', 'none');
       $('#match_rule_id').attr('tabindex', '-1');
     }
+    $('#match_create_btn').on('click', function(e) {
+      var remainingScore = $('.js-remaining_score_value').text();
+      if (parseInt(remainingScore) !== 0) {
+        if (!window.confirm('残得点が0ではありません。登録しますか？')) {
+          return false;
+        }
+      }
+    });
   }
   // league作成・編集ページのとき実行
   if (/^\/leagues\/[^/]+\/edit$/.test(window.location.pathname) || window.location.pathname === '/leagues/new') {
@@ -248,11 +256,11 @@ $(document).on('turbolinks:load', function () {
   checkFormCompletion();
   updateRemainingScore();
   // フィールドの変更時にチェック関数を実行
-  $('[id$="_ie"], [id$="_score"], [id$="_point"]').change(checkFormCompletion);
+  $('[id$="_ie"], [id$="_score"], [id$="_point"]').on('change', checkFormCompletion);
   // 得点に変化があったとき、残得点の更新
-  $('[id$="_score"]').change(updateRemainingScore);
+  $('[id$="_score"]').on('input', updateRemainingScore);
   // 得点・ルール・家に変化があったとき、ポイント・順位を計算して表示
-  $('[id$="_score"], #match_rule_id, [id$="_ie"]').change(calculate_point_rank);
+  $('[id$="_score"], #match_rule_id, [id$="_ie"]').on('input', calculate_point_rank);
 });
 
 // ルール詳細情報の表示・非表示
