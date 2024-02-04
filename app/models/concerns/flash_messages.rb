@@ -46,9 +46,6 @@ module FlashMessages
   CANNOT_DESTROT_LEAGUE = 'リーグ主催者でないため、削除できません'
   CANNOT_CREATE_LEAGUE_RECORDING = '記録中はリーグ作成できません'
 
-  # contact
-  CONTACT_SENT = 'お問い合わせを送信しました'
-
   # players/authentications
   INVALID_OR_EXPIRED_URL = 'URLが無効または有効期限切れです。'
 
