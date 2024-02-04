@@ -3,10 +3,18 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
 
+  CONTACT_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfaU5E9ZRDLx2micWsqHWaA2ghyoIyGucjKQ7MN7rbvgMl1pA/viewform' # お問い合わせフォームURL
   TOKEN_ENABLED_TIME = 10 # プレイヤー選択におけるトークンの有効期限（分）
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :current_player # ApplicationHelperに記載
+
+  helper_method :contact_form_url
+
+  # お問い合わせフォームURLを返す
+  def contact_form_url
+    CONTACT_FORM_URL
+  end
 
   # sessionからmatch_group/rule/league/playersを削除し、match_groupを確定させる
   def end_record

@@ -47,8 +47,6 @@ Rails.application.routes.draw do
 
   resources :leagues
 
-  resources :contacts, only: [:new, :create]
-
   resources :questions, only: [:index]
   resources :terms, only: [:index]
   resources :privacies, only: [:index]

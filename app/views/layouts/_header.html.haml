@@ -59,7 +59,7 @@
                     %a.text-nowrap.current{href: "#"} その他
                     %ul
                       %li.child= link_to 'アカウント招待', players_invitations_path
-                      %li.child= link_to '問い合わせ', new_contact_path
+                      %li.child= link_to '問い合わせ', contact_form_url, target: "_blank"
                       %li.child= link_to 'FAQ', questions_path
               // ≦ 768px
               #hamburger_menu.d-md-none
@@ -83,7 +83,7 @@
                       %li= link_to 'ルール登録', new_player_rule_path(current_player, btn: 'header')
                       %li= link_to 'ルール一覧', player_rules_path(current_player), class: "border-b"
                       %li= link_to 'アカウント招待', players_invitations_path
-                      %li= link_to '問い合わせ', new_contact_path
+                      %li= link_to '問い合わせ', contact_form_url, target: "_blank"
                       %li= link_to 'FAQ', questions_path, class: "border-b"
                       %li= link_to 'ログアウト', destroy_user_session_path, class: "border-b"
                       / ログインしてるユーザーが管理者の場合のみ
@@ -117,7 +117,7 @@
                     %a.text-nowrap.current{href: "#"} その他
                     %ul
                       %li.child= link_to 'アカウント招待', '#'
-                      %li.child= link_to '問い合わせ', '#'
+                      %li.child= link_to '問い合わせ', contact_form_url, target: "_blank"
                       %li.child= link_to 'FAQ', questions_path
               // ≦ 768px
               #hamburger_menu.d-md-none
