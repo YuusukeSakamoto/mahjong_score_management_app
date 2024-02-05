@@ -171,12 +171,12 @@ class Player < ApplicationRecord
   def often_play_times
     attended_match_ids = results_for_matches.pluck(:match_id)
     often_play_players = Result.where(match_id: attended_match_ids)
-                               .where.not(player_id: id)
-                               .group(:player_id)
-                               .order('count_player_id DESC')
-                               .limit(OFTEN_PLAYERS_NUM)
-                               .count(:player_id)
-                               .to_a
+                                .where.not(player_id: id)
+                                .group(:player_id)
+                                .order('count_player_id DESC')
+                                .limit(OFTEN_PLAYERS_NUM)
+                                .count(:player_id)
+                                .to_a
 
     return often_play_players if often_play_players.count >= OFTEN_PLAYERS_NUM
 
@@ -185,6 +185,41 @@ class Player < ApplicationRecord
       often_play_players << [HYPHEN, 0]
     end
     often_play_players
+  end
+
+  # ************************************
+  # 最高得点・最低得点
+  # ************************************
+
+  # 最高得点を取得する
+  def max_score(play_type)
+    results_for_matches.maximum(:score)
+  end
+
+  # 最高得点のmatch_idを取得する
+  def max_score_match_id(play_type)
+    results_for_matches.where(score: max_score(play_type)).first.match_id
+  end
+
+  # 最高得点の対局日付を取得する
+  def max_score_date(play_type)
+    Match.find_by(id: max_score_match_id(play_type)).match_on.to_s(:yeardate)
+  end
+
+  # 最低得点のレコードを取得する
+  def min_score(play_type)
+    results_for_matches.minimum(:score)
+  end
+
+  # 最低得点のmatch_idを取得する
+  def min_score_match_id(play_type)
+    results_for_matches.where(score: min_score(play_type)).first.match_id
+  end
+
+  # 最低得点の対局日付を取得する
+  def min_score_date(play_type)
+    return HYPHEN unless matches_present?
+    Match.find_by(id: min_score_match_id(play_type)).match_on.to_s(:yeardate)
   end
 
   # ************************************
