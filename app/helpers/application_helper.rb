@@ -106,4 +106,100 @@ module ApplicationHelper
       }
     }
   end
+  # metaタグ定義(共有リンクver)
+  def share_links_meta_tags
+    {
+      site: 'Janreco',
+      title: 'Janreco - 共有リンク',
+      reverse: true,
+      charset: 'utf-8',
+      description: 'リンクが共有されました！成績を見てみましょう！',
+      keywords: '麻雀,成績記録,リーグ戦',
+      canonical: request.original_url,
+      separator: '|',
+      icon: [
+        { href: image_url('favicon.ico') },
+        { href: image_url('apple-touch-icon.png'), rel: 'apple-touch-icon', sizes: '180x180', type: 'image/png' },
+      ],
+      og: {
+        site_name: :site,
+        title: :title,
+        description: :description,
+        type: 'website',
+        url: request.original_url,
+        image: image_url('apple-touch-icon.png'),
+        local: 'ja-JP',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        site: '@',
+        image: image_url('apple-touch-icon.png'),
+      }
+    }
+  end
+
+  # metaタグ定義（プレイヤー参加のアカウント認証リンクver)
+  def players_authentications_meta_tags
+    {
+      site: 'Janreco',
+      title: 'Janreco - アカウント認証リンク',
+      reverse: true,
+      charset: 'utf-8',
+      description: 'アカウント認証リンクです。このリンクからログインして認証を完了してください！',
+      keywords: '麻雀,成績記録,リーグ戦',
+      canonical: request.original_url,
+      separator: '|',
+      icon: [
+        { href: image_url('favicon.ico') },
+        { href: image_url('apple-touch-icon.png'), rel: 'apple-touch-icon', sizes: '180x180', type: 'image/png' },
+      ],
+      og: {
+        site_name: :site,
+        title: :title,
+        description: :description,
+        type: 'website',
+        url: request.original_url,
+        image: image_url('apple-touch-icon.png'),
+        local: 'ja-JP',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        site: '@',
+        image: image_url('apple-touch-icon.png'),
+      }
+    }
+  end
+
+  # metaタグ定義（アカウント招待リンクver)
+  def user_invitation_meta_tags
+    {
+      site: 'Janreco',
+      title: 'Janreco - アカウント招待リンク',
+      reverse: true,
+      charset: 'utf-8',
+      description: 'アカウント招待リンクです。このリンクからアカウント登録してください！',
+      keywords: '麻雀,成績記録,リーグ戦',
+      canonical: request.original_url,
+      separator: '|',
+      icon: [
+        { href: image_url('favicon.ico') },
+        { href: image_url('apple-touch-icon.png'), rel: 'apple-touch-icon', sizes: '180x180', type: 'image/png' },
+      ],
+      og: {
+        site_name: :site,
+        title: :title,
+        description: :description,
+        type: 'website',
+        url: request.original_url,
+        image: image_url('apple-touch-icon.png'),
+        local: 'ja-JP',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        site: '@',
+        image: image_url('apple-touch-icon.png'),
+      }
+    }
+  end
+
 end

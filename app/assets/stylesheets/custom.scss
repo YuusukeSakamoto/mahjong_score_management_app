@@ -57,6 +57,15 @@ a {
   }
 }
 
+// リンクの下線
+.text-underline {
+  text-decoration: underline!important;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
+
 button, input[type="submit"] {
   @extend %transition;
   &:hover {

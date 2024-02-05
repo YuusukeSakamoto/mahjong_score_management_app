@@ -41,6 +41,28 @@
 .row
   .d-flex.flex-wrap.justify-content-evenly
     .col-11.col-lg-5.mb-2
+      %p.border-green-left-table.fw-bold 最高得点・最低得点
+      %table.table.table-bordered.text-nowrap.px-3.text-center.text-main
+        %tr.w-100
+          %td.px-3.bg-lightgray.fw-bold.w-rank{scope: "row"}= "最高得点"
+          - if @player.matches_present?
+            %td= "#{@player.max_score(play_type)}点"
+            %td.text-underline{data: { href: match_path(@player.max_score_match_id(play_type)) }}
+              = @player.max_score_date(play_type)
+          - else
+            %td -
+            %td -
+        %tr.w-100
+          %td.px-3.bg-lightgray.fw-bold.w-rank{scope: "row"}= "最低得点"
+          - if @player.matches_present?
+            %td= "#{@player.min_score(play_type)}点"
+            %td.text-underline{data: { href: match_path(@player.min_score_match_id(play_type)) }}
+              = @player.min_score_date(play_type)
+          - else
+            %td -
+            %td -
+
+    .col-11.col-lg-5.mb-2
       %p.border-green-left-table.fw-bold よく遊ぶプレイヤー（上位5人）
       %table.table.table-bordered.text-nowrap.px-3.text-center.text-main
         - @player.often_play_times.each.with_index(1) do |id_time, i|
