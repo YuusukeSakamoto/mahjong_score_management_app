@@ -1,9 +1,10 @@
-- if params[:resource_type] && params[:tk]
-  = display_meta_tags(share_links_meta_tags)
-- elsif params[:u_id] && params[:tk]
-  = display_meta_tags(players_authentications_meta_tags)
-- elsif params[:p_id] && params[:tk]
-  = display_meta_tags(user_invitation_meta_tags)
+- if params[:tk]
+  - if params[:resource_type]
+    = display_meta_tags(share_links_meta_tags)
+  - elsif params[:u_id]
+    = display_meta_tags(players_authentications_meta_tags)
+  - elsif params[:p]
+    = display_meta_tags(user_invitation_meta_tags)
 - else
   = display_meta_tags(default_meta_tags)
 %meta{content: "width=device-width,initial-scale=1", name: "viewport"}/
