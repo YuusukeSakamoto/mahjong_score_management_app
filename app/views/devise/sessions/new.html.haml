@@ -15,6 +15,9 @@
           = f.label :パスワード, class: "title-p text-main"
           = f.password_field :password, autocomplete: "current-password", class: "form-control py-md-1 rounded bg-white mb-1"
           = f.hidden_field :u_id, value: params[:u_id]
+          .d-flex.text-align-center.my-2
+            = f.check_box :remember_me, class: "checkbox"
+            = f.label :remember_me, class: "text-main fs-sm ps-1"
 
 
         .col-8.col-md-6.m-auto.mt-3
