@@ -19,11 +19,11 @@ class MatchesController < ApplicationController
       unless current_player.id == League.find_by(id: params[:league]).player_id
         alert_redirect_root(FlashMessages::CANNOT_RECORD_LEAGUE)
       end
+      # リーグ成績を記録中、他のリーグ成績の登録不可
+      if session[:mg].present? && (session[:league] != params[:league])
+        alert_redirect_root(FlashMessages::RECORDING_NOW)
+      end
       set_league_data # リーグ戦の場合、セッションにリーグ情報を格納する
-    end
-    # 他の成績を記録中の場合、新規登録不可
-    if session[:mg].present? && params[:league].present? && (session[:league] != params[:league])
-      alert_redirect_root(FlashMessages::RECORDING_NOW)
     end
     @players = session[:players]
     # プレイヤーが選択されていない場合、新規登録不可
