@@ -34,10 +34,8 @@ class Matches::CalculatesController < ApplicationController
     calculated_scores = calculate_score(scores, rule)
     # 素点の配列を作成
     sotens = calculated_scores.map { |score| get_soten(score, rule) }
-    # # 小数点計算方法に従った素点を計算する
-    # calculated_soten = calculate_decimal_point(soten, rule)
-    uma_ary = [rule.uma_one, rule.uma_two, rule.uma_three, rule.uma_four]
     # ウマをptに反映させる
+    uma_ary = [rule.uma_one, rule.uma_two, rule.uma_three, rule.uma_four]
     points = sotens.map.with_index { |soten, i| soten + uma_ary[ranks[i] - 1] }
     # オカをptに反映させる
     oka = ((rule.kaeshi - rule.mochi) * rule.play_type) / 1000.to_f

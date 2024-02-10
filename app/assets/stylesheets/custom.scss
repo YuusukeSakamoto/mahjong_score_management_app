@@ -80,7 +80,49 @@ input:focus, textarea:focus, select:focus {
   box-shadow: 0 0 3px $green!important; /* フォーカス時の影（オプション） */
 }
 
+input[type="checkbox"] {
+  border-radius: 0;
+  -webkit-appearance: none;
+      -moz-appearance: none;
+          appearance: none;
+}
 
+/* カスタムチェックボックスの基本スタイル */
+.checkbox {
+  position: relative;
+  height: 14px;
+  width: 14px;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  top: 2px;
+  @include smartphone {
+    top: 1px;
+  }
+}
+
+/* チェックマークのスタイル */
+.checkbox::after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* チェックボックスがチェックされたときのスタイル */
+.checkbox:checked {
+  background-color:$green;
+}
+
+/* チェックボックスがチェックされたときのチェックマークのスタイル */
+.checkbox:checked::after {
+  display: block;
+}
 // 仮画像
 .temporary_image {
   height: 300px;
