@@ -48,6 +48,6 @@ class Rule < ApplicationRecord
   # ----------------------
   # 持ち点>返し点の場合、エラー
   def mochi_kaeshi_check
-    errors.add(:kaeshi, '点が持ち点より少ないです') if mochi > kaeshi
+    errors.add(:kaeshi, '点は持ち点より大きくしてください') if mochi > kaeshi
   end
 end
