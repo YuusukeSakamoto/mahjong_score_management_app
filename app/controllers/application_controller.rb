@@ -8,12 +8,30 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :current_player # ApplicationHelperに記載
+  before_action :reset_session_errors
 
   helper_method :contact_form_url
 
   # お問い合わせフォームURLを返す
   def contact_form_url
     CONTACT_FORM_URL
+  end
+
+  #  カスタムエラーMSGがセッションにある場合は解放する
+  def reset_session_errors
+    if session[:errors]
+      session[:errors] = nil
+      session[:rule_params] = nil
+    end
+    # プレイヤー選択後のルール初登録時の入力情報を解放
+    if session[:rule_params]
+      session[:rule_params] = nil
+    end
+    # プレイヤー招待におけるユーザー登録時の入力情報を解放
+    if session[:input_name] && session[:input_email]
+      session[:input_name] = nil
+      session[:input_email] = nil
+    end
   end
 
   # sessionからmatch_group/rule/league/playersを削除し、match_groupを確定させる

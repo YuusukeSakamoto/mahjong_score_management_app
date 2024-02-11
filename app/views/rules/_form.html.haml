@@ -1,7 +1,10 @@
 .row.d-flex.justify-content-center
   .col-10.col-sm-7.col-md-5
     = form_with model: [@player, @rule], class: 'mb-3', local: true do |f|
-      = render 'layouts/validation_error', instance: @rule
+      - if session[:errors].present?
+        = render 'layouts/custom_validation_error', errors_full_messages: session[:errors]
+      - else
+        = render 'layouts/validation_error', instance: @rule
       .div-title.mb-2.mb-sm-3
         = f.label :'三麻/四麻', class: 'title-p text-main'
         %span.p_required 必須
@@ -22,17 +25,17 @@
           = f.label :持ち, class: 'title-p text-main'
           %span.p_required 必須
           .d-flex.align-items-end
-            = f.number_field :mochi, autofocus: true, placeholder: "25000",
+            = f.number_field :mochi, autofocus: true, placeholder: "25000", step: "100",
               class: 'form-control py-2 py-md-1 px-0 rounded bg-white text-center'
-            %p.fw-bold.text-main.mb-0.mx-2 点 
+            %p.fw-bold.text-main.mb-0.mx-2 点
 
         .div-title.col-5.mb-2.mb-sm-3
           = f.label :返し, class: 'title-p text-main'
           %span.p_required 必須
           .d-flex.align-items-end
-            = f.number_field :kaeshi, autofocus: true, placeholder: "30000",
+            = f.number_field :kaeshi, autofocus: true, placeholder: "30000", step: "100",
               class: 'form-control py-2 py-md-1 px-0 rounded bg-white text-center'
-            %p.fw-bold.text-main.mb-0.mx-2 点 
+            %p.fw-bold.text-main.mb-0.mx-2 点
 
       .div-title.mb-2.mb-sm-3
         = f.label :'ウマ(pt)', class: 'title-p text-main'
@@ -58,7 +61,7 @@
       .div-title.mb-2.mb-sm-3
         = f.label :'点数計算', class: 'title-p text-main mb-md-1'
         %span.p_required 必須
-        = f.select :score_decimal_point_calc, 
+        = f.select :score_decimal_point_calc,
           [ ["小数点有効",1], ["五捨六入", 2], ["四捨五入", 3 ] ,["切り捨て", 4], ["切り上げ", 5] ],
           {},
           {class: 'form-control py-md-1 rounded bg-white w-50'}
@@ -68,22 +71,22 @@
           .d-flex.justify-content-start.align-items-end.mb-md-1.mb-2
             = f.label :チップ有無, class: 'title-p text-main mb-0'
             %span.p_required 必須
-          = f.select :is_chip, 
-            [ ["なし", false],["あり", true] ], 
+          = f.select :is_chip,
+            [ ["なし", false],["あり", true] ],
             {},
             {class: 'form-control py-md-1 rounded bg-white'}
 
         .div-title.col-6.mb-2.mb-sm-3.ps-3
           = f.label :'チップpt / 枚', class: 'title-p text-main mb-md-1'
           .d-flex.align-items-end
-            = f.number_field :chip_rate, autofocus: true, 
+            = f.number_field :chip_rate, autofocus: true,
               class: 'form-control py-md-1 px-0 rounded bg-white w-50 text-center'
             %p.fw-bold.text-main.mb-0.mx-2 pt
 
       .div-title.mb-2.mb-sm-3
         = f.label :'ルール説明', class: 'title-p text-main mb-md-1'
         %span.fs-sm.text-main (50文字以内)
-        = f.text_area :description, autofocus: true, 
+        = f.text_area :description, autofocus: true,
           class: 'form-control py-md-1 rounded bg-white', maxlength: 50
 
       .col-8.col-md-5.m-auto.mt-3
@@ -95,7 +98,7 @@
     - if controller.action_name == "edit"
       - unless @is_match || @is_league
         .col-8.col-md-5.m-auto.mt-2.mb-3
-          = link_to player_rule_path(@player, @rule), method: :delete, 
+          = link_to player_rule_path(@player, @rule), method: :delete,
             data: { confirm: "本当に削除しますか？"},
             class: "main-btn--white-red" do
             .btn-text
