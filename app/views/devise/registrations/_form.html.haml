@@ -8,7 +8,7 @@
   .col-10.col-md-8
     = form_with model: @user, url: user_registration_path, class: 'mb-2', local: true do |f|
       - if session[:errors].present?
-        = render 'invited_player_validation_error', errors_full_messages: session[:errors]
+        = render 'layouts/custom_validation_error', errors_full_messages: session[:errors]
       - else
         = render 'layouts/validation_error', instance: @user
       .div-title.mb-3

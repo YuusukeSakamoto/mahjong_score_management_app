@@ -121,6 +121,20 @@ $(document).on('turbolinks:load', function () {
     }
   }
 
+  // ● 得点項目の入力が残り１つの場合、点数を自動補完する
+  function autoCompleteScore() {
+    let emptyScoreElements = $('[id$="_score"]').filter(function() {
+      return !$(this).val();
+    });
+    if (emptyScoreElements.length === 1) {
+      let remainingScoreText = $('.js-remaining_score_value').text().trim();
+      let remainingScore = parseInt(remainingScoreText, 10);
+      emptyScoreElements.val(remainingScore / 100);
+      updateRemainingScore(); // 残得点更新
+      calculate_point_rank(); // ポイント・順位の計算
+    }
+  }
+
   // ● ポイント・順位の計算
   function calculate_point_rank() {
     let is_full = true;
@@ -259,6 +273,8 @@ $(document).on('turbolinks:load', function () {
   $('[id$="_ie"], [id$="_score"], [id$="_point"]').on('change', checkFormCompletion);
   // 得点に変化があったとき、残得点の更新
   $('[id$="_score"]').on('input', updateRemainingScore);
+  // 得点の未入力が残り１つの場合、点数を自動補完する
+  $('[id$="_score"]').on('blur', autoCompleteScore);
   // 得点・ルール・家に変化があったとき、ポイント・順位を計算して表示
   $('[id$="_score"], #match_rule_id, [id$="_ie"]').on('input', calculate_point_rank);
 });

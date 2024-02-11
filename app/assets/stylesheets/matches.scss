@@ -7,6 +7,26 @@
 // 対局成績登録画面
 // ===============================
 
+#match-form {
+  display: flex;
+  align-items: end;
+
+  &-ie {
+    @extend #match-form;
+    max-width: 75px;
+    select {
+      padding: 0px 0px 0px 0px;
+      text-align-last: center; /* セレクトボックスの中央寄せ */
+    }
+  }
+  &-score {
+    @extend #match-form;
+  }
+  &-pt {
+    @extend #match-form;
+  }
+}
+
 .js-rule-dropdown, .js-memo-dropdown {
   border: none;
   background-color: $white;

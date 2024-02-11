@@ -74,7 +74,7 @@ class PlayersController < ApplicationController
 
     p_ids_names.each do |id, name|
       if id.zero?
-        new_player = Player.create(name: name)
+        new_player = Player.create(name: name, created_user: current_user.id)
         session_players << new_player
       else
         searched_player = Player.find_by(id: id, name: name)

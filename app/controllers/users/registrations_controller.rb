@@ -3,6 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
+  skip_before_action :reset_session_errors, only: [:new] #カスタムエラーMSGの解放をnewのみ実行しない
 
   INVITATIOM_TOKEN_ENABLED_TIME = 10 # 招待トークン有効時間(分)
   # GET /resource/sign_up

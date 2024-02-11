@@ -4,6 +4,7 @@ class RulesController < ApplicationController
   before_action :set_rule, only: %i[edit update destroy]
   before_action :set_player, only: %i[create edit]
   before_action :authenticate_user!
+  skip_before_action :reset_session_errors, only: [:new] #カスタムエラーMSGの解放をnewのみ実行しない
 
   def index
     unless current_player.id == params[:player_id].to_i
@@ -37,17 +38,20 @@ class RulesController < ApplicationController
     previous_url = session[:previous_url]
     session[:previous_url] = nil
     @rule = Rule.new(rule_params)
-    return render :new unless @rule.save
-
-    notice_message = FlashMessages.rule_flash(@rule.name, 'create')
-    redirect_to(player_rules_path, notice: notice_message) and return if previous_url.nil?
-    redirect_to(new_match_path, notice: notice_message) and return if previous_url.include?(new_player_path)
-    if previous_url.include?(new_league_path)
-      redirect_to(new_league_path(rule: @rule.id, play_type: @rule.play_type),
-                  notice: notice_message) and return
+    if @rule.save
+      reset_session_input_data #セッションに保存したカスタムエラー用のデータを削除
+      notice_message = FlashMessages.rule_flash(@rule.name, 'create')
+      redirect_to(player_rules_path, notice: notice_message) and return if previous_url.nil?
+      redirect_to(new_match_path, notice: notice_message) and return if previous_url.include?(new_player_path)
+      if previous_url.include?(new_league_path)
+        redirect_to(new_league_path(rule: @rule.id, play_type: @rule.play_type),
+                    notice: notice_message) and return
+      end
+      redirect_to(previous_url, notice: notice_message) and return
+    else
+      set_session_input_data # ユーザーが入力したデータをセッションに保存
+      redirect_to request.referer # p_idとtkを含んだURLにリダイレクトする
     end
-
-    redirect_to(previous_url, notice: notice_message) and return
   end
 
   def edit
@@ -95,10 +99,12 @@ class RulesController < ApplicationController
   end
 
   def set_rule_player
-    @rule = Rule.new(play_type: params[:play_type]) # プレイヤー選択された人数を初期値とする
-    # @rule.play_type = session_players_num
+    if session[:rule_params] # プレイヤー選択後→ルール初登録からバリデーションエラーで戻ってきた場合
+      @rule = Rule.new(session[:rule_params])
+    else
+      @rule = Rule.new(play_type: params[:play_type]) # プレイヤー選択された人数を初期値とする
+    end
     set_player
-    # params[:players] → PlayersControllerのcreateアクションから受け取る
     session[:players] = params[:players] unless params[:players].nil?
   end
 
@@ -115,4 +121,17 @@ class RulesController < ApplicationController
   def current_player_rule?
     @current_player_rule ||= Player.find_by(id: params[:player_id])
   end
+
+  # ユーザーが入力したデータをセッションに保存（バリデーションエラーのフォームセットのために使用）
+  def set_session_input_data
+    session[:errors] = @rule.errors.full_messages
+    session[:rule_params] = rule_params
+  end
+
+  # セッションに保存したデータを削除
+  def reset_session_input_data
+    session[:errors] = nil
+    session[:rule_params] = nil
+  end
+
 end
