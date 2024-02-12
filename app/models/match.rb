@@ -24,6 +24,6 @@ class Match < ApplicationRecord
 
   # ログインユーザーの該当対局のポイントを取得する
   def current_player_point(p_id)
-    results.find_by(player_id: p_id).point
+    results.find_by(player_id: p_id)&.point
   end
 end
