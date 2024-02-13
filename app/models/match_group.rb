@@ -11,11 +11,6 @@ class MatchGroup < ApplicationRecord
 
   CHIP = 'tip'
 
-  # match_groupに属する対局が何人麻雀か取得する
-  def play_type
-    matches.first.play_type
-  end
-
   # match_group_id単位にすべてのmatchの各プレイヤーのptを配列で取得する
   def table_element
     match_results = []
@@ -50,19 +45,9 @@ class MatchGroup < ApplicationRecord
     matches.first.player_id == current_player.id
   end
 
-  # match_groupに紐づくmatchの数を返す
-  def match_count
-    matches.count
-  end
-
-  # チップ有ルールかどうか
-  def chip_rule?
-    Rule.find_by(id: rule_id).is_chip?
-  end
-
   # 成績表においてチップレコードかどうか
   def chip_record?(idx)
-    chip_rule? && matches.count < idx + 1
+    tip_rule? && matches.count < idx + 1
   end
 
   # match_groupに紐づく最後のmatchの日付を取得
@@ -71,6 +56,10 @@ class MatchGroup < ApplicationRecord
   end
 
   private
+  # チップ有ルールかどうか
+  def tip_rule?
+    Rule.find_by(id: rule_id).is_chip?
+  end
 
   # チップデータはユーザーによって登録されたデータか(=仮データでないか)
   def not_temporary_data?
