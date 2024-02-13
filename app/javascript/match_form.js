@@ -1,5 +1,5 @@
-$(document).on('turbolinks:load', function () { 
-  
+$(document).on('turbolinks:load', function () {
+
   //*******************************************
   //*. 関数の定義　                           *
   //*******************************************
@@ -26,15 +26,14 @@ $(document).on('turbolinks:load', function () {
     }
 
     if (calculatedRemainingScore === 0) {
-      $('#match_create_warning').css('visibility', 'hidden');
+      $('#match_create_warning_1').css('visibility', 'hidden');
     } else {
-      $('#match_create_warning').css('visibility', 'visible');
+      $('#match_create_warning_1').css('visibility', 'visible');
     }
   }
 
   // ● ルール選択肢で選択された時のjs
   function selectRule(selecter) {
-
     let id = $(selecter).val();
     $.ajax({
       type: 'GET', // リクエストのタイプ
@@ -100,14 +99,14 @@ $(document).on('turbolinks:load', function () {
     })
   }
 
-  // ● 家・得点・ptがすべて埋まっていたらボタン状態更新
+  // ● 対局日・家・得点・ptがすべて入力済みかつ家重複状態に応じてボタン状態更新
   function checkFormCompletion() {
     let isComplete = true;
 
-    // IE, Score, Point フィールドのチェック
-    $('[id$="_ie"], [id$="_score"], [id$="_point"]').each(function() {
+    // match_on, IE, Score, Pointフィールドのチェックと家重複チェック
+    $('[id$="_match_on"], [id$="_ie"], [id$="_score"], [id$="_point"]').each(function() {
       let value = $(this).val();
-      if (value === "" || isNaN(value)) {
+      if (value === "" || value === null || value === undefined || checkDuplicateIE()) {
         isComplete = false;
         return false; // ループを中断
       }
@@ -119,6 +118,23 @@ $(document).on('turbolinks:load', function () {
     } else {
       $('#match_create_btn').prop('disabled', true).addClass('inactive');
     }
+    if (checkDuplicateIE()) {
+      $('#match_create_warning_2').css('visibility', 'visible');
+    } else {
+      $('#match_create_warning_2').css('visibility', 'hidden');
+    }
+  }
+
+  // ● 家の重複チェック
+  function checkDuplicateIE() {
+    let ies = [];
+    $('[id$="_ie"]').each(function() {
+      ies.push($(this).val());
+    });
+    let isDuplicate = ies.some(function(ie, index) {
+      return ies.indexOf(ie) !== index;
+    });
+    return isDuplicate;
   }
 
   // ● 得点項目の入力が残り１つの場合、点数を自動補完する
@@ -219,10 +235,10 @@ $(document).on('turbolinks:load', function () {
   }
 
   // *********************************************************************
-  // match作成・編集ページのとき、ルール検索実行
-  if (/^\/matches\/[^/]+\/edit$/.test(window.location.pathname) || window.location.pathname === '/matches/new') {
+  // match関連ページのとき、ルール検索実行
+  if (/\/matches(\/|$)/.test(window.location.pathname)) {
     let selecter = '#match_rule_id';
-    $(document).ready(selectRule(selecter));
+    selectRule(selecter);
     $(selecter).change(function () {
       selectRule(selecter);
     });
@@ -270,7 +286,7 @@ $(document).on('turbolinks:load', function () {
   checkFormCompletion();
   updateRemainingScore();
   // フィールドの変更時にチェック関数を実行
-  $('[id$="_ie"], [id$="_score"], [id$="_point"]').on('change', checkFormCompletion);
+  $('[id$="_match_on"], [id$="_ie"], [id$="_score"], [id$="_point"]').on('change', checkFormCompletion);
   // 得点に変化があったとき、残得点の更新
   $('[id$="_score"]').on('input', updateRemainingScore);
   // 得点の未入力が残り１つの場合、点数を自動補完する
