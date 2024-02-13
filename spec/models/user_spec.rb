@@ -10,11 +10,11 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context "User#nameが10文字より大きいとき" do
+    context "User#nameが8文字より大きいとき" do
       it 'バリデーションエラーとなること' do
-        user = build(:user, name: 'a' * 11)
+        user = build(:user, name: 'a' * 9)
         expect(user).not_to be_valid
-        expect(user.errors[:name]).to include('は10文字以内で入力してください')
+        expect(user.errors[:name]).to include('は8文字以内で入力してください')
       end
     end
   end

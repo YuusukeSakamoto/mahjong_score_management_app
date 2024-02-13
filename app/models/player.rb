@@ -225,22 +225,10 @@ class Player < ApplicationRecord
   # ************************************
   # ユーザー招待リンク用
   # ************************************
-
-  # current_playerから該当プレイヤーが招待可能か真偽値を返す
-  def can_invite?(current_player)
-    self.cp = current_player
-    recorded_by_current_player? && user_id.nil?
-  end
-
   # 招待トークンを発行してDB保存する
   def create_invite_token
     self.invite_token = SecureRandom.urlsafe_base64
     update_columns(invite_token: invite_token, invite_create_at: Time.zone.now)
-  end
-
-  # current_playerが記録をつけたプレイヤーか真偽値を返す
-  def recorded_by_current_player?
-    recorded_players.include?(id)
   end
 
   # current_playerが招待可能な全プレイヤーを取得する

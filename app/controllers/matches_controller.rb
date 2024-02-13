@@ -67,6 +67,7 @@ class MatchesController < ApplicationController
       redirect_to match_path(@match), notice: FlashMessages::CREATE_MATCH
     else
       @players = session[:players]
+      score_in_hundred
       render :new
     end
   end
@@ -87,6 +88,7 @@ class MatchesController < ApplicationController
     else
       set_player_league
       gon_setter('update')
+      score_in_hundred
       render :edit
     end
   end

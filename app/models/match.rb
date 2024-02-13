@@ -7,7 +7,7 @@ class Match < ApplicationRecord
   has_many :results, dependent: :destroy # matchに紐づいたresultsも削除される
   accepts_nested_attributes_for :results # resultも同時に保存できるようになる
 
-  validates :play_type, presence: true, numericality: { in: 3..4 }
+  validates :play_type, presence: true, inclusion: { in: [3, 4] }
   validates :match_on, presence: true
   validates :rule_id, presence: true
   validates :memo, length: { maximum: 50 }
@@ -24,6 +24,6 @@ class Match < ApplicationRecord
 
   # ログインユーザーの該当対局のポイントを取得する
   def current_player_point(p_id)
-    results.find_by(player_id: p_id).point
+    results.find_by(player_id: p_id)&.point
   end
 end
