@@ -9,6 +9,7 @@ class MatchesController < ApplicationController
   def index
     match_ids = current_player.match_ids_for_play_type(4) # デフォルトは四麻
     @matches = Match.includes(:results).where(id: match_ids).desc
+    gon_setter('index')
   end
 
   def new
@@ -42,7 +43,7 @@ class MatchesController < ApplicationController
       redirect_to(user_session_path,
                   alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログアウトユーザーはアクセス拒否
       # matchにcurrent_playerが含まれていない場合、アクセス不可
-      unless @match.results.pluck(:player_id).include?(current_player.id)
+      unless @match.results.pluck(:player_id).include?(current_player.id) || @match_group.created_by?(current_player)
         redirect_to(root_path,
                     alert: FlashMessages::ACCESS_DENIED) && return
       end
@@ -55,6 +56,7 @@ class MatchesController < ApplicationController
     @rule = Rule.find_by(id: @match_group.rule_id)
     @last_match_day = @match_group.last_match_day
     session[:previous_url] = request.referer unless request.referer.include?(edit_match_path)
+    gon_setter('show')
   end
 
   def create
@@ -101,11 +103,14 @@ class MatchesController < ApplicationController
 
   # jsに渡す変数をセットする
   def gon_setter(action)
-    if action == 'new'
-      gon.is_recording = recording?
-      gon.is_league_recording = league_recording?
-    elsif %w[edit update].include?(action)
-      gon.is_edit = true # edit・updateの場合、無条件でルールは更新できないようにする
+    if %w[new edit update].include?(action)
+      if recording? || league_recording? # 記録中の場合、ルールは更新できないようにする
+        gon.is_fixed_rule = true
+      else
+        gon.is_fixed_rule = false
+      end
+    else
+      gon.is_fixed_rule = false
     end
   end
 

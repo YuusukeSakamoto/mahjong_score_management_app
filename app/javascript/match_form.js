@@ -33,8 +33,8 @@ $(document).on('turbolinks:load', function () {
   }
 
   // ● ルール選択肢で選択された時のjs
-  function selectRule(selecter) {
-    let id = $(selecter).val();
+  function selectRule(selector) {
+    let id = $(selector).val();
     $.ajax({
       type: 'GET', // リクエストのタイプ
       url: '/rules/searches', // リクエストを送信するURL
@@ -237,16 +237,16 @@ $(document).on('turbolinks:load', function () {
   // *********************************************************************
   // match関連ページのとき、ルール検索実行
   if (/\/matches(\/|$)/.test(window.location.pathname)) {
-    let selecter = '#match_rule_id';
-    selectRule(selecter);
-    $(selecter).change(function () {
-      selectRule(selecter);
+    let selector = '#match_rule_id';
+    if (document.querySelector(selector)) {
+      selectRule(selector);
+    }
+    $(selector).on('change', function () {
+      selectRule(selector);
     });
-    let is_recording = gon.is_recording
-    let is_league_recording = gon.is_league_recording
-    let is_edit = gon.is_edit
+    let is_fixed_rule = gon.is_fixed_rule
     // 成績登録中はルールを固定する
-    if (is_recording || is_league_recording || is_edit) {
+    if (is_fixed_rule) {
       $('#match_rule_id').removeClass('bg-white');
       $('#match_rule_id').addClass('bg-disabled');
       $('#match_rule_id').css('pointer-events', 'none');

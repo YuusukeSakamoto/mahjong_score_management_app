@@ -59,6 +59,12 @@
                           %p.mb-0.text-start.fw-bold= l_player.player.name
                           - if league.player_id == l_player.player.id
                             %i.fa-solid.fa-user-pen.ps-1
+                      - unless league.league_players.pluck(:player_id).include?(league.player_id)
+                        .d-flex.align-items-center
+                          %span (
+                          %p.mb-0.text-start= league.player.name
+                          %i.fa-solid.fa-user-pen.ps-1
+                          %span )
       .row.my-3
         .col-8.col-md-5.m-auto
           = link_to new_league_path,

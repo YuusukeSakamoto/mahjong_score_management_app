@@ -1,58 +1,42 @@
-const match_url = '/matches/switches';
-const match_group_url = '/match_groups/switches';
+const matchUrl = '/matches/switches';
+const matchGroupUrl = '/match_groups/switches';
 
 function bindToggleButtons() {
+  // ボタンの種類と関連するURLをマッピング
+  const buttonMappings = [
+    {selector: '#toggle-to-four-m', playType: '4', url: matchUrl},
+    {selector: '#toggle-to-three-m', playType: '3', url: matchUrl},
+    {selector: '#toggle-to-four-mg', playType: '4', url: matchGroupUrl},
+    {selector: '#toggle-to-three-mg', playType: '3', url: matchGroupUrl},
+  ];
 
-  var url;
-  $('#toggle-to-four-m').off('click').click(function() {
-    url = match_url;
-    updateMatches('4', url);
-  });
-
-  $('#toggle-to-three-m').off('click').click(function() {
-    url = match_url;
-    updateMatches('3', url);
-  });
-
-  $('#toggle-to-four-mg').off('click').click(function() {
-    url = match_group_url;
-    updateMatches('4', url);
-  });
-
-  $('#toggle-to-three-mg').off('click').click(function() {
-    url = match_group_url;
-    updateMatches('3', url);
+  buttonMappings.forEach(({selector, playType, url}) => {
+    $(selector).off('click').on('click', function() {
+      updateMatches(playType, url);
+    });
   });
 }
 
 function updateMatches(playType, url) {
   $.ajax({
-    url: url, // 対応するURLに変更
+    url,
     type: 'GET',
     dataType: 'script',
     data: { play_type: playType }
   }).done(function() {
-    if (playType === '4') {
-      if (url === match_group_url) {
-        $('#toggle-to-four-mg').addClass('active');
-        $('#toggle-to-three-mg').removeClass('active');
-      } else {
-        $('#toggle-to-four-m').addClass('active');
-        $('#toggle-to-three-m').removeClass('active');
-      }
-    } else {
-      if (url === match_group_url) {
-        $('#toggle-to-three-mg').addClass('active');
-        $('#toggle-to-four-mg').removeClass('active');
-      } else {
-        $('#toggle-to-three-m').addClass('active');
-        $('#toggle-to-four-m').removeClass('active');
-      }
-    }
-    bindToggleButtons(); // Ajaxリクエスト後にボタンにイベントリスナーを再設定
+    // ボタンのアクティブ状態の更新
+    const activeSelector = playType === '4' ? 'four' : 'three';
+    const inactiveSelector = playType === '4' ? 'three' : 'four';
+
+    $(`#toggle-to-${activeSelector}-m`).addClass('active');
+    $(`#toggle-to-${inactiveSelector}-m`).removeClass('active');
+    $(`#toggle-to-${activeSelector}-mg`).addClass('active');
+    $(`#toggle-to-${inactiveSelector}-mg`).removeClass('active');
+
+    bindToggleButtons();
   });
 }
 
 $(document).on('turbolinks:load', function () {
-  bindToggleButtons(); // ページロード時にボタンにイベントリスナーを設定
+  bindToggleButtons();
 });

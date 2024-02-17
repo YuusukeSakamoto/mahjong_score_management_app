@@ -16,6 +16,7 @@
         )
       .selected_players-item
         %span #{current_player.name}
+        %i.bx.bx-trash.player-delete-1
         .p_id{style: "display: none"}= current_player.id
 
       - if @authenticated_users.present?
