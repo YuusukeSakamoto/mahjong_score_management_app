@@ -5,9 +5,10 @@ class MatchGroupsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
 
   # 記録したor記録された成績表一覧を表示する
+  # match_groups/switchesコントローラのindexアクションと同じ処理を記載しないとエラーになるため注意
   def index
     match_ids = Result.match_ids(current_player.id)
-    mg_ids = Match.where(id: match_ids).distinct.pluck(:match_group_id)
+    mg_ids = Match.where(id: match_ids).or(Match.where(player_id: current_player.id)).distinct.pluck(:match_group_id)
     @match_groups = MatchGroup.includes(:matches).where(id: mg_ids, play_type: 4).desc # デフォルトは四麻
     @first_match_results_p_ids = @match_groups.map { |mg| mg.matches.first.results.pluck(:player_id) }
     @first_match_recorded_player_ids = @match_groups.map { |mg| mg.matches.first.player_id }
@@ -24,7 +25,7 @@ class MatchGroupsController < ApplicationController
     else
       redirect_to(user_session_path,
                   alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
-      unless @match_group.players.include?(current_player) # match_groupにcurrent_playerが含まれていない場合、アクセス不可
+      unless @match_group.players.include?(current_player) || @match_group.created_by?(current_player)
         redirect_to(root_path,
                     alert: FlashMessages::ACCESS_DENIED) && return
       end

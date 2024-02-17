@@ -22,7 +22,7 @@ class LeaguesController < ApplicationController
     else
       redirect_to(user_session_path,
                   alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
-      unless @league.league_players.exists?(player_id: current_player.id)
+      unless @league.league_players.exists?(player_id: current_player.id) || @league.player_id == current_player.id
         redirect_to(root_path,
                     alert: FlashMessages::ACCESS_DENIED) && return
       end

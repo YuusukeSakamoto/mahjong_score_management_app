@@ -14,7 +14,7 @@ class ChipResultsController < ApplicationController
     else
       redirect_to(user_session_path,
                   alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログインユーザーがアクセスしているか判定
-      unless @match_group.players.include?(current_player)
+      unless @match_group.players.include?(current_player) || @match_group.created_by?(current_player)
         redirect_to(root_path,
                     alert: FlashMessages::EDIT_DENIED) && return
       end
@@ -32,7 +32,7 @@ class ChipResultsController < ApplicationController
   end
 
   def update
-    unless @match_group.players.include?(current_player)
+    unless @match_group.players.include?(current_player) || @match_group.created_by?(current_player)
       redirect_to(root_path,
                   alert: FlashMessages::UPDATE_DENIED) && return
     end
