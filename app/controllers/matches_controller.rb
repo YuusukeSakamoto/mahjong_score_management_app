@@ -56,6 +56,7 @@ class MatchesController < ApplicationController
     @rule = Rule.find_by(id: @match_group.rule_id)
     @last_match_day = @match_group.last_match_day
     session[:previous_url] = request.referer unless request.referer.include?(edit_match_path)
+    gon_setter('show')
   end
 
   def create
