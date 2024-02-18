@@ -109,18 +109,18 @@ class League < ApplicationRecord
       x_label = (1..(matches.count)).to_a
     end
 
-    if x_label.count >= 20
+    if x_label.count >= 50
       x_label.map! do |x|
-        if x % 5 == 0
-          x  # 5の倍数の場合、そのまま
+        if x % 10 == 0
+          x  # 10の倍数の場合、そのまま
         else
           ''  # それ以外の場合、空文字列
         end
       end
-    elsif x_label.count >= 50
+    elsif x_label.count >= 20
       x_label.map! do |x|
-        if x % 10 == 0
-          x  # 10の倍数の場合、そのまま
+        if x % 5 == 0
+          x  # 5の倍数の場合、そのまま
         else
           ''  # それ以外の場合、空文字列
         end
