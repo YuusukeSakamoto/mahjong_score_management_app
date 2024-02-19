@@ -64,5 +64,9 @@ RSpec.configure do |config|
   #このコードを加えることで、specのテストコード中でFactory_botのメソッドを使用する際に、クラス名の指定を省略できるようになる
   RSpec.configure do |config|
     config.include FactoryBot::Syntax::Methods
+
+    config.before(:each) do
+      Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+    end
   end
 end
