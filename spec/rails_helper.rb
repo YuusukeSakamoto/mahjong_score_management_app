@@ -60,13 +60,22 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f } # spec/support以下のファイルを読み込む
 
   #このコードを加えることで、specのテストコード中でFactory_botのメソッドを使用する際に、クラス名の指定を省略できるようになる
   RSpec.configure do |config|
-    config.include FactoryBot::Syntax::Methods
+    config.include FactoryBot::Syntax::Methods  # FactoryBotの省略
+    config.include LoginModule # ログインモジュールの省略
 
     config.before(:each) do
       Rails.application.routes.default_url_options[:host] = 'localhost:3000'
     end
+  end
+
+  config.before(:each, type: :system) do
+    driven_by(:selenium_chrome_headless) # ヘッドレスモードでテストを実行
+    # driven_by(:selenium_chrome) # ブラウザでテストを実行
+    # driven_by(:rack_test) # ブラウザを使わずにテストを実行
+    # Webdrivers::Chromedriver.required_version = '121.0.6167'
   end
 end
