@@ -5,17 +5,20 @@
         .left-content.d-flex.align-items-end
           %h4.text-center.text-md-start.text-nowrap.fw-bold.mb-0
             成績表
+
         - if request.path == match_group_path(@match_group)
           .right-content
-            - if @match_group.created_by?(current_player)
-              = link_to match_group_path(@match_group),
-                  data: { confirm: "対局成績表を削除しますか？" },
-                  method: :delete,
-                  class: 'px-1 pb-0 text-main' do
-                %i.fa-regular.fa-trash-can.me-2
+            .d-flex.align-items-end
+              %p.mb-0.fs-sm.px-2="記録者 : #{@match_group.create_player_name}"
+              - if @match_group.created_by?(current_player)
+                = link_to match_group_path(@match_group),
+                    data: { confirm: "対局成績表を削除しますか？" },
+                    method: :delete,
+                    class: 'px-1 pb-0 text-main' do
+                  %i.fa-regular.fa-trash-can.me-2
 
 .row.justify-content-center
-  .col-12.col-md-9.m-auto
+  .col-12.col-md-9.m-auto.px-0
     .score-card.mt-2.card
       .score-card-top
         .score-card-top-left

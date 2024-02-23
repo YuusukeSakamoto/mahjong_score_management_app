@@ -17,7 +17,7 @@ class MatchesController < ApplicationController
       @league = League.find_by(id: params[:league])
       redirect_to(root_path, alert: FlashMessages::ACCESS_DENIED) && return unless @league
 
-      unless current_player.id == League.find_by(id: params[:league]).player_id
+      unless league_record_permit?
         alert_redirect_root(FlashMessages::CANNOT_RECORD_LEAGUE)
       end
       # リーグ成績を記録中、他のリーグ成績の登録不可
@@ -197,6 +197,12 @@ class MatchesController < ApplicationController
     @match.play_type = @players.count
     session_players_num.times { @match.results.build }
     gon_setter('new')
+  end
+
+  # リーグ戦において記録可能プレイヤーか真偽値を返す
+  def league_record_permit?
+    (current_player.id == League.find_by(id: params[:league]).player_id) ||
+      LeaguePlayer.exists?(player_id: current_player.id, league_id: params[:league])
   end
 
   # ***************** destroyアクション ************************ #
