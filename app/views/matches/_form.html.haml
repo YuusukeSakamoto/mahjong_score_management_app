@@ -27,7 +27,7 @@
       - else
         = f.collection_select(:rule_id, current_player.rule_list(@match.play_type),
                               :id, :name,
-                              { selected: session[:rule] },
+                              { selected: @match.rule_id },
                               class: 'form-control py-md-1 rounded bg-white mb-1 text-center' )
       %button.js-rule-dropdown.mb-1.fs-sm.text-main{ type: 'button' }
         %i.fa-solid.fa-caret-right
