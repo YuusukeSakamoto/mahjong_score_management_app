@@ -40,8 +40,11 @@ class MatchesController < ApplicationController
                                           'matches_controller',
                                           @match) # トークンが有効か判定
     else
-      redirect_to(user_session_path,
-                  alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログアウトユーザーはアクセス拒否
+      #ログアウトユーザーはアクセス拒否
+      unless current_user
+        redirect_to(user_session_path,
+                    alert: FlashMessages::UNAUTHENTICATED) && return
+      end
       # matchにcurrent_playerが含まれていない場合、アクセス不可
       unless @match.results.pluck(:player_id).include?(current_player.id) || @match_group.created_by?(current_player)
         redirect_to(root_path,
@@ -55,7 +58,11 @@ class MatchesController < ApplicationController
     @matches = @match_group.matches
     @rule = Rule.find_by(id: @match_group.rule_id)
     @last_match_day = @match_group.last_match_day
-    session[:previous_url] = request.referer unless request.referer.include?(edit_match_path)
+    if request.referer.present?
+      unless request.referer.include?(edit_match_path)
+        session[:previous_url] = request.referer
+      end
+    end
     gon_setter('show')
   end
 
