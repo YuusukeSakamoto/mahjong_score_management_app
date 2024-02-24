@@ -260,8 +260,8 @@ class Player < ApplicationRecord
   # ************************************
   # リーグ用メソッド
   # ************************************
-  # プレイヤーがリーグを登録しているか
+  # プレイヤーがリーグ参加しているか
   def leagues_registered?
-    leagues.count.positive?
+    LeaguePlayer.exists?(player_id: id)
   end
 end

@@ -545,6 +545,7 @@ RSpec.describe Player, type: :model do
   # リーグ用メソッド
   # ************************************
   let(:player) { create(:player) }
+  let(:player_league_0) { create(:player) }
   let(:rule) { create(:rule) }
   let(:league) { create(:league, player: player, rule: rule) }
 
@@ -554,6 +555,7 @@ RSpec.describe Player, type: :model do
         player.leagues << league
       end
 
+      let!(:league_player) { create(:league_player, player: player, league: league) }
       it '真を返すこと' do
         expect(player.leagues_registered?).to be true
       end
@@ -561,7 +563,7 @@ RSpec.describe Player, type: :model do
 
     context 'プレイヤーがリーグを登録していない場合' do
       it '偽を返すこと' do
-        expect(player.leagues_registered?).to be false
+        expect(player_league_0.leagues_registered?).to be false
       end
     end
   end

@@ -25,15 +25,14 @@
                     - else
                       %span -
                 .col-3.league_item-center.px-1
-                  - record_active = league.league_players.present? && league.player_id == current_player.id
-                  - result_active = league.league_players.present?
+                  - active = league.league_players.present?
                   = link_to new_match_path(league: league.id),
-                    class: "main-btn--white-orange-sm py-2 px-1 my-1 #{'inactive-link' unless record_active}" do
+                    class: "main-btn--white-orange-sm py-2 px-1 my-1 #{'inactive-link' unless active}" do
                     .btn-text
                       %i.fa-solid.fa-pen
                       %span 記録
                   = link_to league_path(league),
-                    class: "main-btn--white-green-sm py-2 px-1 my-1 #{'inactive-link' unless result_active}" do
+                    class: "main-btn--white-green-sm py-2 px-1 my-1 #{'inactive-link' unless active}" do
                     .btn-text
                       %i.fa-solid.fa-chart-simple
                       %span 成績

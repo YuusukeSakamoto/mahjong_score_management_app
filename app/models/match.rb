@@ -26,4 +26,10 @@ class Match < ApplicationRecord
   def current_player_point(p_id)
     results.find_by(player_id: p_id)&.point
   end
+
+  # match_groupの作成者の名前を返す
+  def create_player_name
+    match.player.name
+  end
+
 end

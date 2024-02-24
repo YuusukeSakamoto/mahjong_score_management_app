@@ -16,15 +16,19 @@
       - if @league.present?
         = f.hidden_field :league_id, value: @league.id
       .d-flex.justify-content-between
-        #div
+        .label-info
           = f.label :ルール, class: 'title-p text-main'
           %span.p_required 必須
           - if recording? || ["edit", "update"].include?(controller.action_name)
             %span.p_warning ※変更不可
-      = f.collection_select(:rule_id, current_player.rule_list(@match.play_type),
-                            :id, :name,
-                            { selected: session[:rule] },
-                            class: 'form-control py-md-1 rounded bg-white mb-1 text-center' )
+      - if @league.present?
+        = f.select :rule_id, [[@league.rule.name, @league.rule.id]],{},
+          class: 'form-control py-md-1 rounded bg-white mb-1 text-center'
+      - else
+        = f.collection_select(:rule_id, current_player.rule_list(@match.play_type),
+                              :id, :name,
+                              { selected: @match.rule_id },
+                              class: 'form-control py-md-1 rounded bg-white mb-1 text-center' )
       %button.js-rule-dropdown.mb-1.fs-sm.text-main{ type: 'button' }
         %i.fa-solid.fa-caret-right
         %span.ps-1 詳細

@@ -45,6 +45,11 @@ class MatchGroup < ApplicationRecord
     matches.first.player_id == current_player.id
   end
 
+  # match_groupの作成者の名前を返す
+  def create_player_name
+    matches.first.player.name
+  end
+
   # 成績表においてチップレコードかどうか
   def chip_record?(idx)
     tip_rule? && matches.count < idx + 1

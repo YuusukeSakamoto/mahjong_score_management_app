@@ -17,7 +17,7 @@ class MatchesController < ApplicationController
       @league = League.find_by(id: params[:league])
       redirect_to(root_path, alert: FlashMessages::ACCESS_DENIED) && return unless @league
 
-      unless current_player.id == League.find_by(id: params[:league]).player_id
+      unless league_record_permit?
         alert_redirect_root(FlashMessages::CANNOT_RECORD_LEAGUE)
       end
       # リーグ成績を記録中、他のリーグ成績の登録不可
@@ -40,8 +40,11 @@ class MatchesController < ApplicationController
                                           'matches_controller',
                                           @match) # トークンが有効か判定
     else
-      redirect_to(user_session_path,
-                  alert: FlashMessages::UNAUTHENTICATED) && return unless current_user #ログアウトユーザーはアクセス拒否
+      #ログアウトユーザーはアクセス拒否
+      unless current_user
+        redirect_to(user_session_path,
+                    alert: FlashMessages::UNAUTHENTICATED) && return
+      end
       # matchにcurrent_playerが含まれていない場合、アクセス不可
       unless @match.results.pluck(:player_id).include?(current_player.id) || @match_group.created_by?(current_player)
         redirect_to(root_path,
@@ -55,7 +58,11 @@ class MatchesController < ApplicationController
     @matches = @match_group.matches
     @rule = Rule.find_by(id: @match_group.rule_id)
     @last_match_day = @match_group.last_match_day
-    session[:previous_url] = request.referer unless request.referer.include?(edit_match_path)
+    if request.referer.present?
+      unless request.referer.include?(edit_match_path)
+        session[:previous_url] = request.referer
+      end
+    end
     gon_setter('show')
   end
 
@@ -103,12 +110,14 @@ class MatchesController < ApplicationController
 
   # jsに渡す変数をセットする
   def gon_setter(action)
-    if %w[new edit update].include?(action)
+    if %w[new].include?(action)
       if recording? || league_recording? # 記録中の場合、ルールは更新できないようにする
         gon.is_fixed_rule = true
       else
         gon.is_fixed_rule = false
       end
+    elsif %w[edit update].include?(action) # 編集時はルールを更新できないようにする
+      gon.is_fixed_rule = true
     else
       gon.is_fixed_rule = false
     end
@@ -142,7 +151,12 @@ class MatchesController < ApplicationController
                             play_type: session_players_num)
     create_chip_results if @mg.rule.is_chip
     session[:mg] = @mg.id
-    session[:rule] = params[:match][:rule_id] # ２回目以降の成績登録時のデフォルトルールとして使用するためrule_idをセットする
+    set_session_rule
+  end
+
+  # ２回目以降の成績登録時の固定ルールとして使用するためrule_idをセットする
+  def set_session_rule
+    session[:rule] = params[:match][:rule_id]
   end
 
   # チップ有ルールの場合、仮で0枚登録する
@@ -195,8 +209,15 @@ class MatchesController < ApplicationController
   def initialize_match
     @match = Match.new
     @match.play_type = @players.count
+    @match.rule_id = session[:rule] if recording?
     session_players_num.times { @match.results.build }
     gon_setter('new')
+  end
+
+  # リーグ戦において記録可能プレイヤーか真偽値を返す
+  def league_record_permit?
+    (current_player.id == League.find_by(id: params[:league]).player_id) ||
+      LeaguePlayer.exists?(player_id: current_player.id, league_id: params[:league])
   end
 
   # ***************** destroyアクション ************************ #
