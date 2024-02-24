@@ -8,7 +8,7 @@ FactoryBot.define do
     uma_two {10}
     uma_three {-10}
     uma_four  {-20}
-    score_decimal_point_calc {0}
+    score_decimal_point_calc {1}
     is_chip {false}
     play_type {4}
     association :player

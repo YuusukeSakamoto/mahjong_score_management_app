@@ -78,4 +78,6 @@ RSpec.configure do |config|
     # driven_by(:rack_test) # ブラウザを使わずにテストを実行
     # Webdrivers::Chromedriver.required_version = '121.0.6167'
   end
+
+  Capybara.default_max_wait_time = 1 # ページが読み込まれるまでの待ち時間を設定
 end
