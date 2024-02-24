@@ -555,8 +555,8 @@ RSpec.describe Player, type: :model do
         player.leagues << league
       end
 
+      let!(:league_player) { create(:league_player, player: player, league: league) }
       it '真を返すこと' do
-        let(:league_player) { create(:league_player, player: player, league: league) }
         expect(player.leagues_registered?).to be true
       end
     end
