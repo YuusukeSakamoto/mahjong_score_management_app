@@ -110,12 +110,14 @@ class MatchesController < ApplicationController
 
   # jsに渡す変数をセットする
   def gon_setter(action)
-    if %w[new edit update].include?(action)
+    if %w[new].include?(action)
       if recording? || league_recording? # 記録中の場合、ルールは更新できないようにする
         gon.is_fixed_rule = true
       else
         gon.is_fixed_rule = false
       end
+    elsif %w[edit update].include?(action) # 編集時はルールを更新できないようにする
+      gon.is_fixed_rule = true
     else
       gon.is_fixed_rule = false
     end
@@ -149,7 +151,12 @@ class MatchesController < ApplicationController
                             play_type: session_players_num)
     create_chip_results if @mg.rule.is_chip
     session[:mg] = @mg.id
-    session[:rule] = params[:match][:rule_id] # ２回目以降の成績登録時のデフォルトルールとして使用するためrule_idをセットする
+    set_session_rule
+  end
+
+  # ２回目以降の成績登録時の固定ルールとして使用するためrule_idをセットする
+  def set_session_rule
+    session[:rule] = params[:match][:rule_id]
   end
 
   # チップ有ルールの場合、仮で0枚登録する
@@ -202,6 +209,7 @@ class MatchesController < ApplicationController
   def initialize_match
     @match = Match.new
     @match.play_type = @players.count
+    @match.rule_id = session[:rule] if recording?
     session_players_num.times { @match.results.build }
     gon_setter('new')
   end
