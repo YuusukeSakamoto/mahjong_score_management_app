@@ -166,19 +166,19 @@ RSpec.describe Match, type: :system do
             expect(page).to have_content match.results.first.player.name
             expect(page).to have_field('match_results_attributes_0_score', with: match.results.first.score / 100)
             expect(page).to have_field('match_results_attributes_0_point', with: match.results.first.point)
-            expect(page).to have_content match.results.first.ie
+            expect(page).to have_select('match_results_attributes_0_ie', selected: '東')
             expect(page).to have_content match.results.second.player.name
             expect(page).to have_field('match_results_attributes_1_score', with: match.results.second.score / 100)
             expect(page).to have_field('match_results_attributes_1_point', with: match.results.second.point)
-            expect(page).to have_content match.results.second.ie
+            expect(page).to have_select('match_results_attributes_1_ie', selected: '南')
             expect(page).to have_content match.results.third.player.name
             expect(page).to have_field('match_results_attributes_2_score', with: match.results.third.score / 100)
             expect(page).to have_field('match_results_attributes_2_point', with: match.results.third.point)
-            expect(page).to have_content match.results.third.ie
+            expect(page).to have_select('match_results_attributes_2_ie', selected: '西')
             expect(page).to have_content match.results.fourth.player.name
             expect(page).to have_field('match_results_attributes_3_score', with: match.results.fourth.score / 100)
             expect(page).to have_field('match_results_attributes_3_point', with: match.results.fourth.point)
-            expect(page).to have_content match.results.fourth.ie
+            expect(page).to have_select('match_results_attributes_3_ie', selected: '北')
             expect(page).to have_content "残得点：0"
             expect(page).to have_no_content "残得点が0ではありません"
           end
