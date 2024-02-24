@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :rule do
     player_id {1}
-    name {"rule_1"}
+    sequence(:name) { |n| "rule#{n}" }
     mochi {25000}
     kaeshi  {30000}
     uma_one {20}

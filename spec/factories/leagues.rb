@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :league do
-    name { 'test_league' }
+    sequence(:name) { |n| "league#{n}" }
     play_type { 4 }
     description { 'test_description' }
     association :player
