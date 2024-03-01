@@ -96,8 +96,16 @@ RSpec.describe Rule, type: :system do
     end
   end
 
-  describe '● ACCESS' do
-
+  describe '● CRUD' do
+    before do
+      login(user, player)
+    end
+    describe 'ルール登録' do
+    end
+    describe 'ルール編集' do
+    end
+    describe 'ルール削除' do
+    end
   end
 
 end

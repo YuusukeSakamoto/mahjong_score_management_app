@@ -26,7 +26,7 @@ RSpec.describe Player, type: :system do
     end
   end
 
-  describe '● OPERATION' do
+  describe '● CRUD' do
     before do
       login(user, current_p)
     end
@@ -43,7 +43,7 @@ RSpec.describe Player, type: :system do
           expect(page).to have_content players[1].name
           expect(page).to have_content players[2].name
           expect(page).to have_content current_p.name
-          expect(page).to have_content "残得点：100000"
+          expect(page).to have_content "残得点 :100000"
           expect(page).to have_content "残得点が0ではありません"
         end
       end
@@ -52,4 +52,13 @@ RSpec.describe Player, type: :system do
 
     end
   end
+
+  describe '● CRUD' do
+    before do
+      login(user, player)
+    end
+    describe 'プレイヤー登録' do
+    end
+  end
+
 end
