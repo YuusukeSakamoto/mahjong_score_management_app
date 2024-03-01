@@ -87,7 +87,7 @@ $(document).on('turbolinks:load', function () {
       </ul>`
       );
       $('.js-remaining_score').append(
-        `<span class="js-remaining_score_value">${all_score}</span>
+        `<span class="js-remaining_score_value ps-1">${all_score}</span>
         <span class="js-remaining_score_hidden_value" style="display:none">${all_score}</span>`
       );
       updateRemainingScore(); // ajaxが完了したら残得点の計算

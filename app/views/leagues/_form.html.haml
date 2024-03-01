@@ -74,7 +74,7 @@
         = f.text_area :description, autofocus: true,
           class: 'form-control py-md-1 rounded bg-white', maxlength: 50
       .col-8.col-md-6.m-auto.mb-3
-        = f.button type: 'submit', class: 'main-btn--orange w-100' do
+        = f.button type: 'submit', class: 'main-btn--orange w-100', id: 'league_create_btn' do
           .btn-text
             %i.fa-regular.fa-circle-check.fs-sm
             %span #{action}

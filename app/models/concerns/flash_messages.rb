@@ -17,7 +17,7 @@ module FlashMessages
   # rule
   DELETION_PREVENTED_DUE_TO_ASSOCIATED_RECORDS = '指定したルールで記録した成績が存在するため、削除できません。'
   CANNOT_DESTROY = '削除できませんでした'
-  CANNOT_CREATE_RULE_RECORDING = '記録中はルール作成できません'
+  CANNOT_CREATE_RULE_RECORDING = '記録中はルール登録できません'
 
   # match
   CREATE_MATCH = '対局成績を登録しました'
