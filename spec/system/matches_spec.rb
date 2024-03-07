@@ -219,6 +219,11 @@ RSpec.describe Match, type: :system do
           expect(page).to have_link(href: match_path(Match.last, btn: 'match')) # 削除ボタン
           expect(page).to have_link('2戦目の成績を登録', href: new_match_path) # 対局登録ボタン
           expect(page).to have_link('記録終了する', href: match_group_path(Match.last.match_group_id, fix: 'true')) # 記録終了ボタン
+          expect(page).to have_css('.fa-check', count: 0)
+          expect(page). to have_content '共有リンクをコピー'
+          element = find('#share-link')
+          page.execute_script('arguments[0].click()', element) #共有リンクをコピーをクリック
+          expect(page).to have_css('.fa-check', count: 1)
         end
       end
       context '残得点が0ではない場合' do
