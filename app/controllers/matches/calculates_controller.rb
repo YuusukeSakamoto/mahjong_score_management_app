@@ -2,28 +2,50 @@
 
 class Matches::CalculatesController < ApplicationController
   def index
-    points_ranks = []
-    scores = []
-    ies = []
-    rule_id = params[:scores_rules_ies]['0'][0].to_i
-    params[:scores_rules_ies]['1'].each do |d|
-      scores << d.to_i
-    end
-    params[:scores_rules_ies]['2'].each do |d|
-      ies << d.to_i
-    end
+    # pt入力チェックボックスがオフの場合、得点からptと順位を取得する
+    if params[:pt_checked] == 'off'
+      points_ranks = []
+      scores = []
+      ies = []
+      rule_id = params[:scores_rules_ies]['0'][0].to_i
+      params[:scores_rules_ies]['1'].each do |d|
+        scores << d.to_i
+      end
+      params[:scores_rules_ies]['2'].each do |d|
+        ies << d.to_i
+      end
+      points_ranks << get_points_ranks(scores, rule_id, ies)
 
-    points_ranks << get_points_ranks(scores, rule_id, ies)
+      respond_to do |format|
+        format.html { redirect_to :root }
+        format.json { render json: points_ranks }
+      end
+    # pt入力チェックボックスがオンの場合、ptから得点と順位を取得する
+    elsif params[:pt_checked] == 'on'
+      scores_ranks = []
+      points = []
+      ies = []
+      rule_id = params[:points_rules_ies]['0'][0].to_i
+      params[:points_rules_ies]['1'].each do |d|
+        points << d.to_f
+      end
+      params[:points_rules_ies]['2'].each do |d|
+        ies << d.to_i
+      end
 
-    respond_to do |format|
-      format.html { redirect_to :root }
-      format.json { render json: points_ranks }
+      scores_ranks = get_scores_ranks(points, rule_id, ies)
+
+      respond_to do |format|
+        format.html { redirect_to :root }
+        format.json { render json: scores_ranks }
+      end
     end
   end
 
   private
 
-  # プレイヤーの得点・ルールに応じてptと順位を取得する
+  # pt入力チェックボックスがオフの場合
+  # プレイヤーの得点・ルール・家に応じてpt・順位を取得する
   def get_points_ranks(scores, rule_id, ies)
     rule = Rule.find(rule_id)
     sorted_scores = scores.sort.reverse # スコアで降順にする
@@ -100,5 +122,27 @@ class Matches::CalculatesController < ApplicationController
       ie_max = tie_rank_idx.map { |i| ies[i] }.max # 同順位のなかで最大値(=下家)を取得する
       ranks[ies.index(ie_max)] += 1 # 下家の順位を下げる
     end
+  end
+
+  # pt入力チェックボックスがオンの場合
+  # プレイヤーのpt・ルール・家に応じて得点と順位を取得する
+  def get_scores_ranks(points, rule_id, ies)
+    rule = Rule.find(rule_id)
+    uma_ary = [rule.uma_one, rule.uma_two, rule.uma_three, rule.uma_four]
+    sorted_points = points.sort.reverse # ptで降順にする
+    ranks = points.map { |pt| sorted_points.index(pt) + 1 } # 順位を配列で取得する
+    # 同順位がある場合,下家の順位を下げる
+    correct_tie_ranks(ranks, ies) if tie_exists?(ranks)
+    # ptから順位点を減算する
+    points = points.map.with_index { |pt, i| (pt - uma_ary[ranks[i] - 1]).round(1) }
+    # オカをptから減算する
+    oka = ((rule.kaeshi - rule.mochi) * rule.play_type) / 1000.to_f
+    points[ranks.index(1)] -= oka
+    points = points.map { |p| p.round(1) }
+    # 得点に変換する
+    scores = points.map { |pt| (pt * 1000).round(1) }
+    # 得点に返し点を加算する
+    scores = scores.map { |score| (score + rule.kaeshi).round(1) }
+    [scores, ranks]
   end
 end

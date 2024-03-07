@@ -32,6 +32,48 @@
   background-color: $white;
 }
 
+// info
+.info {
+  background-color: $lightgray;
+  border-radius: 5px;
+  padding: 20px;
+  color: $gray;
+
+  p {
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+
+    li {
+      margin-bottom: 5px;
+      font-size: 0.8rem;
+
+      i {
+        margin-right: 3px;
+        margin-bottom: 6px;
+        color: $pink;
+      }
+
+      span {
+        font-weight: bold;
+      }
+
+      ul {
+        padding-left: 15px;
+
+        li {
+          list-style-type: disc;
+        }
+      }
+    }
+  }
+}
+
+
 // ===============================
 // 対局一覧画面
 // ===============================

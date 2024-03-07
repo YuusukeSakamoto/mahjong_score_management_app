@@ -151,7 +151,32 @@ $(document).on('turbolinks:load', function () {
     }
   }
 
-  // ● ポイント・順位の計算
+  // ● pt記録ボタンonでpt項目の入力が残り１つの場合、ptを自動補完する
+  function autoCompletePoint() {
+    let element = document.getElementById('pt-toggle');
+    let checked = element.checked; // チェックボックスの状態を取得(on or off)
+    // チェックボックスがonの場合
+    if (checked) {
+      var points_sum = 0;
+      let emptyPointElements = $('[id$="_point"]').filter(function() {
+        let value = $(this).val();
+        let point = parseFloat(value);
+        if (isNaN(point)) {
+          point = 0; // デフォルト値
+        }
+        points_sum += point;
+        return !value;
+      });
+      if (emptyPointElements.length === 1) {
+        emptyPointElements.val((points_sum * -1).toFixed(1)); // 残りptを自動補完
+        updateRemainingScore(); // 残得点更新
+        calculate_point_rank(); // ポイント・順位の計算
+        calculate_score_rank(); // ptから得点と順位を計算
+      }
+    }
+  }
+
+  // ● 得点からポイント・順位の計算する
   function calculate_point_rank() {
     let is_full = true;
     $('[id$="_score"], #match_rule_id').each(function(index) {
@@ -180,7 +205,7 @@ $(document).on('turbolinks:load', function () {
       $.ajax({
         type: 'GET', // リクエストのタイプ
         url: '/matches/calculates', // リクエストを送信するURL
-        data:  { scores_rules_ies: scores_rules_ies }, // サーバーに送信するデータ
+        data:  { scores_rules_ies: scores_rules_ies, pt_checked: 'off' }, // サーバーに送信するデータ
         dataType: 'json' // サーバーから返却される型
       })
       // 正常にデータを受け取れた際の処理
@@ -197,6 +222,85 @@ $(document).on('turbolinks:load', function () {
       .fail(function(){
         //通信に失敗した際の処理
       })
+    }
+  }
+
+  // ● ptから得点と順位を計算する
+  function calculate_score_rank() {
+    let element = document.getElementById('pt-toggle');
+    let checked = element.checked; // チェックボックスの状態を取得(on or off)
+    var inputs = document.querySelectorAll('[id$="_score"]');
+    // チェックボックスがonの場合
+    if (checked) {
+      // "ptで記録"テキスト強調する
+      $('.toggle-text').addClass('fw-bold');
+      // 得点を入力不可にする
+      for(var i = 0; i < inputs.length; i++) {
+        $(inputs[i]).readonly = checked;
+        $(inputs[i]).removeClass('bg-white');
+        $(inputs[i]).addClass('bg-disabled');
+        $(inputs[i]).css('pointer-events', 'none');
+        $(inputs[i]).attr('tabindex', '-1');
+      }
+      // 得点・順位を計算
+      let is_full = true;
+      $('[id$="_point"], #match_rule_id').each(function(index) {
+        if ($('[id$="_point"], #match_rule_id').eq(index).val() === "") {
+          is_full = false; //scoreが空白の場合falseをセット
+        }
+      });
+      // 全プレイヤーのptが入力された場合
+      if (is_full) {
+        let points_rules_ies = [];
+        let rule_id = [];
+        let points = [];
+        let ies = [];
+        $('[id$="_point"]').each(function(){
+          let point = parseFloat($(this).val());
+          points.push(point)
+        });
+        $('[id$="_ie"]').each(function(){
+          let ie = parseInt($(this).val());
+          ies.push(ie)
+        });
+        rule_id.push(parseInt($('#match_rule_id').val()))
+        points_rules_ies.push(rule_id)
+        points_rules_ies.push(points)
+        points_rules_ies.push(ies)
+        $.ajax({
+          type: 'GET', // リクエストのタイプ
+          url: '/matches/calculates', // リクエストを送信するURL
+          data:  { points_rules_ies: points_rules_ies, pt_checked: 'on' }, // サーバーに送信するデータ
+          dataType: 'json' // サーバーから返却される型
+        })
+        // 正常にデータを受け取れた際の処理
+        .done(function(data) {
+          $('[id$="_score"]').each(function(k){
+            $(this).val(Math.round(data[0][k] * 10) / 1000);
+          });
+          $('[id$="_rank"]').each(function(k){
+            $(this).val(data[1][k]);
+          });
+          checkFormCompletion(); // ボタン状態更新
+          updateRemainingScore(); // 残得点更新
+        })
+        .fail(function(){
+          //通信に失敗した際の処理
+        })
+      }
+    }
+    // チェックボックスがoffの場合
+    else {
+      // "ptで記録"テキスト強調解除する
+      $('.toggle-text').removeClass('fw-bold');
+      // 得点を入力可にする
+      for(var i = 0; i < inputs.length; i++) {
+        $(inputs[i]).readonly = checked;
+        $(inputs[i]).removeClass('bg-disabled');
+        $(inputs[i]).addClass('bg-white');
+        $(inputs[i]).css('pointer-events', 'auto');
+        $(inputs[i]).attr('tabindex', '0');
+      }
     }
   }
 
@@ -293,6 +397,13 @@ $(document).on('turbolinks:load', function () {
   $('[id$="_score"]').on('blur', autoCompleteScore);
   // 得点・ルール・家に変化があったとき、ポイント・順位を計算して表示
   $('[id$="_score"], #match_rule_id, [id$="_ie"]').on('input', calculate_point_rank);
+  // ----- ● pt記録ボタンon ------
+  // ptに変化があったとき、ポイントから得点・順位を計算して表示
+  $('[id$="_point"]').on('input', calculate_score_rank);
+  // pt入力チェックボックスがonになったとき、ポイントから得点・順位を計算して表示
+  $('#pt-toggle').on('change', calculate_score_rank);
+  // ptの未入力が残り１つの場合、点数を自動補完する
+  $('[id$="_point"]').on('blur', autoCompletePoint);
 });
 
 // ルール詳細情報の表示・非表示
