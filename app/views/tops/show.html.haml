@@ -4,7 +4,7 @@
     - if recording?
       .row
         .col-lg-10.text-center.text-white.px-5.mb-3.mx-auto.d-md-flex.justify-content-evenly
-          .info.py-2.mb-1.text-center
+          .top-info.py-2.mb-1.text-center
             .d-flex.align-items-center.justify-content-center
               %i.bx.bxs-info-circle.pe-2.text-pink
               %p.mb-0.fw-bold.text-main 記録を続けるか終了してください
@@ -20,7 +20,7 @@
                 %span 次の対局を記録する
     - else
       .row
-        .info.py-2.mb-1.text-center.fadeIn
+        .top-info.py-2.mb-1.text-center.fadeIn
           .d-flex.align-items-center.justify-content-center
             %i.fa-solid.fa-circle-arrow-down.pe-2.text-pink
             %p.mb-0.fw-bold.text-main なにを記録しますか？
@@ -38,7 +38,7 @@
               %i.fa-solid.fa-user-pen
 
           - if @player.leagues_registered?
-            = link_to leagues_path,
+            = link_to leagues_path, data: { "turbolinks" => false },
               class: "col-12 col-md-3 main-btn--white-green mt-2 mt-md-0 mx-md-2 py-md-3" do
               .btn_text
                 %span リーグ戦
@@ -46,7 +46,7 @@
 
     = render partial: 'match_groups/result_table' if recording?
 
-    .info.py-2.mb-1.text-center.fadeIn
+    .top-info.py-2.mb-1.text-center.fadeIn
       .d-flex.align-items-center.justify-content-center
         %i.fa-solid.fa-square-poll-vertical.pe-2.text-pink
         %p.mb-0.fw-bold.text-main あなたの成績

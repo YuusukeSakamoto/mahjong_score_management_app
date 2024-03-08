@@ -1,6 +1,6 @@
 .row.d-flex.justify-content-center
   .col-10.col-sm-7.col-md-5
-    = form_with model: [@player, @rule], class: 'mb-3', local: true do |f|
+    = form_with model: [@player, @rule], class: 'mb-2', local: true do |f|
       - if session[:errors].present?
         = render 'layouts/custom_validation_error', errors_full_messages: session[:errors]
       - else

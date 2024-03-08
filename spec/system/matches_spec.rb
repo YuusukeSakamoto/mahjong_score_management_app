@@ -153,7 +153,7 @@ RSpec.describe Match, type: :system do
         create_players(players)
         visit new_match_path
       end
-      context 'フォームの入力値が正常の場合' do
+      context '(ptで記録するoff)フォームの入力値が正常の場合' do
         it '成績登録が成功' do
           expect(page).to have_content '残得点が0ではありません'
           expect(page).to have_content "残得点 :100000"
@@ -219,6 +219,34 @@ RSpec.describe Match, type: :system do
           expect(page).to have_link(href: match_path(Match.last, btn: 'match')) # 削除ボタン
           expect(page).to have_link('2戦目の成績を登録', href: new_match_path) # 対局登録ボタン
           expect(page).to have_link('記録終了する', href: match_group_path(Match.last.match_group_id, fix: 'true')) # 記録終了ボタン
+          expect(page).to have_css('.fa-check', count: 0)
+          expect(page). to have_content '共有リンクをコピー'
+          element = find('#share-link')
+          page.execute_script('arguments[0].click()', element) #共有リンクをコピーをクリック
+          expect(page).to have_css('.fa-check', count: 1)
+        end
+      end
+      context '(ptで記録するon)フォームの入力値が正常の場合' do
+        it '成績登録が成功' do
+          # ptで記録するトグルのクリック
+          execute_script('document.getElementById("pt-toggle").click();')
+          # pt自動計算jsの確認
+          expect(page).to have_content '残得点が0ではありません'
+          fill_in 'match_results_attributes_0_point', with: '-40'
+          fill_in 'match_results_attributes_1_point', with: '-20'
+          fill_in 'match_results_attributes_2_point', with: '10'
+          expect(page).to have_content "残得点 :100000"
+          # 得点補完jsの確認
+          find('body').click
+          expect(page).to have_field('match_results_attributes_3_point', with: '50.0', wait: 3)
+          # score自動計算jsの確認
+          expect(page).to have_field('match_results_attributes_0_score', with: '100')
+          expect(page).to have_field('match_results_attributes_1_score', with: '200')
+          expect(page).to have_field('match_results_attributes_2_score', with: '300')
+          expect(page).to have_field('match_results_attributes_3_score', with: '400')
+          # 残得点jsの確認
+          expect(page).to have_content "残得点 :0"
+          expect(page).to have_no_content '残得点が0ではありません'
         end
       end
       context '残得点が0ではない場合' do
@@ -263,14 +291,19 @@ RSpec.describe Match, type: :system do
           fill_in 'match_results_attributes_0_score', with: '300'
           fill_in 'match_results_attributes_1_score', with: ''
           fill_in 'match_results_attributes_1_score', with: '400'
+          find('body').click
+          sleep 3
           expect(page).to have_content "残得点 :0"
           expect(page).to have_no_content '残得点が0ではありません'
-          sleep 3
+          expect(page).to have_field('match_results_attributes_0_point', with: '10')
+          expect(page).to have_field('match_results_attributes_1_point', with: '50')
+          expect(page).to have_field('match_results_attributes_2_point', with: '-20')
+          expect(page).to have_field('match_results_attributes_3_point', with: '-40')
           click_match_create_btn
           expect(current_path).to eq match_path(match)
           expect(page).to have_content '対局成績を更新しました'
           expect(page).to have_content '対局成績'
-          # 対局成績が正しく保存されていること
+          # 対局成績が正しく表示されていること
           expect(match.results[0].score).to eq 30000
           expect(match.results[0].point).to eq 10.0
           expect(match.results[1].score).to eq 40000

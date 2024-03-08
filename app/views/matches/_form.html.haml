@@ -1,15 +1,16 @@
 .row.d-flex.justify-content-center
-  .col-10.col-md-8
-    .info.mb-3.mx-2.fs-sm.text-main.text-center
-      .info-content.text-start
-        %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
-        %span.mb-0.fw-bold ptは全ての得点を入力後に自動計算されます
-      .info-content.text-start
-        %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
-        %span.mb-0.fw-bold ptを手動で変更することも可能です
+  .col-10.col-md-6.col-lg-5.px-0
+    .info.mb-3.fs-sm.text-main.text-center
+      .d-flex.flex-column
+        .info-content.d-flex.align-items-center
+          %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
+          %span.mb-0.fw-bold ptは全ての得点を入力後に自動計算されます
+        .info-content.d-flex.align-items-center
+          %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
+          %span.mb-0.fw-bold ptを手動で変更することも可能です
 
   .col-10.col-md-8
-    = form_with model: @match, class: 'mb-4', id: 'match_form', local: true do |f|
+    = form_with model: @match, class: 'mb-3', id: 'match_form', local: true do |f|
       = render 'layouts/validation_error', instance: @match
       = f.hidden_field :player_id, value: current_player.id
       = f.hidden_field :play_type
@@ -44,9 +45,16 @@
         - else
           = f.date_field :match_on, value: Date.today, autofocus: true,
             class: 'form-control py-md-1 rounded bg-white mb-1 text-center'
-      .d-flex.align-items-end.mb-2
-        %span.title-p.text-main.mb-0 得点
-        %span.p_required 必須
+      .d-flex.align-items-end.justify-content-between.mb-2
+        .score-label
+          %span.title-p.text-main.mb-0 得点
+          %span.p_required 必須
+        - if controller.action_name == "new"
+          .toggle_button
+            %i.bx.bxs-chevron-right
+            %span.toggle-text.fs-sm.text-main ptで記録する
+            %input#pt-toggle.toggle_input{ type: 'checkbox' }
+            %label.toggle_label{ for: 'pt-toggle' }
       // 選択されたプレイヤー分だけフォーム表示
       - i = 0
       = f.fields_for :results do |result|
@@ -114,3 +122,24 @@
         .d-flex.justify-content-center.align-items-center#match_create_warning_2
           %i.fa-solid.fa-triangle-exclamation.text-warning.fs-sm.pe-1
           %p.fs-sm.text-main.fw-bold.mb-0 家が重複しています
+
+  - if controller.action_name == "new"
+    .col-10.col-md-8.px-0.mb-4
+      .info.mb-3.p-3.bg-light.text-main.rounded
+        %p.text-center.fw-bold.mb-3 ptで記録する場合の留意事項
+        %ul.list-unstyled.fs-sm
+          %li.mb-2
+            %i.bx.bxs-chevron-right.pe-1.text-pink
+            %span 得点について
+            %ul.pl-4.ms-2
+              %li 得点は入力されたptに基づき自動計算されます。
+              %li 小数点有効ルール以外では、得点は1000点単位で自動計算されます。
+              %li 100点単位で得点を修正する場合は「ptで記録する」をOFFにしてください。
+              %li.text-red 得点を入力後「ptで記録する」をONにすると、得点が変化することがありますのでご注意ください。
+          %li.mb-2
+            %i.bx.bxs-chevron-right.pe-1.text-pink
+            %span 飛び賞のptを反映させた記録について
+            %ul.pl-4.ms-2
+              %li ptによっては、自動計算された得点が順位と合わない場合があります。(2位より3位の方が得点が高いなど)
+              %li 順位はptで判定されるため、順位点・オカは表示されている順位で反映されています。
+              %li 得点も正しく記録したい場合は、「ptで記録する」をOFFにして実際の得点を入力し、飛び賞のptは手動で修正してください。

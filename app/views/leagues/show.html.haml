@@ -5,7 +5,7 @@
         %h2.text-center.fw-bold.mb-0= @league.name
         - if user_signed_in?
           - if @league.player_id == current_player.id
-            = link_to  edit_league_path(league: @league.id),
+            = link_to  edit_league_path(@league),
               class: "" do
               %i.bx.bxs-edit-alt.text-main.ps-2
       - if @l_matches.present?

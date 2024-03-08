@@ -513,6 +513,9 @@ input[type="checkbox"] {
   &-warning {
     color: $warning;
   }
+  &-red {
+    color: $red;
+  }
 }
 
 // ===============================
@@ -632,4 +635,76 @@ input[type="checkbox"] {
 #delimiter {
   border-bottom: 2px solid $lightgray;
   margin: 1.2rem 0rem;
+}
+
+// ===============================
+// トグルボタン
+// ===============================
+.toggle_input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.toggle_label {
+  width: 40px;
+  height: 20px;
+  background: #ccc;
+  position: relative;
+  display: inline-block;
+  border-radius: 40px;
+  transition: 0.3s;
+  box-sizing: border-box;
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    background: $white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+  }
+}
+
+.toggle_input {
+  &:checked {
+    + .toggle_label {
+      background-color: $pink;
+
+      &:after {
+        left: 20px;
+      }
+    }
+  }
+}
+
+.toggle_button {
+  position: relative;
+  @include smartphone {
+    width: 140px;
+  }
+  width: 160px;
+  height: 20px;
+
+  i {
+    position: relative;
+    bottom: 3px;
+    left: 3px;
+    color: $pink;
+  }
+
+  span {
+    position: relative;
+    bottom: 5px;
+  }
 }

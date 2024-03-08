@@ -1,13 +1,13 @@
 .row.d-flex.justify-content-center
   .col-10.col-md-8.text-main.px-0
 
-    .info.pb-2.mb-1.mx-1.text-center
+    .info.py-2.px-1.mb-3.text-center
       .d-flex.align-items-center.justify-content-center
         %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
         - if @league.present?
           %p.mb-0.fw-bold リーグに参加するプレイヤーを選択しましょう！
         - else
-          %p.mb-0.fw-bold 記録するプレイヤーを選択しましょう！
+          %p.mb-0.fw-bold 参加するプレイヤーを選択しましょう！
 
     .selected_players
       %h5.border-green-left-table.fw-bold.mb-3

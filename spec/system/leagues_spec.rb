@@ -243,6 +243,21 @@ RSpec.describe League, type: :system do
         end
       end
     end
+    describe 'Leagues#show' do
+      context 'リーグ詳細ページへアクセスした場合' do
+        it '選択したリーグ詳細情報が表示される' do
+          visit league_path(league_1)
+          expect(current_path).to eq league_path(league_1)
+          expect(page).to have_content league_1.name
+          expect(page).to have_link('', href: edit_league_path(league_1))
+          expect(page).to have_css('.fa-check', count: 0)
+          expect(page). to have_content '共有リンクをコピー'
+          element = find('#share-link')
+          page.execute_script('arguments[0].click()', element) #共有リンクをコピーをクリック
+          expect(page).to have_css('.fa-check', count: 1)
+        end
+      end
+    end
     describe 'Leagues#new' do
       context 'リーグ作成ページへアクセスした場合' do
         it 'フォームのjsが正常に作動する' do
