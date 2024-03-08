@@ -38,7 +38,7 @@
               %i.fa-solid.fa-user-pen
 
           - if @player.leagues_registered?
-            = link_to leagues_path,
+            = link_to leagues_path, data: { "turbolinks" => false },
               class: "col-12 col-md-3 main-btn--white-green mt-2 mt-md-0 mx-md-2 py-md-3" do
               .btn_text
                 %span リーグ戦
