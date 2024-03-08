@@ -81,5 +81,5 @@
               %span 成績表を見る
         .match_info.col-12.text-main.py-2
           %p.fs-sm.mb-0.text-center= "記録者: #{@match.player.name}"
-          %p.fs-sm.mb-0.text-center= "最終更新: #{@match.updated_at.to_s(:datetime)}"
+          %p.fs-sm.mb-0.text-center= "最終更新: #{@match.results.maximum(:updated_at).to_s(:datetime)}"
 
