@@ -222,6 +222,16 @@ class Player < ApplicationRecord
     Match.find_by(id: min_score_match_id(play_type)).match_on.to_s(:yeardate)
   end
 
+
+  # ************************************
+  # 作成プレイヤー一覧
+  # ************************************
+  # current_playerが作成したプレイヤーをすべて取得する
+  def created_players
+    self.cp = self
+    Player.where(created_user: cp.user_id).where(user_id: nil).where(deleted: false)
+  end
+
   # ************************************
   # ユーザー招待リンク用
   # ************************************
@@ -229,23 +239,6 @@ class Player < ApplicationRecord
   def create_invite_token
     self.invite_token = SecureRandom.urlsafe_base64
     update_columns(invite_token: invite_token, invite_create_at: Time.zone.now)
-  end
-
-  # current_playerが招待可能な全プレイヤーを取得する
-  def invitation_players
-    self.cp = self
-    Player.where(id: cp.recorded_players).where(user_id: nil).where(deleted: false)
-  end
-
-  # current_playerが記録した対局idを配列で取得
-  def recorded_match_ids
-    cp.matches.pluck(:id)
-  end
-
-  # current_playerが成績記録したプレイヤーを配列で取得
-  def recorded_players
-    Result.where(match_id: recorded_match_ids).where.not(player_id: cp.id)
-          .select(:player_id).distinct.pluck(:player_id)
   end
 
   # ************************************

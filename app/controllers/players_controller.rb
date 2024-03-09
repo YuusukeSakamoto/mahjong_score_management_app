@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 class PlayersController < ApplicationController
-  before_action :set_player, only: [:show]
+  before_action :set_player, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+
+  def index
+    @created_players = current_player.created_players
+  end
 
   def show
     redirect_to root_path, alert: FlashMessages::ACCESS_DENIED and return unless current_player == @player
@@ -32,10 +36,38 @@ class PlayersController < ApplicationController
     redirect_to_new_player_rule and return if current_player.rules.where(play_type: session_players_num).blank?
     redirect_to new_match_path and return unless session[:league].present?
 
-    handle_league_play
+    create_league_players # リーグ戦の場合は、リーグプレイヤーを登録して対局登録へ
+  end
+
+  def edit
+    redirect_to(root_path, alert: FlashMessages::EDIT_DENIED) && return unless (current_user.id == @player.created_user) && @player.deleted == false
+  end
+
+  def update
+    redirect_to(root_path, alert: FlashMessages::UPDATE_DENIED) && return unless current_user.id == @player.created_user
+
+    if @player.update(player_params)
+      redirect_to(players_path, notice: FlashMessages::UPDATE_PLAYER) && return
+    end
+    redirect_to edit_player_path(@player), alert: FlashMessages::FAIED_TO_UPDATE_PLAYER
+  end
+
+  def destroy
+    redirect_to(root_path, alert: FlashMessages::DESTROY_DENIED) && return unless current_user.id == @player.created_user
+
+    destroy_player_name = @player.name
+    @player.name = '削除済プレイヤー'
+    @player.deleted = true
+    @player.user_id = nil
+    redirect_to(root_path, alert: FlashMessages::FAIED_TO_DESTROY_PLAYER) && return unless @player.save
+    redirect_to(players_path, notice: FlashMessages.player_flash(destroy_player_name, 'destroy')) && return
   end
 
   private
+
+  def player_params
+    params.require(:player).permit(:name)
+  end
 
   def set_player
     @player = Player.find_by(id: params[:id])
@@ -47,27 +79,24 @@ class PlayersController < ApplicationController
     match_ids = Result.where(player_id: current_player.id).pluck(:match_id)
     # current_playerがこれまで遊んだプレイヤーidと記録時間のhashを取得する (最近遊んだ順)
     hash_id_time = Result.where(match_id: match_ids)
-                         .where.not(player_id: current_player.id)
-                         .group(:player_id)
-                         .maximum(:created_at)
+                          .where.not(player_id: current_player.id)
+                          .group(:player_id)
+                          .maximum(:created_at)
 
     sorted_hash = hash_id_time.sort_by { |_, val| -val.to_i }
     p_ids = sorted_hash.map { |key, _| key } # player_idの配列
-    p_names = p_ids.map { |p| Player.find(p).name }
-
-    @played_players = p_ids.zip(p_names) # プレイヤー名とIDを格納
+    # player_idの配列からプレイヤーの名前を取得して[player_id, player_name]の配列を作成する
+    @played_players = p_ids.map do |p_id|
+      player = Player.find(p_id)
+      player.deleted == false ? [p_id, player.name] : nil # 削除済プレイヤーはnilを返す
+    end.compact #compactはnilを削除する
   end
 
-  # リーグプレイヤーがすでに登録されているか
-  def league_players_registered?
-    l = League.find(session[:league])
-    l.league_players.count == l.play_type # リーグプレイヤーが正しい人数登録されている場合true
-  end
 
   def create_or_find_players
     unless params[:p_ids]
       redirect_to new_player_path(play_type: params[:play_type]),
-                  alert: FlashMessages::FAIED_TO_SELECT_PLAYERS
+      alert: FlashMessages::FAIED_TO_SELECT_PLAYERS
     end
     session_players = []
     p_ids_names = params[:p_ids].map(&:to_i).zip(params[:p_names])
@@ -100,13 +129,20 @@ class PlayersController < ApplicationController
 
   def redirect_to_new_player_rule
     redirect_to new_player_rule_path(current_player.id,
-                                     previous_url: request.referer,
-                                     play_type: session_players_num)
+    previous_url: request.referer,
+    play_type: session_players_num)
   end
 
-  def handle_league_play
+  # リーグプレイヤーを登録して対局登録へ遷移する
+  def create_league_players
     LeaguePlayer.where(league_id: session[:league]).destroy_all if league_players_registered?
     LeaguePlayer.create(session[:players], session[:league])
     redirect_to new_match_path(league: session[:league])
+  end
+
+  # リーグプレイヤーがすでに登録されているか
+  def league_players_registered?
+    l = League.find(session[:league])
+    l.league_players.count == l.play_type # リーグプレイヤーが正しい人数登録されている場合true
   end
 end

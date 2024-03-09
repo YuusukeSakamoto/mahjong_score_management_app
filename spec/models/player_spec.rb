@@ -497,6 +497,27 @@ RSpec.describe Player, type: :model do
       expect(players_4[3].min_score_date(4)).to eq(match_4_1.match_on.to_s(:yeardate))
     end
   end
+  # ************************************
+  # 作成プレイヤー一覧
+  # ************************************
+  describe '#created_players' do
+    it '作成されたプレイヤー(削除済み・ユーザーは除く)を取得すること' do
+      user = create(:user)
+      other_user = create(:user)
+      player = create(:player, user_id: user.id)
+      # userに作成されたプレイヤー3人
+      created_players = create_list(:player, 3, created_user: user.id)
+      # other_userに作成されたプレイヤー3人
+      other_players = create_list(:player, 3, created_user: other_user.id)
+      # userに作成されたプレイヤー1人（削除済み)
+      deleted_player = create(:player, created_user: user.id, deleted: true)
+      # userに作成され、userとなったプレイヤー1人
+      user_player = create(:player, created_user: user.id, user_id: 1)
+      expect(player.created_players).to contain_exactly(created_players[0],
+                                                        created_players[1],
+                                                        created_players[2])
+    end
+  end
 
   # ************************************
   # ユーザー招待リンク用
@@ -508,28 +529,6 @@ RSpec.describe Player, type: :model do
     end
   end
 
-  describe '#invitation_players' do
-    it 'current_playerが招待可能な全プレイヤーを取得すること' do
-      players_4[0].cp = players_4[0]
-      players_4[0].recorded_players
-      expect(players_4[0].invitation_players.size).to eq(3)
-    end
-  end
-
-  describe '#recorded_match_ids' do
-    it 'current_playerが記録した対局idを配列で取得すること' do
-      players_4[0].cp = players_4[0]
-      expect(players_4[0].recorded_match_ids).to eq([match_4_1.id, match_4_2.id])
-    end
-  end
-
-  describe '#recorded_players' do
-    it 'current_playerが成績記録したプレイヤーを配列で取得すること' do
-      players_4[0].cp = players_4[0]
-      players_4[0].recorded_match_ids
-      expect(players_4[0].recorded_players).to eq([players_4[1].id, players_4[2].id, players_4[3].id])
-    end
-  end
   # ************************************
   # 登録したルール
   # ************************************

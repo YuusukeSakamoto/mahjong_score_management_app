@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   namespace :players do
     resources :searches, only: :index, defaults: { format: :json }
-    resources :invitations, only: [:index, :new]
+    resources :invitations, only: [:new]
     resources :authentications, only: :index
   end
 
@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     resources :searches, only: [:index ,:show], defaults: { format: :json }
   end
 
-  resources :players, only: [:show, :new, :create] do
+  resources :players do
     resources :rules
   end
 

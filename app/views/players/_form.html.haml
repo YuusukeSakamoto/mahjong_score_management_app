@@ -2,7 +2,7 @@
   .col-10.col-md-8.text-main.px-0
 
     .info.py-2.px-1.mb-3.text-center
-      .d-flex.align-items-center.justify-content-center
+      .d-flex.align-items-center.justify-content-center.fs-sm
         %i.bx.bxs-info-circle.pe-1.text-pink{style: "padding-top: 1px;"}
         - if @league.present?
           %p.mb-0.fw-bold リーグに参加するプレイヤーを選択しましょう！
@@ -55,8 +55,8 @@
         %p.mb-0.ps-1.fw-bold 2. プレイヤーを新規作成する
         %span.fs-sm (8文字以内)
       .d-flex.align-items-center.mb-3
-        %input{ autofocus: true, maxlength: 8, class: "form-control ms-1 py-md-1 rounded bg-white w-75" }
-        %button.ms-2.py-md-1.main-btn--white-orange-sm 作成
+        %input{ autofocus: true, maxlength: 8, class: "form-control ms-1 py-md-1 rounded bg-white w-75", id: "new-player-form" }
+        %button#new-player-create-btn.ms-2.py-md-1.main-btn--white-orange-sm 作成
 
     .invite_users
       .d-flex.align-items-center
