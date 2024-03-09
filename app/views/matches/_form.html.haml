@@ -10,7 +10,7 @@
           %span.mb-0.fw-bold ptを手動で変更することも可能です
 
   .col-10.col-md-8
-    = form_with model: @match, class: 'mb-3', id: 'match_form', local: true do |f|
+    = form_with model: @match, class: 'mb-4', id: 'match_form', local: true do |f|
       = render 'layouts/validation_error', instance: @match
       = f.hidden_field :player_id, value: current_player.id
       = f.hidden_field :play_type
@@ -115,13 +115,8 @@
               .btn-text
                 %i.fa-solid.fa-pen.pe-1.fw-bold
                 %span 登録
-      .col-8.col-md-7.m-auto.mt-1
-        .d-flex.justify-content-center.align-items-center#match_create_warning_1
-          %i.fa-solid.fa-triangle-exclamation.text-warning.fs-sm.pe-1
-          %p.fs-sm.text-main.fw-bold.mb-0 残得点が0ではありません
-        .d-flex.justify-content-center.align-items-center#match_create_warning_2
-          %i.fa-solid.fa-triangle-exclamation.text-warning.fs-sm.pe-1
-          %p.fs-sm.text-main.fw-bold.mb-0 家が重複しています
+      .col-8.col-md-7.m-auto
+        %ul.px-2#match_create_warning
 
   - if controller.action_name == "new"
     .col-10.col-md-8.px-0.mb-4

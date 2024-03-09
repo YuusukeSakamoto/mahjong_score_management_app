@@ -25,10 +25,22 @@ $(document).on('turbolinks:load', function () {
       $('.js-remaining_score_value').css('color', '');
     }
 
+    // #match_create_warning_1のIDを持つ要素を検索
+    var element = document.querySelector('#match_create_warning_1');
+
+    // 残得点が0の場合、警告を非表示にする
+    // 残得点が0でない場合、警告を表示する
     if (calculatedRemainingScore === 0) {
-      $('#match_create_warning_1').css('visibility', 'hidden');
+      $('#match_create_warning_1').remove();
     } else {
-      $('#match_create_warning_1').css('visibility', 'visible');
+      if (!element) {
+        $('#match_create_warning').append(
+          `<li class="d-flex justify-content-center align-items-center" id="match_create_warning_1">
+            <i class="fa-solid fa-triangle-exclamation text-warning fs-sm pe-1" aria-hidden="true"></i>
+            <p class="fs-sm text-main fw-bold mb-0">残得点が0ではありません</p>
+          </li>`
+        )
+      }
     }
   }
 
@@ -118,10 +130,22 @@ $(document).on('turbolinks:load', function () {
     } else {
       $('#match_create_btn').prop('disabled', true).addClass('inactive');
     }
+
+    // #match_create_warning_2のIDを持つ要素を検索
+    var element = document.querySelector('#match_create_warning_2');
+
+    // 警告メッセージの表示・非表示を更新
     if (checkDuplicateIE()) {
-      $('#match_create_warning_2').css('visibility', 'visible');
+      if (!element) {
+        $('#match_create_warning').append(
+          `<li class="d-flex justify-content-center align-items-center" id="match_create_warning_2">
+            <i class="fa-solid fa-triangle-exclamation text-warning fs-sm pe-1" aria-hidden="true"></i>
+            <p class="fs-sm text-main fw-bold mb-0">家が重複しています</p>
+          </li>`
+        )
+      }
     } else {
-      $('#match_create_warning_2').css('visibility', 'hidden');
+      $('#match_create_warning_2').remove();
     }
   }
 
