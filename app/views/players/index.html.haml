@@ -1,0 +1,36 @@
+.container.mb-5
+  .row.justify-content-center
+    .col-11.col-md-9.text-center.pb-2
+      .page-title
+        .d-flex.align-items-end.text-main
+          %h4.text-center.text-md-start.fw-bold.mb-0 プレイヤー一覧
+  .row.justify-content-center
+    .col-10.col-md-8.info.text-main.fs-sm.fw-bold
+      .d-flex.align-items-center.mb-2
+        %i.fa-solid.fa-circle-info.text-pink.fs-sm.pe-1
+        %p.mb-0 あなたが作成したプレイヤー一覧です
+      .d-flex.align-items-center.mb-1
+        %i.fa-solid.fa-circle-info.text-pink.fs-sm.pe-1
+        %p.mb-0 Janrecoへ招待することで、該当プレイヤーは成績を引き継いでアカウント登録することができます
+
+  .row.justify-content-center.text-main
+    - if @created_players.blank?
+      %p.fs-bold.text-center.mt-4 作成したプレイヤーはいません
+    - else
+      .col-10.col-md-6.my-3.table-responsive.text-center
+        %table.table.text-main.text-nowrap.col-10.col-md-6
+          - @created_players.each do |player|
+            %tr.player_list
+              %td.fw-bold.w-50= player.name
+              %td
+                = link_to edit_player_path(player),
+                  class: "main-btn--white-orange-sm px-1 py-1 m-auto" , data: { "turbolinks" => false } do
+                  .btn-text
+                    %i.fa-regular.fa-pen-to-square
+                    %span 編集
+              %td
+                = link_to new_players_invitation_path(player_id: player.id),
+                  class: "main-btn--white-orange-sm px-1 py-1 m-auto" , data: { "turbolinks" => false } do
+                  .btn-text
+                    %i.fa-solid.fa-user-plus
+                    %span 招待

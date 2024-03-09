@@ -14,6 +14,10 @@ module FlashMessages
 
   # player
   FAIED_TO_SELECT_PLAYERS = 'プレイヤー選択でエラーが発生しました'
+  UPDATE_PLAYER = 'プレイヤー名を更新しました'
+  FAIED_TO_UPDATE_PLAYER = 'プレイヤー名の更新に失敗しました'
+  FAIED_TO_DESTROY_PLAYER = 'プレイヤーの削除に失敗しました'
+
   # rule
   DELETION_PREVENTED_DUE_TO_ASSOCIATED_RECORDS = '指定したルールで記録した成績が存在するため、削除できません。'
   CANNOT_DESTROY = '削除できませんでした'
@@ -52,6 +56,13 @@ module FlashMessages
   # users/registrations
   INVALID_LINK = '無効なリンクです。リンク発行者に再発行をお願いしてください'
   EXPIRED_LINK = '期限切れです。リンク発行者に再発行をお願いしてください'
+
+  def self.player_flash(player_name, action)
+    case action
+    when 'destroy'
+      "プレイヤー : #{player_name}を削除しました"
+    end
+  end
 
   def self.rule_flash(rule_name, action)
     case action
