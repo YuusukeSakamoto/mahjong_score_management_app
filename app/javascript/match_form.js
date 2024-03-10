@@ -1,7 +1,7 @@
 $(document).on('turbolinks:load', function () {
 
   //*******************************************
-  //*. 関数の定義　                           *
+  //*. 関数の定義                           *
   //*******************************************
   // ● 残得点の更新
   function updateRemainingScore() {
@@ -194,7 +194,6 @@ $(document).on('turbolinks:load', function () {
       if (emptyPointElements.length === 1) {
         emptyPointElements.val((points_sum * -1).toFixed(1)); // 残りptを自動補完
         updateRemainingScore(); // 残得点更新
-        calculate_point_rank(); // ポイント・順位の計算
         calculate_score_rank(); // ptから得点と順位を計算
       }
     }
