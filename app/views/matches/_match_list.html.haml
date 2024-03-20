@@ -23,7 +23,7 @@
               %span= league_name(match.league_id)
         .center
           - rule = Rule.find(match.rule_id)
-          - match.results.each do |result|
+          - match.results.order(id: :asc).each do |result|
             .player-item
               %p.player-name= Player.find(result.player_id).name
               - if match.player_id == result.player_id

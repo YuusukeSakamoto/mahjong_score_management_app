@@ -200,7 +200,7 @@ class MatchesController < ApplicationController
   end
 
   def set_player_league
-    player_ids = @match.results.pluck(:player_id)
+    player_ids = @match.results.order(id: :asc).pluck(:player_id)
     @players = Player.find(player_ids)
     @league = League.find_by(id: @match.league_id)
   end
