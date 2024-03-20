@@ -79,10 +79,10 @@ module ApplicationHelper
   def default_meta_tags
     {
       site: 'Janreco',
-      title: 'Janreco - 麻雀の成績を簡単に記録できる！(三麻/四麻/チップ対応)',
+      title: 'Janreco - 麻雀成績を簡単に記録できる！(三麻/四麻/チップ対応)',
       reverse: true,
       charset: 'utf-8',
-      description: 'Janrecoは三麻/四麻/チップに対応した麻雀成績記録サイトです（無料）。記録は点数を入力するだけで簡単。Mリーグのように順位表や成績推移グラフで自分たちだけのリーグ戦も楽しめる!',
+      description: 'Janrecoは三麻/四麻/チップに対応した麻雀成績管理サイトです（無料）。点数を入力するだけで簡単記録。Mリーグのように順位表や成績推移グラフで自分たちだけのリーグ戦も楽しめる!',
       keywords: '麻雀,成績記録,リーグ戦',
       canonical: request.original_url,
       separator: '|',

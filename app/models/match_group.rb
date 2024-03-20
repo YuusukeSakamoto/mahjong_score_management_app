@@ -13,12 +13,12 @@ class MatchGroup < ApplicationRecord
 
   # match_group_id単位にすべてのmatchの各プレイヤーのptを配列で取得する
   def table_element
-    match_results = []
+    # match_results = []
     each_points = []
 
-    Match.where(match_group_id: id).each.with_index(1) do |match, _i|
-      match_results << match.results
-      each_points << match.results.pluck(:point) # match毎の各プレイヤーのptを配列に格納する
+    Match.where(match_group_id: id).each do |match|
+      # match_results << match.results
+      each_points << match.results.order(id: :asc).pluck(:point) # match毎の各プレイヤーのptを配列に格納する
     end
     # チップptがあれば追加する
     if chip_results.present? && not_temporary_data?
