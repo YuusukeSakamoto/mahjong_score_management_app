@@ -78,7 +78,7 @@
               %tr{data: { href: match_path(match, tk: @share_token.token, resource_type: @share_token.resource_type) }}
                 %td= k
                 %td= match.match_on.to_s(:yeardate)
-                - match.results.each do |r|
+                - match.results.order(id: :asc).each do |r|
                   %td.w-players-name= show_pt(r.point, @league.rule_id)
                 %td.p-0
                   %i.bx.bx-chevrons-right.bx-size.text-main{style: "padding-top: 1px;"}
@@ -87,7 +87,7 @@
               %tr{data: { href: match_path(match) }}
                 %td= k
                 %td= match.match_on.to_s(:yeardate)
-                - match.results.each do |r|
+                - match.results.order(id: :asc).each do |r|
                   %td.w-players-name= show_pt(r.point, @league.rule_id)
                 %td.p-0
                   %i.bx.bx-chevrons-right.bx-size.text-main{style: "padding-top: 1px;"}
