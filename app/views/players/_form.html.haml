@@ -48,7 +48,10 @@
             %li.players_list-item
               .p_name #{p[1]}
               .p_id{style: "display: none"}= p[0]
-
+        .text-center.mb-2
+          = link_to players_path, class: "text-center m-auto d-inline-block fs-sm" do
+            %span プレイヤーを編集する
+            %i.fa-regular.fa-pen-to-square
     .create_players
       .d-flex.align-items-center.mb-1
         %i.bx.bxs-down-arrow.text-green

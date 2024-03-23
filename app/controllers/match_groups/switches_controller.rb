@@ -9,6 +9,7 @@ module MatchGroups
       mg_ids = Match.where(id: match_ids).or(Match.where(player_id: current_player.id)).distinct.pluck(:match_group_id)
       play_type = params[:play_type] || 4 # デフォルトは四麻
       @match_groups = MatchGroup.includes(:matches).where(id: mg_ids, play_type: play_type).desc
+      @match_groups = @match_groups.sort_by { |mg| mg.matches.last.match_on }.reverse # 対局日の降順
       @first_match_results_p_ids = @match_groups.map { |mg| mg.matches.first.results.pluck(:player_id) }
       @first_match_recorded_player_ids = @match_groups.map { |mg| mg.matches.first.player_id }
       respond_to(&:js)
