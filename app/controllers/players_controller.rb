@@ -6,6 +6,11 @@ class PlayersController < ApplicationController
 
   def index
     @created_players = current_player.created_players
+    # 前のページがnew_player_pathであれば変数にpathを格納する
+    if request.referer.include?(new_player_path)
+      @prefer_path_new = request.referer
+    end
+
   end
 
   def show
