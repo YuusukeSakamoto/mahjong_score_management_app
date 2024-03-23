@@ -92,7 +92,7 @@ class League < ApplicationRecord
       data_h[:backgroundColor] = data[3]
       graph_datasets << data_h
     end
-    max = @point_histories.map(&:max).max
+    max = @point_histories.map(&:max).max # グラフの最大値
     y_max = max.to_i + 100 - (max.to_i % 100) # グラフの最大値を100単位とする
     min = @point_histories.map(&:min).min # グラフの最小値
     y_min = min.to_i - (min.to_i % 100) # グラフの最大値を100単位とする
@@ -137,26 +137,43 @@ class League < ApplicationRecord
     # リーグ戦における各playerのptの配列をセットする
     league_players.each do |l_player|
       points = []
-      point_history = [0]
+      point_history = [0] # 累積ptの初期値は0
+      mg_id = nil
 
       if is_tip_valid?
         # リーグルールがチップ=有かつチップptをリーグ成績に含めるの場合
-        mgs = match_groups
-        mgs.each do |mg|
-          # 対局pt → チップptの順番に配列に格納する
-          mg_match_ids = mg.matches.pluck(:id)
-          match_tip_pt = Result.where(player_id: l_player.player_id)
-                                .where(match_id: mg_match_ids)
-                                .pluck(:point)
-          match_tip_pt << ChipResult.find_by(player_id: l_player.player_id,
-                                              match_group_id: mg.id).point # 該当プレイヤーのチップptを取得
-          points.concat(match_tip_pt) # 配列の各要素を整数として配列に追加する
+        l_matches = Match.includes(:results).where(league_id: id).asc
+        l_matches.each do |match|
+          result_point = match.results.find_by(player_id: l_player.player_id).point
+
+          if mg_id.nil? || mg_id == match.match_group_id
+            # match_group_idがnilか同じであればpointsに対局ptを追加する
+            points << result_point
+          else
+            # match_group_idが変わった場合、チップptを追加する
+            points << get_chip_point(l_player.player_id, mg_id)
+            points << result_point
+          end
+
+          mg_id = match.match_group_id
+
+          # 最後のmatchの場合、チップptを追加する
+          if l_matches.last == match
+            points << get_chip_point(l_player.player_id, mg_id)
+          end
+
         end
       else
         # リーグルールがチップ=無の場合
-        # 対局ptを配列に格納する
-        points = Result.where(player_id: l_player.player_id).where(match_id: @l_match_ids).pluck(:point)
+        # 対局ptを対局日付順で配列に格納する
+        points = Result.joins(:match)
+                        .where(match_id: @l_match_ids)
+                        .where(player_id: l_player.player_id)
+                        .order('matches.match_on ASC')
+                        .pluck(:point)
       end
+
+      # 対局ptの累積ptを計算する
       points.each do |point|
         point_history << (point_history[-1] + point).round(1)
       end
@@ -178,5 +195,12 @@ class League < ApplicationRecord
   # グラフに表示するプレイヤーの色を返す
   def player_bgcolor
     ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF'][0..(play_type - 1)] # 全部白
+  end
+
+  private
+
+  # チップptを取得する
+  def get_chip_point(p_id, mg_id)
+    ChipResult.find_by(player_id: p_id, match_group_id: mg_id).point
   end
 end
